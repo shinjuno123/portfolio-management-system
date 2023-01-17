@@ -1,0 +1,17 @@
+.line {
+  height: 2px;
+  background-color: white;
+}
+
+body {
+  overflow-x: hidden;
+  color: white;
+}
+
+.main {
+  min-height: 57rem;
+}
+
+.intro-text {
+  font-size: 4rem;
+}
