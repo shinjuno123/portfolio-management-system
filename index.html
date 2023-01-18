@@ -251,16 +251,203 @@
         class="container-lg d-flex align-items-center justify-content-center main"
         id="work"
       >
-        <div class="w-75 d-flex flex-column align-items-start">
+        <div class="w-75 h-100 d-flex flex-column align-items-start">
           <h3 class="fs-2 mb-4">Some things I've built</h3>
-          <div class="card" style="width: 60rem; height: 40rem">
-            <div class="card-body">
-              <h5 class="fs-1 card-title text-dark">Project Name</h5>
-              <p class="card-text text-dark">
-                Write some description about your project...
-              </p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+
+          <!-- project cards section -->
+
+          <div
+            class="position-relative w-100 card-section carousel slide"
+            style="min-height: 40rem"
+            id="carouselExampleIndicators"
+          >
+            <div class="carousel-indicators">
+              <button
+                type="button"
+                data-bs-target="#carouselExampleIndicators"
+                data-bs-slide-to="0"
+                class="active"
+                aria-current="true"
+                aria-label="Slide 1"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#carouselExampleIndicators"
+                data-bs-slide-to="1"
+                aria-label="Slide 2"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#carouselExampleIndicators"
+                data-bs-slide-to="2"
+                aria-label="Slide 3"
+              ></button>
             </div>
+
+            <div class="w-100 h-100 carousel-inner">
+              <!-- Card start -->
+              <!-- <div
+                class="d-sm-flex align-items-center w-100 h-100 carousel-item active"
+              >
+                <div class="w-50">
+                  <img
+                    class="rounded"
+                    style="width: 130%"
+                    src="./img/sample-project-image.png"
+                    alt="project-image"
+                  />
+                </div>
+
+                <div class="w-50 h-100 text-right">
+                  <h3 class="fs-6">Featured Project</h3>
+                  <p>
+                    We developed tomato disease detector web service using
+                    tomato disease images from AI HUB(https://aihub.or.kr/)
+                  </p>
+                </div>
+              </div>
+
+              <div
+                class="d-sm-flex align-items-center w-100 h-100 carousel-item"
+              >
+                <div class="w-50">
+                  <img
+                    class="rounded"
+                    style="width: 130%"
+                    src="./img/sample-project-image.png"
+                    alt="project-image"
+                  />
+                </div>
+
+                <div class="w-50 h-100 text-right">
+                  <h3 class="fs-6">Featured Project</h3>
+                  <p>
+                    We developed tomato disease detector web service
+                    usingadwadwa tomato disease images from AI
+                    HUB(https://aihub.or.kr/)
+                  </p>
+                </div>
+              </div> -->
+
+              <div class="carousel-item card-body active" style="height: 40rem">
+                <div class="row h-100">
+                  <div class="col-md align-items-center d-md-flex">
+                    <div class="glass position-absolute">
+                      <input
+                        type="hidden"
+                        value="https://github.com/shinjuno123/tomato-disease-detector"
+                      />
+                    </div>
+                    <img
+                      class="rounded project-image"
+                      style="width: 100%"
+                      src="./img/sample-project-image.png"
+                      alt="project-image"
+                    />
+                  </div>
+
+                  <div
+                    class="text-end col-md justify-content-center flex-column d-md-flex"
+                  >
+                    <h3 class="fs-6 mb-2">Featured Project</h3>
+                    <h3 class="fs-3 mb-3">Tomato Disease Detector1</h3>
+                    <p>
+                      We developed tomato disease detector web service using
+                      tomato disease images from AI HUB(https://aihub.or.kr/)
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="carousel-item card-body" style="height: 40rem">
+                <div class="row h-100">
+                  <div class="col-md align-items-center d-md-flex">
+                    <div class="glass position-absolute">
+                      <input
+                        type="hidden"
+                        value="https://github.com/shinjuno123/tomato-disease-detector"
+                      />
+                    </div>
+                    <img
+                      class="rounded project-image"
+                      style="width: 100%"
+                      src="./img/sample-project-image.png"
+                      alt="project-image"
+                    />
+                  </div>
+
+                  <div
+                    class="text-end col-md justify-content-center flex-column d-md-flex"
+                  >
+                    <h3 class="fs-6 mb-2">Featured Project</h3>
+                    <h3 class="fs-3 mb-3">Tomato Disease Detector1</h3>
+                    <p>
+                      We developed tomato disease detector web service using
+                      tomato disease images from AI HUB(https://aihub.or.kr/)
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="carousel-item card-body" style="height: 40rem">
+                <div class="row h-100">
+                  <div class="col-md align-items-center d-md-flex">
+                    <div class="glass position-absolute">
+                      <input
+                        type="hidden"
+                        value="https://github.com/shinjuno123/tomato-disease-detector"
+                      />
+                    </div>
+                    <img
+                      class="rounded project-image"
+                      style="width: 100%"
+                      src="./img/sample-project-image.png"
+                      alt="project-image"
+                    />
+                  </div>
+
+                  <div
+                    class="text-end col-md justify-content-center flex-column d-md-flex"
+                  >
+                    <h3 class="fs-6 mb-2">Featured Project</h3>
+                    <h3 class="fs-3 mb-3">Tomato Disease Detector1</h3>
+                    <p>
+                      We developed tomato disease detector web service using
+                      tomato disease images from AI HUB(https://aihub.or.kr/)
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card end -->
+            </div>
+
+            <!-- prev / next buttons -->
+            <button
+              class="carousel-control-prev left-button"
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide="prev"
+            >
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+
+            <button
+              class="carousel-control-next right-button"
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide="next"
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Next</span>
+            </button>
           </div>
         </div>
       </div>
@@ -272,5 +459,11 @@
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
       crossorigin="anonymous"
     ></script>
+
+    <!-- Jquery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+    <!-- JS -->
+    <script src="./js/index.js"></script>
   </body>
 </html>

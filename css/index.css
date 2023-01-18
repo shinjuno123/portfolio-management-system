@@ -15,3 +15,47 @@ body {
 .intro-text {
   font-size: 4rem;
 }
+
+/* Work Section */
+@keyframes clear {
+  from {
+    opacity: 0.5;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.glass {
+  background-color: #395b64;
+  opacity: 0.5;
+}
+
+.glass:hover {
+  cursor: pointer;
+  animation-name: clear;
+  animation-duration: 2s;
+}
+
+.left {
+  left: -30%;
+  z-index: -100;
+  opacity: 0.5;
+}
+
+.right {
+  left: 30%;
+  z-index: -100;
+  opacity: 0.5;
+}
+
+.left-button {
+  left: -30%;
+  width: 30%;
+}
+
+.right-button {
+  left: 100%;
+  width: 30%;
+}
