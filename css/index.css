@@ -62,5 +62,13 @@ body {
 
 /* Noteworthy projects Section */
 .project-box {
-  height: 17rem;
+  height: 20rem;
+  cursor: pointer;
+}
+
+/* Noteworthy projects folder icons */
+.folder {
+  position: relative;
+  font-size: 2.7rem;
+  left: -0.2rem;
 }

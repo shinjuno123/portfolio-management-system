@@ -7,7 +7,6 @@ jQuery(document).ready(function ($) {
     $(window).resize(function () {
       // resize event throttling for performance...
       setTimeout(function () {
-        console.log("resize event!");
         coverGlassOnProjectImage();
       }, 200);
     });
@@ -80,7 +79,7 @@ jQuery(document).ready(function ($) {
       threshold: 1.0,
     };
 
-    window.addEventListener("scroll", function () {
+    function addViewportIntersectionEventWithAnimation() {
       let callback = (entries, observer) => {
         entries.forEach((entry) => {
           const intersectionRatio = entry.intersectionRatio;
@@ -105,6 +104,48 @@ jQuery(document).ready(function ($) {
       observer.observe(elements.technology.get(0));
       observer.observe(elements.experience.get(0));
       observer.observe(elements.work.get(0));
+    }
+
+    // onload
+    addViewportIntersectionEventWithAnimation();
+
+    window.addEventListener("scroll", function () {
+      addViewportIntersectionEventWithAnimation();
+    });
+  })();
+
+  // add clickable link to projects boxes
+  (function addClickableLinkToProjectBox() {
+    const projectBoxList = $(".project-box");
+
+    projectBoxList.each((index) => {
+      const projectBox = projectBoxList.get(index);
+      const url = projectBox.children[0].children[0].children[0].value;
+      projectBox.addEventListener("click", () => {
+        window.open(url);
+      });
+    });
+  })();
+
+  // add slideup animation when hovering on projects boxes
+  (function addSlideupAnimationOnHovering() {
+    const projectBoxList = $(".project-box");
+
+    projectBoxList.mouseenter(function (event) {
+      const projectBox = event.delegateTarget;
+      $(projectBox)
+        .css({ top: 0, position: "relative" })
+        .animate({ top: -10 }, 500);
+    });
+
+    projectBoxList.mouseover(function (event) {
+      const projectBox = event.delegateTarget;
+      $(projectBox).css({ top: -10, position: "relative" });
+    });
+
+    projectBoxList.mouseleave(function (event) {
+      const projectBox = event.delegateTarget;
+      $(projectBox).animate({ top: 0 }, 500);
     });
   })();
 });
