@@ -59,3 +59,8 @@ body {
   left: 100%;
   width: 30%;
 }
+
+/* Noteworthy projects Section */
+.project-box {
+  height: 17rem;
+}

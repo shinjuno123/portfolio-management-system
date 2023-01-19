@@ -1,27 +1,31 @@
 jQuery(document).ready(function ($) {
   // glass covering effect on project images
-  (function coverGlassOnProjectImage() {
-    const glasses = document.querySelectorAll(".glass");
-    const projectImage = document.querySelector(".project-image");
-    glasses.forEach((glass) => {
-      glass.style.width = projectImage.clientWidth + "px";
-      glass.style.height = projectImage.clientHeight + "px";
-    });
-
-    glasses.forEach((glass) => {
-      const address = glass.childNodes[1].value;
-      glass.addEventListener("click", () => {
-        window.open(address);
-      });
-    });
-
+  (function runCoverGlassEffect() {
     window.onload = function () {
       coverGlassOnProjectImage();
     };
-
-    window.addEventListener("resize", () => {
-      coverGlassOnProjectImage();
+    $(window).resize(function () {
+      // resize event throttling for performance...
+      setTimeout(function () {
+        console.log("resize event!");
+        coverGlassOnProjectImage();
+      }, 200);
     });
+    function coverGlassOnProjectImage() {
+      const glasses = document.querySelectorAll(".glass");
+      const projectImage = document.querySelector(".project-image");
+      glasses.forEach((glass) => {
+        glass.style.width = projectImage.clientWidth + "px";
+        glass.style.height = projectImage.clientHeight + "px";
+      });
+
+      glasses.forEach((glass) => {
+        const address = glass.childNodes[1].value;
+        glass.addEventListener("click", () => {
+          window.open(address);
+        });
+      });
+    }
   })();
 
   // add overal elements fade in and out effects
