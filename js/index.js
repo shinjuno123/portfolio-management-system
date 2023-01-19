@@ -135,7 +135,7 @@ jQuery(document).ready(function ($) {
       const projectBox = event.delegateTarget;
       $(projectBox)
         .css({ top: 0, position: "relative" })
-        .animate({ top: -10 }, 500);
+        .animate({ top: -10 }, 200);
     });
 
     projectBoxList.mouseover(function (event) {
@@ -145,7 +145,7 @@ jQuery(document).ready(function ($) {
 
     projectBoxList.mouseleave(function (event) {
       const projectBox = event.delegateTarget;
-      $(projectBox).animate({ top: 0 }, 500);
+      $(projectBox).animate({ top: 0 }, 200);
     });
   })();
 });
