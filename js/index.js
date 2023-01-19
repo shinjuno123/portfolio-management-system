@@ -10,10 +10,15 @@ jQuery(document).ready(function ($) {
         coverGlassOnProjectImage();
       }, 200);
     });
+
+    $(".left-button,.right-button").click(function () {
+      coverGlassOnProjectImage();
+    });
+
     function coverGlassOnProjectImage() {
       const glasses = document.querySelectorAll(".glass");
-      const projectImage = document.querySelector(".project-image");
       glasses.forEach((glass) => {
+        const projectImage = glass.nextSibling.nextSibling;
         glass.style.width = projectImage.clientWidth + "px";
         glass.style.height = projectImage.clientHeight + "px";
       });

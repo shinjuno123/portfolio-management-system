@@ -6,6 +6,7 @@
 body {
   overflow-x: hidden;
   color: white;
+  font-family: "Roboto Mono", monospace;
 }
 
 .main {
@@ -67,7 +68,7 @@ body {
   }
 
   to {
-    width: 7.4rem;
+    width: 9.6rem;
   }
 }
 
@@ -79,7 +80,8 @@ body {
   display: block;
   position: absolute;
   height: 1px;
-  width: 7.4rem;
+  width: 9.6rem;
+
   background-color: #03c988;
   animation-name: underline-anim;
   animation-duration: 1s;
