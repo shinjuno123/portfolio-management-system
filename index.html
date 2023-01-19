@@ -64,9 +64,10 @@
       <!-- Introduction -->
       <div
         class="container-lg d-flex align-items-center justify-content-center main"
+        id="introduction"
       >
         <div class="d-flex align-items-center w-75">
-          <div>
+          <div id="introduction-article">
             <p class="mb-3">Hi, My name is</p>
             <h1 class="intro-text mb-3">Junho Shin</h1>
             <h2 class="fs-1 mb-5">I am a Junior Software Developer.</h2>
@@ -84,7 +85,7 @@
         class="container-lg d-flex align-items-center justify-content-center main"
         id="aboutme"
       >
-        <div class="w-75">
+        <div class="w-75" id="aboutme-article">
           <p class="fs-1">About me</p>
           <div class="w-25 line mb-5"></div>
 
@@ -157,8 +158,8 @@
         class="container-lg d-flex align-items-center justify-content-center main"
         id="technology"
       >
-        <div class="w-75">
-          <h3 class="fs-2 mb-5">Technology</h3>
+        <div class="w-75" id="technology-article">
+          <h3 class="fs-2 mb-5">My Technology</h3>
           <!-- Add toggle buttons between frontend / backend -->
           <div class="row text-center ms-1">
             <div class="col col-md-2 border-bottom border-light py-3">
@@ -221,7 +222,7 @@
         class="container-lg d-flex align-items-center justify-content-center main"
         id="experience"
       >
-        <div class="w-75">
+        <div class="w-75" id="experience-article">
           <h3 class="fs-2 mb-5">Experience</h3>
           <!-- job place -->
           <div class="row text-center ms-1">
@@ -245,13 +246,16 @@
         </div>
       </div>
 
-      <!-- Work -->
+      <!-- Work : Some thigns I've built-->
 
       <div
         class="container-lg d-flex align-items-center justify-content-center main"
         id="work"
       >
-        <div class="w-75 h-100 d-flex flex-column align-items-start">
+        <div
+          class="w-75 h-100 d-flex flex-column align-items-start"
+          id="work-article"
+        >
           <h3 class="fs-2 mb-4">Some things I've built</h3>
 
           <!-- project cards section -->
@@ -284,51 +288,9 @@
               ></button>
             </div>
 
+            <!-- carousel inner -->
             <div class="w-100 h-100 carousel-inner">
-              <!-- Card start -->
-              <!-- <div
-                class="d-sm-flex align-items-center w-100 h-100 carousel-item active"
-              >
-                <div class="w-50">
-                  <img
-                    class="rounded"
-                    style="width: 130%"
-                    src="./img/sample-project-image.png"
-                    alt="project-image"
-                  />
-                </div>
-
-                <div class="w-50 h-100 text-right">
-                  <h3 class="fs-6">Featured Project</h3>
-                  <p>
-                    We developed tomato disease detector web service using
-                    tomato disease images from AI HUB(https://aihub.or.kr/)
-                  </p>
-                </div>
-              </div>
-
-              <div
-                class="d-sm-flex align-items-center w-100 h-100 carousel-item"
-              >
-                <div class="w-50">
-                  <img
-                    class="rounded"
-                    style="width: 130%"
-                    src="./img/sample-project-image.png"
-                    alt="project-image"
-                  />
-                </div>
-
-                <div class="w-50 h-100 text-right">
-                  <h3 class="fs-6">Featured Project</h3>
-                  <p>
-                    We developed tomato disease detector web service
-                    usingadwadwa tomato disease images from AI
-                    HUB(https://aihub.or.kr/)
-                  </p>
-                </div>
-              </div> -->
-
+              <!-- carousel items -->
               <div class="carousel-item card-body active" style="height: 40rem">
                 <div class="row h-100">
                   <div class="col-md align-items-center d-md-flex">
@@ -380,7 +342,7 @@
                     class="text-end col-md justify-content-center flex-column d-md-flex"
                   >
                     <h3 class="fs-6 mb-2">Featured Project</h3>
-                    <h3 class="fs-3 mb-3">Tomato Disease Detector1</h3>
+                    <h3 class="fs-3 mb-3">Tomato Disease Detector2</h3>
                     <p>
                       We developed tomato disease detector web service using
                       tomato disease images from AI HUB(https://aihub.or.kr/)
@@ -410,7 +372,7 @@
                     class="text-end col-md justify-content-center flex-column d-md-flex"
                   >
                     <h3 class="fs-6 mb-2">Featured Project</h3>
-                    <h3 class="fs-3 mb-3">Tomato Disease Detector1</h3>
+                    <h3 class="fs-3 mb-3">Tomato Disease Detector3</h3>
                     <p>
                       We developed tomato disease detector web service using
                       tomato disease images from AI HUB(https://aihub.or.kr/)
@@ -418,8 +380,6 @@
                   </div>
                 </div>
               </div>
-
-              <!-- Card end -->
             </div>
 
             <!-- prev / next buttons -->
@@ -451,6 +411,10 @@
           </div>
         </div>
       </div>
+
+      <!-- Work : Other noteworthy projects -->
+
+      <!-- Contact -->
     </div>
 
     <!-- Bootstrap JS -->
