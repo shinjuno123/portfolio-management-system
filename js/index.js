@@ -109,6 +109,7 @@ jQuery(document).ready(function ($) {
       observer.observe(elements.technology.get(0));
       observer.observe(elements.experience.get(0));
       observer.observe(elements.work.get(0));
+      observer.observe(elements.contact.get(0));
     }
 
     // onload

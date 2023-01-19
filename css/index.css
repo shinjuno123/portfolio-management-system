@@ -6,7 +6,7 @@
 body {
   overflow-x: hidden;
   color: white;
-  font-family: "Roboto Mono", monospace;
+  font-family: "Roboto", sans-serif;
 }
 
 .main {
@@ -68,7 +68,7 @@ body {
   }
 
   to {
-    width: 9.6rem;
+    width: 7.2rem;
   }
 }
 
@@ -80,7 +80,7 @@ body {
   display: block;
   position: absolute;
   height: 1px;
-  width: 9.6rem;
+  width: 7.2rem;
 
   background-color: #03c988;
   animation-name: underline-anim;
@@ -99,8 +99,8 @@ body {
   left: -0.2rem;
 }
 
-/* Noteworthy projects show more button */
-@keyframes show-more-button-anim {
+/* apply to buttons to see additional information */
+@keyframes additional-information-anim {
   from {
     background-color: rgba(3, 201, 136, 0);
   }
@@ -110,17 +110,18 @@ body {
   }
 }
 
-.show-more {
+.additional-information {
   background-color: rgba(255, 0, 0, 0);
-  padding: 0.8rem 1.2rem 0.8rem 1.2rem;
+  padding: 1rem 1.6rem 1rem 1.6rem;
   color: rgb(3, 201, 136);
   border-color: rgb(3, 201, 136);
   border-radius: 4px;
   border-style: solid;
+  font-size: 0.85rem;
 }
 
-.show-more:hover {
+.additional-information:hover {
   background-color: rgba(3, 201, 136, 0.2);
-  animation-name: show-more-button-anim;
+  animation-name: additional-information-anim;
   animation-duration: 0.3s;
 }
