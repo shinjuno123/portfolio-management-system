@@ -17,7 +17,7 @@ body {
 }
 
 /* Work Section */
-@keyframes clear {
+@keyframes clear-anim {
   from {
     opacity: 0.5;
   }
@@ -34,7 +34,7 @@ body {
 
 .glass:hover {
   cursor: pointer;
-  animation-name: clear;
+  animation-name: clear-anim;
   animation-duration: 2s;
 }
 
@@ -61,6 +61,30 @@ body {
 }
 
 /* Noteworthy projects Section */
+@keyframes underline-anim {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 7.4rem;
+  }
+}
+
+.view-archive {
+  color: #03c988;
+}
+
+.view-archive:hover > .underline {
+  display: block;
+  position: absolute;
+  height: 1px;
+  width: 7.4rem;
+  background-color: #03c988;
+  animation-name: underline-anim;
+  animation-duration: 1s;
+}
+
 .project-box {
   height: 20rem;
   cursor: pointer;
@@ -71,4 +95,30 @@ body {
   position: relative;
   font-size: 2.7rem;
   left: -0.2rem;
+}
+
+/* Noteworthy projects show more button */
+@keyframes show-more-button-anim {
+  from {
+    background-color: rgba(3, 201, 136, 0);
+  }
+
+  to {
+    background-color: rgba(3, 201, 136, 0.2);
+  }
+}
+
+.show-more {
+  background-color: rgba(255, 0, 0, 0);
+  padding: 0.8rem 1.2rem 0.8rem 1.2rem;
+  color: rgb(3, 201, 136);
+  border-color: rgb(3, 201, 136);
+  border-radius: 4px;
+  border-style: solid;
+}
+
+.show-more:hover {
+  background-color: rgba(3, 201, 136, 0.2);
+  animation-name: show-more-button-anim;
+  animation-duration: 0.3s;
 }
