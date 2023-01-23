@@ -27,10 +27,35 @@
     <link rel="stylesheet" href="css/index.css" />
   </head>
   <body class="bg-dark">
+    <!-- Canvas background -->
+    <div style="position: fixed; width: 100%; height: 100%; z-index: -100">
+      <canvas id="backgroundCanvas"></canvas>
+    </div>
+
+    <!-- social media-->
+    <section class="social-media-section d-md-inline-block d-none fade-out-in">
+      <div class="first-line mb-3"></div>
+      <div class="icons">
+        <a class="d-block mb-3 side-icon" href="https://github.com/shinjuno123"
+          ><img src="./img/github.svg" />
+        </a>
+        <a class="d-block mb-3 side-icon" href="https://github.com/shinjuno123"
+          ><img src="./img/linkedin.png" />
+        </a>
+        <a class="d-block mb-3 side-icon" href="https://github.com/shinjuno123"
+          ><img src="./img/codepen.png" />
+        </a>
+      </div>
+      <div class="last-line"></div>
+    </section>
+
     <!-- add navigation bar -->
-    <nav class="navbar fixed-top navbar-expand-lg bg-dark py-4">
+    <nav
+      id="navbar-main"
+      class="navbar fixed-top navbar-expand-lg bg-dark py-4"
+    >
       <div class="container-fluid mx-lg-5 mx-2">
-        <a class="navbar-brand text-light" href="#">Logo</a>
+        <a class="navbar-brand text-light" href="#introduction">Logo</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -47,7 +72,7 @@
           class="d-lg-flex justify-content-end text-center collapse navbar-collapse"
           id="navbarSupportedContent"
         >
-          <ul class="d-lg-flex gap-lg-5 navbar-nav">
+          <ul class="d-lg-flex gap-lg-5 navbar-nav nav-pills">
             <li class="g-col-2 nav-item">
               <a class="nav-link text-light" href="#aboutme">About</a>
             </li>
@@ -72,9 +97,13 @@
     </nav>
 
     <!-- add main content part -->
-    <div class="container-fluid min-vh-100">
+    <main
+      data-bs-spy="scroll"
+      data-bs-target="#navbar-main"
+      class="container-fluid min-vh-100"
+    >
       <!-- Introduction -->
-      <div
+      <section
         class="container-lg d-flex align-items-center justify-content-center main"
         id="introduction"
       >
@@ -90,16 +119,19 @@
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
       <!-- About me -->
-      <div
+      <section
         class="container-lg d-flex align-items-center justify-content-center main"
         id="aboutme"
       >
         <div class="w-75" id="aboutme-article">
           <p class="fs-2">About me</p>
-          <div class="w-25 line mb-5"></div>
+          <div
+            class="w-25 mb-5"
+            style="height: 2px; background-color: white"
+          ></div>
 
           <!-- about me / image -->
           <div class="d-md-flex">
@@ -163,10 +195,10 @@
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       <!-- Technology -->
-      <div
+      <section
         class="container-lg d-flex align-items-center justify-content-center main"
         id="technology"
       >
@@ -234,15 +266,15 @@
 
           <div class="category-border"></div>
         </div>
-      </div>
+      </section>
 
       <!-- Experience -->
-      <div
+      <section
         class="container-lg d-flex align-items-center justify-content-center main"
         id="experience"
       >
         <div class="w-75" id="experience-article">
-          <h3 class="fs-2 mb-5">My Experience</h3>
+          <h3 class="fs-2 mb-5">Where I've worked</h3>
           <!-- Add toggle buttons between frontend / backend -->
           <div class="row text-center ms-1 category-buttons">
             <div
@@ -268,11 +300,11 @@
 
           <div class="category-border"></div>
         </div>
-      </div>
+      </section>
 
       <!-- Work : Some thigns I've built-->
 
-      <div
+      <section
         class="container-lg d-flex align-items-center justify-content-center main"
         id="work"
       >
@@ -434,10 +466,10 @@
             </button>
           </div>
         </div>
-      </div>
+      </section>
 
       <!-- Work : Other noteworthy projects -->
-      <div
+      <section
         class="container-lg d-flex align-items-center justify-content-center main"
         id="noteworthyProject"
       >
@@ -546,10 +578,10 @@
             <button class="additional-information">Show More</button>
           </div>
         </div>
-      </div>
+      </section>
 
       <!-- Contact -->
-      <div
+      <section
         class="container-lg d-flex flex-column align-items-center justify-content-center main"
         id="contact"
       >
@@ -570,8 +602,12 @@
         <div class="text-center mb-5 pb-3">
           <button class="additional-information">Say Hello!</button>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
+
+    <footer class="container-fluid text-center py-4 bg-dark">
+      Design & Fullstack Development by Junho Shin in 2023
+    </footer>
 
     <!-- Bootstrap JS -->
     <script
@@ -582,6 +618,14 @@
 
     <!-- Jquery CDN -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+    <!-- Paper js -->
+    <script
+      type="text/paperscript"
+      src="./js/paper.js"
+      canvas="backgroundCanvas"
+    ></script>
+    <script src="./js/paper-full.min.js"></script>
 
     <!-- JS -->
     <script src="./js/index.js"></script>

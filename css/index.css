@@ -1,10 +1,11 @@
-li {
-  list-style-type: none;
+canvas {
+  position: fixed;
+  width: 100%;
+  height: 100%;
 }
 
-.line {
-  height: 2px;
-  background-color: white;
+li {
+  list-style-type: none;
 }
 
 body {
@@ -19,6 +20,44 @@ body {
 
 .intro-text {
   font-size: 4rem;
+}
+
+/* navigation */
+.nav-item .nav-link:hover {
+  background-color: rgba(13, 110, 253, 0.5);
+}
+
+/* Social media section */
+.social-media-section {
+  z-index: 1;
+  position: fixed;
+  left: 3.5%;
+  height: 100vh;
+}
+
+.social-media-section > .first-line {
+  width: 2px;
+  height: 70%;
+  margin-left: 15px;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.social-media-section > .last-line {
+  width: 2px;
+  height: 20%;
+  background-color: rgba(255, 255, 255, 0.3);
+  margin-left: 15px;
+}
+
+.social-media-section > .icons a > img {
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  filter: invert(60%);
+}
+
+.social-media-section > .icons a {
+  position: relative;
 }
 
 /* Work Section */

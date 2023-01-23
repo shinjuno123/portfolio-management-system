@@ -165,8 +165,6 @@ jQuery(document).ready(function ($) {
     function showCategoryContent(article) {
       const buttons = $(`#${article} > .category-buttons > div`);
 
-      console.log(`#${article} > .category-buttons > div`);
-
       function findTargetElementInTechSection(button) {
         const target = button.getAttribute("data-bs-target");
         const targetElement = $(`${target}`);
@@ -208,5 +206,53 @@ jQuery(document).ready(function ($) {
     }
     showCategoryContent("technology-article");
     showCategoryContent("experience-article");
+  })();
+
+  // Add universal icon popup animation
+  (function addUniversalIconPopupAnimation() {
+    const icons = $(".side-icon > img");
+
+    const setInvert = function (element, percent) {
+      $(element).css({
+        filter: `invert(${percent}%)`,
+      });
+    };
+
+    const changeBrightness = function (element, startPercent, endPercent) {
+      $({ invertPercent: startPercent }).animate(
+        { invertPercent: endPercent },
+        {
+          duration: 500,
+          easing: "swing",
+
+          step: function () {
+            setInvert(element, this.invertPercent);
+          },
+          callback: function () {
+            setInvert(element, endPercent);
+          },
+        }
+      );
+    };
+
+    icons
+      .mouseenter(function (icon) {
+        const iconElement = $(icon.delegateTarget);
+        const parent = $(iconElement.get(0).parentNode);
+        changeBrightness(iconElement, 60, 100);
+        parent.css("top", "0px").animate({ top: "-10px" }, 100);
+      })
+      .mouseleave(function (icon) {
+        const iconElement = $(icon.delegateTarget);
+        const parent = $(iconElement.get(0).parentNode);
+        changeBrightness(iconElement, 100, 60);
+        parent.animate({ top: "0px" }, 100);
+      });
+  })();
+
+  // Add universal fade out and in
+  (function universalFadeOutIn() {
+    const section = $(".fade-out-in");
+    section.css({ opacity: "0%" }).animate({ opacity: "100%" }, 1000);
   })();
 });
