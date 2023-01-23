@@ -21,6 +21,7 @@ body {
 .intro-text {
   font-size: 4rem;
 }
+
 /* Scrollbar */
 /* width */
 ::-webkit-scrollbar {
@@ -44,6 +45,17 @@ body {
 }
 
 /* navigation */
+@media screen and (min-width: 992px) {
+  .navbar-brand {
+    visibility: visible;
+  }
+}
+@media screen and (max-width: 992px) {
+  .navbar-brand {
+    visibility: hidden;
+  }
+}
+
 .nav-item .nav-link:hover {
   background-color: rgba(13, 110, 253, 0.5);
 }
