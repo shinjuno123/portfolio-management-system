@@ -40,6 +40,7 @@ jQuery(document).ready(function ($) {
       technology: false,
       experience: false,
       work: false,
+      noteworthyProject: false,
       contact: false,
     };
 
@@ -55,6 +56,8 @@ jQuery(document).ready(function ($) {
       experience: $("#experience"),
       workArticle: $("#work-article"),
       work: $("#work"),
+      noteworthyProject: $("#noteworthyProject"),
+      noteworthyProjectArticle: $("#noteworthProjectArticle"),
       contactArticle: $("#contact-article"),
       contact: $("#contact"),
     };
@@ -77,6 +80,7 @@ jQuery(document).ready(function ($) {
     elements.experience.css({ opacity: 0 });
     elements.work.css({ opacity: 0 });
     elements.contact.css({ opacity: 0 });
+    elements.noteworthyProject.css({ opacity: 0 });
 
     let options = {
       root: null,
@@ -110,6 +114,7 @@ jQuery(document).ready(function ($) {
       observer.observe(elements.experience.get(0));
       observer.observe(elements.work.get(0));
       observer.observe(elements.contact.get(0));
+      observer.observe(elements.noteworthyProject.get(0));
     }
 
     // onload
@@ -133,8 +138,8 @@ jQuery(document).ready(function ($) {
     });
   })();
 
-  // add slideup animation when hovering on projects boxes
-  (function addSlideupAnimationOnHovering() {
+  // add popup animation when hovering on projects boxes
+  (function addPopeupAnimationWhenHovering() {
     const projectBoxList = $(".project-box");
 
     projectBoxList.mouseenter(function (event) {
@@ -153,5 +158,55 @@ jQuery(document).ready(function ($) {
       const projectBox = event.delegateTarget;
       $(projectBox).animate({ top: 0 }, 200);
     });
+  })();
+
+  // Show category's content corresponding to the category button you click
+  (function categoryAnimation() {
+    function showCategoryContent(article) {
+      const buttons = $(`#${article} > .category-buttons > div`);
+
+      console.log(`#${article} > .category-buttons > div`);
+
+      function findTargetElementInTechSection(button) {
+        const target = button.getAttribute("data-bs-target");
+        const targetElement = $(`${target}`);
+
+        return targetElement;
+      }
+
+      function showCategory(button) {
+        // hide all the category contents
+        $(`#${article} > .category`).hide();
+
+        // show only one category corresponding to the button's target id
+        const targetElement = findTargetElementInTechSection(button);
+        const border = $(`#${article} > .category-border`);
+        border.css({ height: "2px", backgroundColor: "white", width: "0%" });
+
+        targetElement.slideDown("fast", function () {
+          border
+            .css({ height: "2px", backgroundColor: "white", width: "0%" })
+            .animate({ width: "100%" }, 1000);
+        });
+      }
+
+      // show first category for default
+      buttons.toArray().forEach((button, index) => {
+        if (index > 0) {
+          const targetElement = findTargetElementInTechSection(button);
+          targetElement.hide();
+        } else {
+          showCategory(button);
+        }
+      });
+
+      buttons.click((button) => {
+        showCategory(button.delegateTarget);
+        buttons.removeClass(["border-bottom", "border-light"]);
+        $(button.delegateTarget).addClass(["border-bottom", "border-light"]);
+      });
+    }
+    showCategoryContent("technology-article");
+    showCategoryContent("experience-article");
   })();
 });

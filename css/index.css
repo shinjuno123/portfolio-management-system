@@ -1,3 +1,7 @@
+li {
+  list-style-type: none;
+}
+
 .line {
   height: 2px;
   background-color: white;
@@ -124,4 +128,14 @@ body {
   background-color: rgba(3, 201, 136, 0.2);
   animation-name: additional-information-anim;
   animation-duration: 0.3s;
+}
+
+/* category initialization */
+.category > ul {
+  margin: 0;
+  padding: 0;
+}
+
+.category-buttons {
+  cursor: pointer;
 }

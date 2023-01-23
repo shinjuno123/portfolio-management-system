@@ -173,59 +173,66 @@
         <div class="w-75" id="technology-article">
           <h3 class="fs-2 mb-5">My Technology</h3>
           <!-- Add toggle buttons between frontend / backend -->
-          <div class="row text-center ms-1">
-            <div class="col col-md-2 border-bottom border-light py-3">
+          <div class="row text-center ms-1 category-buttons">
+            <div
+              class="col col-md-2 border-bottom border-light py-3"
+              data-bs-target="#frontEnd"
+            >
               <div>Front-end</div>
             </div>
-            <div class="col col-md-2 py-3">
+            <div class="col col-md-2 py-3" data-bs-target="#backEnd">
               <div>Back-end</div>
             </div>
           </div>
 
           <!-- technology list -->
-          <div class="row ms-1 border-bottom border-light">
-            <div class="d-flex flex-wrap">
-              <div class="px-3">
-                <div class="text-center my-3">Front-end</div>
-              </div>
-              <div class="px-3">
-                <div class="text-center my-3">Front-end</div>
-              </div>
-              <div class="px-3">
-                <div class="text-center my-3">Front-end</div>
-              </div>
-              <div class="px-3">
-                <div class="text-center my-3">Front-end</div>
-              </div>
-              <div class="px-3">
-                <div class="text-center my-3">Front-end</div>
-              </div>
-              <div class="px-3">
-                <div class="text-center my-3">Front-end</div>
-              </div>
-              <div class="px-3">
-                <div class="text-center my-3">Front-end</div>
-              </div>
-              <div class="px-3">
-                <div class="text-center my-3">Front-end</div>
-              </div>
-              <div class="px-3">
-                <div class="text-center my-3">Front-end</div>
-              </div>
-              <div class="px-3">
-                <div class="text-center my-3">Front-end</div>
-              </div>
-              <div class="px-3">
-                <div class="text-center my-3">Front-end</div>
-              </div>
-              <div class="px-3">
-                <div class="text-center my-3">Front-end</div>
-              </div>
-              <div class="px-3">
-                <div class="text-center my-3">Front-end</div>
-              </div>
-            </div>
+          <div class="row ms-1 category" id="frontEnd">
+            <ul class="d-flex flex-wrap">
+              <li
+                class="px-3 m-2 border border-primary rounded"
+                style="background: #0a2647"
+              >
+                <div class="text-center my-3">HTML</div>
+              </li>
+              <li
+                class="px-3 m-2 border border-primary rounded"
+                style="background: #0a2647"
+              >
+                <div class="text-center my-3">CSS</div>
+              </li>
+              <li
+                class="px-3 m-2 border border-primary rounded"
+                style="background: #0a2647"
+              >
+                <div class="text-center my-3">Javascript</div>
+              </li>
+            </ul>
           </div>
+
+          <div class="row ms-1 category" id="backEnd">
+            <ul class="d-flex flex-wrap">
+              <li
+                class="px-3 m-2 border border-primary rounded"
+                style="background: #0a2647"
+              >
+                <div class="text-center my-3">Java Spring</div>
+              </li>
+              <li
+                class="px-3 m-2 border border-primary rounded"
+                style="background: #0a2647"
+              >
+                <div class="text-center my-3">Django</div>
+              </li>
+              <li
+                class="px-3 m-2 border border-primary rounded"
+                style="background: #0a2647"
+              >
+                <div class="text-center my-3">NodeJS</div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="category-border"></div>
         </div>
       </div>
 
@@ -235,26 +242,31 @@
         id="experience"
       >
         <div class="w-75" id="experience-article">
-          <h3 class="fs-2 mb-5">Experience</h3>
-          <!-- job place -->
-          <div class="row text-center ms-1">
-            <div class="col col-md-2 border-bottom border-light py-3">
-              <div>Workplace 1</div>
+          <h3 class="fs-2 mb-5">My Experience</h3>
+          <!-- Add toggle buttons between frontend / backend -->
+          <div class="row text-center ms-1 category-buttons">
+            <div
+              class="col col-md-2 border-bottom border-light py-3"
+              data-bs-target="#work1"
+            >
+              <div>Work1</div>
             </div>
           </div>
 
-          <!-- Experience Description -->
-          <div class="row ms-1 border-bottom border-light">
-            <div class="d-flex flex-wrap">
-              <div class="pt-3">
-                <p>
+          <!-- Experience conetent -->
+          <div class="row ms-1 category" id="work1">
+            <ul class="d-flex flex-wrap">
+              <li class="px-3">
+                <div class="text-center my-3">
                   Upcoming soon now I'm trying to get my first job after
                   graduation! My dream for now is to fill this section as fast
                   as I can!
-                </p>
-              </div>
-            </div>
+                </div>
+              </li>
+            </ul>
           </div>
+
+          <div class="category-border"></div>
         </div>
       </div>
 
@@ -305,7 +317,7 @@
               <!-- carousel items -->
               <div class="carousel-item card-body active" style="height: 40rem">
                 <div class="row h-100">
-                  <div class="col-md align-items-center d-md-flex">
+                  <div class="col-md align-items-center d-md-flex ms-md-5">
                     <div class="glass position-absolute">
                       <input
                         type="hidden"
@@ -321,7 +333,7 @@
                   </div>
 
                   <div
-                    class="text-end col-md justify-content-center flex-column d-md-flex"
+                    class="text-end col-md justify-content-center flex-column d-md-flex me-md-5"
                   >
                     <h3 class="fs-6 mb-2">Featured Project</h3>
                     <h3 class="fs-3 mb-3">Tomato Disease Detector1</h3>
@@ -335,7 +347,7 @@
 
               <div class="carousel-item card-body" style="height: 40rem">
                 <div class="row h-100">
-                  <div class="col-md align-items-center d-md-flex">
+                  <div class="col-md align-items-center d-md-flex ms-md-5">
                     <div class="glass position-absolute">
                       <input
                         type="hidden"
@@ -351,7 +363,7 @@
                   </div>
 
                   <div
-                    class="text-end col-md justify-content-center flex-column d-md-flex"
+                    class="text-end col-md justify-content-center flex-column d-md-flex me-md-5"
                   >
                     <h3 class="fs-6 mb-2">Featured Project</h3>
                     <h3 class="fs-3 mb-3">Tomato Disease Detector2</h3>
@@ -365,7 +377,7 @@
 
               <div class="carousel-item card-body" style="height: 40rem">
                 <div class="row h-100">
-                  <div class="col-md align-items-center d-md-flex">
+                  <div class="col-md align-items-center d-md-flex ms-md-5">
                     <div class="glass position-absolute">
                       <input
                         type="hidden"
@@ -381,7 +393,7 @@
                   </div>
 
                   <div
-                    class="text-end col-md justify-content-center flex-column d-md-flex"
+                    class="text-end col-md justify-content-center flex-column d-md-flex me-md-5"
                   >
                     <h3 class="fs-6 mb-2">Featured Project</h3>
                     <h3 class="fs-3 mb-3">Tomato Disease Detector3</h3>
@@ -427,9 +439,9 @@
       <!-- Work : Other noteworthy projects -->
       <div
         class="container-lg d-flex align-items-center justify-content-center main"
-        id="noteworthy-project"
+        id="noteworthyProject"
       >
-        <div class="w-100" id="noteworthy-project-article">
+        <div class="w-100" id="noteworthProjectArticle">
           <h2 class="fs-2 text-center mb-3">Other Noteworthy Projects</h2>
           <div class="text-center mb-5">
             <a
