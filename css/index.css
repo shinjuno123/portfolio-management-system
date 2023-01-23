@@ -60,6 +60,10 @@ body {
   background-color: rgba(13, 110, 253, 0.5);
 }
 
+#navbar-main {
+  background-color: rgba(33, 37, 41, 0.8);
+}
+
 /* Social media section */
 .social-media-section {
   z-index: 1;
