@@ -255,4 +255,23 @@ jQuery(document).ready(function ($) {
     const section = $(".fade-out-in");
     section.css({ opacity: "0%" }).animate({ opacity: "100%" }, 1000);
   })();
+
+  // remove navigation bar when dragging up
+  // show navigation bar when dragging down
+  (function showRemoveNavigationBar() {
+    let prev = 0;
+    const navbar = $("#navbar-main");
+    $(window).scroll(function () {
+      // down
+      if (prev - $(window).scrollTop() < 0) {
+        navbar.slideUp("slow");
+      }
+      // up
+      else if (prev - $(window).scrollTop() > 0) {
+        navbar.slideDown("slow");
+      }
+
+      prev = $(window).scrollTop();
+    });
+  })();
 });
