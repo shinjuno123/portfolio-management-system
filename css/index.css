@@ -21,6 +21,27 @@ body {
 .intro-text {
   font-size: 4rem;
 }
+/* Scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
 
 /* navigation */
 .nav-item .nav-link:hover {
