@@ -14,21 +14,22 @@ jQuery(document).ready(function ($) {
     $(".left-button,.right-button").click(function () {
       coverGlassOnProjectImage();
     });
+    // Go to the referred site
+    const carouselItems = $(".carousel-item");
+    carouselItems.click((event) => {
+      const target = event.delegateTarget;
+      const url =
+        target.childNodes[1].childNodes[1].childNodes[1].childNodes[1].value;
+      window.open(url);
+    });
 
+    // cover glass effect function
     function coverGlassOnProjectImage() {
       const glasses = document.querySelectorAll(".glass");
-      const carouselItems = $(".carousel-item");
       glasses.forEach((glass) => {
         const projectImage = glass.nextSibling.nextSibling;
         glass.style.width = projectImage.clientWidth + "px";
         glass.style.height = projectImage.clientHeight + "px";
-      });
-
-      carouselItems.click((event) => {
-        const target = event.delegateTarget;
-        const url =
-          target.childNodes[1].childNodes[1].childNodes[1].childNodes[1].value;
-        window.open(url);
       });
     }
   })();
@@ -282,6 +283,33 @@ jQuery(document).ready(function ($) {
 
     button.click(() => {
       window.open("mailto:shinjuno123@gmail.com");
+    });
+  })();
+
+  // Show only 3 project boxes and Add show more function to other noteworthy project section
+  (function hideExcessAndshowMore() {
+    const projectBoxes = $("#noteworthyProject .row > div");
+    const showMoreButton = $("#show-more");
+    let state = "show More";
+    showLess();
+    function showLess() {
+      projectBoxes.each((index) => {
+        if (index > 2) {
+          $(projectBoxes[index]).addClass("d-none");
+        }
+      });
+    }
+
+    showMoreButton.click(() => {
+      if (state === "show More") {
+        projectBoxes.removeClass("d-none");
+        state = "show Less";
+        showMoreButton.text(state);
+      } else {
+        showLess();
+        state = "show More";
+        showMoreButton.text(state);
+      }
     });
   })();
 });
