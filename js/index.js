@@ -274,4 +274,13 @@ jQuery(document).ready(function ($) {
       prev = $(window).scrollTop();
     });
   })();
+
+  // click event after clicking "say hello" button
+  (function sendMail() {
+    const button = $("#send-mail");
+
+    button.click(() => {
+      window.open("mailto:shinjuno123@gmail.com");
+    });
+  })();
 });
