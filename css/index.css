@@ -113,6 +113,9 @@ body {
   opacity: 0.5;
 }
 
+.carousel-item:hover {
+  cursor: pointer;
+}
 .glass:hover {
   cursor: pointer;
   animation-name: clear-anim;

@@ -17,17 +17,18 @@ jQuery(document).ready(function ($) {
 
     function coverGlassOnProjectImage() {
       const glasses = document.querySelectorAll(".glass");
+      const carouselItems = $(".carousel-item");
       glasses.forEach((glass) => {
         const projectImage = glass.nextSibling.nextSibling;
         glass.style.width = projectImage.clientWidth + "px";
         glass.style.height = projectImage.clientHeight + "px";
       });
 
-      glasses.forEach((glass) => {
-        const address = glass.childNodes[1].value;
-        glass.addEventListener("click", () => {
-          window.open(address);
-        });
+      carouselItems.click((event) => {
+        const target = event.delegateTarget;
+        const url =
+          target.childNodes[1].childNodes[1].childNodes[1].childNodes[1].value;
+        window.open(url);
       });
     }
   })();
