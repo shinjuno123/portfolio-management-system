@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+      <main
+      th:fragment="common_section(h1, p)"
+      class="container-fluid min-vh-100"
+    >
+   		<section
+        class="container-lg d-flex align-items-center justify-content-center main"
+        id="introduction"
+      	>
+        <div class="d-flex align-items-center w-75">
+          <div id="introduction-article">
+            <h1 class="intro-text mb-3" th:replace="${h1}">Title</h1>
+            <p class="fs-5" th:replace="${p}">
+             	Content
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+</body>
+</html>

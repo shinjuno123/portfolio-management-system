@@ -12,9 +12,5 @@ public class MainController {
 		return "index";
 	}
 	
-	@GetMapping("/404")
-	public String page404(Model model) {
-		
-		return "index";
-	}
+
 }

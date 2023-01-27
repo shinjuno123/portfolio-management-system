@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+    <!-- add navigation bar -->
+    <nav th:fragment="copy" id="navbar-main" class="navbar fixed-top navbar-expand-lg py-4">
+      <div class="container-fluid mx-lg-5 mx-2">
+        <a
+          class="navbar-brand text-light"
+          style="width: 5%"
+          href="#introduction"
+        >
+          <img
+            th:src="@{/img/logo.png}"
+            alt="logo"
+            style="width: 100%; height: auto"
+          />
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <img th:src="@{/img/menu.svg}" />
+        </button>
+
+        <div
+          class="d-lg-flex justify-content-end text-center collapse navbar-collapse"
+          id="navbarSupportedContent"
+        >
+          <ul class="d-lg-flex gap-lg-5 navbar-nav nav-pills">
+            <li class="g-col-2 nav-item">
+              <a class="nav-link text-light" href="/#aboutme">About</a>
+            </li>
+            <li class="g-col-2 nav-item">
+              <a class="nav-link text-light" href="/#technology">Technology</a>
+            </li>
+            <li class="g-col-2 nav-item">
+              <a class="nav-link text-light" href="/#experience">Experience</a>
+            </li>
+            <li class="g-col-2 nav-item">
+              <a class="nav-link text-light" href="/#work">Work</a>
+            </li>
+            <li class="g-col-2 nav-item">
+              <a class="nav-link text-light" href="/#contact">Contact</a>
+            </li>
+            <li class="g-col-2 nav-item">
+              <a class="nav-link text-light" href="/#">Resume</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+</body>
+</html>
