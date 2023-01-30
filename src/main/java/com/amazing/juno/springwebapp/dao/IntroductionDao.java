@@ -23,12 +23,7 @@ public class IntroductionDao implements IntroductionDaoInterface{
 		String sub = env.getProperty("introduction.title.sub");
 		String detail = env.getProperty("introduction.title.detail");
 		
-		IntroductionEntity intro = new IntroductionEntity();
-		
-		intro.setDetail(detail);
-		intro.setMyName(name);
-		intro.setSubTitle(sub);
-		intro.setTitleMain(main);
+		IntroductionEntity intro = new IntroductionEntity(main, name, sub, detail);
 		
 		return intro;
 	}

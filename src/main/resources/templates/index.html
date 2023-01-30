@@ -42,13 +42,10 @@
       >
         <div class="d-flex align-items-center w-75">
           <div id="introduction-article">
-            <p class="mb-3">Hi, My name is</p>
-            <h1 class="intro-text mb-3">Junho Shin</h1>
-            <h2 class="fs-1 mb-5">I am a Junior Software Developer.</h2>
-            <p class="fs-5">
-              I'm a passionate junior developer. I'm so excited to learn new
-              skills and work on projects every single day. Currently, I'm
-              making web projects using spring-mvc or spring boot.
+            <p class="mb-3" th:text="${intro.titleMain}"></p>
+            <h1 class="intro-text mb-3" th:text="${intro.myName}"></h1>
+            <h2 class="fs-1 mb-5" th:text="${intro.subTitle}"></h2>
+            <p class="fs-5" th:text="${intro.detail}">
             </p>
           </div>
         </div>
@@ -70,14 +67,7 @@
           <div class="d-md-flex">
             <!-- about me section -->
             <div class="mw-50">
-              <p class="fs-5">
-                Hi, My name is Junho. I was born and graduated my college in
-                South Korea. I have B.S in computer science. Right after
-                graduating my college, I moved to America and married with my
-                wife who is a US citizen.
-              </p>
-              <p class="fs-5">My first inspiration in software development.</p>
-              <p class="fs-5">What I am doing lately</p>
+              <p class="fs-5" th:text="${about.description}"></p>
 
               <!-- Education -->
               <h3 class="fs-2 mt-5 mb-4">Education</h3>
@@ -86,19 +76,19 @@
                 <tbody>
                   <tr>
                     <th scope="row"><p class="mt-3">Period</p></th>
-                    <td><p class="mt-3">Mar, 2017 ~ Feb, 2023</p></td>
+                    <td><p class="mt-3" th:text="${about.period}"></p></td>
                   </tr>
                   <tr>
                     <th scope="row"><p class="mt-3">School</p></th>
-                    <td><p class="mt-3">Konyang University</p></td>
+                    <td><p class="mt-3" th:text="${about.school}"></p></td>
                   </tr>
                   <tr>
                     <th scope="row"><p class="mt-3">Degree</p></th>
-                    <td><p class="mt-3">B.S in Computer Engineering</p></td>
+                    <td><p class="mt-3" th:text="${about.degree}"></p></td>
                   </tr>
                   <tr>
                     <th scope="row"><p class="mt-3">Region / Country</p></th>
-                    <td><p class="mt-3">Daejoen, South Korea</p></td>
+                    <td><p class="mt-3" th:text="${about.regionCountry}"></p></td>
                   </tr>
                 </tbody>
               </table>
@@ -149,20 +139,9 @@
               <li
                 class="px-3 m-2 border border-primary rounded"
                 style="background: #0a2647"
+                th:each="frontend: ${frontend}"
               >
-                <div class="text-center my-3">HTML ⭐4</div>
-              </li>
-              <li
-                class="px-3 m-2 border border-primary rounded"
-                style="background: #0a2647"
-              >
-                <div class="text-center my-3">CSS ⭐3</div>
-              </li>
-              <li
-                class="px-3 m-2 border border-primary rounded"
-                style="background: #0a2647"
-              >
-                <div class="text-center my-3">Javascript ⭐4</div>
+                <div class="text-center my-3" th:text="${frontend.technologyDetail}"></div>
               </li>
             </ul>
           </div>
@@ -172,20 +151,9 @@
               <li
                 class="px-3 m-2 border border-primary rounded"
                 style="background: #0a2647"
+                th:each="backend: ${backend}"
               >
-                <div class="text-center my-3">Java Spring</div>
-              </li>
-              <li
-                class="px-3 m-2 border border-primary rounded"
-                style="background: #0a2647"
-              >
-                <div class="text-center my-3">Django</div>
-              </li>
-              <li
-                class="px-3 m-2 border border-primary rounded"
-                style="background: #0a2647"
-              >
-                <div class="text-center my-3">NodeJS</div>
+                <div class="text-center my-3" th:text="${backend.technologyDetail}">Java Spring</div>
               </li>
             </ul>
           </div>
@@ -573,23 +541,18 @@
       >
         <div class="d-flex align-items-center text-center w-75 mb-5">
           <div id="contact-article">
-            <p class="mb-2">What's next?</p>
-            <h1 class="fs-1 fw-bolder intro-text mb-4">Get in touch</h1>
-            <p class="fs-5">
-              I'm now looking for new opportunities after graduating my college.
-              My box is always open. Please contact to this email or phone
-              number or any means of contact written in this page if you have
-              anything you want to tell me!
+            <p class="mb-2"></p>
+            <h1 class="fs-1 fw-bolder intro-text mb-4" th:text="${contact.title}"></h1>
+            <p class="fs-5" th:text="${contact.closing}"> 
             </p>
-            <p class="fs-3 fw-bold">Always Welcome!</p>
+            <p class="fs-3 fw-bold" th:text="${contact.appreciation}"></p>
           </div>
         </div>
         <!-- Say hello button -->
         <div class="text-center mb-5 pb-3">
-          <button class="additional-information mb-3" id="send-mail">
-            Say Hello!
+          <button class="additional-information mb-3" id="send-mail" th:text="${contact.buttonContent}">
           </button>
-          <p>Email : shinjuno123@gmail.com</p>
+          <p>Email : <span th:text="${contact.email}"></span></p>
         </div>
       </section>
     </main>

@@ -9,6 +9,13 @@ public class IntroductionEntity {
 	
 	private String detail;
 
+	public IntroductionEntity(String titleMain, String myName, String subTitle, String detail) {
+		this.titleMain = titleMain;
+		this.myName = myName;
+		this.subTitle = subTitle;
+		this.detail = detail;
+	}
+
 	public String getTitleMain() {
 		return titleMain;
 	}
