@@ -162,54 +162,6 @@ jQuery(document).ready(function ($) {
     });
   })();
 
-  // Show category's content corresponding to the category button you click
-  (function categoryAnimation() {
-    function showCategoryContent(article) {
-      const buttons = $(`#${article} > .category-buttons > div`);
-
-      function findTargetElementInTechSection(button) {
-        const target = button.getAttribute("data-bs-target");
-        const targetElement = $(`${target}`);
-
-        return targetElement;
-      }
-
-      function showCategory(button) {
-        // hide all the category contents
-        $(`#${article} > .category`).hide();
-
-        // show only one category corresponding to the button's target id
-        const targetElement = findTargetElementInTechSection(button);
-        const border = $(`#${article} > .category-border`);
-        border.css({ height: "2px", backgroundColor: "white", width: "0%" });
-
-        targetElement.slideDown("fast", function () {
-          border
-            .css({ height: "2px", backgroundColor: "white", width: "0%" })
-            .animate({ width: "100%" }, 1000);
-        });
-      }
-
-      // show first category for default
-      buttons.toArray().forEach((button, index) => {
-        if (index > 0) {
-          const targetElement = findTargetElementInTechSection(button);
-          targetElement.hide();
-        } else {
-          showCategory(button);
-        }
-      });
-
-      buttons.click((button) => {
-        showCategory(button.delegateTarget);
-        buttons.removeClass(["border-bottom", "border-light"]);
-        $(button.delegateTarget).addClass(["border-bottom", "border-light"]);
-      });
-    }
-    showCategoryContent("technology-article");
-    showCategoryContent("experience-article");
-  })();
-
   // Add universal icon popup animation
   (function addUniversalIconPopupAnimation() {
     const icons = $(".side-icon > img");
@@ -313,3 +265,50 @@ jQuery(document).ready(function ($) {
     });
   })();
 });
+
+// Show category's content corresponding to the category button you click
+
+function showCategoryContent(article) {
+  const buttons = $(`#${article} > .category-buttons > .category-button`);
+
+  function findTargetElementInTechSection(button) {
+    const target = button.getAttribute("data-bs-target");
+    const targetElement = $(`${target}`);
+
+    return targetElement;
+  }
+
+  function showCategory(button) {
+    // hide all the category contents
+    $(`#${article} > .category`).hide();
+
+    // show only one category corresponding to the button's target id
+    const targetElement = findTargetElementInTechSection(button);
+    const border = $(`#${article} > .category-border`);
+    border.css({ height: "2px", backgroundColor: "white", width: "0%" });
+
+    targetElement.slideDown("fast", function () {
+      border
+        .css({ height: "2px", backgroundColor: "white", width: "0%" })
+        .animate({ width: "100%" }, 1000);
+    });
+  }
+
+  // show first category for default
+  buttons.toArray().forEach((button, index) => {
+    if (index > 0) {
+      const targetElement = findTargetElementInTechSection(button);
+      targetElement.hide();
+    } else {
+      showCategory(button);
+    }
+  });
+
+  buttons.click((button) => {
+    showCategory(button.delegateTarget);
+    buttons.removeClass(["border-bottom", "border-light"]);
+    $(button.delegateTarget).addClass(["border-bottom", "border-light"]);
+  });
+}
+showCategoryContent("technology-article");
+showCategoryContent("experience-article");
