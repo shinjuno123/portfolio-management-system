@@ -644,22 +644,44 @@
         id="contact"
       >
         <div class="d-flex align-items-center text-center w-75 mb-5">
-          <div id="contact-article">
+          <div id="contact-article" style="width: 100%">
             <p class="mb-2">What's next?</p>
-            <h1 class="fs-1 fw-bolder intro-text mb-4">Get in touch</h1>
-            <p class="fs-5">
-              I'm now looking for new opportunities after graduating my college.
-              My box is always open. Please contact to this email or phone
-              number or any means of contact written in this page if you have
-              anything you want to tell me!
-            </p>
-            <p class="fs-3 fw-bold">Always Welcome!</p>
+            <div class="form-floating mb-4">
+              <textarea
+                class="form-control intro-text"
+                placeholder="Closing"
+                id="closing-title"
+              ></textarea>
+              <label class="text-dark" for="closing-title">Closing Title</label>
+            </div>
+
+            <div class="form-floating">
+              <textarea
+                class="form-control fs-5 mb-3"
+                placeholder="Closing"
+                id="closing-content"
+              ></textarea>
+              <label class="text-dark" for="closing-content"
+                >Closing Content</label
+              >
+            </div>
+
+            <div class="form-floating">
+              <textarea
+                class="form-control fs-3 fw-bold"
+                placeholder="Closing Regard"
+                id="closing-regard"
+              ></textarea>
+              <label class="text-dark" for="closing-regard"
+                >Closing Regard</label
+              >
+            </div>
           </div>
         </div>
         <!-- Say hello button -->
         <div class="text-center mb-5 pb-3">
-          <button class="additional-information mb-3" id="send-mail">
-            Say Hello!
+          <button class="additional-information mb-3">
+            <input type="text" placeholder="Button Value" />
           </button>
           <p>Email : shinjuno123@gmail.com</p>
         </div>
