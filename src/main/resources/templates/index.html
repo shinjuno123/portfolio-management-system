@@ -123,12 +123,12 @@
           <!-- Add toggle buttons between frontend / backend -->
           <div class="row text-center ms-1 category-buttons">
             <div
-              class="col col-md-2 border-bottom border-light py-3"
+              class="col col-md-2 border-bottom border-light py-3 category-button"
               data-bs-target="#frontEnd"
             >
               <div>Front-end</div>
             </div>
-            <div class="col col-md-2 py-3" data-bs-target="#backEnd">
+            <div class="col col-md-2 py-3 category-button" data-bs-target="#backEnd">
               <div>Back-end</div>
             </div>
           </div>
@@ -558,7 +558,9 @@
     </main>
     
     <div th:replace="~{footer :: footer}"></div>
-
+    
+    <!-- JS -->
+    <script th:src="@{/js/index.js}"></script>
 
   </body>
 </html>
