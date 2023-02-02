@@ -18,6 +18,8 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
 			if(statusCode == 404) {
 				model.addAttribute("title", "404 Error");
 				model.addAttribute("message", "Page Not Found");
+				
+				return "error";
 			}
 		
 		}
