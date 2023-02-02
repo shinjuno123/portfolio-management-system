@@ -22,6 +22,7 @@ public class MainController {
 	
 	@GetMapping("/")
 	public String home(Model model) {
+		System.out.println("Main Page Loading....");
 		IntroductionEntity intro = propertyService.getIntroduction();
 		AboutEntity about = propertyService.getAbout();
 		Map<String, List<TechnologyEntity>> techFullstack = propertyService.getTechnology();

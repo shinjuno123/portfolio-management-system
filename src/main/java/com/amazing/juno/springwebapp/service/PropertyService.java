@@ -57,4 +57,11 @@ public class PropertyService implements PropertyServiceInterface{
 		return contactDao.getContactInfo();
 	}
 
+	@Override
+	public Map<String, Map<String, List<TechnologyEntity>>> getTechnologyStack() {
+		// TODO Auto-generated method stub
+		
+		return technologyDao.getTechnologyStack();
+	}
+
 }

@@ -31,6 +31,14 @@ public class TechnologyEntity {
 	public void setTechnologyDetail(String technologyDetail) {
 		this.technologyDetail = technologyDetail;
 	}
+
+
+	@Override
+	public String toString() {
+		return technologyDetail;
+	}
+	
+	
 	
 	
 }

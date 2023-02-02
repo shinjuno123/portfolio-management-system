@@ -13,4 +13,5 @@ public interface PropertyServiceInterface {
 	public AboutEntity getAbout();
 	public Map<String, List<TechnologyEntity>> getTechnology();
 	public ContactEntity getContactInfo();
+	public Map<String, Map<String, List<TechnologyEntity>>> getTechnologyStack();
 }

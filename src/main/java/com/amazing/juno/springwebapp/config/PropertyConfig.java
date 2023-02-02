@@ -8,7 +8,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
 @PropertySources({
-		@PropertySource("file:src/main/resources/custom-properties/web-basic-content.properties")
+		@PropertySource(value="file:src/main/resources/custom-properties/web-basic-content.properties", name="content.props")
 })
 public class PropertyConfig {
 	
