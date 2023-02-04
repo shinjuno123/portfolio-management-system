@@ -137,7 +137,6 @@ function removeItemInCategoryMain(id) {
 	function removeItemInCategory(id) {
 		const item = $(`#${id} > ul > li > .event-false`);
 		
-		console.log(item);
 
 		item.click(function(event) {
 			const oneItem = $(event.delegateTarget).parent();
@@ -156,7 +155,26 @@ function removeItemInCategoryMain(id) {
 		const category = $(categories[index]);
 		removeItemInCategoryMain(category.attr("id"));
 	});
+})();
 
+
+(function controlSocialNetworkInputPosition(){
+	const inputList = $(".social-media-section > .icons > input");
+	inputList.css({left:"+=140%",bottom:"+=37%",display:"none"});
+})();
+
+(function addClickEventtoSocialNetworkInput(){
+	const buttons = $(".social-media-section > .icons > button");
 	
+	buttons.on("click",(event)=>{
+		
+		const input = $(event.delegateTarget).next();
+		if(input.css("display") === "block"){
+			input.css("display","none");
+		}else{
+			input.css("display","block");
+		}
+	})
 
 })();
+
