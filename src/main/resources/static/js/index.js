@@ -98,7 +98,7 @@ jQuery(document).ready(function ($) {
           // when intersectionRatio gets over 60 % visibility,
           // make the element from fade out to fade in
           // once the element has been fade out and in, the element doesn't do it again.
-          if (intersectionRatio > 0.6 && !elementsPass[entry.target.id]) {
+          if (intersectionRatio > 0.5 && !elementsPass[entry.target.id]) {
             // fade out and in
             elementsPass[entry.target.id] = true;
             elements[entry.target.id + "Article"]
