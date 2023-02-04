@@ -1,231 +1,239 @@
 canvas {
-  position: fixed;
-  width: 100%;
-  height: 100%;
+	position: fixed;
+	width: 100%;
+	height: 100%;
 }
 
 li {
-  list-style-type: none;
+	list-style-type: none;
 }
 
 body {
-  overflow-x: hidden;
-  color: white;
-  font-family: "Roboto", sans-serif;
+	overflow-x: hidden;
+	color: white;
+	font-family: "Roboto", sans-serif;
 }
 
 .main {
-  min-height: 57rem;
+	min-height: 57rem;
 }
 
 .intro-text {
-  font-size: 4rem;
+	font-size: 4rem;
 }
 
 /* Scrollbar */
 /* width */
 ::-webkit-scrollbar {
-  width: 7px;
+	width: 7px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: none;
+	background: none;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #555;
-  border-radius: 10px;
+	background: #555;
+	border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #888;
+	background: #888;
 }
 
 /* navigation */
 @media screen and (min-width: 992px) {
-  .navbar-brand {
-    visibility: visible;
-  }
+	.navbar-brand {
+		visibility: visible;
+	}
 }
+
 @media screen and (max-width: 992px) {
-  .navbar-brand {
-    visibility: hidden;
-  }
+	.navbar-brand {
+		visibility: hidden;
+	}
 }
 
 .nav-item .nav-link:hover {
-  background-color: rgba(13, 110, 253, 0.5);
+	background-color: rgba(13, 110, 253, 0.5);
 }
 
 #navbar-main {
-  background-color: rgba(33, 37, 41, 0.8);
+	background-color: rgba(33, 37, 41, 0.8);
 }
 
 /* Social media section */
 .social-media-section {
-  z-index: 1;
-  position: fixed;
-  left: 3.5%;
-  height: 100vh;
+	z-index: 1;
+	position: fixed;
+	left: 3.5%;
+	height: 100vh;
 }
 
-.social-media-section > .first-line {
-  width: 2px;
-  height: 70%;
-  margin-left: 15px;
-  background-color: rgba(255, 255, 255, 0.3);
+.social-media-section>.first-line {
+	width: 2px;
+	height: 70%;
+	margin-left: 15px;
+	background-color: rgba(255, 255, 255, 0.3);
 }
 
-.social-media-section > .last-line {
-  width: 2px;
-  height: 20%;
-  background-color: rgba(255, 255, 255, 0.3);
-  margin-left: 15px;
+.social-media-section>.last-line {
+	width: 2px;
+	height: 20%;
+	background-color: rgba(255, 255, 255, 0.3);
+	margin-left: 15px;
 }
 
-.social-media-section > .icons{
-	position:relative;
-}
-.social-media-section > .icons > input{
-	position:absolute;
+.social-media-section>.icons {
+	position: relative;
 }
 
-.social-media-section > .icons button,a > img {
-  width: 32px;
-  height: 32px;
-  display: inline-block;
-  filter: invert(60%);
+.social-media-section>.icons>input {
+	position: absolute;
 }
 
-.social-media-section > .icons button,a {
-  position: relative;
-  background-color: rgba(255, 255, 255, 0);
-  border:none;
-  padding-left: 0;
-  padding-right: 0;
+.social-media-section>.icons>button>img {
+	width: 32px;
+	height: 32px;
+	display: inline-block;
+	filter: invert(60%);
+}
+
+.social-media-section>.icons>a>img {
+	width: 32px;
+	height: 32px;
+	display: inline-block;
+	filter: invert(60%);
+}
+
+.social-media-section>.icons button, a {
+	position: relative;
+	background-color: rgba(255, 255, 255, 0);
+	border: none;
+	padding-left: 0;
+	padding-right: 0;
 }
 
 /* Work Section */
+
 @keyframes clear-anim {
-  from {
-    opacity: 0.5;
-  }
+	from {opacity:0.5;}
 
-  to {
-    opacity: 0;
-  }
+	to {opacity: 0;}
+
 }
-
 .glass {
-  background-color: #395b64;
-  opacity: 0.5;
+	background-color: #395b64;
+	opacity: 0.5;
 }
 
 .carousel-item:hover {
-  cursor: pointer;
+	cursor: pointer;
 }
+
 .glass:hover {
-  cursor: pointer;
-  animation-name: clear-anim;
-  animation-duration: 2s;
+	cursor: pointer;
+	animation-name: clear-anim;
+	animation-duration: 2s;
 }
 
 .left {
-  left: -30%;
-  z-index: -100;
-  opacity: 0.5;
+	left: -30%;
+	z-index: -100;
+	opacity: 0.5;
 }
 
 .right {
-  left: 30%;
-  z-index: -100;
-  opacity: 0.5;
+	left: 30%;
+	z-index: -100;
+	opacity: 0.5;
 }
 
 .left-button {
-  left: -30%;
-  width: 30%;
+	left: -30%;
+	width: 30%;
 }
 
 .right-button {
-  left: 100%;
-  width: 30%;
+	left: 100%;
+	width: 30%;
 }
 
 /* Noteworthy projects Section */
-@keyframes underline-anim {
-  from {
-    width: 0;
-  }
 
-  to {
-    width: 7.2rem;
-  }
+@keyframes underline-anim {from { 
+	width:0;
+	
 }
 
+to {
+	width: 7.2rem;
+}
+
+}
 .view-archive {
-  color: #03c988;
+	color: #03c988;
 }
 
-.view-archive:hover > .underline {
-  display: block;
-  position: absolute;
-  height: 1px;
-  width: 7.2rem;
-
-  background-color: #03c988;
-  animation-name: underline-anim;
-  animation-duration: 1s;
+.view-archive:hover>.underline {
+	display: block;
+	position: absolute;
+	height: 1px;
+	width: 7.2rem;
+	background-color: #03c988;
+	animation-name: underline-anim;
+	animation-duration: 1s;
 }
 
 .project-box {
-  height: 20rem;
-  cursor: pointer;
+	height: 20rem;
+	cursor: pointer;
 }
 
 /* Noteworthy projects folder icons */
 .folder {
-  position: relative;
-  font-size: 2.7rem;
-  left: -0.2rem;
+	position: relative;
+	font-size: 2.7rem;
+	left: -0.2rem;
 }
 
 /* apply to buttons to see additional information */
-@keyframes additional-information-anim {
-  from {
-    background-color: rgba(3, 201, 136, 0);
-  }
 
-  to {
-    background-color: rgba(3, 201, 136, 0.2);
-  }
+@keyframes additional-information-anim {from { background-color:rgba(3,
+	201, 136, 0);
+	
 }
 
+to {
+	background-color: rgba(3, 201, 136, 0.2);
+}
+
+}
 .additional-information {
-  background-color: rgba(255, 0, 0, 0);
-  padding: 1rem 1.6rem 1rem 1.6rem;
-  color: rgb(3, 201, 136);
-  border-color: rgb(3, 201, 136);
-  border-radius: 4px;
-  border-style: solid;
-  font-size: 0.85rem;
+	background-color: rgba(255, 0, 0, 0);
+	padding: 1rem 1.6rem 1rem 1.6rem;
+	color: rgb(3, 201, 136);
+	border-color: rgb(3, 201, 136);
+	border-radius: 4px;
+	border-style: solid;
+	font-size: 0.85rem;
 }
 
 .additional-information:hover {
-  background-color: rgba(3, 201, 136, 0.2);
-  animation-name: additional-information-anim;
-  animation-duration: 0.3s;
+	background-color: rgba(3, 201, 136, 0.2);
+	animation-name: additional-information-anim;
+	animation-duration: 0.3s;
 }
 
 /* category initialization */
-.category > ul {
-  margin: 0;
-  padding: 0;
+.category>ul {
+	margin: 0;
+	padding: 0;
 }
 
 .category-buttons {
-  cursor: pointer;
+	cursor: pointer;
 }
