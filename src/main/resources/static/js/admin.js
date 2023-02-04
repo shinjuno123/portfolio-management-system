@@ -123,6 +123,7 @@ function addItemsInCategoryMain() {
 			button.before(listItem());
 			removeItemInCategoryMain(parentId);
 		}
+		
 
 		categoryItems.click(categoryEvent);
 		categoryItems.removeClass("add-item-false-event");
@@ -135,12 +136,27 @@ addItemsInCategoryMain();
 function removeItemInCategoryMain(id) {
 	function removeItemInCategory(id) {
 		const item = $(`#${id} > ul > li > .event-false`);
+		
+		console.log(item);
 
-		item.click(function() {
-			item.parent().remove();
+		item.click(function(event) {
+			const oneItem = $(event.delegateTarget).parent();
+			oneItem.remove();
 		});
 
 		item.removeClass("event-false");
 	}
 	removeItemInCategory(id);
 }
+
+(function addRemoveEventToDefaultCategoryitems(){
+	const categories = $("#technology-article > .category");
+	
+	categories.each((index)=>{
+		const category = $(categories[index]);
+		removeItemInCategoryMain(category.attr("id"));
+	});
+
+	
+
+})();
