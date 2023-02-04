@@ -4,7 +4,7 @@ function uuidv4() {
 			v = c == "x" ? r : (r & 0x3) | 0x8;
 		return v.toString(16);
 	});
-	
+
 }
 
 (function addCategoryMain() {
@@ -123,7 +123,7 @@ function addItemsInCategoryMain() {
 			button.before(listItem());
 			removeItemInCategoryMain(parentId);
 		}
-		
+
 
 		categoryItems.click(categoryEvent);
 		categoryItems.removeClass("add-item-false-event");
@@ -136,7 +136,7 @@ addItemsInCategoryMain();
 function removeItemInCategoryMain(id) {
 	function removeItemInCategory(id) {
 		const item = $(`#${id} > ul > li > .event-false`);
-		
+
 
 		item.click(function(event) {
 			const oneItem = $(event.delegateTarget).parent();
@@ -148,33 +148,40 @@ function removeItemInCategoryMain(id) {
 	removeItemInCategory(id);
 }
 
-(function addRemoveEventToDefaultCategoryitems(){
+(function addRemoveEventToDefaultCategoryitems() {
 	const categories = $("#technology-article > .category");
-	
-	categories.each((index)=>{
+
+	categories.each((index) => {
 		const category = $(categories[index]);
 		removeItemInCategoryMain(category.attr("id"));
 	});
 })();
 
 
-(function controlSocialNetworkInputPosition(){
+(function controlSocialNetworkInputPosition() {
 	const inputList = $(".social-media-section > .icons > input");
-	inputList.css({left:"+=140%",bottom:"+=37%",display:"none"});
+	inputList.css({ left: "+=140%", bottom: "+=37%", display: "none" });
 })();
 
-(function addClickEventtoSocialNetworkInput(){
+(function addClickEventtoSocialNetworkInput() {
 	const buttons = $(".social-media-section > .icons > button");
-	
-	buttons.on("click",(event)=>{
-		
+
+	buttons.on("click", (event) => {
+
 		const input = $(event.delegateTarget).next();
-		if(input.css("display") === "block"){
-			input.css("display","none");
-		}else{
-			input.css("display","block");
+		if (input.css("display") === "block") {
+			input.css("display", "none");
+		} else {
+			input.css("display", "block");
 		}
 	})
 
+})();
+
+(function addDefailtEventtoScreen(){
+	$("main,nav").on("click", ()=>{
+		const inputList = $(".social-media-section > .icons > input");
+		inputList.css({display: "none" });
+	})
 })();
 
