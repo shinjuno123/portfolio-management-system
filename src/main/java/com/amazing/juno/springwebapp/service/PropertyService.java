@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.amazing.juno.springwebapp.dao.AboutDao;
 import com.amazing.juno.springwebapp.dao.ContactDao;
 import com.amazing.juno.springwebapp.dao.IntroductionDao;
+import com.amazing.juno.springwebapp.dao.SnsLinksDao;
 import com.amazing.juno.springwebapp.dao.TechnologyDao;
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
@@ -30,6 +31,9 @@ public class PropertyService implements PropertyServiceInterface{
 	
 	@Autowired
 	ContactDao contactDao;
+	
+	@Autowired
+	SnsLinksDao snsLinksDao;
 
 	@Override
 	public IntroductionEntity getIntroduction() {
@@ -62,6 +66,11 @@ public class PropertyService implements PropertyServiceInterface{
 		// TODO Auto-generated method stub
 		
 		return technologyDao.getTechnologyStack();
+	}
+
+	@Override
+	public Map<String, String> getSnsLinks() {
+		return snsLinksDao.getLinks();
 	}
 
 }

@@ -14,4 +14,5 @@ public interface PropertyServiceInterface {
 	public Map<String, List<TechnologyEntity>> getTechnology();
 	public ContactEntity getContactInfo();
 	public Map<String, Map<String, List<TechnologyEntity>>> getTechnologyStack();
+	public Map<String,String> getSnsLinks();
 }

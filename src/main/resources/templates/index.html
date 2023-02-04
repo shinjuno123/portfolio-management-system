@@ -106,37 +106,26 @@
 					relatively(from 1 to 5)</p>
 				<!-- Add toggle buttons between frontend / backend -->
 				<div class="row text-center ms-1 category-buttons">
-					<div
-						class="col col-md-2 border-bottom border-light py-3 category-button"
-						data-bs-target="#frontEnd">
-						<div>Front-end</div>
-					</div>
-					<div class="col col-md-2 py-3 category-button"
-						data-bs-target="#backEnd">
-						<div>Back-end</div>
+					<div class="col col-md-2 py-3 category-button position-relative"
+						th:attr="data-bs-target='#'+ ${stack.key}"
+						th:each="stack : ${tech}">
+						<div th:text="${stack.key}"></div>
 					</div>
 				</div>
 
 				<!-- technology list -->
-				<div class="row ms-1 category" id="frontEnd">
+				<div class="row ms-1 category" id="frontEnd"
+					th:each="stack : ${tech}" th:id="${stack.key}">
 					<ul class="d-flex flex-wrap">
 						<li class="px-3 m-2 border border-primary rounded"
-							style="background: #0a2647" th:each="frontend: ${frontend}">
+							th:each="item :${stack.value}" style="background: #0a2647">
 							<div class="text-center my-3"
-								th:text="${frontend.technologyDetail}"></div>
+								th:text="${item}"></div>
 						</li>
 					</ul>
 				</div>
 
-				<div class="row ms-1 category" id="backEnd">
-					<ul class="d-flex flex-wrap">
-						<li class="px-3 m-2 border border-primary rounded"
-							style="background: #0a2647" th:each="backend: ${backend}">
-							<div class="text-center my-3"
-								th:text="${backend.technologyDetail}">Java Spring</div>
-						</li>
-					</ul>
-				</div>
+
 
 				<div class="category-border"></div>
 			</div>
@@ -285,8 +274,7 @@
 				<h2 class="fs-2 text-center mb-3">Other Noteworthy Projects</h2>
 				<div class="text-center mb-5">
 					<a class="d-inline-block text-decoration-none view-archive"
-						href="#"> view the archive <span
-						class="underline"></span>
+						href="#"> view the archive <span class="underline"></span>
 					</a>
 				</div>
 
@@ -301,9 +289,8 @@
 								class="d-flex justify-content-center align-items-center h-100">
 								<div class="card-body m-2">
 									<input type="hidden"
-										value="https://github.com/shinjuno123/fish-raising-game" />
-									<span class="material-symbols-outlined folder mb-3">
-										folder </span>
+										value="https://github.com/shinjuno123/fish-raising-game" /> <span
+										class="material-symbols-outlined folder mb-3"> folder </span>
 									<h4 class="card-title fs-5 mb-3">Fish Raising Game</h4>
 									<p class="card-text">This game is fish-raising-game. "user"
 										fish can eat other "mob" fishes if the size of "mob" fishes
@@ -322,9 +309,8 @@
 								class="d-flex justify-content-center align-items-center h-100">
 								<div class="card-body m-2">
 									<input type="hidden"
-										value="https://github.com/shinjuno123/fish-raising-game" />
-									<span class="material-symbols-outlined folder mb-3">
-										folder </span>
+										value="https://github.com/shinjuno123/fish-raising-game" /> <span
+										class="material-symbols-outlined folder mb-3"> folder </span>
 									<h4 class="card-title fs-5 mb-3">Fish Raising Game</h4>
 									<p class="card-text">This game is fish-raising-game. "user"
 										fish can eat other "mob" fishes if the size of "mob" fishes
@@ -343,9 +329,8 @@
 								class="d-flex justify-content-center align-items-center h-100">
 								<div class="card-body m-2">
 									<input type="hidden"
-										value="https://github.com/shinjuno123/fish-raising-game" />
-									<span class="material-symbols-outlined folder mb-3">
-										folder </span>
+										value="https://github.com/shinjuno123/fish-raising-game" /> <span
+										class="material-symbols-outlined folder mb-3"> folder </span>
 									<h4 class="card-title fs-5 mb-3">Fish Raising Game</h4>
 									<p class="card-text">This game is fish-raising-game. "user"
 										fish can eat other "mob" fishes if the size of "mob" fishes
@@ -365,9 +350,8 @@
 								class="d-flex justify-content-center align-items-center h-100">
 								<div class="card-body m-2">
 									<input type="hidden"
-										value="https://github.com/shinjuno123/fish-raising-game" />
-									<span class="material-symbols-outlined folder mb-3">
-										folder </span>
+										value="https://github.com/shinjuno123/fish-raising-game" /> <span
+										class="material-symbols-outlined folder mb-3"> folder </span>
 									<h4 class="card-title fs-5 mb-3">Fish Raising Game</h4>
 									<p class="card-text">This game is fish-raising-game. "user"
 										fish can eat other "mob" fishes if the size of "mob" fishes
@@ -387,9 +371,8 @@
 								class="d-flex justify-content-center align-items-center h-100">
 								<div class="card-body m-2">
 									<input type="hidden"
-										value="https://github.com/shinjuno123/fish-raising-game" />
-									<span class="material-symbols-outlined folder mb-3">
-										folder </span>
+										value="https://github.com/shinjuno123/fish-raising-game" /> <span
+										class="material-symbols-outlined folder mb-3"> folder </span>
 									<h4 class="card-title fs-5 mb-3">Fish Raising Game</h4>
 									<p class="card-text">This game is fish-raising-game. "user"
 										fish can eat other "mob" fishes if the size of "mob" fishes

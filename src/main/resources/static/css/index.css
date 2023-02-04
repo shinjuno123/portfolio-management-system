@@ -93,7 +93,7 @@ body {
 	position:absolute;
 }
 
-.social-media-section > .icons button > img {
+.social-media-section > .icons button,a > img {
   width: 32px;
   height: 32px;
   display: inline-block;

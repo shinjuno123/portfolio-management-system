@@ -29,6 +29,7 @@ public class AdminController {
 		AboutEntity about = propertyService.getAbout();
 		ContactEntity contact = propertyService.getContactInfo();
 		Map<String, Map<String, List<TechnologyEntity>>> tech = propertyService.getTechnologyStack();
+		Map<String,String> links = propertyService.getSnsLinks();
 		
 		System.out.println("-------------------------");
 		System.out.println("Introduction is loaded");
@@ -52,9 +53,15 @@ public class AdminController {
 		System.out.println(contact);
 		System.out.println("-------------------------");
 		
+		System.out.println("-------------------------");
+		System.out.println("links are loaded");
+		System.out.println(links);
+		System.out.println("-------------------------");
+		
 		model.addAttribute("intro", intro);
 		model.addAttribute("about", about);
 		model.addAllAttributes(tech);
+		model.addAllAttributes(links);
 		model.addAttribute("contact", contact);
 		return "admin";
 	}
