@@ -9,7 +9,8 @@
 		<canvas id="backgroundCanvas"></canvas>
 	</div>
 	<input th:type="hidden" th:value="${#uris.escapePath(uri)}">
-	<form method="post" th:action="@{main}" th:object="${integrated}" id="saveToFile">
+	<form method="post" th:action="@{main}" th:object="${integrated}"
+		id="saveToFile">
 
 		<!-- Add Save Button -->
 		<div class="position-fixed z-3 w-100 text-center bottom-0">
@@ -21,16 +22,16 @@
 			class="social-media-section d-md-inline-block d-none fade-out-in">
 			<div class="first-line mb-3"></div>
 			<div class="icons">
-				<button class="d-block mb-3 side-icon">
+				<button class="d-block mb-3 side-icon" type="button">
 					<img th:src="@{/img/github.svg}" />
 				</button>
 				<input type="text" th:value="${github}">
-				<button class="d-block mb-3 side-icon">
+				<button class="d-block mb-3 side-icon" type="button">
 					<img th:src="@{/img/linkedin.png}" />
 				</button>
 				<input type="text" th:value="${linkedIn}">
 				<button class="d-block mb-3 side-icon"
-					href="https://github.com/shinjuno123">
+					href="https://github.com/shinjuno123" type="button">
 					<img th:src="@{/img/codepen.png}" />
 				</button>
 				<input type="text" th:value="${codepen}">
@@ -205,7 +206,8 @@
 								</button>
 								<div>
 									<input type="text" class="form-control" id="floatingInput"
-										placeholder="Skill" th:value="${item.skill} + '/' + ${item.score}">
+										placeholder="Skill"
+										th:value="${item.skill} + '/' + ${item.score}">
 								</div>
 
 							</li>
@@ -484,7 +486,7 @@
 
 					<!-- show more button -->
 					<div class="text-center mb-5 pb-3">
-						<button class="additional-information" id="show-more">
+						<button class="additional-information" id="show-more" type="button">
 							Show More</button>
 					</div>
 				</div>
@@ -537,7 +539,7 @@
 
 	<div th:replace="~{footer :: footer}"></div>
 	<div class="mb-5"></div>
-	
+
 
 	<!-- JS -->
 	<script th:src="@{/js/index.js}"></script>

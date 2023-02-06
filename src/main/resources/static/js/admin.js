@@ -188,7 +188,6 @@ function removeItemInCategoryMain(id) {
 (function addCustomFormSubmitEvent() {
 	$("#saveToFile").submit(function(event) {
 		// temperary code for test
-		event.preventDefault();
 
 		// create data type corresponding to controller's parameter datatype
 		const categoryInfo = $("#technology-article > .category-buttons > .category-button").map(function(_, elem) {
@@ -217,13 +216,11 @@ function removeItemInCategoryMain(id) {
 		
 		const token = $("meta[name='_csrf']").attr("content");
 		const header = $("meta[name='_csrf_header']").attr("content");
-		console.log(categoryInfo);
 		
 		$.ajaxPrefilter(function (options, originalOptions, jqXHR) {
   			jqXHR.setRequestHeader(header, token);
 		});
 
-		console.log("/api" + "/technology-stacks");
 		$.ajax({
 			url: "/api/technology-stacks",
 			data: JSON.stringify(categoryInfo),
@@ -232,7 +229,7 @@ function removeItemInCategoryMain(id) {
 			dataType: "json",	
 		}
 		).done(function(data){
-			console.log(data);
+			console.log("Success!", data);
 		})
 
 

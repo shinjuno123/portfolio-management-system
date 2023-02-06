@@ -22,8 +22,9 @@ public class MainRestController {
 	
 	@PostMapping("/technology-stacks")
 	public List<TechnologyListDto> saveStack(@RequestBody List<TechnologyListDto> stacks){
-		
+		System.out.println("\n-----------------------");
 		System.out.println(stacks);
+		System.out.println("-----------------------\n");
 		
 		return stacks;
 	}
