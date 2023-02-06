@@ -7,6 +7,9 @@ public class ContactEntity {
 	private String buttonContent;
 	private String email;
 	
+	public ContactEntity() {
+	}
+
 	public ContactEntity(String title, String closing, String appreciation, String buttonContent, String email) {
 		this.title = title;
 		this.closing = closing;

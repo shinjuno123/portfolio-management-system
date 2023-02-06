@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.amazing.juno.springwebapp.dto.TechnologyListDto;
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
@@ -25,7 +26,7 @@ public class MainController {
 		System.out.println("Main Page Loading....");
 		IntroductionEntity intro = propertyService.getIntroduction();
 		AboutEntity about = propertyService.getAbout();
-		Map<String, Map<String, List<TechnologyEntity>>> tech = propertyService.getTechnologyStack();
+		List<TechnologyListDto> tech = propertyService.getTechnologyStack();
 		ContactEntity contact = propertyService.getContactInfo();
 		Map<String,String> links = propertyService.getSnsLinks();
 		
@@ -58,7 +59,7 @@ public class MainController {
 		
 		model.addAttribute("intro", intro);
 		model.addAttribute("about", about);
-		model.addAllAttributes(tech);
+		model.addAttribute("tech",tech);
 		model.addAllAttributes(links);
 		model.addAttribute("contact", contact);
 		return "index";

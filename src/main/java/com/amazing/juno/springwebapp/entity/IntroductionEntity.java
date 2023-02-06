@@ -2,12 +2,15 @@ package com.amazing.juno.springwebapp.entity;
 
 public class IntroductionEntity {
 	private String titleMain;
-	
+
 	private String myName;
-	
+
 	private String subTitle;
-	
+
 	private String detail;
+
+	public IntroductionEntity() {
+	}
 
 	public IntroductionEntity(String titleMain, String myName, String subTitle, String detail) {
 		this.titleMain = titleMain;
@@ -53,6 +56,5 @@ public class IntroductionEntity {
 		return "IntroductionEntity [titleMain=" + titleMain + ", myName=" + myName + ", subTitle=" + subTitle
 				+ ", detail=" + detail + "]";
 	}
-	
-	
+
 }

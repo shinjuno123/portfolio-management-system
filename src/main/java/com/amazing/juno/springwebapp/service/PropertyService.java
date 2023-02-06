@@ -12,6 +12,7 @@ import com.amazing.juno.springwebapp.dao.ContactDao;
 import com.amazing.juno.springwebapp.dao.IntroductionDao;
 import com.amazing.juno.springwebapp.dao.SnsLinksDao;
 import com.amazing.juno.springwebapp.dao.TechnologyDao;
+import com.amazing.juno.springwebapp.dto.TechnologyListDto;
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
@@ -62,7 +63,7 @@ public class PropertyService implements PropertyServiceInterface{
 	}
 
 	@Override
-	public Map<String, Map<String, List<TechnologyEntity>>> getTechnologyStack() {
+	public List<TechnologyListDto> getTechnologyStack() {
 		// TODO Auto-generated method stub
 		
 		return technologyDao.getTechnologyStack();
