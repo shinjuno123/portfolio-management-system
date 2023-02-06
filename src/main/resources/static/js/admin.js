@@ -178,10 +178,64 @@ function removeItemInCategoryMain(id) {
 
 })();
 
-(function addDefailtEventtoScreen(){
-	$("main,nav").on("click", ()=>{
+(function addDefailtEventtoScreen() {
+	$("main,nav").on("click", () => {
 		const inputList = $(".social-media-section > .icons > input");
-		inputList.css({display: "none" });
+		inputList.css({ display: "none" });
 	})
+})();
+
+(function addCustomFormSubmitEvent() {
+	$("#saveToFile").submit(function(event) {
+		// temperary code for test
+		event.preventDefault();
+
+		// create data type corresponding to controller's parameter datatype
+		const categoryInfo = $("#technology-article > .category-buttons > .category-button").map(function(_, elem) {
+			const categoryId = $(elem).attr("data-bs-target").slice(1);
+			const categoryName = $($(elem).children()[1]).children()[0].value;
+			const skills = $(`#technology-article > #${categoryId} > ul > li > div > input`).map((_, elem) => {
+				const TechnologyEntity = {
+					skill: elem.value.split("/")[0],
+					score: elem.value.split("/")[1]
+				};
+
+
+				return TechnologyEntity;
+			}).get();
+			
+
+			const TechnologyListDto = {
+				categoryName: categoryName,
+				techList: skills
+			}
+
+
+
+			return TechnologyListDto;
+		}).get();
+		
+		const token = $("meta[name='_csrf']").attr("content");
+		const header = $("meta[name='_csrf_header']").attr("content");
+		console.log(categoryInfo);
+		
+		$.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+  			jqXHR.setRequestHeader(header, token);
+		});
+
+		console.log("/api" + "/technology-stacks");
+		$.ajax({
+			url: "/api/technology-stacks",
+			data: JSON.stringify(categoryInfo),
+			type: "post",
+			contentType:'application/json',
+			dataType: "json",	
+		}
+		).done(function(data){
+			console.log(data);
+		})
+
+
+	});
 })();
 

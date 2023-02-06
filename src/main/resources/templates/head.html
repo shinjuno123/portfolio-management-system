@@ -3,6 +3,8 @@
 <head th:fragment="common_header(title)">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+	<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title th:replace="${title}"></title>
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" th:href="@{/img/logo.png}" />

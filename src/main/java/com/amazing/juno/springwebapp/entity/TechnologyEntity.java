@@ -13,6 +13,30 @@ public class TechnologyEntity {
 	}
 
 
+	public Integer getScore() {
+		return score;
+	}
+
+
+
+	public void setScore(Integer score) {
+		this.score = score;
+	}
+
+
+
+	public String getSkill() {
+		return skill;
+	}
+
+
+
+	public void setSkill(String skill) {
+		this.skill = skill;
+	}
+
+
+
 	public String chainStrings() {
 		StringBuilder stb = new StringBuilder();
 		stb.append(skill);
