@@ -36,9 +36,9 @@ public class PropertyService implements PropertyServiceInterface{
 
 	@Override
 	public IntroductionEntity getIntroduction() {
-	
 		return introductionDao.getIntro();
 	}
+	
 
 	@Override
 	public AboutEntity getAbout() {
@@ -59,6 +59,12 @@ public class PropertyService implements PropertyServiceInterface{
 	@Override
 	public Map<String, String> getSnsLinks() {
 		return snsLinksDao.getLinks();
+	}
+
+
+	@Override
+	public void setIntroduction(IntroductionEntity intro) {
+		introductionDao.setIntro(intro);
 	}
 
 }

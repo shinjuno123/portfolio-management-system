@@ -4,5 +4,5 @@ import com.amazing.juno.springwebapp.entity.IntroductionEntity;
 
 public interface IntroductionDaoInterface {
 	public IntroductionEntity getIntro();
-
+	public void setIntro(IntroductionEntity intro);
 }

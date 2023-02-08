@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -16,7 +15,6 @@ import com.amazing.juno.springwebapp.dto.TechnologyListDto;
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
-import com.amazing.juno.springwebapp.entity.TechnologyEntity;
 import com.amazing.juno.springwebapp.service.PropertyService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -65,6 +63,10 @@ public class AdminController {
 		System.out.println(request.getRequestURL() + " " +  request.getMethod());
 		System.out.println(integrated);
 		System.out.println("----------------------\n");
+		
+		// send integratedDto's member variables to each Dao
+		propertyService.setIntroduction(integrated.getIntro());
+		
 		return "redirect:main";
 	}
 

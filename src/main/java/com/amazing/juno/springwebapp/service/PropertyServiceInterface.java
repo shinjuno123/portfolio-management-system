@@ -10,6 +10,8 @@ import com.amazing.juno.springwebapp.entity.IntroductionEntity;
 
 public interface PropertyServiceInterface {
 	public IntroductionEntity getIntroduction();
+	public void setIntroduction(IntroductionEntity intro);
+	
 	public AboutEntity getAbout();
 	public ContactEntity getContactInfo();
 	public List<TechnologyListDto> getTechnologyStack();
