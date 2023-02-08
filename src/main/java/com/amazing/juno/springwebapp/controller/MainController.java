@@ -8,11 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.amazing.juno.springwebapp.dto.IntegratedDto;
 import com.amazing.juno.springwebapp.dto.TechnologyListDto;
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
-import com.amazing.juno.springwebapp.entity.TechnologyEntity;
 import com.amazing.juno.springwebapp.service.PropertyService;
 
 @Controller
@@ -30,14 +30,15 @@ public class MainController {
 		ContactEntity contact = propertyService.getContactInfo();
 		Map<String,String> links = propertyService.getSnsLinks();
 		
-		System.out.println("-------------------------");
-		System.out.println("Introduction is loaded");
-		System.out.println(intro);
-		System.out.println("-------------------------");
+		IntegratedDto integrated = new IntegratedDto();
+		
+		integrated.setIntro(intro);
+		integrated.setAbout(about);
+		integrated.setContact(contact);
 		
 		System.out.println("-------------------------");
-		System.out.println("about is loaded");
-		System.out.println(about);
+		System.out.println("Introduction and About and Contact are loaded");
+		System.out.println(integrated);
 		System.out.println("-------------------------");
 		
 		
@@ -48,20 +49,13 @@ public class MainController {
 		
 		
 		System.out.println("-------------------------");
-		System.out.println("contact is loaded");
-		System.out.println(contact);
-		System.out.println("-------------------------");
-		
-		System.out.println("-------------------------");
 		System.out.println("links are loaded");
 		System.out.println(links);
 		System.out.println("-------------------------");
 		
-		model.addAttribute("intro", intro);
-		model.addAttribute("about", about);
 		model.addAttribute("tech",tech);
 		model.addAllAttributes(links);
-		model.addAttribute("contact", contact);
+		model.addAttribute("integrated",integrated);
 		return "index";
 	}
 	

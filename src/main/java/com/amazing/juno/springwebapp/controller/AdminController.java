@@ -41,39 +41,19 @@ public class AdminController {
 		integrated.setIntro(intro);
 		integrated.setAbout(about);
 		integrated.setContact(contact);
+		integrated.setLinks(links);
 		
 		System.out.println("-------------------------");
-		System.out.println("Introduction is loaded");
-		System.out.println(intro);
+		System.out.println("Introduction and About and Contact are loaded");
+		System.out.println(integrated);
 		System.out.println("-------------------------");
-		
-		System.out.println("-------------------------");
-		System.out.println("about is loaded");
-		System.out.println(about);
-		System.out.println("-------------------------");
-		
 		
 		System.out.println("-------------------------");
 		System.out.println("technology is loaded");
 		System.out.println(tech);
 		System.out.println("-------------------------");
 		
-		
-		System.out.println("-------------------------");
-		System.out.println("contact is loaded");
-		System.out.println(contact);
-		System.out.println("-------------------------");
-		
-		System.out.println("-------------------------");
-		System.out.println("links are loaded");
-		System.out.println(links);
-		System.out.println("-------------------------");
-		
-		model.addAttribute("intro", intro);
-		model.addAttribute("about", about);
 		model.addAttribute("tech",tech);
-		model.addAllAttributes(links);
-		model.addAttribute("contact", contact);
 		model.addAttribute("integrated",integrated);
 		return "admin";
 	}

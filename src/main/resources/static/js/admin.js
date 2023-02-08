@@ -187,8 +187,6 @@ function removeItemInCategoryMain(id) {
 
 (function addCustomFormSubmitEvent() {
 	$("#saveToFile").submit(function(event) {
-		// temperary code for test
-
 		// create data type corresponding to controller's parameter datatype
 		const categoryInfo = $("#technology-article > .category-buttons > .category-button").map(function(_, elem) {
 			const categoryId = $(elem).attr("data-bs-target").slice(1);

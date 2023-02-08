@@ -21,20 +21,20 @@
 		<section
 			class="social-media-section d-md-inline-block d-none fade-out-in">
 			<div class="first-line mb-3"></div>
-			<div class="icons">
+			<div class="icons" th:object="${integrated}">
 				<button class="d-block mb-3 side-icon" type="button">
 					<img th:src="@{/img/github.svg}" />
 				</button>
-				<input type="text" th:value="${github}">
+				<input type="text" th:value="*{links.github}" th:field="*{links['github']}">
 				<button class="d-block mb-3 side-icon" type="button">
 					<img th:src="@{/img/linkedin.png}" />
 				</button>
-				<input type="text" th:value="${linkedIn}">
+				<input type="text" th:value="*{links.linkedIn}" th:field="*{links['linkedIn']}">
 				<button class="d-block mb-3 side-icon"
 					href="https://github.com/shinjuno123" type="button">
 					<img th:src="@{/img/codepen.png}" />
 				</button>
-				<input type="text" th:value="${codepen}">
+				<input type="text" th:value="*{links.codepen}" th:field="*{links['codepen']}">
 			</div>
 			<div class="last-line"></div>
 		</section>

@@ -1,6 +1,5 @@
 package com.amazing.juno.springwebapp.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,6 @@ import com.amazing.juno.springwebapp.dto.TechnologyListDto;
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
-import com.amazing.juno.springwebapp.entity.TechnologyEntity;
 
 @Service
 public class PropertyService implements PropertyServiceInterface{
@@ -47,15 +45,6 @@ public class PropertyService implements PropertyServiceInterface{
 		return aboutDao.getAboutMe();
 	}
 
-	@Override
-	public Map<String, List<TechnologyEntity>> getTechnology() {
-		Map<String, List<TechnologyEntity>> map = new HashMap<>();
-		
-		map.put("frontend", technologyDao.getFrontendList());
-		map.put("backend", technologyDao.getBackendList());
-		
-		return map;
-	}
 
 	@Override
 	public ContactEntity getContactInfo() {
@@ -63,9 +52,7 @@ public class PropertyService implements PropertyServiceInterface{
 	}
 
 	@Override
-	public List<TechnologyListDto> getTechnologyStack() {
-		// TODO Auto-generated method stub
-		
+	public List<TechnologyListDto> getTechnologyStack() {	
 		return technologyDao.getTechnologyStack();
 	}
 

@@ -1,34 +1,20 @@
 package com.amazing.juno.springwebapp.dto;
 
-import java.util.List;
 import java.util.Map;
 
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
-import com.amazing.juno.springwebapp.entity.TechnologyEntity;
 
 public class IntegratedDto {
 	IntroductionEntity intro;
 	AboutEntity about;
 	ContactEntity contact;
-	Map<String, Map<String, List<TechnologyEntity>>> tech;
+	Map<String,String> links;
 
 	public IntegratedDto() {
 	}
 	
-	public Map<String, Map<String, List<TechnologyEntity>>> getTech() {
-		return tech;
-	}
-
-
-
-	public void setTech(Map<String, Map<String, List<TechnologyEntity>>> tech) {
-		this.tech = tech;
-	}
-
-
-
 	public ContactEntity getContact() {
 		return contact;
 	}
@@ -53,9 +39,17 @@ public class IntegratedDto {
 		this.about = about;
 	}
 	
+	public Map<String, String> getLinks() {
+		return links;
+	}
+
+	public void setLinks(Map<String, String> links) {
+		this.links = links;
+	}
+
 	@Override
 	public String toString() {
-		return "IntegratedDto [intro=" + intro + "\nabout=" + about + "\ncontact=" + contact + "\ntech=" + tech + "]";
+		return "IntegratedDto [intro=" + intro + "\nabout=" + about + "\ncontact=" + contact + "\nlinks=" + links + "]";
 	}
 
 }
