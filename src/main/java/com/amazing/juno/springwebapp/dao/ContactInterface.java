@@ -4,4 +4,5 @@ import com.amazing.juno.springwebapp.entity.ContactEntity;
 
 public interface ContactInterface {
 	public ContactEntity getContactInfo();
+	public void setContactInfo(ContactEntity contact);
 }

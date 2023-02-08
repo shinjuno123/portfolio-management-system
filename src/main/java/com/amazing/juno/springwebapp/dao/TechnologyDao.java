@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.AbstractEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
@@ -19,10 +20,26 @@ public class TechnologyDao implements TechnologyInterface {
 	@Autowired
 	private Environment env;
 	
+    @Value("${custom-property.basic-conetent}")
+    private String basicContentSrc;
+	
 
 	public TechnologyDao() {
 	
 	}
+	
+	private String stringifyTechList(List<TechnologyEntity> techList) {
+		StringBuilder result = new StringBuilder();
+		for(TechnologyEntity tech :techList) {
+			result.append(tech.getSkill());
+			result.append("/");
+			result.append(tech.getScore());
+			result.append(",");
+		}
+		
+		return result.toString().substring(0, result.length() - 1);
+	}
+	
 	
 	private List<TechnologyEntity> extractTechList(String key){
 		String[] skills = env.getProperty(key, String[].class);
@@ -59,6 +76,31 @@ public class TechnologyDao implements TechnologyInterface {
 
 		
 		return stack;
+	}
+
+	@Override
+	public void setTechnologyStack(List<TechnologyListDto> stack) {
+		// initialize property
+		// Get Abstract superclass of Environment
+		AbstractEnvironment absEnv = (AbstractEnvironment) env;
+		
+		// Read all keys
+		Properties props = (Properties) absEnv.getPropertySources().get("content.props").getSource();
+		
+		// Delete all properties starts with tech.
+		for(String key: props.stringPropertyNames()) {
+			if(key.startsWith("tech")) {
+				props.remove(key);
+			}
+		}
+		
+		// Populate new properties from parameter stack.
+		for(TechnologyListDto techDto :stack) {
+			String key =  "tech."+ techDto.getCategoryName();
+			String techList = stringifyTechList(techDto.getTechList());
+			props.setProperty(key, techList);
+		}
+		
 	}
 
 

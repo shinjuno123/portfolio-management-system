@@ -67,4 +67,28 @@ public class PropertyService implements PropertyServiceInterface{
 		introductionDao.setIntro(intro);
 	}
 
+
+	@Override
+	public void setAbout(AboutEntity about) {
+		aboutDao.SetAboutMe(about);
+	}
+
+
+	@Override
+	public void setContactInfo(ContactEntity contact) {
+		contactDao.setContactInfo(contact);
+	}
+
+
+	@Override
+	public void setSnsLinks(Map<String, String> links) {
+		snsLinksDao.setLinks(links);
+	}
+
+
+	@Override
+	public void setTechnologyStack(List<TechnologyListDto> stack) {
+		technologyDao.setTechnologyStack(stack);
+	}
+
 }

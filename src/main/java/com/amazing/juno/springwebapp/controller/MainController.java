@@ -35,6 +35,7 @@ public class MainController {
 		integrated.setIntro(intro);
 		integrated.setAbout(about);
 		integrated.setContact(contact);
+		integrated.setLinks(links);
 		
 		System.out.println("-------------------------");
 		System.out.println("Introduction and About and Contact are loaded");
@@ -46,15 +47,9 @@ public class MainController {
 		System.out.println("technology is loaded");
 		System.out.println(tech);
 		System.out.println("-------------------------");
-		
-		
-		System.out.println("-------------------------");
-		System.out.println("links are loaded");
-		System.out.println(links);
-		System.out.println("-------------------------");
+
 		
 		model.addAttribute("tech",tech);
-		model.addAllAttributes(links);
 		model.addAttribute("integrated",integrated);
 		return "index";
 	}

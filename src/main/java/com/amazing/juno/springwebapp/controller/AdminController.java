@@ -66,6 +66,9 @@ public class AdminController {
 		
 		// send integratedDto's member variables to each Dao
 		propertyService.setIntroduction(integrated.getIntro());
+		propertyService.setAbout(integrated.getAbout());
+		propertyService.setContactInfo(integrated.getContact());
+		propertyService.setSnsLinks(integrated.getLinks());
 		
 		return "redirect:main";
 	}
