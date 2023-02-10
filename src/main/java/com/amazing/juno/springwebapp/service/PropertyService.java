@@ -16,6 +16,8 @@ import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
 
+
+
 @Service
 public class PropertyService implements PropertyServiceInterface{
 	

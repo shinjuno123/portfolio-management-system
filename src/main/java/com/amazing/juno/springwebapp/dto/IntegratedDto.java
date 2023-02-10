@@ -5,9 +5,13 @@ import java.util.Map;
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
+import com.amazing.juno.springwebapp.validator.IntegratedValidator;
 
 public class IntegratedDto {
+	@IntegratedValidator(message="is required")
 	IntroductionEntity intro;
+	
+	
 	AboutEntity about;
 	ContactEntity contact;
 	Map<String,String> links;

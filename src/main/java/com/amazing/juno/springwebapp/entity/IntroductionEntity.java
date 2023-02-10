@@ -1,6 +1,7 @@
 package com.amazing.juno.springwebapp.entity;
 
 public class IntroductionEntity {
+	
 	private String titleMain;
 
 	private String myName;

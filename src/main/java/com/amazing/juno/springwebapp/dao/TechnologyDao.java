@@ -87,7 +87,7 @@ public class TechnologyDao implements TechnologyInterface {
 		// Read all keys
 		Properties props = (Properties) absEnv.getPropertySources().get("content.props").getSource();
 		
-		// Delete all properties starts with tech.
+		// Delete all properties starts with tech
 		for(String key: props.stringPropertyNames()) {
 			if(key.startsWith("tech")) {
 				props.remove(key);

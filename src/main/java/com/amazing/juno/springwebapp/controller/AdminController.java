@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import com.amazing.juno.springwebapp.entity.IntroductionEntity;
 import com.amazing.juno.springwebapp.service.PropertyService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @RequestMapping("/admin")
 @Controller
@@ -58,11 +60,15 @@ public class AdminController {
 	
 	
 	@PostMapping("/main")
-	public String saveChange(IntegratedDto integrated,HttpServletRequest request){
+	public String saveChange(@Valid IntegratedDto integrated,HttpServletRequest request,BindingResult bindingResult){
 		System.out.println("\n----------------------");
 		System.out.println(request.getRequestURL() + " " +  request.getMethod());
 		System.out.println(integrated);
 		System.out.println("----------------------\n");
+		
+		if(bindingResult.hasErrors()) {
+			System.out.println(bindingResult.getAllErrors());
+		}
 		
 		// send integratedDto's member variables to each Dao
 		propertyService.setIntroduction(integrated.getIntro());
