@@ -1,5 +1,7 @@
 package com.amazing.juno.springwebapp.validator;
 
+import java.util.Map;
+
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
 
 import jakarta.validation.ConstraintValidator;
@@ -12,41 +14,63 @@ public class IsEmptyConstraintValidator implements ConstraintValidator<IsEmpty, 
 	public void initialize(IsEmpty constraintAnnotation) {
 		constraintAnnotation.message();
 	}
+	
+	private Map<String,?> validateIntroductionEntity(IntroductionEntity intro) {
+		StringBuilder message = new StringBuilder();
+		boolean isError = false;
+		
+	
+		if(intro.getTitleMain().strip().isBlank()) {
+			message.append("SayHi:is Empty!\n");
+			isError = true;
+		} else {
+			message.append("SayHi: \n");
+		}
+		if(intro.getMyName().strip().isBlank()) {
+			message.append("YourName:is Empty!\n");
+			isError = true;	
+		} else {
+			message.append("YourName: \n");
+		}
+		if(intro.getSubTitle().strip().isBlank()) {
+			message.append("Opening:is Empty!\n");
+			isError = true;
+		} else {
+			message.append("Opening: \n");
+		}
+		
+		if(intro.getDetail().strip().isBlank()) {
+			message.append("Detail:is Empty!\n");
+			isError = true;
+		} else {
+			message.append("Detail: \n");
+		}
+		
+		System.out.println("\n------------------");
+		System.out.println("Error Message");
+		System.out.println(message);
+		System.out.println("------------------\n");
+		
+		return Map.ofEntries(
+				Map.entry("message", message.toString()),
+				Map.entry("isError", isError)
+				);
+	}
 
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
 		
 		if(value instanceof IntroductionEntity) {
-			IntroductionEntity intro = (IntroductionEntity) value;
-			StringBuilder message = new StringBuilder();
-			boolean isError = false;
+			Map<String,?> result = validateIntroductionEntity((IntroductionEntity) value);
+
 			
-			
-			if(intro.getTitleMain().equals("")) {
-				message.append("SayHi:is Empty!\n");
-				isError = true;
-			} else if(intro.getMyName().equals("")) {
-				message.append("YourName:is Empty!\n");
-				isError = true;
-			} else if(intro.getSubTitle().equals("")) {
-				message.append("Opening:is Empty!\n");
-				isError = true;
-			} else if(intro.getDetail().equals("")) {
-				message.append("Detail:is Empty!\n");
-				isError = true;
-			}
-			
-			System.out.println("\n------------------");
-			System.out.println("Error Message");
-			System.out.println(message);
-			System.out.println("------------------\n");
-			
-			if(isError) {
-				customMessagerForValidation(context,message.toString());
+			if((Boolean) result.get("isError")) {
+				customMessagerForValidation(context,(String) result.get("message"));
 				return false;
 			}
 			
 		}
+	
 		
 		return true;
 	}

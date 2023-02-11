@@ -11,8 +11,10 @@ public class IntegratedDto {
 	@IsEmpty
 	IntroductionEntity intro;
 	
-	
+	@IsEmpty
 	AboutEntity about;
+	
+	
 	ContactEntity contact;
 	Map<String,String> links;
 

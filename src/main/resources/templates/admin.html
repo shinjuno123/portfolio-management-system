@@ -64,21 +64,25 @@
 						<div class="form-floating mb-3">
 							<textarea class="form-control intro-text" placeholder="Your Name"
 								th:text="*{myName}" th:field="*{myName}" id="name"></textarea>
-							<label class="text-dark" for="name">
-							
+							<label class="text-dark" for="name"> Your Name
+								<span class="text-danger" th:if="${error != null && error.intro != null && error.intro.YourName != null}" th:text="${error.intro.YourName}"></span>
 							</label>
 						</div>
 
 						<div class="form-floating mb-5">
 							<textarea class="form-control fs-1" placeholder="opening"
 								th:text="*{subTitle}" th:field="*{subTitle}" id="opening"></textarea>
-							<label class="text-dark" for="opening">Opening</label>
+							<label class="text-dark" for="opening">Opening
+								<span class="text-danger" th:if="${error != null && error.intro != null && error.intro.Opening != null}" th:text="${error.intro.Opening}"></span>
+							</label>
 						</div>
 
 						<div class="form-floating">
 							<textarea class="form-control fs-5" placeholder="detail"
 								th:text="*{detail}" th:field="*{detail}" id="detail"></textarea>
-							<label class="text-dark" for="detail">Detail</label>
+							<label class="text-dark" for="detail">Detail
+								<span class="text-danger" th:if="${error != null && error.intro != null && error.intro.Detail != null}" th:text="${error.intro.Detail}"></span>
+							</label>
 						</div>
 					</div>
 				</div>

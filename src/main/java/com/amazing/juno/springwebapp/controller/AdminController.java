@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -93,9 +92,11 @@ public class AdminController {
 	@ExceptionHandler(BindException.class)
 	public ModelAndView bindExceptionHandler(BindException e) {
 		System.out.println("Admin Exception Handler Loading....");
+		// Call all the data needed to compose admin page
 		Map<String,?> allDataNeeded = getAllDataNeededInAdmin();
 		Map<String,Map<String,String>> error = new HashMap<String,Map<String,String>>();
 		
+		// Bind default error message to 'error' variable
 		e.getBindingResult().getFieldErrors().forEach(ex->{
 			String[] messages = ex.getDefaultMessage().split("\n");
 			Map<String,String> entity = new HashMap<>();
@@ -108,17 +109,21 @@ public class AdminController {
 				}
 			}
 			
+			// Remove default empty message and Fill 'error' Map variable when entity is not empty
 			if(!entity.isEmpty()) {
 				error.put(ex.getField(), entity);
 			}
 		});
 		
+		// Logging
 		System.out.println("\n------------------");
 		System.out.println("Received Error Message");
 		System.out.println(error);
 		System.out.println(e.getBindingResult().getFieldErrors());
 		System.out.println("------------------\n");
 		
+		
+		// Compose View
 		ModelAndView modelAndView =  new ModelAndView("admin");
 		modelAndView.addAllObjects(allDataNeeded);
 		modelAndView.addObject("error",error);
