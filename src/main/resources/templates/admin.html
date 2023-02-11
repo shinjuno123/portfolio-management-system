@@ -56,13 +56,17 @@
 						<div class="form-floating d-inline-block mb-3 w-100">
 							<textarea class="form-control" placeholder="Say Hi"
 								th:text="*{titleMain}" th:field="*{titleMain}" id="sayhi"></textarea>
-							<label class="text-dark" for="sayhi">Say Hi</label>
+							<label class="text-dark" for="sayhi">Say Hi
+								<span class="text-danger" th:if="${error != null && error.intro != null && error.intro.SayHi != null}" th:text="${error.intro.SayHi}"></span>
+							</label>
 						</div>
 
 						<div class="form-floating mb-3">
 							<textarea class="form-control intro-text" placeholder="Your Name"
 								th:text="*{myName}" th:field="*{myName}" id="name"></textarea>
-							<label class="text-dark" for="name">Your Name</label>
+							<label class="text-dark" for="name">
+							
+							</label>
 						</div>
 
 						<div class="form-floating mb-5">

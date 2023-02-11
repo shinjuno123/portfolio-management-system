@@ -8,13 +8,13 @@ import java.lang.annotation.Target;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
-@Constraint(validatedBy=IntegratedConstraintValidator.class)
+@Constraint(validatedBy=IsEmptyConstraintValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface IntegratedValidator {
+public @interface IsEmpty {
 	
 	// define default error message
-	public String message() default "is required";
+	public String message() default "";
 	
 	// define default groups
 	public Class<?>[] groups() default {};
