@@ -1,7 +1,10 @@
 package com.amazing.juno.springwebapp.entity;
 
+import java.util.Arrays;
+
 public class AboutEntity {
 	private String description;
+	private String[] sentences;
 	private String period;
 	private String degree;
 	private String school;
@@ -11,7 +14,7 @@ public class AboutEntity {
 	}
 
 	public AboutEntity(String description, String period, String degree, String school, String regionCountry) {
-		this.description = description;
+		setDescription(description);
 		this.period = period;
 		this.degree = degree;
 		this.school = school;
@@ -24,6 +27,9 @@ public class AboutEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+		String[] lines = description.split("(\r\n|\r|\n)");
+		
+		setSentences(lines);
 	}
 
 	public String getPeriod() {
@@ -57,11 +63,20 @@ public class AboutEntity {
 	public void setSchool(String school) {
 		this.school = school;
 	}
+	
+	
+	public String[] getSentences() {
+		return sentences;
+	}
+
+	public void setSentences(String[] sentences) {
+		this.sentences = sentences;
+	}
 
 	@Override
 	public String toString() {
-		return "AboutEntity [description=" + description + ", period=" + period + ", degree=" + degree + ", school="
-				+ school + ", regionCountry=" + regionCountry + "]";
+		return "AboutEntity [description=" + description + "\nsentences=" + Arrays.toString(sentences) + "\nperiod="
+				+ period + "\ndegree=" + degree + "\nschool=" + school + "\nregionCountry=" + regionCountry + "]";
 	}
 
 }

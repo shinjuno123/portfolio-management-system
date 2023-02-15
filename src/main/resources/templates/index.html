@@ -57,7 +57,7 @@
 				<div class="d-md-flex">
 					<!-- about me section -->
 					<div class="mw-50">
-						<p class="fs-5" th:text="${integrated.about.description}"></p>
+						<p class="fs-5 d-block" style="min-height:20px;" th:each="sentence:${integrated.about.sentences}" th:text="${sentence}"></p>
 
 						<!-- Education -->
 						<h3 class="fs-2 mt-5 mb-4">Education</h3>

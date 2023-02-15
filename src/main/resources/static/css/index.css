@@ -4,6 +4,10 @@ canvas {
 	height: 100%;
 }
 
+p{
+	margin-bottom:0;
+}
+
 li {
 	list-style-type: none;
 }

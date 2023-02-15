@@ -57,7 +57,7 @@
 							<textarea class="form-control" placeholder="Say Hi"
 								th:text="*{titleMain}" th:field="*{titleMain}" id="sayhi"></textarea>
 							<label class="text-dark" for="sayhi">Say Hi
-								<span class="text-danger" th:if="${error != null && error.intro != null && error.intro.SayHi != null}" th:text="${error.intro.SayHi}"></span>
+								<span class="text-danger" th:if="${error != null && error.containsKey('intro') && error.intro.SayHi != null}" th:text="${error.intro.SayHi}"></span>
 							</label>
 						</div>
 
@@ -65,7 +65,7 @@
 							<textarea class="form-control intro-text" placeholder="Your Name"
 								th:text="*{myName}" th:field="*{myName}" id="name"></textarea>
 							<label class="text-dark" for="name"> Your Name
-								<span class="text-danger" th:if="${error != null && error.intro != null && error.intro.YourName != null}" th:text="${error.intro.YourName}"></span>
+								<span class="text-danger" th:if="${error != null && error.containsKey('intro') && error.intro.YourName != null}" th:text="${error.intro.YourName}"></span>
 							</label>
 						</div>
 
@@ -73,7 +73,7 @@
 							<textarea class="form-control fs-1" placeholder="opening"
 								th:text="*{subTitle}" th:field="*{subTitle}" id="opening"></textarea>
 							<label class="text-dark" for="opening">Opening
-								<span class="text-danger" th:if="${error != null && error.intro != null && error.intro.Opening != null}" th:text="${error.intro.Opening}"></span>
+								<span class="text-danger" th:if="${error != null && error.containsKey('intro') && error.intro.Opening != null}" th:text="${error.intro.Opening}"></span>
 							</label>
 						</div>
 
@@ -81,7 +81,7 @@
 							<textarea class="form-control fs-5" placeholder="detail"
 								th:text="*{detail}" th:field="*{detail}" id="detail"></textarea>
 							<label class="text-dark" for="detail">Detail
-								<span class="text-danger" th:if="${error != null && error.intro != null && error.intro.Detail != null}" th:text="${error.intro.Detail}"></span>
+								<span class="text-danger" th:if="${error != null && error.containsKey('intro') && error.intro.Detail != null}" th:text="${error.intro.Detail}"></span>
 							</label>
 						</div>
 					</div>

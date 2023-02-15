@@ -2,6 +2,7 @@ package com.amazing.juno.springwebapp.validator;
 
 import java.util.Map;
 
+import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
 
 import jakarta.validation.ConstraintValidator;
@@ -56,6 +57,33 @@ public class IsEmptyConstraintValidator implements ConstraintValidator<IsEmpty, 
 				Map.entry("isError", isError)
 				);
 	}
+	
+	
+	private Map<String,?> validateAboutEntity(AboutEntity about){
+		StringBuilder message = new StringBuilder();
+		boolean isError = false;
+		
+	
+		if(about.getDescription().strip().isBlank()) {
+			message.append("AboutDetail:is Empty!\n");
+			isError = true;
+		} else {
+			message.append("AboutDetail: \n");
+		}
+		
+
+		
+		System.out.println("\n------------------");
+		System.out.println("Error Message");
+		System.out.println(message);
+		System.out.println("------------------\n");
+		
+		return Map.ofEntries(
+				Map.entry("message", message.toString()),
+				Map.entry("isError", isError)
+				);
+		
+	}
 
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
@@ -69,6 +97,16 @@ public class IsEmptyConstraintValidator implements ConstraintValidator<IsEmpty, 
 				return false;
 			}
 			
+			
+		}
+		
+		if (value instanceof AboutEntity) {
+			Map<String,?> result = validateAboutEntity((AboutEntity) value);
+			
+			if((Boolean) result.get("isError")) {
+				customMessagerForValidation(context,(String) result.get("message"));
+				return false;
+			}
 		}
 	
 		
