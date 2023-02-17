@@ -3,9 +3,11 @@ package com.amazing.juno.springwebapp.dto;
 import java.util.List;
 
 import com.amazing.juno.springwebapp.entity.TechnologyEntity;
+import com.amazing.juno.springwebapp.validator.IsTechElemForm;
 
 public class TechnologyListDto {
 	String categoryName;
+	
 	List<TechnologyEntity> techList;
 
 	public String getCategoryName() {

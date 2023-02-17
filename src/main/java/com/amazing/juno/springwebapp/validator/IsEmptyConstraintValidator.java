@@ -11,10 +11,6 @@ import jakarta.validation.ConstraintValidatorContext;
 public class IsEmptyConstraintValidator implements ConstraintValidator<IsEmpty, Object>{
 	
 
-	@Override
-	public void initialize(IsEmpty constraintAnnotation) {
-		constraintAnnotation.message();
-	}
 	
 	private Map<String,?> validateIntroductionEntity(IntroductionEntity intro) {
 		StringBuilder message = new StringBuilder();
@@ -71,6 +67,33 @@ public class IsEmptyConstraintValidator implements ConstraintValidator<IsEmpty, 
 			message.append("AboutDetail: \n");
 		}
 		
+		if(about.getPeriod().strip().isBlank()) {
+			message.append("Period:is Empty!\n");
+			isError = true;
+		} else {
+			message.append("Period: \n");
+		}
+		
+		if(about.getSchool().strip().isBlank()) {
+			message.append("School:is Empty!\n");
+			isError = true;
+		} else {
+			message.append("School: \n");
+		}
+		
+		if(about.getDegree().strip().isBlank()) {
+			message.append("Degree:is Empty!\n");
+			isError = true;
+		} else {
+			message.append("Degree: \n");
+		}
+		
+		if(about.getRegionCountry().strip().isBlank()) {
+			message.append("RegionCountry:is Empty!\n");
+			isError = true;
+		} else {
+			message.append("RegionCountry: \n");
+		}
 
 		
 		System.out.println("\n------------------");

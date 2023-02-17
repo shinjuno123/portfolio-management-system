@@ -105,7 +105,10 @@
 								<textarea class="form-control fs-5" placeholder="About Detail"
 									id="about-detail" th:text="*{description}"
 									th:field="*{description}"></textarea>
-								<label class="text-dark" for="about-detail">About Detail</label>
+								<label class="text-dark" for="about-detail">
+									About Detail
+									<span class="text-danger" th:if="${error != null && error.containsKey('about') && error.about.AboutDetail != null}" th:text="${error.about.AboutDetail}"></span>
+								</label>
 							</div>
 
 							<!-- Education -->
@@ -114,7 +117,10 @@
 							<table class="table text-light mb-5 pb-5 mb-lg-0 pb-lg-0">
 								<tbody>
 									<tr>
-										<th scope="row"><p class="mt-3">Period</p></th>
+										<th scope="row"><p class="mt-3">
+										Period
+										<span class="text-danger" th:if="${error != null && error.containsKey('about') && error.about.Period != null}" th:text="${error.about.Period}"></span>
+										</p></th>
 										<td>
 											<p class="mt-3">
 												<input type="text" placeholder="Period" th:value="${period}"
@@ -123,7 +129,10 @@
 										</td>
 									</tr>
 									<tr>
-										<th scope="row"><p class="mt-3">School</p></th>
+										<th scope="row"><p class="mt-3">
+										School
+										<span class="text-danger" th:if="${error != null && error.containsKey('about') && error.about.School != null}" th:text="${error.about.School}"></span>
+										</p></th>
 										<td>
 											<p class="mt-3">
 												<input type="text" placeholder="College"
@@ -132,7 +141,10 @@
 										</td>
 									</tr>
 									<tr>
-										<th scope="row"><p class="mt-3">Degree</p></th>
+										<th scope="row"><p class="mt-3">
+										Degree
+										<span class="text-danger" th:if="${error != null && error.containsKey('about') && error.about.Degree != null}" th:text="${error.about.Degree}"></span>
+										</p></th>
 										<td>
 											<p class="mt-3">
 												<input type="text" placeholder="Degree Name"
@@ -141,7 +153,10 @@
 										</td>
 									</tr>
 									<tr>
-										<th scope="row"><p class="mt-3">Region / Country</p></th>
+										<th scope="row"><p class="mt-3">
+										Region / Country
+										<span class="text-danger" th:if="${error != null && error.containsKey('about') && error.about.RegionCountry != null}" th:text="${error.about.RegionCountry}"></span>
+										</p></th>
 										<td>
 											<p class="mt-3">
 												<input type="text" placeholder="Region / Country"
