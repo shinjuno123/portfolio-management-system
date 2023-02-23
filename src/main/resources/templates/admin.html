@@ -228,9 +228,12 @@
 										style="font-size: 1rem;"> delete </span>
 								</button>
 								<div>
-									<input type="text" class="form-control" id="floatingInput"
-										placeholder="Skill"
-										th:value="${item.skill} + '/' + ${item.score}">
+									<input type="text" class="form-control mb-2" id="floatingInput"
+										placeholder="Skill(English Letters)"
+										th:value="${item.skill}">
+										
+									<input type="text" class="form-control" placeholder="Score(1~5)"
+										th:value="${item.score}">
 								</div>
 
 							</li>

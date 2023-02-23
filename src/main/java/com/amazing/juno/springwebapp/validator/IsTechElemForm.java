@@ -9,7 +9,7 @@ import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 @Constraint(validatedBy=IsTechElemFormValidator.class)
-@Target({ElementType.PARAMETER})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface IsTechElemForm {	
 	// define default error message

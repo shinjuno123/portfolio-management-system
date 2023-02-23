@@ -23,6 +23,7 @@ function uuidv4() {
         </button>
         <div>
             <input type="text" class="form-control" id="floatingInput" placeholder="category">
+            
         </div>
     </div>
     `;
@@ -111,7 +112,8 @@ function addItemsInCategoryMain() {
                 </span>
             </button>
             <div>
-                <input type="text" class="form-control" id="floatingInput" placeholder="Skill">
+                <input type="text" class="form-control mb-2" id="floatingInput" placeholder="Skill(English Letters)">
+                <input type="text" class="form-control" placeholder="Score(1~5)">
             </div>
            
         </li>
@@ -187,19 +189,24 @@ function removeItemInCategoryMain(id) {
 
 (function addCustomFormSubmitEvent() {
 	$("#saveToFile").submit(function(event) {
+
 		// create data type corresponding to controller's parameter datatype
 		const categoryInfo = $("#technology-article > .category-buttons > .category-button").map(function(_, elem) {
 			const categoryId = $(elem).attr("data-bs-target").slice(1);
 			const categoryName = $($(elem).children()[1]).children()[0].value;
-			const skills = $(`#technology-article > #${categoryId} > ul > li > div > input`).map((_, elem) => {
+			const skills = $(`#technology-article > #${categoryId} > ul > li > div`).map((_, elem) => {
+				const firstChild = $(elem).children().first();
+				const lastChild = $(elem).children().last();
+
 				const TechnologyEntity = {
-					skill: elem.value.split("/")[0],
-					score: elem.value.split("/")[1]
+					skill: firstChild.attr("value"),
+					score: lastChild.attr("value")
 				};
 
 
 				return TechnologyEntity;
 			}).get();
+			
 			
 
 			const TechnologyListDto = {
