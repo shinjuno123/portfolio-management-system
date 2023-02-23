@@ -15,10 +15,6 @@ public class IsTechElemFormValidator implements ConstraintValidator<IsTechElemFo
 	public boolean isValid(List<?> value, ConstraintValidatorContext context) {
 		@SuppressWarnings("unchecked")
 		List<TechnologyListDto> techForm = (List<TechnologyListDto>) value;
-		System.out.println();
-		System.out.println("------------------------");
-		System.out.println("IsTechFormValid:" + techForm);
-		System.out.println("------------------------\n");
 		
 		
 		for (TechnologyListDto techItem : techForm) {
@@ -53,8 +49,33 @@ public class IsTechElemFormValidator implements ConstraintValidator<IsTechElemFo
 	}
 	
 	
+	private boolean isValidTechDetail() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	private boolean isValidSkill() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
 	private void customMessagerForValidation(ConstraintValidatorContext context, String message) {
-		context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
+		StringBuilder messageBuilder = new StringBuilder(context.getDefaultConstraintMessageTemplate());
+		
+		System.out.println(message);
+		
+		if(messageBuilder.toString().isBlank() || messageBuilder.toString().equals(null)) {
+			messageBuilder.append(message);
+		} else {
+			messageBuilder.append("\n");
+			messageBuilder.append(message);
+		}
+		
+		System.out.println(messageBuilder.toString());
+
+		context.buildConstraintViolationWithTemplate(messageBuilder.toString()).addConstraintViolation();
 		
 	}
 
