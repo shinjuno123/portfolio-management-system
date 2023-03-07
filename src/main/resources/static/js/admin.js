@@ -187,9 +187,21 @@ function removeItemInCategoryMain(id) {
 	})
 })();
 
+
+
+
+
+
 (function addCustomFormSubmitEvent() {
 	$("#saveToFile").submit(function(event) {
+		
+		event.preventDefault();
+		
+		// Detect form tag and set up Form data
+		const formTag = $("#saveToFile")[0];
+		const form = new FormData(formTag);
 
+		
 		// create data type corresponding to controller's parameter datatype
 		const categoryInfo = $("#technology-article > .category-buttons > .category-button").map(function(_, elem) {
 			const categoryId = $(elem).attr("data-bs-target").slice(1);
@@ -207,7 +219,7 @@ function removeItemInCategoryMain(id) {
 				return TechnologyEntity;
 			}).get();
 			
-			
+	
 
 			const TechnologyListDto = {
 				categoryName: categoryName,
@@ -215,9 +227,14 @@ function removeItemInCategoryMain(id) {
 			}
 
 
-
 			return TechnologyListDto;
 		}).get();
+		
+		
+		// Append techs data to formData
+		form.append("techs",JSON.stringify(categoryInfo));
+		
+		
 		
 		const token = $("meta[name='_csrf']").attr("content");
 		const header = $("meta[name='_csrf_header']").attr("content");
@@ -225,17 +242,26 @@ function removeItemInCategoryMain(id) {
 		$.ajaxPrefilter(function (options, originalOptions, jqXHR) {
   			jqXHR.setRequestHeader(header, token);
 		});
-
+		
 		$.ajax({
-			url: "/api/technology-stacks",
-			data: JSON.stringify(categoryInfo),
-			type: "post",
-			contentType:'application/json',
-			dataType: "json",	
+			url: "/admin/main",
+			data: form,
+			cache: false,
+			contentType:false,
+			processData: false,
+			method: "POST",
+			type:"POST",
+			success: function(data){
+				alert(data);
+			}
+			
+			
 		}
-		).done(function(data){
-			console.log("Success!", data);
-		})
+		);
+		
+	
+		
+		
 
 
 	});

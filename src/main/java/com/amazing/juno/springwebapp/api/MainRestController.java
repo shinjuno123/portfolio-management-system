@@ -23,7 +23,7 @@ public class MainRestController {
 	
 	@PostMapping("/technology-stacks")
 	public List<TechnologyListDto> saveStack(@Valid @RequestBody ValidList<TechnologyListDto> stacks){
-		System.out.println("\nTechStack-----------------------");
+		System.out.println("\nTechStack----------------------");
 		System.out.println(stacks);
 		System.out.println("-----------------------\n");
 		

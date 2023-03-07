@@ -16,12 +16,14 @@ public class IsTechElemFormValidator implements ConstraintValidator<IsTechElemFo
 		@SuppressWarnings("unchecked")
 		List<TechnologyListDto> techForm = (List<TechnologyListDto>) value;
 		
+		Boolean result = true;
 		
 		for (TechnologyListDto techItem : techForm) {
 			// Check if techForm's category name is not empty.
 			String categoryName = techItem.getCategoryName();
 			if(categoryName.equals(null) || categoryName.isEmpty()) {
 				customMessagerForValidation(context, "Category is Empty!");
+				result = false;
 			}
 			
 			System.out.println();
@@ -30,9 +32,9 @@ public class IsTechElemFormValidator implements ConstraintValidator<IsTechElemFo
 			for (TechnologyEntity tech : techItem.getTechList()) {
 				// Check if Empty or Null techForm's skill list is exist.
 				System.out.println("Skill :  " + tech.getSkill());
-				System.out.println("Technology :  " + tech.getTechnologyDetail());
-				if(isValidSkill() && isValidTechDetail()) {
-					return true;
+				System.out.println("Score :  " + tech.getScore());
+				if(!isValidScore(tech.getScore())) {
+					result = false;
 				}
 			}
 			
@@ -45,26 +47,26 @@ public class IsTechElemFormValidator implements ConstraintValidator<IsTechElemFo
 		
 		
 		
-		return false;
+		return result;
 	}
 	
 	
-	private boolean isValidTechDetail() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-	private boolean isValidSkill() {
-		// TODO Auto-generated method stub
-		return false;
+	private boolean isValidScore(Integer score) {
+		// Verify if techDetail is null or empty
+		if(score < 1 || score > 5) {
+			return false;
+		}
+		
+		if(score.equals(null)) {
+			return false;
+		}
+		
+		return true;
 	}
 
 
 	private void customMessagerForValidation(ConstraintValidatorContext context, String message) {
 		StringBuilder messageBuilder = new StringBuilder(context.getDefaultConstraintMessageTemplate());
-		
-		System.out.println(message);
 		
 		if(messageBuilder.toString().isBlank() || messageBuilder.toString().equals(null)) {
 			messageBuilder.append(message);
@@ -73,7 +75,6 @@ public class IsTechElemFormValidator implements ConstraintValidator<IsTechElemFo
 			messageBuilder.append(message);
 		}
 		
-		System.out.println(messageBuilder.toString());
 
 		context.buildConstraintViolationWithTemplate(messageBuilder.toString()).addConstraintViolation();
 		

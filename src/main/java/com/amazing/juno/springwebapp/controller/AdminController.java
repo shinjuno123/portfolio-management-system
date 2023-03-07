@@ -74,17 +74,18 @@ public class AdminController {
 	
 	@PostMapping("/main")
 	public String saveChange(@Validated IntegratedDto integrated,HttpServletRequest request){
-		System.out.println("\n----------------------");
+		System.out.println("\n\n\n----------------------");
 		System.out.println(request.getRequestURL() + " " +  request.getMethod());
 		System.out.println(integrated);
-		System.out.println("----------------------\n");
+		System.out.println(integrated.getTechs());
+		System.out.println("----------------------\n\n\n");
 		
 		// send integratedDto's member variables to each Dao
 		propertyService.setIntroduction(integrated.getIntro());
 		propertyService.setAbout(integrated.getAbout());
 		propertyService.setContactInfo(integrated.getContact());
 		propertyService.setSnsLinks(integrated.getLinks());
-	
+		
 		
 		return "redirect:main";
 	}
@@ -122,6 +123,7 @@ public class AdminController {
 		System.out.println(error);
 		System.out.println(e.getBindingResult().getFieldErrors());
 		System.out.println("------------------\n");
+		
 		
 		
 		// Compose View
