@@ -1,12 +1,13 @@
 package com.amazing.juno.springwebapp.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
+import com.amazing.juno.springwebapp.entity.TechnologyEntity;
 import com.amazing.juno.springwebapp.validator.IsEmpty;
 
 public class IntegratedDto {
@@ -68,13 +69,57 @@ public class IntegratedDto {
 	}
 
 	private static List<TechnologyListDto> convertTechs(String tech) {
-		Stack<Integer> indicesStack = new Stack<>();
-		Stack<Character> bracketsStack = new Stack<>();
+		System.out.println("\n\n\n\n\n-----------");
+		System.out.println("Converting String to List<TechnologyListDto>...");
 		
-		for (int i = 0; i < tech.length(); i++) {
+		String[] categories = tech.split("\n");
+		List<TechnologyListDto> result = new ArrayList<>();
+		
+		System.out.println();
+		for(String category : categories) {
+			// Initialize TechnologyListDto object
+			System.out.println("category : " + category);
 			
-			bracketsStack.push(tech.charAt(i));
+			TechnologyListDto technologyList = new TechnologyListDto();
+			
+			String[] categoryNameandItems = category.split(" ");
+			
+			String categoryName = categoryNameandItems[0];
+			System.out.println("categoryName : " + categoryName);
+			
+			String[] items = categoryNameandItems[1].split(",");
+			
+			// Initialize a instance "techList" variable of TechnologyListDto
+			List<TechnologyEntity> techList = new ArrayList<>();
+			
+			System.out.println("Length of items : " + items.length);
+			for(String item : items) {
+				System.out.println("Pure item : " + item);
+				
+				String[] keyandValue = item.split(":");
+				
+				String skill = keyandValue[0];
+				Integer score = Integer.parseInt(keyandValue[1].strip());
+				
+				// Initialize TechnologyEntity and set values in this entity simultaneously
+				TechnologyEntity techEntity = new TechnologyEntity(score, skill);
+				System.out.println("skill&score : " + techEntity);
+				// Add a TechnologyEntity instance to techList that is instance variable of TechnologyListDto
+				techList.add(techEntity);
+			}
+			
+			
+			// Set each instance variable of TechnologyListDto instance
+			technologyList.setCategoryName(categoryName);
+			technologyList.setTechList(techList);
+			System.out.println("TechnologyListDto instance : " + technologyList);
+			
+			// Add a TechnologyListDto instance to a list
+			result.add(technologyList);
 		}
+		
+		System.out.println("-----------\n\n\n\n\n");
+		return result;
 	}
 
 	public void setTechs(String techs) {
@@ -90,7 +135,7 @@ public class IntegratedDto {
 	@Override
 	public String toString() {
 		return "IntegratedDto [intro=" + intro + "\nabout=" + about + "\ncontact=" + contact + "\nlinks=" + links
-				+ "\ntechs=" + techs + "]";
+				+ "\ntechs=" + convertedTechs + "]";
 	}
 
 }

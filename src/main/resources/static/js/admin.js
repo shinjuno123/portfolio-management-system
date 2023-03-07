@@ -200,39 +200,34 @@ function removeItemInCategoryMain(id) {
 		// Detect form tag and set up Form data
 		const formTag = $("#saveToFile")[0];
 		const form = new FormData(formTag);
+		let categoryInfo = "";
 
 		
 		// create data type corresponding to controller's parameter datatype
-		const categoryInfo = $("#technology-article > .category-buttons > .category-button").map(function(_, elem) {
+		$("#technology-article > .category-buttons > .category-button").map(function(_, elem) {
 			const categoryId = $(elem).attr("data-bs-target").slice(1);
 			const categoryName = $($(elem).children()[1]).children()[0].value;
-			const skills = $(`#technology-article > #${categoryId} > ul > li > div`).map((_, elem) => {
+			
+			categoryInfo += categoryName + " ";
+			
+			
+			let skills = "";
+			$(`#technology-article > #${categoryId} > ul > li > div`).map((_, elem) => {
 				const firstChild = $(elem).children().first();
 				const lastChild = $(elem).children().last();
+				
+				skills += firstChild[0].value + ":" + lastChild[0].value + ",";
 
-				const TechnologyEntity = {
-					skill: firstChild.attr("value"),
-					score: lastChild.attr("value")
-				};
-
-
-				return TechnologyEntity;
-			}).get();
+			});
 			
-	
-
-			const TechnologyListDto = {
-				categoryName: categoryName,
-				techList: skills
-			}
-
-
-			return TechnologyListDto;
-		}).get();
+			skills = skills.slice(0, skills.length - 1);
+			categoryInfo += skills + "\n";
+		
+		});
 		
 		
 		// Append techs data to formData
-		form.append("techs",JSON.stringify(categoryInfo));
+		form.append("techs",categoryInfo);
 		
 		
 		
@@ -252,7 +247,7 @@ function removeItemInCategoryMain(id) {
 			method: "POST",
 			type:"POST",
 			success: function(data){
-				alert(data);
+				console.log(data);
 			}
 			
 			

@@ -6,9 +6,9 @@ import com.amazing.juno.springwebapp.entity.TechnologyEntity;
 import com.amazing.juno.springwebapp.validator.IsTechElemForm;
 
 public class TechnologyListDto {
-	String categoryName;
+	private String categoryName;
 	
-	List<TechnologyEntity> techList;
+	private List<TechnologyEntity> techList;
 
 	public String getCategoryName() {
 		return categoryName;
