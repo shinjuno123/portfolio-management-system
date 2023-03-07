@@ -189,12 +189,12 @@
 					<h3 class="fs-2 mb-5">My Technology</h3>
 					<p>⭐ is the score of proficiency in the corresponding skills
 						relatively(from 1 to 5)</p>
-					<!-- Add toggle buttons between frontend / backend -->
+					
 					<div class="row text-center ms-1 category-buttons">
 
 						<div class="col col-md-2 py-3 category-button position-relative"
 							th:attr="data-bs-target='#'+ ${stack.categoryName}"
-							th:each="stack : ${tech}">
+							th:each="stack : ${integrated.convertedTechs}">
 
 							<button style="width: fit-content; height: fit-content;"
 								class="position-absolute event-false d-flex align-items-center btn btn-primary top-0 end-0 px-2 py-2 rounded-circle">
@@ -216,7 +216,7 @@
 
 					<!-- technology list -->
 					<div class="row ms-1 category" th:id="${stack.categoryName}"
-						th:each="stack : ${tech}" style="display: none;">
+						th:each="stack : ${integrated.convertedTechs}" style="display: none;">
 						<ul class="d-flex flex-wrap">
 
 							<li

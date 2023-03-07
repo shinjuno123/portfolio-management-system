@@ -12,17 +12,17 @@ import com.amazing.juno.springwebapp.validator.IsEmpty;
 
 public class IntegratedDto {
 	@IsEmpty
-	IntroductionEntity intro;
+	private IntroductionEntity intro;
 
 	@IsEmpty
-	AboutEntity about;
+	private AboutEntity about;
 
-	ContactEntity contact;
-	Map<String, String> links;
+	private ContactEntity contact;
+	private Map<String, String> links;
 
-	String techs;
+	private String techs;
 
-	List<TechnologyListDto> convertedTechs;
+	private List<TechnologyListDto> convertedTechs;
 
 	public IntegratedDto() {}
 
@@ -124,6 +124,16 @@ public class IntegratedDto {
 		System.out.println("-----------\n\n\n\n\n");
 		this.techs = techs;
 		this.convertedTechs = convertTechs(techs);
+	}
+	
+	
+
+	public List<TechnologyListDto> getConvertedTechs() {
+		return convertedTechs;
+	}
+
+	public void setConvertedTechs(List<TechnologyListDto> convertedTechs) {
+		this.convertedTechs = convertedTechs;
 	}
 
 	@Override

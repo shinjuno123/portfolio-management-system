@@ -45,20 +45,16 @@ public class AdminController {
 		integrated.setAbout(about);
 		integrated.setContact(contact);
 		integrated.setLinks(links);
+		integrated.setConvertedTechs(tech);
 		
 		System.out.println("-------------------------");
 		System.out.println("Introduction and About and Contact are loaded");
 		System.out.println(integrated);
 		System.out.println("-------------------------");
 		
-		System.out.println("-------------------------");
-		System.out.println("technology is loaded");
-		System.out.println(tech);
-		System.out.println("-------------------------");
 		
 		return Map.ofEntries(
-				Map.entry("integrated", integrated),
-				Map.entry("tech",tech)
+				Map.entry("integrated", integrated)
 				);
 	}
 	
