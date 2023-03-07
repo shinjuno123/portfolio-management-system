@@ -24,13 +24,7 @@ public class IntegratedDto {
 
 	List<TechnologyListDto> convertedTechs;
 
-	public IntegratedDto() {
-		System.out.println("\n\n\n\n\n-----------");
-		System.out.println("Initializing Integratedto");
-		System.out.println("techs=" + techs);
-
-		System.out.println("-----------\n\n\n\n\n");
-	}
+	public IntegratedDto() {}
 
 	public ContactEntity getContact() {
 		return contact;
