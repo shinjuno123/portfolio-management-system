@@ -1,144 +1,118 @@
 package com.amazing.juno.springwebapp.validator;
 
-import java.util.Map;
-
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
+import com.amazing.juno.springwebapp.exc.IntegratedRequestException;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 public class IsEmptyConstraintValidator implements ConstraintValidator<IsEmpty, Object>{
 	
+	private String message;
+	
+	public IsEmptyConstraintValidator() {
+		message = "";
+	}
 
 	
-	private Map<String,?> validateIntroductionEntity(IntroductionEntity intro) {
-		StringBuilder message = new StringBuilder();
+	private boolean validateIntroductionEntity(IntroductionEntity intro) {
+		StringBuilder messageStb = new StringBuilder();
 		boolean isError = false;
 		
-	
 		if(intro.getTitleMain().strip().isBlank()) {
-			message.append("SayHi:is Empty!\n");
+			messageStb.append(" - SayHi is Empty!\n");
 			isError = true;
-		} else {
-			message.append("SayHi: \n");
 		}
+		
 		if(intro.getMyName().strip().isBlank()) {
-			message.append("YourName:is Empty!\n");
+			messageStb.append(" - YourName is Empty!\n");
 			isError = true;	
-		} else {
-			message.append("YourName: \n");
-		}
+		} 
+		
 		if(intro.getSubTitle().strip().isBlank()) {
-			message.append("Opening:is Empty!\n");
+			messageStb.append(" - Opening is Empty!\n");
 			isError = true;
-		} else {
-			message.append("Opening: \n");
-		}
+		} 
 		
 		if(intro.getDetail().strip().isBlank()) {
-			message.append("Detail:is Empty!\n");
+			messageStb.append(" - Detail is Empty!\n");
 			isError = true;
-		} else {
-			message.append("Detail: \n");
 		}
 		
-		System.out.println("\n------------------");
-		System.out.println("Error Message");
-		System.out.println(message);
-		System.out.println("------------------\n");
+		if(isError) {
+			message += "Introduction\n\n" + messageStb.toString();
+		}
 		
-		return Map.ofEntries(
-				Map.entry("message", message.toString()),
-				Map.entry("isError", isError)
-				);
+		
+		return isError;
 	}
 	
 	
-	private Map<String,?> validateAboutEntity(AboutEntity about){
-		StringBuilder message = new StringBuilder();
+	private boolean validateAboutEntity(AboutEntity about){
+		StringBuilder messageStb = new StringBuilder();
 		boolean isError = false;
 		
 	
 		if(about.getDescription().strip().isBlank()) {
-			message.append("AboutDetail:is Empty!\n");
+			messageStb.append(" - AboutDetail is Empty!\n");
 			isError = true;
-		} else {
-			message.append("AboutDetail: \n");
-		}
+		} 
 		
 		if(about.getPeriod().strip().isBlank()) {
-			message.append("Period:is Empty!\n");
+			messageStb.append(" - Period is Empty!\n");
 			isError = true;
-		} else {
-			message.append("Period: \n");
 		}
 		
 		if(about.getSchool().strip().isBlank()) {
-			message.append("School:is Empty!\n");
+			messageStb.append(" - School is Empty!\n");
 			isError = true;
-		} else {
-			message.append("School: \n");
 		}
 		
 		if(about.getDegree().strip().isBlank()) {
-			message.append("Degree:is Empty!\n");
+			messageStb.append(" - Degree is Empty!\n");
 			isError = true;
-		} else {
-			message.append("Degree: \n");
-		}
+		} 
 		
 		if(about.getRegionCountry().strip().isBlank()) {
-			message.append("RegionCountry:is Empty!\n");
+			messageStb.append(" - RegionCountry is Empty!\n");
 			isError = true;
-		} else {
-			message.append("RegionCountry: \n");
+		} 
+		
+		if(isError) {
+			message += "About me\n\n" + messageStb.toString();
 		}
 
 		
-		System.out.println("\n------------------");
-		System.out.println("Error Message");
-		System.out.println(message);
-		System.out.println("------------------\n");
-		
-		return Map.ofEntries(
-				Map.entry("message", message.toString()),
-				Map.entry("isError", isError)
-				);
+		return isError;
 		
 	}
 
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
+		Boolean isError = false; 
+		message = "";
 		
 		if(value instanceof IntroductionEntity) {
-			Map<String,?> result = validateIntroductionEntity((IntroductionEntity) value);
-
-			
-			if((Boolean) result.get("isError")) {
-				customMessagerForValidation(context,(String) result.get("message"));
-				return false;
-			}
-			
-			
+			System.out.println("\n\n\nValidating Introduction Section\n\n\n");
+			isError = validateIntroductionEntity((IntroductionEntity) value);
+				
 		}
 		
 		if (value instanceof AboutEntity) {
-			Map<String,?> result = validateAboutEntity((AboutEntity) value);
-			
-			if((Boolean) result.get("isError")) {
-				customMessagerForValidation(context,(String) result.get("message"));
-				return false;
-			}
+			System.out.println("\n\n\nValidating About Section Entity\n\n\n");
+			isError = validateAboutEntity((AboutEntity) value);		
 		}
-	
 		
-		return true;
+		
+		if(isError) {
+			throw new IntegratedRequestException(message);
+		}
+		
+		
+
+		return !isError;
 	}
 
-	private void customMessagerForValidation(ConstraintValidatorContext context, String message) {
-		context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
-		
-	}
 
 }
