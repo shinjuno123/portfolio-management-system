@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,6 @@ import com.amazing.juno.springwebapp.exc.IntegratedRequestException;
 import com.amazing.juno.springwebapp.response.IntegratedRequestErrorResponse;
 import com.amazing.juno.springwebapp.service.PropertyService;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RequestMapping("/admin")
@@ -66,9 +66,18 @@ public class AdminController {
 	
 	
 	@PostMapping("/main")
-	public String saveChange(@Valid IntegratedDto integrated,HttpServletRequest request){
+	public String saveChange(@Valid IntegratedDto integrated, BindingResult bindingResult){
+		
+		if(bindingResult.hasErrors()) {
+			System.out.println("\n\n\n\n\n------------------------------------------");
+			System.out.println("Form Validation Error");
+			System.out.println(bindingResult.getAllErrors());
+			System.out.println("------------------------------------------\n\n\n\n");
+			throw new IntegratedRequestException("");
+		}
+		
 		System.out.println("\n\n\n----------------------");
-		System.out.println(request.getRequestURL() + " " +  request.getMethod());
+		System.out.println("Save change");
 		System.out.println(integrated);
 		System.out.println(integrated.getTechs());
 		System.out.println("----------------------\n\n\n");

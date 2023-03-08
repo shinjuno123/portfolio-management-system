@@ -93,10 +93,11 @@ public class IsEmptyConstraintValidator implements ConstraintValidator<IsEmpty, 
 		Boolean isError = false; 
 		message = "";
 		
+		context.disableDefaultConstraintViolation();
+		
 		if(value instanceof IntroductionEntity) {
 			System.out.println("\n\n\nValidating Introduction Section\n\n\n");
 			isError = validateIntroductionEntity((IntroductionEntity) value);
-				
 		}
 		
 		if (value instanceof AboutEntity) {
@@ -104,11 +105,7 @@ public class IsEmptyConstraintValidator implements ConstraintValidator<IsEmpty, 
 			isError = validateAboutEntity((AboutEntity) value);		
 		}
 		
-		
-		if(isError) {
-			throw new IntegratedRequestException(message);
-		}
-		
+		context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
 		
 
 		return !isError;
