@@ -162,7 +162,7 @@ function removeItemInCategoryMain(id) {
 
 (function controlSocialNetworkInputPosition() {
 	const inputList = $(".social-media-section > .icons > input");
-	inputList.css({ left: "+=140%", bottom: "+=37%", display: "none" });
+	inputList.css({ left: "+=140%", bottom: "+=37%", display: "block", visibility:"hidden"});
 })();
 
 (function addClickEventtoSocialNetworkInput() {
@@ -171,19 +171,20 @@ function removeItemInCategoryMain(id) {
 	buttons.on("click", (event) => {
 
 		const input = $(event.delegateTarget).next();
-		if (input.css("display") === "block") {
-			input.css("display", "none");
+		if (input.css("visibility") === "visible") {
+			input.css("visibility", "hidden");
 		} else {
-			input.css("display", "block");
+			input.css("visibility", "visible");
 		}
 	})
+	
 
 })();
 
 (function addDefailtEventtoScreen() {
 	$("main,nav").on("click", () => {
 		const inputList = $(".social-media-section > .icons > input");
-		inputList.css({ display: "none" });
+		inputList.css({ visibility:"hidden"});
 	})
 })();
 
@@ -247,11 +248,12 @@ function removeItemInCategoryMain(id) {
 			method: "POST",
 			type:"POST",
 			success: function(data){
+				alert(data.message);
 				window.location.replace("/admin/main");
 			},
 			error: function(e){
 				const response = e.responseJSON;
-				aler(response.message);
+				alert(response.message);
 			}
 			
 			

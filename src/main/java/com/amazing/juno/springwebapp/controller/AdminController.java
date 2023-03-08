@@ -95,7 +95,7 @@ public class AdminController {
 		
 		// Set response instance variables
 		successResponse.setStatus(HttpStatus.ACCEPTED.value());
-		successResponse.setMessage("succeeded to save or update your data!");
+		successResponse.setMessage("succeeded to save your information!");
 		successResponse.setTimeStamp(System.currentTimeMillis());
 		
 		

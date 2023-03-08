@@ -16,12 +16,15 @@ public class IntegratedDto {
 
 	@IsEmpty
 	private AboutEntity about;
-
+	
+	@IsEmpty
 	private ContactEntity contact;
+	
+	
 	private Map<String, String> links;
 
 	private String techs;
-
+	
 	private List<TechnologyListDto> convertedTechs;
 
 	public IntegratedDto() {}

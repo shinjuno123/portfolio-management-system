@@ -7,7 +7,7 @@ public class IntegratedRequestResponse {
 	private long timeStamp;
 
 	public IntegratedRequestResponse() {
-
+		
 	}
 
 	public IntegratedRequestResponse(int status, String message, long timeStamp) {
