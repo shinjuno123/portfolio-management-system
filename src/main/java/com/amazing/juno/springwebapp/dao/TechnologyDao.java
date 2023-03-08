@@ -1,5 +1,8 @@
 package com.amazing.juno.springwebapp.dao;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,7 +28,7 @@ public class TechnologyDao implements TechnologyInterface {
 	
 
 	public TechnologyDao() {
-	
+		
 	}
 	
 	private String stringifyTechList(List<TechnologyEntity> techList) {
@@ -94,11 +97,26 @@ public class TechnologyDao implements TechnologyInterface {
 			}
 		}
 		
+		System.out.println("\n\n\n\n-----------------------------------");
+		System.out.println("TechnologyDao : setTechnologyStack\n");
+		System.out.println(props.stringPropertyNames()+"\n");
+		System.out.println(stack);
+		System.out.println("-------------------------------\n\n\n\n");
+		
 		// Populate new properties from parameter stack.
 		for(TechnologyListDto techDto :stack) {
 			String key =  "tech."+ techDto.getCategoryName();
 			String techList = stringifyTechList(techDto.getTechList());
 			props.setProperty(key, techList);
+		}
+		
+		
+		try {
+			props.store(new FileOutputStream(basicContentSrc), null);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
 	}

@@ -247,7 +247,11 @@ function removeItemInCategoryMain(id) {
 			method: "POST",
 			type:"POST",
 			success: function(data){
-				console.log(data);
+				window.location.replace("/admin/main");
+			},
+			error: function(e){
+				const response = e.responseJSON;
+				aler(response.message);
 			}
 			
 			
