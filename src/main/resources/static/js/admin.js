@@ -189,6 +189,18 @@ function removeItemInCategoryMain(id) {
 })();
 
 
+(function displayImageWhenUploadingFaceImage(){
+	const facePhoto = $(".my-face");
+	const imgTag = $(".my-face").siblings("img");
+	
+	imgTag.on("click", function(){
+		facePhoto.trigger("click");
+	});
+	
+	console.log(facePhoto,imgTag);
+})();
+
+
 
 
 

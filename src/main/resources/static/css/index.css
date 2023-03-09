@@ -69,6 +69,15 @@ body {
 	background-color: rgba(33, 37, 41, 0.8);
 }
 
+/* About me section */
+.my-face {
+	display: none;
+}
+
+.my-face+img{
+	cursor: pointer;
+}
+
 /* Social media section */
 .social-media-section {
 	z-index: 1;
