@@ -1,5 +1,7 @@
 package com.amazing.juno.springwebapp.validator;
 
+import java.util.Map;
+
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
@@ -123,7 +125,27 @@ public class IsEmptyConstraintValidator implements ConstraintValidator<IsEmpty, 
 		
 		return isError;
 	}
+	
+	
+	private boolean validateSocialMediaLinks(Map<String, String> links) {
+		StringBuilder messageStb = new StringBuilder();
+		boolean isError = false;
+		
+		for(String key :links.keySet()) {
+			if(links.get(key).strip().isBlank()) {
+				messageStb.append("- "  + key + " is Empty!\n");
+				isError = true;
+			}
+		}
+		
+		if(isError) {
+			message += "Social Media\n\n" + messageStb.toString();
+		}
+		
+		return isError;
+	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
 		Boolean isError = false; 
@@ -141,6 +163,13 @@ public class IsEmptyConstraintValidator implements ConstraintValidator<IsEmpty, 
 		
 		if(value instanceof ContactEntity) {
 			isError = validateContactEntity((ContactEntity) value);
+		}
+		
+		if(value instanceof Map) {
+			System.out.println("\n\n\n\n\n-----------------------------------");
+			System.out.println("Checking map!");
+			isError = validateSocialMediaLinks((Map<String, String>) value);
+			System.out.println("-----------------------------------\n\n\n\n");
 		}
 		
 		context.buildConstraintViolationWithTemplate(message).addConstraintViolation();

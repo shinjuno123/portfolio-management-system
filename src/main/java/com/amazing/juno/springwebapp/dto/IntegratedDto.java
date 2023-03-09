@@ -20,7 +20,7 @@ public class IntegratedDto {
 	@IsEmpty
 	private ContactEntity contact;
 	
-	
+	@IsEmpty
 	private Map<String, String> links;
 
 	private String techs;
