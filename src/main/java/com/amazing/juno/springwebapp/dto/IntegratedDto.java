@@ -1,8 +1,11 @@
 package com.amazing.juno.springwebapp.dto;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
@@ -22,6 +25,8 @@ public class IntegratedDto {
 	
 	@IsEmpty
 	private Map<String, String> links;
+	
+	private MultipartFile facePhoto;
 
 	private String techs;
 	
@@ -137,6 +142,16 @@ public class IntegratedDto {
 
 	public void setConvertedTechs(List<TechnologyListDto> convertedTechs) {
 		this.convertedTechs = convertedTechs;
+	}
+	
+	
+
+	public MultipartFile getFacePhoto() {
+		return facePhoto;
+	}
+
+	public void setFacePhoto(MultipartFile facePhoto) {
+		this.facePhoto = facePhoto;
 	}
 
 	@Override

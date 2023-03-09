@@ -93,6 +93,8 @@ public class AdminController {
 		propertyService.setSnsLinks(integrated.getLinks());
 		propertyService.setTechnologyStack(integrated.getConvertedTechs());
 		
+		System.out.println(integrated.getFacePhoto());
+		
 		// Set response instance variables
 		successResponse.setStatus(HttpStatus.ACCEPTED.value());
 		successResponse.setMessage("succeeded to save your information!");

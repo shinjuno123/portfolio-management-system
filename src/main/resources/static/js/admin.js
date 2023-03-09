@@ -190,14 +190,24 @@ function removeItemInCategoryMain(id) {
 
 
 (function displayImageWhenUploadingFaceImage(){
-	const facePhoto = $(".my-face");
+	const facePhotoInputTag = $(".my-face");
 	const imgTag = $(".my-face").siblings("img");
 	
 	imgTag.on("click", function(){
-		facePhoto.trigger("click");
+		facePhotoInputTag.trigger("click");
 	});
 	
-	console.log(facePhoto,imgTag);
+	facePhotoInputTag.on("change", function(event){
+		const facePhotoFiles = facePhotoInputTag.prop('files');
+		const fileReader = new FileReader();
+		fileReader.onload = function() {
+			imgTag[0].src = fileReader.result;
+		}
+		
+		fileReader.readAsDataURL(facePhotoFiles[0]);
+	});
+	
+
 })();
 
 
@@ -206,12 +216,13 @@ function removeItemInCategoryMain(id) {
 
 
 (function addCustomFormSubmitEvent() {
-	$("#saveToFile").submit(function(event) {
+	$("#saveToFile").submit(async function(event) {
 		
 		event.preventDefault();
 		
 		// Detect form tag and set up Form data
 		const formTag = $("#saveToFile")[0];
+		const imgTag = $(".my-face").siblings("img");
 		const form = new FormData(formTag);
 		let categoryInfo = "";
 
@@ -239,10 +250,14 @@ function removeItemInCategoryMain(id) {
 		});
 		
 		
+		
+		const faceImgResponse = await fetch(imgTag.attr("src"));
+		const faceImgBlob = await faceImgResponse.blob();
+		
 		// Append techs data to formData
 		form.append("techs",categoryInfo);
 		
-		
+		form.append("facePhoto", faceImgBlob);
 		
 		const token = $("meta[name='_csrf']").attr("content");
 		const header = $("meta[name='_csrf_header']").attr("content");
@@ -272,11 +287,13 @@ function removeItemInCategoryMain(id) {
 		}
 		);
 		
+		
 	
 		
 		
 
 
 	});
+	
 })();
 
