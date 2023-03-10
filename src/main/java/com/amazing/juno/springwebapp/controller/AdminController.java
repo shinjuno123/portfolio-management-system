@@ -42,6 +42,8 @@ public class AdminController {
 		Map<String,String> links = propertyService.getSnsLinks();
 		IntegratedDto integrated = new IntegratedDto();
 		
+		
+		
 		integrated.setIntro(intro);
 		integrated.setAbout(about);
 		integrated.setContact(contact);
@@ -51,6 +53,7 @@ public class AdminController {
 		System.out.println("-------------------------");
 		System.out.println("Introduction and About and Contact are loaded");
 		System.out.println(integrated);
+		System.out.println(propertyService.getFacePhoto());
 		System.out.println("-------------------------");
 		
 		

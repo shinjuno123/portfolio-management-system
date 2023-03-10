@@ -101,7 +101,7 @@ public class PropertyService implements PropertyServiceInterface{
 
 	@Override
 	public MultipartFile getFacePhoto() {
-		return null;
+		return facePhotoDao.getFacePhoto();
 	}
 
 
