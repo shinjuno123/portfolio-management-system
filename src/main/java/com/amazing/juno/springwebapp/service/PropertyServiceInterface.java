@@ -3,6 +3,8 @@ package com.amazing.juno.springwebapp.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.amazing.juno.springwebapp.dto.TechnologyListDto;
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
@@ -23,4 +25,7 @@ public interface PropertyServiceInterface {
 	
 	public Map<String,String> getSnsLinks();
 	public void setSnsLinks(Map<String,String> links);
+	
+	public MultipartFile getFacePhoto();
+	public void setFacePhoto(MultipartFile file);
 }

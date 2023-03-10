@@ -1,6 +1,5 @@
 package com.amazing.juno.springwebapp.dto;
 
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +11,8 @@ import com.amazing.juno.springwebapp.entity.ContactEntity;
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
 import com.amazing.juno.springwebapp.entity.TechnologyEntity;
 import com.amazing.juno.springwebapp.validator.IsEmpty;
+
+import jakarta.validation.constraints.NotNull;
 
 public class IntegratedDto {
 	@IsEmpty
@@ -26,6 +27,7 @@ public class IntegratedDto {
 	@IsEmpty
 	private Map<String, String> links;
 	
+	@NotNull(message = "Face Photo\n\n- You must provide your face photo!")
 	private MultipartFile facePhoto;
 
 	private String techs;

@@ -5,9 +5,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.amazing.juno.springwebapp.dao.AboutDao;
 import com.amazing.juno.springwebapp.dao.ContactDao;
+import com.amazing.juno.springwebapp.dao.FacePhotoDao;
 import com.amazing.juno.springwebapp.dao.IntroductionDao;
 import com.amazing.juno.springwebapp.dao.SnsLinksDao;
 import com.amazing.juno.springwebapp.dao.TechnologyDao;
@@ -35,6 +37,9 @@ public class PropertyService implements PropertyServiceInterface{
 	
 	@Autowired
 	SnsLinksDao snsLinksDao;
+	
+	@Autowired
+	FacePhotoDao facePhotoDao;
 
 	@Override
 	public IntroductionEntity getIntroduction() {
@@ -91,6 +96,18 @@ public class PropertyService implements PropertyServiceInterface{
 	@Override
 	public void setTechnologyStack(List<TechnologyListDto> stack) {
 		technologyDao.setTechnologyStack(stack);
+	}
+
+
+	@Override
+	public MultipartFile getFacePhoto() {
+		return null;
+	}
+
+
+	@Override
+	public void setFacePhoto(MultipartFile file) {
+		facePhotoDao.saveFacePhoto(file);
 	}
 
 }
