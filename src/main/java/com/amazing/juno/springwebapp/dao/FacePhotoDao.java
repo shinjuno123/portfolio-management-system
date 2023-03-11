@@ -1,9 +1,12 @@
 package com.amazing.juno.springwebapp.dao;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,31 +24,32 @@ public class FacePhotoDao implements FacePhotoDaoInterface {
 
 	@SuppressWarnings("null")
 	@Override
-	public String getFacePhoto() {
+	public InputStreamResource getFacePhoto() throws FileNotFoundException {
 		final File folder = new File(absolutePath + "/src/main/resources/facePhotoImage");
-		File facePhoto = null;
+		File facePhotoFile = null;
 		
 		System.out.println("\n\n\n\n\n---------------------------------");
 		System.out.println("Folder list" + folder.listFiles());
 		for(final File file: folder.listFiles()) {
 			Long savedImageCreatedTime = Long.parseLong(file.getName().split("_")[0]);
 			
-			if(facePhoto != null) {
-				Long latestPhotoCreateTime = Long.parseLong(facePhoto.getName().split("_")[0]);
+			if(facePhotoFile != null) {
+				Long latestPhotoCreateTime = Long.parseLong(facePhotoFile.getName().split("_")[0]);
 				
 				if(latestPhotoCreateTime <= savedImageCreatedTime) {
-					facePhoto = file;
+					facePhotoFile = file;
 				}
 				
 			} else {
-				facePhoto = file;
+				facePhotoFile = file;
 			}
 		}
 		
-		System.out.println(facePhoto.getPath());
+
+		System.out.println(facePhotoFile);
 		System.out.println("---------------------------------\n\n\n\n");
 		
-		return null;
+		return new InputStreamResource(new FileInputStream(facePhotoFile));
 	}
 
 	@Override
@@ -54,10 +58,10 @@ public class FacePhotoDao implements FacePhotoDaoInterface {
 		
 		
 		try {
-			file.transferTo(new File(absolutePath + "/src/main/resources/facePhotoImage/" + System.currentTimeMillis() + "_face.jpg"));
+			file.transferTo(new File(absolutePath + "/src/main/resources/facePhotoImage/" + System.currentTimeMillis() + "_face.jpeg"));
 			System.out.println("\n\n\n\n\n-------------------------");
 			System.out.println("Your Photo has been saved!");
-			System.out.println("path:" + absolutePath + "/src/main/resources/facePhotoImage/" + System.currentTimeMillis() + "_face.jpg");
+			System.out.println("path:" + absolutePath + "/src/main/resources/facePhotoImage/" + System.currentTimeMillis() + "_face.jpeg");
 			System.out.println("-------------------------\n\n\n\n");
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
