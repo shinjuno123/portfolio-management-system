@@ -1,5 +1,6 @@
 package com.amazing.juno.springwebapp.service;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
 
@@ -99,9 +100,14 @@ public class PropertyService implements PropertyServiceInterface{
 	}
 
 
-	@Override
-	public MultipartFile getFacePhoto() {
-		return null;
+	public String getFacePhotoPath() {
+		String dataURI = null;
+		try {
+			dataURI = facePhotoDao.getFacePhoto();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return dataURI;
 	}
 
 

@@ -26,6 +26,6 @@ public interface PropertyServiceInterface {
 	public Map<String,String> getSnsLinks();
 	public void setSnsLinks(Map<String,String> links);
 	
-	public MultipartFile getFacePhoto();
+	public String getFacePhotoPath();
 	public void setFacePhoto(MultipartFile file);
 }

@@ -49,11 +49,12 @@ public class AdminController {
 		integrated.setContact(contact);
 		integrated.setLinks(links);
 		integrated.setConvertedTechs(tech);
+		integrated.setFacePhotoURI(propertyService.getFacePhotoPath());
 		
 		System.out.println("-------------------------");
 		System.out.println("Introduction and About and Contact are loaded");
 		System.out.println(integrated);
-		System.out.println(propertyService.getFacePhoto());
+		System.out.println(propertyService.getFacePhotoPath());
 		System.out.println("-------------------------");
 		
 		

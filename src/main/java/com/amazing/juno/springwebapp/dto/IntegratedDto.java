@@ -29,6 +29,8 @@ public class IntegratedDto {
 	
 	@NotNull(message = "Face Photo\n\n- You must provide your face photo!")
 	private MultipartFile facePhoto;
+	
+	private String facePhotoURI;
 
 	private String techs;
 	
@@ -154,6 +156,16 @@ public class IntegratedDto {
 
 	public void setFacePhoto(MultipartFile facePhoto) {
 		this.facePhoto = facePhoto;
+	}
+	
+	
+
+	public String getFacePhotoURI() {
+		return facePhotoURI;
+	}
+
+	public void setFacePhotoURI(String facePhotoURI) {
+		this.facePhotoURI = facePhotoURI;
 	}
 
 	@Override
