@@ -25,7 +25,7 @@ public class FacePhotoDao implements FacePhotoDaoInterface {
 	@SuppressWarnings("null")
 	@Override
 	public InputStreamResource getFacePhoto() throws FileNotFoundException {
-		final File folder = new File(absolutePath + "/src/main/resources/facePhotoImage");
+		final File folder = new File(absolutePath + "/src/main/resources/static/facephoto");
 		File facePhotoFile = null;
 		
 		System.out.println("\n\n\n\n\n---------------------------------");
@@ -58,10 +58,10 @@ public class FacePhotoDao implements FacePhotoDaoInterface {
 		
 		
 		try {
-			file.transferTo(new File(absolutePath + "/src/main/resources/facePhotoImage/" + System.currentTimeMillis() + "_face.jpeg"));
+			file.transferTo(new File(absolutePath + "/src/main/resources/static/facephoto/" + System.currentTimeMillis() + "_face.jpeg"));
 			System.out.println("\n\n\n\n\n-------------------------");
 			System.out.println("Your Photo has been saved!");
-			System.out.println("path:" + absolutePath + "/src/main/resources/facePhotoImage/" + System.currentTimeMillis() + "_face.jpeg");
+			System.out.println("path:" + absolutePath + "/src/main/resources/static/facephoto/" + System.currentTimeMillis() + "_face.jpeg");
 			System.out.println("-------------------------\n\n\n\n");
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
