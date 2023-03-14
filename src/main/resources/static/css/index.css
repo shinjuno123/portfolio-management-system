@@ -257,18 +257,18 @@ to {
 	background-color: #0A2647;
 }
 
-.project-info >.image {
-	min-width: 30%;
+.project-info > .image > div{
+	width: 100%;
 }
 
-.project-info > .image > img {
+.project-info > .image > div > img {
 	object-fit: contain;
-	width: 100%;
+	width: fit-content;
 	height: 20rem;
 	cursor: pointer;
 }
 
-.project-info >.image>input {
+.project-info >.image> div > input {
 	position: absolute;
 	visibility: hidden;
 }
@@ -276,6 +276,16 @@ to {
 .project-info >.description {
 	min-width: 50%;
 }
+
+#projectslide > .carousel-control-prev{
+	left: -15%;
+}
+
+#projectslide > .carousel-control-next{
+	right: -15%;
+}
+
+
 
 #floatingDescriptionArea {
 	height: 100%;

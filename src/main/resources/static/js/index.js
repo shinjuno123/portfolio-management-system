@@ -15,7 +15,7 @@ jQuery(document).ready(function ($) {
       coverGlassOnProjectImage();
     });
     // Go to the referred site
-    const carouselItems = $(".carousel-item");
+    const carouselItems = $(".index-carousel > .carousel-item");
     carouselItems.click((event) => {
       const target = event.delegateTarget;
       const url =

@@ -12,9 +12,11 @@
 			<div th:fragment="projectInfo"
 				class="carousel-item active project-info border border-3 border-primary rounded text-dark">
 				<div class="image py-3">
-					<img class="img-fluid"
-						src="https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature-825x465.jpg">
-					<input type="file">
+					<div class="text-center">
+						<img class="rounded img-thumbnail"
+							src="https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature-825x465.jpg">
+						<input type="file">
+					</div>
 				</div>
 				<div class="container description text-center py-3">
 					<div class="form-floating pb-3">
@@ -22,37 +24,21 @@
 							placeholder="Project Title" id="floatingTitleArea"> <label
 							for="floatingTitleArea">Project Title</label>
 					</div>
-					<div class="form-floating">
-						<textarea class="form-control" rows="10"
-							placeholder="Project Description" id="floatingDescriptionArea"></textarea>
-						<label for="floatingDescriptionArea">Project Description</label>
-					</div>
-				</div>
-			</div>
-
-			<div th:fragment="projectInfo"
-				class="carousel-item project-info border border-3 border-primary rounded text-dark">
-				<div class="image py-3">
-					<img class="img-fluid"
-						src="https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature-825x465.jpg">
-					<input type="file">
-				</div>
-				<div class="container description text-center py-3">
 					<div class="form-floating pb-3">
-						<input type="text" class="form-control"
-							placeholder="Project Title" id="floatingTitleArea"> <label
-							for="floatingTitleArea">Project Title</label>
-					</div>
-					<div class="form-floating">
 						<textarea class="form-control" rows="10"
 							placeholder="Project Description" id="floatingDescriptionArea"></textarea>
 						<label for="floatingDescriptionArea">Project Description</label>
+					</div>
+
+					<div class="form-floating">
+						<input class="form-control" type="url" placeholder="Project URL"
+							id="floatingDescriptionArea"> <label
+							for="floatingDescriptionArea">Project URL</label>
 					</div>
 				</div>
 			</div>
 
 
-		
 		</div>
 		<button class="carousel-control-prev" type="button"
 			data-bs-target="#projectslide" data-bs-slide="prev">
