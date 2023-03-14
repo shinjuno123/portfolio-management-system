@@ -202,8 +202,8 @@ to {
 }
 
 .project-box {
-	height: 20rem;
 	cursor: pointer;
+	height: 20rem;
 }
 
 /* Noteworthy projects folder icons */
@@ -250,3 +250,37 @@ to {
 .category-buttons {
 	cursor: pointer;
 }
+
+
+
+.project-info {
+	background-color: #0A2647;
+}
+
+.project-info >.image {
+	min-width: 30%;
+}
+
+.project-info > .image > img {
+	object-fit: contain;
+	width: 100%;
+	height: 20rem;
+	cursor: pointer;
+}
+
+.project-info >.image>input {
+	position: absolute;
+	visibility: hidden;
+}
+
+.project-info >.description {
+	min-width: 50%;
+}
+
+#floatingDescriptionArea {
+	height: 100%;
+}
+
+
+
+

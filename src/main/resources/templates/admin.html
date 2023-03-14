@@ -289,100 +289,13 @@
 				<div class="w-75 h-100 d-flex flex-column align-items-start"
 					id="work-article">
 					<h3 class="fs-2 mb-4">Some things I've built</h3>
+					
+					<div th:replace="~{project-box :: projectslide}"></div>
+					
+					
 
-					<!-- project cards section -->
-
-					<div class="position-relative w-100 card-section carousel slide"
-						style="min-height: 40rem" id="carouselExampleIndicators">
-						<div class="carousel-indicators">
-							<button type="button" data-bs-target="#carouselExampleIndicators"
-								data-bs-slide-to="0" class="active" aria-current="true"
-								aria-label="Slide 1"></button>
-							<button type="button" data-bs-target="#carouselExampleIndicators"
-								data-bs-slide-to="1" aria-label="Slide 2"></button>
-							<button type="button" data-bs-target="#carouselExampleIndicators"
-								data-bs-slide-to="2" aria-label="Slide 3"></button>
-						</div>
-
-						<!-- carousel inner -->
-						<div class="w-100 h-100 carousel-inner">
-							<!-- carousel items -->
-							<div class="carousel-item card-body active" style="height: 40rem">
-								<div class="row h-100">
-									<div class="col-md align-items-center d-md-flex ms-md-5">
-										<div class="glass position-absolute">
-											<input type="hidden"
-												value="https://github.com/shinjuno123/tomato-disease-detector" />
-										</div>
-										<img class="rounded project-image" style="width: 100%"
-											th:src="@{/img/sample-project-image.png}" alt="project-image" />
-									</div>
-
-									<div
-										class="text-end col-md justify-content-center flex-column d-md-flex me-md-5">
-										<h3 class="fs-6 mb-2">Featured Project</h3>
-										<h3 class="fs-3 mb-3">Tomato Disease Detector1</h3>
-										<p>We developed tomato disease detector web service using
-											tomato disease images from AI HUB(https://aihub.or.kr/)</p>
-									</div>
-								</div>
-							</div>
-
-							<div class="carousel-item card-body" style="height: 40rem">
-								<div class="row h-100">
-									<div class="col-md align-items-center d-md-flex ms-md-5">
-										<div class="glass position-absolute">
-											<input type="hidden"
-												value="https://github.com/shinjuno123/tomato-disease-detector" />
-										</div>
-										<img class="rounded project-image" style="width: 100%"
-											th:src="@{/img/sample-project-image.png}" alt="project-image" />
-									</div>
-
-									<div
-										class="text-end col-md justify-content-center flex-column d-md-flex me-md-5">
-										<h3 class="fs-6 mb-2">Featured Project</h3>
-										<h3 class="fs-3 mb-3">Tomato Disease Detector2</h3>
-										<p>We developed tomato disease detector web service using
-											tomato disease images from AI HUB(https://aihub.or.kr/)</p>
-									</div>
-								</div>
-							</div>
-
-							<div class="carousel-item card-body" style="height: 40rem">
-								<div class="row h-100">
-									<div class="col-md align-items-center d-md-flex ms-md-5">
-										<div class="glass position-absolute">
-											<input type="hidden"
-												value="https://github.com/shinjuno123/tomato-disease-detector" />
-										</div>
-										<img class="rounded project-image" style="width: 100%"
-											th:src="@{/img/sample-project-image.png}" alt="project-image" />
-									</div>
-
-									<div
-										class="text-end col-md justify-content-center flex-column d-md-flex me-md-5">
-										<h3 class="fs-6 mb-2">Featured Project</h3>
-										<h3 class="fs-3 mb-3">Tomato Disease Detector3</h3>
-										<p>We developed tomato disease detector web service using
-											tomato disease images from AI HUB(https://aihub.or.kr/)</p>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- prev / next buttons -->
-						<button class="carousel-control-prev left-button" type="button"
-							data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Previous</span>
-						</button>
-
-						<button class="carousel-control-next right-button" type="button"
-							data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Next</span>
-						</button>
+						
+						 
 					</div>
 				</div>
 			</section>
@@ -398,6 +311,8 @@
 							href="#"> view the archive <span class="underline"></span>
 						</a>
 					</div>
+					
+					
 
 					<!-- other noteworthy projects boxes -->
 					<!-- 1 -->

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="EUC-KR">
+<title>No need for title here</title>
+</head>
+
+<body>
+	<div th:fragment="projectslide" id="projectslide"
+		class="carousel slide w-100">
+		<div class="carousel-inner">
+			<div th:fragment="projectInfo"
+				class="carousel-item active project-info border border-3 border-primary rounded text-dark">
+				<div class="image py-3">
+					<img class="img-fluid"
+						src="https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature-825x465.jpg">
+					<input type="file">
+				</div>
+				<div class="container description text-center py-3">
+					<div class="form-floating pb-3">
+						<input type="text" class="form-control"
+							placeholder="Project Title" id="floatingTitleArea"> <label
+							for="floatingTitleArea">Project Title</label>
+					</div>
+					<div class="form-floating">
+						<textarea class="form-control" rows="10"
+							placeholder="Project Description" id="floatingDescriptionArea"></textarea>
+						<label for="floatingDescriptionArea">Project Description</label>
+					</div>
+				</div>
+			</div>
+
+			<div th:fragment="projectInfo"
+				class="carousel-item project-info border border-3 border-primary rounded text-dark">
+				<div class="image py-3">
+					<img class="img-fluid"
+						src="https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature-825x465.jpg">
+					<input type="file">
+				</div>
+				<div class="container description text-center py-3">
+					<div class="form-floating pb-3">
+						<input type="text" class="form-control"
+							placeholder="Project Title" id="floatingTitleArea"> <label
+							for="floatingTitleArea">Project Title</label>
+					</div>
+					<div class="form-floating">
+						<textarea class="form-control" rows="10"
+							placeholder="Project Description" id="floatingDescriptionArea"></textarea>
+						<label for="floatingDescriptionArea">Project Description</label>
+					</div>
+				</div>
+			</div>
+
+
+		
+		</div>
+		<button class="carousel-control-prev" type="button"
+			data-bs-target="#projectslide" data-bs-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+				class="visually-hidden">Previous</span>
+		</button>
+		<button class="carousel-control-next" type="button"
+			data-bs-target="#projectslide" data-bs-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span> <span
+				class="visually-hidden">Next</span>
+		</button>
+	</div>
+
+
+
+
+</body>
+</html>
