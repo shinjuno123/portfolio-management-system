@@ -268,14 +268,22 @@ to {
 	cursor: pointer;
 }
 
+.project-info > .description > button{
+	width: fit-content; 
+	height: fit-content;
+}
+
 .project-info >.image> div > input {
 	position: absolute;
 	visibility: hidden;
 }
 
-.project-info >.description {
-	min-width: 50%;
+
+
+#projectslide > button:first-child{
+	z-index: 50;
 }
+
 
 #projectslide > .carousel-control-prev{
 	left: -15%;

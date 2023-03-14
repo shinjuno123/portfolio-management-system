@@ -6,11 +6,17 @@
 </head>
 
 <body>
+
 	<div th:fragment="projectslide" id="projectslide"
-		class="carousel slide w-100">
+		class="carousel slide w-100 mb-5">
+
 		<div class="carousel-inner">
+
+
 			<div th:fragment="projectInfo"
 				class="carousel-item active project-info border border-3 border-primary rounded text-dark">
+
+
 				<div class="image py-3">
 					<div class="text-center">
 						<img class="rounded img-thumbnail"
@@ -30,11 +36,20 @@
 						<label for="floatingDescriptionArea">Project Description</label>
 					</div>
 
-					<div class="form-floating">
+					<div class="form-floating pb-3">
 						<input class="form-control" type="url" placeholder="Project URL"
 							id="floatingDescriptionArea"> <label
 							for="floatingDescriptionArea">Project URL</label>
 					</div>
+
+					<!-- Delete Button -->
+					<button type="button"
+						class="w-100 align-items-center btn btn-danger px-2 py-2">
+						<span class="material-symbols-outlined" style="font-size: 1rem;">
+						delete
+						</span>
+						 <span> Delete</span>
+					</button>
 				</div>
 			</div>
 

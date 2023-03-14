@@ -1,3 +1,49 @@
+const projectInfo = `
+<div th:fragment="projectInfo"
+				class="carousel-item active project-info border border-3 border-primary rounded text-dark">
+
+
+				<div class="image py-3">
+					<div class="text-center">
+						<img class="rounded img-thumbnail"
+							src="https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature-825x465.jpg">
+						<input type="file">
+					</div>
+				</div>
+				<div class="container description text-center py-3">
+					<div class="form-floating pb-3">
+						<input type="text" class="form-control"
+							placeholder="Project Title" id="floatingTitleArea"> <label
+							for="floatingTitleArea">Project Title</label>
+					</div>
+					<div class="form-floating pb-3">
+						<textarea class="form-control" rows="10"
+							placeholder="Project Description" id="floatingDescriptionArea"></textarea>
+						<label for="floatingDescriptionArea">Project Description</label>
+					</div>
+
+					<div class="form-floating pb-3">
+						<input class="form-control" type="url" placeholder="Project URL"
+							id="floatingDescriptionArea"> <label
+							for="floatingDescriptionArea">Project URL</label>
+					</div>
+
+					<!-- Delete Button -->
+					<button type="button"
+						class="w-100 align-items-center btn btn-danger px-2 py-2">
+						<span class="material-symbols-outlined" style="font-size: 1rem;">
+						delete
+						</span>
+						 <span> Delete</span>
+					</button>
+				</div>
+			</div>
+`
+
+
+
+
+
 function uuidv4() {
 	return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
 		var r = (Math.random() * 16) | 0,
@@ -210,6 +256,14 @@ function removeItemInCategoryMain(id) {
 
 })();
 
+(async function loadProjectInfo(){
+	
+})()
+
+(function addandDeleteProjectinfo(){
+	
+})()
+
 
 
 
@@ -225,7 +279,6 @@ function removeItemInCategoryMain(id) {
 		const imgTag = $(".my-face").siblings("img");
 		const form = new FormData(formTag);
 		let categoryInfo = "";
-
 		
 		// create data type corresponding to controller's parameter datatype
 		$("#technology-article > .category-buttons > .category-button").map(function(_, elem) {
@@ -287,13 +340,11 @@ function removeItemInCategoryMain(id) {
 		}
 		);
 		
-		
-	
-		
-		
-
 
 	});
 	
 })();
+
+
+
 
