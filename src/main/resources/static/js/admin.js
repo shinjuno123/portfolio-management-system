@@ -1,6 +1,6 @@
 const projectInfo = `
 <div th:fragment="projectInfo"
-				class="carousel-item active project-info border border-3 border-primary rounded text-dark">
+				class="carousel-item project-info border border-3 border-primary rounded text-dark">
 
 
 				<div class="image py-3">
@@ -256,13 +256,22 @@ function removeItemInCategoryMain(id) {
 
 })();
 
+// get from server
+/*
 (async function loadProjectInfo(){
 	
 })()
+*/
 
-(function addandDeleteProjectinfo(){
+(function addProjectinfo(){
+	$("#work-article > h3 > button").on("click", () => {
+		const projectSlide = $("#work-article > #projectslide > .carousel-inner");
+		$(projectInfo).appendTo(projectSlide);
 	
-})()
+	});
+})();
+
+
 
 
 
