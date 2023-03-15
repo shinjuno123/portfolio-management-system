@@ -213,6 +213,11 @@ to {
 	left: -0.2rem;
 }
 
+/* Noteworthy projects indicators */
+#work-article > #projectslide > .carousel-indicators{
+	bottom : -3rem;
+}
+
 /* apply to buttons to see additional information */
 
 @keyframes additional-information-anim {from { background-color:rgba(3,

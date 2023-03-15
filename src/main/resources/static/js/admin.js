@@ -1,6 +1,7 @@
-const projectInfo = `
+const projectInfo = (isActive, number) => `
 <div th:fragment="projectInfo"
-				class="carousel-item project-info border border-3 border-primary rounded text-dark">
+				data-bs-number="${number}"
+				class="carousel-item info-${number} ${isActive} project-info border border-3 border-primary rounded text-dark">
 
 
 				<div class="image py-3">
@@ -38,6 +39,10 @@ const projectInfo = `
 					</button>
 				</div>
 			</div>
+`
+
+const projectIndicatorButton = (slideNumber, isActive) => `
+ <button type="button" data-bs-target="#projectslide" data-bs-slide-to="${slideNumber}" class="${isActive}" aria-label="Slide 1"></button>
 `
 
 
@@ -263,10 +268,62 @@ function removeItemInCategoryMain(id) {
 })()
 */
 
+function addDeleteProjectInfoEvent(carouselItem, itemNumber){
+	carouselItem.children(".description").children("button")
+	.on("click", function(){
+
+		if(carouselItem.prev().length > 0){
+			const prev = carouselItem.prev();
+			const indicatorButton = prev.parent().prev().children(`button[data-bs-slide-to="${itemNumber}"]`);
+			indicatorButton.remove();
+			
+			const prevItemNumber = prev.attr("data-bs-number");
+			
+			const prevIndicatorButton = carouselItem.parent().prev().children(`button[data-bs-slide-to="${prevItemNumber}"]`);
+			
+			prevIndicatorButton.addClass("active");
+			prev.addClass("active");
+		} else if(carouselItem.next().length > 0){
+			const next = carouselItem.next()
+			const indicatorButton = next.parent().prev().children(`button[data-bs-slide-to="${itemNumber}"]`);
+			indicatorButton.remove();
+			
+			const nextItemNumber = next.attr("data-bs-number");
+			
+			const nextIndicatorButton = carouselItem.parent().prev().children(`button[data-bs-slide-to="${nextItemNumber}"]`);
+			
+			nextIndicatorButton.addClass("active");
+			
+			
+			next.addClass("active");
+		}
+		
+		$(carouselItem).remove();
+	})
+};
+
+
+
 (function addProjectinfo(){
 	$("#work-article > h3 > button").on("click", () => {
-		const projectSlide = $("#work-article > #projectslide > .carousel-inner");
-		$(projectInfo).appendTo(projectSlide);
+		const projectitemsLength = $("#work-article > #projectslide > .carousel-inner > .carousel-item").length;
+		const projectCarousel = $("#work-article > #projectslide > .carousel-inner");
+		const projectSlide =  $("#work-article > #projectslide > .carousel-indicators");
+		
+		if(projectitemsLength === 0){
+			$(projectInfo("active", projectitemsLength)).appendTo(projectCarousel);
+			$(projectIndicatorButton(projectitemsLength,"active")).appendTo(projectSlide);
+		} else {
+			$(projectInfo("",projectitemsLength)).appendTo(projectCarousel);
+			$(projectIndicatorButton(projectitemsLength,"")).appendTo(projectSlide);
+			
+		}
+		
+		// Get the just added carousel item.
+		const justAddedCarouselItem = $(`#work-article > #projectslide > .carousel-inner > .info-${projectitemsLength}`);
+		
+		addDeleteProjectInfoEvent(justAddedCarouselItem,projectitemsLength);
+
 	
 	});
 })();
