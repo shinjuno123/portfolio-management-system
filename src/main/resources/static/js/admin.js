@@ -337,10 +337,40 @@ function addDeleteProjectInfoEvent(carouselItem) {
 		const justAddedCarouselItem = $(`#work-article > #projectslide > .carousel-inner > div[data-bs-number="${projectitemsLength}"]`)
 
 		addDeleteProjectInfoEvent(justAddedCarouselItem);
-
+		uploadProjectImage(justAddedCarouselItem);
 
 	});
 })();
+
+function uploadProjectImage(carouselItem){
+	// Click project image tag then trigger click to input tag
+	const projectSlideImages = carouselItem.children(".image").children("div").children("img");
+	const projectInputTags = carouselItem.children(".image").children("div").children("input");
+	
+	projectSlideImages.on("click",(event)=>{
+		const inputTag = $(event.currentTarget).next();
+		inputTag.trigger("click");
+	})
+	
+	// when the file input tag is uploaded,
+	projectInputTags.on("change", (event)=>{
+		// Change the picture of image tag to the uploaded file
+		const imgTag = $(event.currentTarget).prev();
+		const inputTag = $(event.currentTarget);
+		
+		const image = inputTag.prop("files");
+		const fileReader = new FileReader();
+		
+		fileReader.onload = function() {
+			imgTag.attr("src",fileReader.result);
+		}
+
+		fileReader.readAsDataURL(image[0]);
+	})
+
+	
+	
+};
 
 
 
