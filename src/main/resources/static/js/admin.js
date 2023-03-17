@@ -1,7 +1,7 @@
 const projectInfo = (isActive, number) => `
 <div th:fragment="projectInfo"
 				data-bs-number="${number}"
-				class="carousel-item info-${number} ${isActive} project-info border border-3 border-primary rounded text-dark">
+				class="carousel-item ${isActive} project-info border border-3 border-primary rounded text-dark">
 
 
 				<div class="image py-3">
@@ -213,7 +213,7 @@ function removeItemInCategoryMain(id) {
 
 (function controlSocialNetworkInputPosition() {
 	const inputList = $(".social-media-section > .icons > input");
-	inputList.css({ left: "+=140%", bottom: "+=37%", display: "block", visibility:"hidden"});
+	inputList.css({ left: "+=140%", bottom: "+=37%", display: "block", visibility: "hidden" });
 })();
 
 (function addClickEventtoSocialNetworkInput() {
@@ -228,36 +228,36 @@ function removeItemInCategoryMain(id) {
 			input.css("visibility", "visible");
 		}
 	})
-	
+
 
 })();
 
 (function addDefailtEventtoScreen() {
 	$("main,nav").on("click", () => {
 		const inputList = $(".social-media-section > .icons > input");
-		inputList.css({ visibility:"hidden"});
+		inputList.css({ visibility: "hidden" });
 	})
 })();
 
 
-(function displayImageWhenUploadingFaceImage(){
+(function displayImageWhenUploadingFaceImage() {
 	const facePhotoInputTag = $(".my-face");
 	const imgTag = $(".my-face").siblings("img");
-	
-	imgTag.on("click", function(){
+
+	imgTag.on("click", function() {
 		facePhotoInputTag.trigger("click");
 	});
-	
-	facePhotoInputTag.on("change", function(event){
+
+	facePhotoInputTag.on("change", function(event) {
 		const facePhotoFiles = facePhotoInputTag.prop('files');
 		const fileReader = new FileReader();
 		fileReader.onload = function() {
 			imgTag[0].src = fileReader.result;
 		}
-		
+
 		fileReader.readAsDataURL(facePhotoFiles[0]);
 	});
-	
+
 
 })();
 
@@ -268,63 +268,77 @@ function removeItemInCategoryMain(id) {
 })()
 */
 
-function addDeleteProjectInfoEvent(carouselItem, itemNumber){
+function addDeleteProjectInfoEvent(carouselItem) {
 	carouselItem.children(".description").children("button")
-	.on("click", function(){
+		.on("click", function() {
+			// get number of items after deleting selected slide
+			const currentItemLength = carouselItem.siblings().length;
+			const deletedItemNumber = carouselItem.attr("data-bs-number");
 
-		if(carouselItem.prev().length > 0){
-			const prev = carouselItem.prev();
-			const indicatorButton = prev.parent().prev().children(`button[data-bs-slide-to="${itemNumber}"]`);
-			indicatorButton.remove();
+			// delete selected slide
+			$(carouselItem).remove();
 			
-			const prevItemNumber = prev.attr("data-bs-number");
+			// delete a slide button having selected slide number
+			$(`#work-article > #projectslide > .carousel-indicators > button[data-bs-slide-to="${deletedItemNumber}"]`).remove();
+
+			// get a slide number to activate in carousel
+			let nextActivatedItemNumber = deletedItemNumber - 1;
+
+			if (nextActivatedItemNumber < 0) {
+				nextActivatedItemNumber += currentItemLength;
+			}
+
+			// initialize all slides and buttons from 0 to currentItemLength - 1
+			const projectSlides = $("#work-article > #projectslide > .carousel-inner > .carousel-item");
+			const projectSlideButtons = $("#work-article > #projectslide > .carousel-indicators > button");
+
+			let newSlideNumber = 0;
 			
-			const prevIndicatorButton = carouselItem.parent().prev().children(`button[data-bs-slide-to="${prevItemNumber}"]`);
+			projectSlides.each((slideNumber)=>{
+				const projectSlide =$(projectSlides.get(slideNumber));
+				projectSlide.attr("data-bs-number",`${newSlideNumber}`);
+				newSlideNumber += 1;
+			})
 			
-			prevIndicatorButton.addClass("active");
-			prev.addClass("active");
-		} else if(carouselItem.next().length > 0){
-			const next = carouselItem.next()
-			const indicatorButton = next.parent().prev().children(`button[data-bs-slide-to="${itemNumber}"]`);
-			indicatorButton.remove();
+			newSlideNumber = 0;
 			
-			const nextItemNumber = next.attr("data-bs-number");
+			projectSlideButtons.each((slideButtonNumber)=>{
+				const projectSlideButton = $(projectSlideButtons.get(slideButtonNumber));
+				projectSlideButton.attr("data-bs-slide-to",`${newSlideNumber}`);
+				newSlideNumber += 1;
+			})
+
+			// activate nextActivated slide and the button
+			const projectSlideToActivate = $(`#work-article > #projectslide > .carousel-inner > .carousel-item[data-bs-number=${nextActivatedItemNumber}]`);
+			const projectSlideButtonToActivate = $(`#work-article > #projectslide > .carousel-indicators > button[data-bs-slide-to=${nextActivatedItemNumber}]`);
 			
-			const nextIndicatorButton = carouselItem.parent().prev().children(`button[data-bs-slide-to="${nextItemNumber}"]`);
-			
-			nextIndicatorButton.addClass("active");
-			
-			
-			next.addClass("active");
-		}
-		
-		$(carouselItem).remove();
-	})
+			projectSlideToActivate.addClass("active");
+			projectSlideButtonToActivate.addClass("active");
+
+		})
 };
 
 
 
-(function addProjectinfo(){
+(function addProjectinfo() {
 	$("#work-article > h3 > button").on("click", () => {
 		const projectitemsLength = $("#work-article > #projectslide > .carousel-inner > .carousel-item").length;
-		const projectCarousel = $("#work-article > #projectslide > .carousel-inner");
-		const projectSlide =  $("#work-article > #projectslide > .carousel-indicators");
-		
-		if(projectitemsLength === 0){
-			$(projectInfo("active", projectitemsLength)).appendTo(projectCarousel);
-			$(projectIndicatorButton(projectitemsLength,"active")).appendTo(projectSlide);
-		} else {
-			$(projectInfo("",projectitemsLength)).appendTo(projectCarousel);
-			$(projectIndicatorButton(projectitemsLength,"")).appendTo(projectSlide);
-			
-		}
-		
-		// Get the just added carousel item.
-		const justAddedCarouselItem = $(`#work-article > #projectslide > .carousel-inner > .info-${projectitemsLength}`);
-		
-		addDeleteProjectInfoEvent(justAddedCarouselItem,projectitemsLength);
+		const projectSlides = $("#work-article > #projectslide > .carousel-inner");
+		const projectSlideButtons = $("#work-article > #projectslide > .carousel-indicators");
 
-	
+		if (projectitemsLength === 0) {
+			$(projectInfo("active", projectitemsLength)).appendTo(projectSlides);
+			$(projectIndicatorButton(projectitemsLength, "active")).appendTo(projectSlideButtons);
+		} else {
+			$(projectInfo("", projectitemsLength)).appendTo(projectSlides);
+			$(projectIndicatorButton(projectitemsLength, "")).appendTo(projectSlideButtons);
+		}
+
+		const justAddedCarouselItem = $(`#work-article > #projectslide > .carousel-inner > div[data-bs-number="${projectitemsLength}"]`)
+
+		addDeleteProjectInfoEvent(justAddedCarouselItem);
+
+
 	});
 })();
 
@@ -337,78 +351,78 @@ function addDeleteProjectInfoEvent(carouselItem, itemNumber){
 
 (function addCustomFormSubmitEvent() {
 	$("#saveToFile").submit(async function(event) {
-		
+
 		event.preventDefault();
-		
+
 		// Detect form tag and set up Form data
 		const formTag = $("#saveToFile")[0];
 		const imgTag = $(".my-face").siblings("img");
 		const form = new FormData(formTag);
 		let categoryInfo = "";
-		
+
 		// create data type corresponding to controller's parameter datatype
 		$("#technology-article > .category-buttons > .category-button").map(function(_, elem) {
 			const categoryId = $(elem).attr("data-bs-target").slice(1);
 			const categoryName = $($(elem).children()[1]).children()[0].value;
-			
+
 			categoryInfo += categoryName + " ";
-			
-			
+
+
 			let skills = "";
 			$(`#technology-article > #${categoryId} > ul > li > div`).map((_, elem) => {
 				const firstChild = $(elem).children().first();
 				const lastChild = $(elem).children().last();
-				
+
 				skills += firstChild[0].value + ":" + lastChild[0].value + ",";
 
 			});
-			
+
 			skills = skills.slice(0, skills.length - 1);
 			categoryInfo += skills + "\n";
-		
+
 		});
-		
-		
-		
+
+
+
 		const faceImgResponse = await fetch(imgTag.attr("src"));
 		const faceImgBlob = await faceImgResponse.blob();
-		
+
 		// Append techs data to formData
-		form.append("techs",categoryInfo);
-		
+		form.append("techs", categoryInfo);
+
 		form.append("facePhoto", faceImgBlob);
-		
+
 		const token = $("meta[name='_csrf']").attr("content");
 		const header = $("meta[name='_csrf_header']").attr("content");
-		
-		$.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-  			jqXHR.setRequestHeader(header, token);
+
+		$.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+			jqXHR.setRequestHeader(header, token);
 		});
-		
+
 		$.ajax({
 			url: "/admin/main",
 			data: form,
 			cache: false,
-			contentType:false,
+			contentType: false,
 			processData: false,
 			method: "POST",
-			type:"POST",
-			success: function(data){
+			type: "POST",
+			success: function(data) {
 				alert(data.message);
 				window.location.replace("/admin/main");
 			},
-			error: function(e){
+			error: function(e) {
 				const response = e.responseJSON;
 				alert(response.message);
 			}
-			
-			
+
+
 		}
 		);
-		
+
 
 	});
-	
+
 })();
 
 
