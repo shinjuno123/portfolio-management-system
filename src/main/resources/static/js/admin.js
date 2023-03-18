@@ -261,12 +261,11 @@ function removeItemInCategoryMain(id) {
 
 })();
 
-// get from server
-/*
+
 (async function loadProjectInfo(){
 	
 })()
-*/
+
 
 function addDeleteProjectInfoEvent(carouselItem) {
 	carouselItem.children(".description").children("button")
@@ -277,7 +276,7 @@ function addDeleteProjectInfoEvent(carouselItem) {
 
 			// delete selected slide
 			$(carouselItem).remove();
-			
+
 			// delete a slide button having selected slide number
 			$(`#work-article > #projectslide > .carousel-indicators > button[data-bs-slide-to="${deletedItemNumber}"]`).remove();
 
@@ -293,25 +292,25 @@ function addDeleteProjectInfoEvent(carouselItem) {
 			const projectSlideButtons = $("#work-article > #projectslide > .carousel-indicators > button");
 
 			let newSlideNumber = 0;
-			
-			projectSlides.each((slideNumber)=>{
-				const projectSlide =$(projectSlides.get(slideNumber));
-				projectSlide.attr("data-bs-number",`${newSlideNumber}`);
+
+			projectSlides.each((slideNumber) => {
+				const projectSlide = $(projectSlides.get(slideNumber));
+				projectSlide.attr("data-bs-number", `${newSlideNumber}`);
 				newSlideNumber += 1;
 			})
-			
+
 			newSlideNumber = 0;
-			
-			projectSlideButtons.each((slideButtonNumber)=>{
+
+			projectSlideButtons.each((slideButtonNumber) => {
 				const projectSlideButton = $(projectSlideButtons.get(slideButtonNumber));
-				projectSlideButton.attr("data-bs-slide-to",`${newSlideNumber}`);
+				projectSlideButton.attr("data-bs-slide-to", `${newSlideNumber}`);
 				newSlideNumber += 1;
 			})
 
 			// activate nextActivated slide and the button
 			const projectSlideToActivate = $(`#work-article > #projectslide > .carousel-inner > .carousel-item[data-bs-number=${nextActivatedItemNumber}]`);
 			const projectSlideButtonToActivate = $(`#work-article > #projectslide > .carousel-indicators > button[data-bs-slide-to=${nextActivatedItemNumber}]`);
-			
+
 			projectSlideToActivate.addClass("active");
 			projectSlideButtonToActivate.addClass("active");
 
@@ -342,34 +341,37 @@ function addDeleteProjectInfoEvent(carouselItem) {
 	});
 })();
 
-function uploadProjectImage(carouselItem){
+
+
+function uploadProjectImage(carouselItem) {
 	// Click project image tag then trigger click to input tag
 	const projectSlideImages = carouselItem.children(".image").children("div").children("img");
 	const projectInputTags = carouselItem.children(".image").children("div").children("input");
-	
-	projectSlideImages.on("click",(event)=>{
+
+	projectSlideImages.on("click", (event) => {
 		const inputTag = $(event.currentTarget).next();
 		inputTag.trigger("click");
 	})
 	
+
 	// when the file input tag is uploaded,
-	projectInputTags.on("change", (event)=>{
+	projectInputTags.on("change", (event) => {
 		// Change the picture of image tag to the uploaded file
 		const imgTag = $(event.currentTarget).prev();
 		const inputTag = $(event.currentTarget);
-		
+
 		const image = inputTag.prop("files");
 		const fileReader = new FileReader();
-		
+
 		fileReader.onload = function() {
-			imgTag.attr("src",fileReader.result);
+			imgTag.attr("src", fileReader.result);
 		}
 
 		fileReader.readAsDataURL(image[0]);
 	})
 
-	
-	
+
+
 };
 
 

@@ -40,11 +40,23 @@
     		<version>3.1.1.RELEASE</version>
 		</dependency>
 		
+		<!-- JPA -->
+		<dependency>
+   			<groupId>org.springframework.boot</groupId>
+   			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		
 		<!-- Hibernate validator -->
 		<dependency>
     		<groupId>org.springframework.boot</groupId>
     		<artifactId>spring-boot-starter-validation</artifactId>
     	</dependency>
+    	
+    	<!-- Sqlite-->
+    	<dependency>
+    		<groupId>org.xerial</groupId>
+    		<artifactId>sqlite-jdbc</artifactId>
+    		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

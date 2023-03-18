@@ -70,6 +70,13 @@ public class AdminController {
 		return "admin";
 	}
 	
+	@GetMapping("/work")
+	public ResponseEntity<?> getMainProjects(Model model){
+		
+		
+		return null;
+	}
+	
 	
 	@PostMapping("/main")
 	public ResponseEntity<IntegratedRequestResponse> saveChange(@Valid IntegratedDto integrated, BindingResult bindingResult){
