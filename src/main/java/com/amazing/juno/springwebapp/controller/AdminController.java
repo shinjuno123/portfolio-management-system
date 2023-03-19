@@ -51,11 +51,14 @@ public class AdminController {
 		integrated.setConvertedTechs(tech);
 		integrated.setFacePhotoURI(propertyService.getFacePhotoPath());
 		
-		System.out.println("-------------------------");
+		System.out.println("\n\n\n\n\n-------------------------");
 		System.out.println("Introduction and About and Contact are loaded");
 		System.out.println(integrated);
 		System.out.println(propertyService.getFacePhotoPath());
-		System.out.println("-------------------------");
+		System.out.println("Get Work Test!");
+		System.out.println(propertyService.getWork());
+		System.out.println("-------------------------\n\n\n\n");
+		
 		
 		
 		return integrated;

@@ -9,6 +9,7 @@ import com.amazing.juno.springwebapp.dto.TechnologyListDto;
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
+import com.amazing.juno.springwebapp.entity.Work;
 
 public interface PropertyServiceInterface {
 	public IntroductionEntity getIntroduction();
@@ -28,4 +29,6 @@ public interface PropertyServiceInterface {
 	
 	public String getFacePhotoPath();
 	public void setFacePhoto(MultipartFile file);
+	
+	public List<Work> getWork();
 }

@@ -14,10 +14,12 @@ import com.amazing.juno.springwebapp.dao.FacePhotoDao;
 import com.amazing.juno.springwebapp.dao.IntroductionDao;
 import com.amazing.juno.springwebapp.dao.SnsLinksDao;
 import com.amazing.juno.springwebapp.dao.TechnologyDao;
+import com.amazing.juno.springwebapp.dao.WorkDaoJpaImpl;
 import com.amazing.juno.springwebapp.dto.TechnologyListDto;
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
+import com.amazing.juno.springwebapp.entity.Work;
 
 
 
@@ -41,6 +43,9 @@ public class PropertyService implements PropertyServiceInterface{
 	
 	@Autowired
 	FacePhotoDao facePhotoDao;
+	
+	@Autowired
+	WorkDaoJpaImpl workDaoJpaImpl;
 
 	@Override
 	public IntroductionEntity getIntroduction() {
@@ -114,6 +119,12 @@ public class PropertyService implements PropertyServiceInterface{
 	@Override
 	public void setFacePhoto(MultipartFile file) {
 		facePhotoDao.saveFacePhoto(file);
+	}
+
+
+	@Override
+	public List<Work> getWork() {
+		return workDaoJpaImpl.findAll();
 	}
 
 }
