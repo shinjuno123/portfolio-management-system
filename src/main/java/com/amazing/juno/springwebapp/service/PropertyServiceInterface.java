@@ -30,5 +30,4 @@ public interface PropertyServiceInterface {
 	public String getFacePhotoPath();
 	public void setFacePhoto(MultipartFile file);
 	
-	public List<Work> getWork();
 }

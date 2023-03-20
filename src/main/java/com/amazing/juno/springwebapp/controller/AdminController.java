@@ -21,9 +21,11 @@ import com.amazing.juno.springwebapp.dto.TechnologyListDto;
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
+import com.amazing.juno.springwebapp.entity.Work;
 import com.amazing.juno.springwebapp.exc.IntegratedRequestException;
 import com.amazing.juno.springwebapp.response.IntegratedRequestResponse;
 import com.amazing.juno.springwebapp.service.PropertyService;
+import com.amazing.juno.springwebapp.service.WorkServiceImpl;
 
 import jakarta.validation.Valid;
 
@@ -34,6 +36,9 @@ public class AdminController {
 	@Autowired
 	PropertyService propertyService;
 	
+	@Autowired
+	WorkServiceImpl workService;
+	
 	private IntegratedDto getAllDataNeededInAdmin(){
 		IntroductionEntity intro = propertyService.getIntroduction();
 		AboutEntity about = propertyService.getAbout();
@@ -41,8 +46,6 @@ public class AdminController {
 		List<TechnologyListDto> tech = propertyService.getTechnologyStack();
 		Map<String,String> links = propertyService.getSnsLinks();
 		IntegratedDto integrated = new IntegratedDto();
-		
-		
 		
 		integrated.setIntro(intro);
 		integrated.setAbout(about);
@@ -55,11 +58,7 @@ public class AdminController {
 		System.out.println("Introduction and About and Contact are loaded");
 		System.out.println(integrated);
 		System.out.println(propertyService.getFacePhotoPath());
-		System.out.println("Get Work Test!");
-		System.out.println(propertyService.getWork());
 		System.out.println("-------------------------\n\n\n\n");
-		
-		
 		
 		return integrated;
 	}
@@ -74,10 +73,19 @@ public class AdminController {
 	}
 	
 	@GetMapping("/work")
-	public ResponseEntity<?> getMainProjects(Model model){
+	public ResponseEntity<List<Work>> getMainProjects(Model model){
+		List<Work> works = workService.getWork();
 		
 		
-		return null;
+		return new ResponseEntity<>(works, HttpStatus.ACCEPTED);
+	}
+	
+	@PostMapping("/work")
+	public ResponseEntity<List<Work>> postMainProjects(List<Work> works, BindingResult bindingResult){
+		
+		System.out.println(works);
+		
+		return new ResponseEntity<>(works, HttpStatus.ACCEPTED);
 	}
 	
 	
@@ -108,7 +116,6 @@ public class AdminController {
 		propertyService.setTechnologyStack(integrated.getConvertedTechs());
 		propertyService.setFacePhoto(integrated.getFacePhoto());
 		
-			
 		// Set response instance variables
 		successResponse.setStatus(HttpStatus.ACCEPTED.value());
 		successResponse.setMessage("succeeded to save your information!");
@@ -135,7 +142,6 @@ public class AdminController {
 		errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
 		errorResponse.setMessage(message.toString());
 		errorResponse.setTimeStamp(System.currentTimeMillis());
-		
 		
 		System.out.println("---------------------------------------------------------------");
 		

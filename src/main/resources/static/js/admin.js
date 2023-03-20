@@ -1,31 +1,35 @@
-const projectInfo = (isActive, number) => `
+const projectInfo = (isActive, number, id = null, projectTitle = "", projectDescription = "",
+	projectUrl = "", projectImageUrl = "") => `
 <div th:fragment="projectInfo"
 				data-bs-number="${number}"
+				db-id="${id}"
 				class="carousel-item ${isActive} project-info border border-3 border-primary rounded text-dark">
 
 
 				<div class="image py-3">
 					<div class="text-center">
 						<img class="rounded img-thumbnail"
-							src="https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature-825x465.jpg">
+							src="${projectImageUrl}">
 						<input type="file">
 					</div>
 				</div>
 				<div class="container description text-center py-3">
 					<div class="form-floating pb-3">
 						<input type="text" class="form-control"
-							placeholder="Project Title" id="floatingTitleArea"> <label
+							placeholder="Project Title" id="floatingTitleArea" value="${projectTitle}"> <label
 							for="floatingTitleArea">Project Title</label>
 					</div>
 					<div class="form-floating pb-3">
 						<textarea class="form-control" rows="10"
-							placeholder="Project Description" id="floatingDescriptionArea"></textarea>
+							placeholder="Project Description" id="floatingDescriptionArea">
+							${projectDescription}
+							</textarea>
 						<label for="floatingDescriptionArea">Project Description</label>
 					</div>
 
 					<div class="form-floating pb-3">
 						<input class="form-control" type="url" placeholder="Project URL"
-							id="floatingDescriptionArea"> <label
+							id="floatingDescriptionArea" value="${projectUrl}"> <label
 							for="floatingDescriptionArea">Project URL</label>
 					</div>
 
@@ -262,8 +266,31 @@ function removeItemInCategoryMain(id) {
 })();
 
 
-(async function loadProjectInfo(){
-	
+
+
+
+
+(async function loadProjectInfo() {
+	const token = $("meta[name='_csrf']").attr("content");
+	const tokenKey = $("meta[name='_csrf_header']").attr("content");
+
+	// initialize header
+	const neededHeader = {};
+
+	neededHeader[tokenKey] = token;
+
+	const projects = await fetch('/admin/work', {
+		method: 'GET',
+		headers: neededHeader
+	}).then(response => response.json());
+
+
+	for (let project of projects) {
+		addProjectInfo(project.id, project.projectTitle, project.projectDescription,
+			project.projectUrl, project.projectImageUrl)
+	}
+	changeInputValue();
+	saveProjects();
 })()
 
 
@@ -319,19 +346,36 @@ function addDeleteProjectInfoEvent(carouselItem) {
 
 
 
-(function addProjectinfo() {
-	$("#work-article > h3 > button").on("click", () => {
-		const projectitemsLength = $("#work-article > #projectslide > .carousel-inner > .carousel-item").length;
-		const projectSlides = $("#work-article > #projectslide > .carousel-inner");
-		const projectSlideButtons = $("#work-article > #projectslide > .carousel-indicators");
+function addProjectInfo(id = null, projectTitle = "", projectDescription = "",
+	projectUrl = "", projectImageUrl = "") {
+	const projectitemsLength = $("#work-article > #projectslide > .carousel-inner > .carousel-item").length;
+	const projectSlides = $("#work-article > #projectslide > .carousel-inner");
+	const projectSlideButtons = $("#work-article > #projectslide > .carousel-indicators");
+	let activeStatus = "";
 
-		if (projectitemsLength === 0) {
-			$(projectInfo("active", projectitemsLength)).appendTo(projectSlides);
-			$(projectIndicatorButton(projectitemsLength, "active")).appendTo(projectSlideButtons);
-		} else {
-			$(projectInfo("", projectitemsLength)).appendTo(projectSlides);
-			$(projectIndicatorButton(projectitemsLength, "")).appendTo(projectSlideButtons);
-		}
+
+	if (projectitemsLength === 0) {
+		activeStatus = "active";
+	}
+
+	const newProject = projectInfo(activeStatus, projectitemsLength,id, projectTitle, projectDescription,
+	projectUrl, projectImageUrl);
+	const indicator = projectIndicatorButton(projectitemsLength, activeStatus);
+
+	$(newProject).appendTo(projectSlides);
+	$(indicator).appendTo(projectSlideButtons);
+	
+	const justAddedCarouselItem = $(`#work-article > #projectslide > .carousel-inner > div[db-id="${id}"]`)
+	
+	addDeleteProjectInfoEvent(justAddedCarouselItem);
+	uploadProjectImage(justAddedCarouselItem);
+}
+
+(function addProjectinfoEventToButton() {
+	$("#work-article > h3 > button").on("click", () => {
+
+		const projectitemsLength = $("#work-article > #projectslide > .carousel-inner > .carousel-item").length;
+		addProjectInfo();
 
 		const justAddedCarouselItem = $(`#work-article > #projectslide > .carousel-inner > div[data-bs-number="${projectitemsLength}"]`)
 
@@ -352,7 +396,7 @@ function uploadProjectImage(carouselItem) {
 		const inputTag = $(event.currentTarget).next();
 		inputTag.trigger("click");
 	})
-	
+
 
 	// when the file input tag is uploaded,
 	projectInputTags.on("change", (event) => {
@@ -376,6 +420,71 @@ function uploadProjectImage(carouselItem) {
 
 
 
+function changeInputValue(){
+	$("input").on("input", function(event){
+		$(event.currentTarget).attr("val",event.currentTarget.value);
+	});
+};
+
+
+/*
+id = null, projectTitle = "", projectDescription = "",
+	projectUrl = "", projectImageUrl = ""
+ */
+
+function createProjectListForm(){
+	const formList = [];
+	
+	const projectTags = $("#work-article > #projectslide > .carousel-inner > div");
+	
+	for(let tag of projectTags){
+		const id = tag.getAttribute("db-id");
+		const projectTitle = tag.querySelector(".description > div:nth-child(1) > input").value;
+		const projectDescription = tag.querySelector(".description > div:nth-child(2) > textarea").innerText;
+		const projectUrl = tag.querySelector(".description > div:nth-child(3) > input").value;
+		const projectImageUrl = tag.querySelector(".image > div > img").src;
+		
+		const form = {
+			id : Number(id),
+			projectTitle : projectTitle,
+			projectDescription : projectDescription,
+			projectUrl : projectUrl,
+			projectImageUrl : projectImageUrl
+		}
+		
+		formList.push(form);	
+	}
+	
+	
+	return formList;
+}
+
+
+async function saveProjects(){
+	const projects = createProjectListForm();
+	const token = $("meta[name='_csrf']").attr("content");
+	const tokenKey = $("meta[name='_csrf_header']").attr("content");
+
+	// initialize header
+	const neededHeader = {};
+
+	neededHeader[tokenKey] = token;
+	neededHeader["Content-Type"] = "application/json";
+	neededHeader["Accept"] = "application/json";
+	
+	console.log(JSON.stringify({work : projects}));
+
+
+	const result = await fetch('/admin/work', {
+		method: 'POST',
+		headers: neededHeader,
+		body : JSON.stringify({works : projects})
+	}).then(response => response.json());
+	
+	
+	console.log(result);
+	
+}
 
 
 
@@ -451,6 +560,8 @@ function uploadProjectImage(carouselItem) {
 
 		}
 		);
+		
+		saveProjects();
 
 
 	});

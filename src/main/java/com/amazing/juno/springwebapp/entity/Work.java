@@ -23,7 +23,7 @@ public class Work {
 	private String projectDescription;
 	
 	@Column(name="project_url")
-	private String prjectUrl;
+	private String projectUrl;
 	
 	@Column(name="project_image_url")
 	private String projectImageUrl;
@@ -36,12 +36,12 @@ public class Work {
 
 
 
-	public Work(int id, String projectTitle, String projectDescription, String prjectUrl, String projectImageUrl) {
+	public Work(int id, String projectTitle, String projectDescription, String projectUrl, String projectImageUrl) {
 		super();
 		this.id = id;
 		this.projectTitle = projectTitle;
 		this.projectDescription = projectDescription;
-		this.prjectUrl = prjectUrl;
+		this.projectUrl = projectUrl;
 		this.projectImageUrl = projectImageUrl;
 	}
 
@@ -82,15 +82,14 @@ public class Work {
 	}
 
 
-
-	public String getPrjectUrl() {
-		return prjectUrl;
+	public String getProjectUrl() {
+		return projectUrl;
 	}
 
 
 
-	public void setPrjectUrl(String prjectUrl) {
-		this.prjectUrl = prjectUrl;
+	public void setProjectUrl(String projectUrl) {
+		this.projectUrl = projectUrl;
 	}
 
 
@@ -109,8 +108,8 @@ public class Work {
 
 	@Override
 	public String toString() {
-		return "Work [id=" + id + ", projectTitle=" + projectTitle + ", projectDescription=" + projectDescription + ", prjectUrl="
-				+ prjectUrl + ", projectImageUrl=" + projectImageUrl + "]";
+		return "\nWork [id=" + id + "\nprojectTitle=" + projectTitle + "\nprojectDescription=" + projectDescription + "\nprojectUrl="
+				+ projectUrl + "\nprojectImageUrl=" + projectImageUrl + "]\n";
 	}
 	
 	

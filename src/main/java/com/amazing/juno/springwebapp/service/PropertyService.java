@@ -44,8 +44,6 @@ public class PropertyService implements PropertyServiceInterface{
 	@Autowired
 	FacePhotoDao facePhotoDao;
 	
-	@Autowired
-	WorkDaoJpaImpl workDaoJpaImpl;
 
 	@Override
 	public IntroductionEntity getIntroduction() {
@@ -122,9 +120,5 @@ public class PropertyService implements PropertyServiceInterface{
 	}
 
 
-	@Override
-	public List<Work> getWork() {
-		return workDaoJpaImpl.findAll();
-	}
 
 }
