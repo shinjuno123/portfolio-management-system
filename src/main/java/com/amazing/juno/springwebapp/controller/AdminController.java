@@ -14,10 +14,12 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.amazing.juno.springwebapp.dto.IntegratedDto;
 import com.amazing.juno.springwebapp.dto.TechnologyListDto;
+import com.amazing.juno.springwebapp.dto.WorkListDto;
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
 import com.amazing.juno.springwebapp.entity.IntroductionEntity;
@@ -81,11 +83,14 @@ public class AdminController {
 	}
 	
 	@PostMapping("/work")
-	public ResponseEntity<List<Work>> postMainProjects(List<Work> works, BindingResult bindingResult){
+	public ResponseEntity<WorkListDto> postMainProjects(@RequestBody WorkListDto workList, BindingResult bindingResult){
 		
-		System.out.println(works);
+		System.out.println("\n\n\n\n\n---------------------------------");
+		System.out.println("admin/work");
+		System.out.println(workList.getWorks());
+		System.out.println("--------------------------------------\n\n\n\n");
 		
-		return new ResponseEntity<>(works, HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(workList, HttpStatus.ACCEPTED);
 	}
 	
 	

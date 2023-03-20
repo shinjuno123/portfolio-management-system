@@ -346,7 +346,7 @@ function addDeleteProjectInfoEvent(carouselItem) {
 
 
 
-function addProjectInfo(id = null, projectTitle = "", projectDescription = "",
+function addProjectInfo(id = 0, projectTitle = "", projectDescription = "",
 	projectUrl = "", projectImageUrl = "") {
 	const projectitemsLength = $("#work-article > #projectslide > .carousel-inner > .carousel-item").length;
 	const projectSlides = $("#work-article > #projectslide > .carousel-inner");
@@ -433,6 +433,7 @@ id = null, projectTitle = "", projectDescription = "",
  */
 
 function createProjectListForm(){
+	const result = {};
 	const formList = [];
 	
 	const projectTags = $("#work-article > #projectslide > .carousel-inner > div");
@@ -455,30 +456,24 @@ function createProjectListForm(){
 		formList.push(form);	
 	}
 	
+	result["works"] = formList;
 	
-	return formList;
+	return result;
 }
 
 
 async function saveProjects(){
-	const projects = createProjectListForm();
+	const projects = JSON.stringify(createProjectListForm());
+	console.log(projects);
 	const token = $("meta[name='_csrf']").attr("content");
-	const tokenKey = $("meta[name='_csrf_header']").attr("content");
-
-	// initialize header
-	const neededHeader = {};
-
-	neededHeader[tokenKey] = token;
-	neededHeader["Content-Type"] = "application/json";
-	neededHeader["Accept"] = "application/json";
 	
-	console.log(JSON.stringify({work : projects}));
-
-
 	const result = await fetch('/admin/work', {
 		method: 'POST',
-		headers: neededHeader,
-		body : JSON.stringify({works : projects})
+		headers: {
+			"X-CSRF-TOKEN" : token,
+			"Content-Type" : "application/json"
+		},
+		body : projects
 	}).then(response => response.json());
 	
 	
