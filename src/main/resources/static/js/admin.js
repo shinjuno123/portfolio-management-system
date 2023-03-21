@@ -20,10 +20,7 @@ const projectInfo = (isActive, number, id = null, projectTitle = "", projectDesc
 							for="floatingTitleArea">Project Title</label>
 					</div>
 					<div class="form-floating pb-3">
-						<textarea class="form-control" rows="10"
-							placeholder="Project Description" id="floatingDescriptionArea">
-							${projectDescription}
-							</textarea>
+						<textarea class="form-control" rows="10" placeholder="Project Description" id="floatingDescriptionArea">${projectDescription}</textarea>
 						<label for="floatingDescriptionArea">Project Description</label>
 					</div>
 
@@ -284,13 +281,13 @@ function removeItemInCategoryMain(id) {
 		headers: neededHeader
 	}).then(response => response.json());
 
+	console.log(projects);
 
 	for (let project of projects) {
 		addProjectInfo(project.id, project.projectTitle, project.projectDescription,
-			project.projectUrl, project.projectImageUrl)
+			project.projectUrl, project.projectImageDataURl)
 	}
 	changeInputValue();
-	saveProjects();
 })()
 
 
@@ -427,10 +424,6 @@ function changeInputValue(){
 };
 
 
-/*
-id = null, projectTitle = "", projectDescription = "",
-	projectUrl = "", projectImageUrl = ""
- */
 
 function createProjectListForm(){
 	const result = {};
@@ -441,9 +434,10 @@ function createProjectListForm(){
 	for(let tag of projectTags){
 		const id = tag.getAttribute("db-id");
 		const projectTitle = tag.querySelector(".description > div:nth-child(1) > input").value;
-		const projectDescription = tag.querySelector(".description > div:nth-child(2) > textarea").innerText;
+		const projectDescription = tag.querySelector(".description > div:nth-child(2) > textarea").value;
 		const projectUrl = tag.querySelector(".description > div:nth-child(3) > input").value;
 		const projectImageUrl = tag.querySelector(".image > div > img").src;
+		
 		
 		const form = {
 			id : Number(id),
@@ -452,6 +446,7 @@ function createProjectListForm(){
 			projectUrl : projectUrl,
 			projectImageUrl : projectImageUrl
 		}
+		
 		
 		formList.push(form);	
 	}
@@ -464,9 +459,9 @@ function createProjectListForm(){
 
 async function saveProjects(){
 	const projects = JSON.stringify(createProjectListForm());
-	console.log(projects);
 	const token = $("meta[name='_csrf']").attr("content");
 	
+
 	const result = await fetch('/admin/work', {
 		method: 'POST',
 		headers: {
@@ -474,10 +469,9 @@ async function saveProjects(){
 			"Content-Type" : "application/json"
 		},
 		body : projects
-	}).then(response => response.json());
-	
-	
-	console.log(result);
+	}).then(response => response.json())
+	.then(data => data["works"]);
+
 	
 }
 
@@ -534,6 +528,7 @@ async function saveProjects(){
 		$.ajaxPrefilter(function(options, originalOptions, jqXHR) {
 			jqXHR.setRequestHeader(header, token);
 		});
+		
 
 		$.ajax({
 			url: "/admin/main",
@@ -555,6 +550,7 @@ async function saveProjects(){
 
 		}
 		);
+
 		
 		saveProjects();
 

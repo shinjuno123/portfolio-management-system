@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name="work")
@@ -27,6 +28,9 @@ public class Work {
 	
 	@Column(name="project_image_url")
 	private String projectImageUrl;
+	
+	@Transient
+	private String projectImageDataURl;
 	
 	
 	
@@ -102,6 +106,18 @@ public class Work {
 
 	public void setProjectImageUrl(String projectImageUrl) {
 		this.projectImageUrl = projectImageUrl;
+	}
+	
+
+
+	public String getProjectImageDataURl() {
+		return projectImageDataURl;
+	}
+
+
+
+	public void setProjectImageDataURl(String projectImageDataURl) {
+		this.projectImageDataURl = projectImageDataURl;
 	}
 
 

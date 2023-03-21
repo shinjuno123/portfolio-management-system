@@ -59,7 +59,6 @@ public class AdminController {
 		System.out.println("\n\n\n\n\n-------------------------");
 		System.out.println("Introduction and About and Contact are loaded");
 		System.out.println(integrated);
-		System.out.println(propertyService.getFacePhotoPath());
 		System.out.println("-------------------------\n\n\n\n");
 		
 		return integrated;
@@ -87,10 +86,12 @@ public class AdminController {
 		
 		System.out.println("\n\n\n\n\n---------------------------------");
 		System.out.println("admin/work");
-		System.out.println(workList.getWorks());
+		WorkListDto result = new WorkListDto();
+		result.setWorks(workList.getWorks());
+		workService.saveOrUpdate(workList.getWorks());
 		System.out.println("--------------------------------------\n\n\n\n");
 		
-		return new ResponseEntity<>(workList, HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
 	}
 	
 	

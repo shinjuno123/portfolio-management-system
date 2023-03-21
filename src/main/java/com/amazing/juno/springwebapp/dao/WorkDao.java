@@ -6,4 +6,5 @@ import com.amazing.juno.springwebapp.entity.Work;
 
 public interface WorkDao {
 	public List<Work> findAll();
+	public Work[] saveOrUpdate(Work[] works);
 }

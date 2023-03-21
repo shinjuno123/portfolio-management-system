@@ -1,8 +1,5 @@
 package com.amazing.juno.springwebapp.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.amazing.juno.springwebapp.entity.Work;
 
 public class WorkListDto {
@@ -31,7 +28,4 @@ public class WorkListDto {
 		this.works = works;
 	}
 
- 
-	
-	
 }

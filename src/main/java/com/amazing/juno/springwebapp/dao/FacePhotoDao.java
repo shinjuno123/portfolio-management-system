@@ -19,24 +19,8 @@ public class FacePhotoDao implements FacePhotoDaoInterface {
 		this.absolutePath = new FileSystemResource("").getFile().getAbsolutePath();
 	}
 	
-	private Integer readAfter(String word, String wholeString) {
-		
-		for(int i = 0; i < wholeString.length() + 1;i++) {
-			if(i > word.length() - 1) {
-				String subString = wholeString.substring(i-word.length(), i);
-				
-				if(subString.equals(word)) {
-					return i;
-				}
-			}
-	
-		}
-		
-		return -1;
-	}
 	
 
-	@SuppressWarnings("null")
 	@Override
 	public String getFacePhoto() throws FileNotFoundException {
 		final File folder = new File(absolutePath + "/src/main/resources/static/facephoto");
@@ -61,7 +45,6 @@ public class FacePhotoDao implements FacePhotoDaoInterface {
 
 		System.out.println(facePhotoFile.getAbsolutePath());
 		
-		Integer startIdx = readAfter("static", facePhotoFile.getAbsolutePath());
 		
 		String result = null;
 		
