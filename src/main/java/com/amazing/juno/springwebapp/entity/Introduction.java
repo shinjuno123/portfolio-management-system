@@ -1,6 +1,6 @@
 package com.amazing.juno.springwebapp.entity;
 
-public class IntroductionEntity {
+public class Introduction {
 	
 	private String titleMain;
 
@@ -10,10 +10,10 @@ public class IntroductionEntity {
 
 	private String detail;
 
-	public IntroductionEntity() {
+	public Introduction() {
 	}
 
-	public IntroductionEntity(String titleMain, String myName, String subTitle, String detail) {
+	public Introduction(String titleMain, String myName, String subTitle, String detail) {
 		this.titleMain = titleMain;
 		this.myName = myName;
 		this.subTitle = subTitle;

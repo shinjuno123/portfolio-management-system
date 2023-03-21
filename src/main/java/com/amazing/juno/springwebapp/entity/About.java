@@ -2,7 +2,7 @@ package com.amazing.juno.springwebapp.entity;
 
 import java.util.Arrays;
 
-public class AboutEntity {
+public class About {
 	private String description;
 	private String[] sentences;
 	private String period;
@@ -10,10 +10,10 @@ public class AboutEntity {
 	private String school;
 	private String regionCountry;
 
-	public AboutEntity() {
+	public About() {
 	}
 
-	public AboutEntity(String description, String period, String degree, String school, String regionCountry) {
+	public About(String description, String period, String degree, String school, String regionCountry) {
 		setDescription(description);
 		this.period = period;
 		this.degree = degree;

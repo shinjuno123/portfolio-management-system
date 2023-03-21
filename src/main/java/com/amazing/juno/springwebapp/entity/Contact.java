@@ -1,16 +1,16 @@
 package com.amazing.juno.springwebapp.entity;
 
-public class ContactEntity {
+public class Contact {
 	private String title;
 	private String closing;
 	private String appreciation;
 	private String buttonContent;
 	private String email;
 	
-	public ContactEntity() {
+	public Contact() {
 	}
 
-	public ContactEntity(String title, String closing, String appreciation, String buttonContent, String email) {
+	public Contact(String title, String closing, String appreciation, String buttonContent, String email) {
 		this.title = title;
 		this.closing = closing;
 		this.appreciation = appreciation;

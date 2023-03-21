@@ -2,9 +2,9 @@ package com.amazing.juno.springwebapp.validator;
 
 import java.util.Map;
 
-import com.amazing.juno.springwebapp.entity.AboutEntity;
-import com.amazing.juno.springwebapp.entity.ContactEntity;
-import com.amazing.juno.springwebapp.entity.IntroductionEntity;
+import com.amazing.juno.springwebapp.entity.About;
+import com.amazing.juno.springwebapp.entity.Contact;
+import com.amazing.juno.springwebapp.entity.Introduction;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -18,7 +18,7 @@ public class IsEmptyConstraintValidator implements ConstraintValidator<IsEmpty, 
 	}
 
 	
-	private boolean validateIntroductionEntity(IntroductionEntity intro) {
+	private boolean validateIntroductionEntity(Introduction intro) {
 		StringBuilder messageStb = new StringBuilder();
 		boolean isError = false;
 		
@@ -51,7 +51,7 @@ public class IsEmptyConstraintValidator implements ConstraintValidator<IsEmpty, 
 	}
 	
 	
-	private boolean validateAboutEntity(AboutEntity about){
+	private boolean validateAboutEntity(About about){
 		StringBuilder messageStb = new StringBuilder();
 		boolean isError = false;
 		
@@ -90,7 +90,7 @@ public class IsEmptyConstraintValidator implements ConstraintValidator<IsEmpty, 
 		
 	}
 	
-	private boolean validateContactEntity(ContactEntity contact) {
+	private boolean validateContactEntity(Contact contact) {
 		StringBuilder messageStb = new StringBuilder();
 		boolean isError = false;
 		
@@ -153,16 +153,16 @@ public class IsEmptyConstraintValidator implements ConstraintValidator<IsEmpty, 
 		
 		context.disableDefaultConstraintViolation();
 		
-		if(value instanceof IntroductionEntity) {
-			isError = validateIntroductionEntity((IntroductionEntity) value);
+		if(value instanceof Introduction) {
+			isError = validateIntroductionEntity((Introduction) value);
 		}
 		
-		if (value instanceof AboutEntity) {
-			isError = validateAboutEntity((AboutEntity) value);		
+		if (value instanceof About) {
+			isError = validateAboutEntity((About) value);		
 		}
 		
-		if(value instanceof ContactEntity) {
-			isError = validateContactEntity((ContactEntity) value);
+		if(value instanceof Contact) {
+			isError = validateContactEntity((Contact) value);
 		}
 		
 		if(value instanceof Map) {

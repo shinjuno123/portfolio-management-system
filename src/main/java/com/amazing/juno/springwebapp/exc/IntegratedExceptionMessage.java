@@ -4,23 +4,23 @@ import java.util.List;
 
 import org.springframework.validation.ObjectError;
 
-public class IntegratedRequestException extends RuntimeException {
+public class IntegratedExceptionMessage extends RuntimeException {
 
 	private static final long serialVersionUID = 7604980816782573072L;
 	
 	private List<ObjectError> errors;
 	
 
-	public IntegratedRequestException(String message, Throwable cause) {
+	public IntegratedExceptionMessage(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public IntegratedRequestException(List<ObjectError> errors) {
+	public IntegratedExceptionMessage(List<ObjectError> errors) {
 		super("");
 		this.errors = errors;
 	}
 
-	public IntegratedRequestException(Throwable cause) {
+	public IntegratedExceptionMessage(Throwable cause) {
 		super(cause);
 	}
 	

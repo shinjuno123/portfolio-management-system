@@ -9,7 +9,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 @Configuration
-public class WebConfiguration {
+public class WebConfig {
 	
 	@Autowired
 	Environment env;

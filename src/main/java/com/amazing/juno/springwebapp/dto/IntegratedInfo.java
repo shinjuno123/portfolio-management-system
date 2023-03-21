@@ -6,23 +6,23 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.amazing.juno.springwebapp.entity.AboutEntity;
-import com.amazing.juno.springwebapp.entity.ContactEntity;
-import com.amazing.juno.springwebapp.entity.IntroductionEntity;
-import com.amazing.juno.springwebapp.entity.TechnologyEntity;
+import com.amazing.juno.springwebapp.entity.About;
+import com.amazing.juno.springwebapp.entity.Contact;
+import com.amazing.juno.springwebapp.entity.Introduction;
+import com.amazing.juno.springwebapp.entity.Technology;
 import com.amazing.juno.springwebapp.validator.IsEmpty;
 
 import jakarta.validation.constraints.NotNull;
 
-public class IntegratedDto {
+public class IntegratedInfo {
 	@IsEmpty
-	private IntroductionEntity intro;
+	private Introduction intro;
 
 	@IsEmpty
-	private AboutEntity about;
+	private About about;
 	
 	@IsEmpty
-	private ContactEntity contact;
+	private Contact contact;
 	
 	@IsEmpty
 	private Map<String, String> links;
@@ -34,31 +34,31 @@ public class IntegratedDto {
 
 	private String techs;
 	
-	private List<TechnologyListDto> convertedTechs;
+	private List<TechnologyCategory> convertedTechs;
 
-	public IntegratedDto() {}
+	public IntegratedInfo() {}
 
-	public ContactEntity getContact() {
+	public Contact getContact() {
 		return contact;
 	}
 
-	public void setContact(ContactEntity contact) {
+	public void setContact(Contact contact) {
 		this.contact = contact;
 	}
 
-	public IntroductionEntity getIntro() {
+	public Introduction getIntro() {
 		return intro;
 	}
 
-	public void setIntro(IntroductionEntity intro) {
+	public void setIntro(Introduction intro) {
 		this.intro = intro;
 	}
 
-	public AboutEntity getAbout() {
+	public About getAbout() {
 		return about;
 	}
 
-	public void setAbout(AboutEntity about) {
+	public void setAbout(About about) {
 		this.about = about;
 	}
 
@@ -74,19 +74,19 @@ public class IntegratedDto {
 		return techs;
 	}
 
-	private static List<TechnologyListDto> convertTechs(String tech) {
+	private static List<TechnologyCategory> convertTechs(String tech) {
 		System.out.println("\n\n\n\n\n-----------");
 		System.out.println("Converting String to List<TechnologyListDto>...");
 		
 		String[] categories = tech.split("\n");
-		List<TechnologyListDto> result = new ArrayList<>();
+		List<TechnologyCategory> result = new ArrayList<>();
 		
 		System.out.println();
 		for(String category : categories) {
 			// Initialize TechnologyListDto object
 			System.out.println("category : " + category);
 			
-			TechnologyListDto technologyList = new TechnologyListDto();
+			TechnologyCategory technologyList = new TechnologyCategory();
 			
 			String[] categoryNameandItems = category.split(" ");
 			
@@ -96,7 +96,7 @@ public class IntegratedDto {
 			String[] items = categoryNameandItems[1].split(",");
 			
 			// Initialize a instance "techList" variable of TechnologyListDto
-			List<TechnologyEntity> techList = new ArrayList<>();
+			List<Technology> techList = new ArrayList<>();
 			
 			System.out.println("Length of items : " + items.length);
 			for(String item : items) {
@@ -108,7 +108,7 @@ public class IntegratedDto {
 				Integer score = Integer.parseInt(keyandValue[1].strip());
 				
 				// Initialize TechnologyEntity and set values in this entity simultaneously
-				TechnologyEntity techEntity = new TechnologyEntity(score, skill);
+				Technology techEntity = new Technology(score, skill);
 				System.out.println("skill&score : " + techEntity);
 				// Add a TechnologyEntity instance to techList that is instance variable of TechnologyListDto
 				techList.add(techEntity);
@@ -140,11 +140,11 @@ public class IntegratedDto {
 	
 	
 
-	public List<TechnologyListDto> getConvertedTechs() {
+	public List<TechnologyCategory> getConvertedTechs() {
 		return convertedTechs;
 	}
 
-	public void setConvertedTechs(List<TechnologyListDto> convertedTechs) {
+	public void setConvertedTechs(List<TechnologyCategory> convertedTechs) {
 		this.convertedTechs = convertedTechs;
 	}
 	

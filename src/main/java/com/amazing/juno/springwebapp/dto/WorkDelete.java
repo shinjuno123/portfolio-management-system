@@ -1,10 +1,10 @@
 package com.amazing.juno.springwebapp.dto;
 
-public class WorkDeleteDto {
+public class WorkDelete {
 	Integer[] projectIds;
 	
 	
-	public WorkDeleteDto() {
+	public WorkDelete() {
 	}
 
 	public Integer[] getProjectIds() {

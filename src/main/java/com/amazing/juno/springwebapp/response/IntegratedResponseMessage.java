@@ -1,16 +1,16 @@
 package com.amazing.juno.springwebapp.response;
 
-public class IntegratedRequestResponse {
+public class IntegratedResponseMessage {
 
 	private int status;
 	private String message;
 	private long timeStamp;
 
-	public IntegratedRequestResponse() {
+	public IntegratedResponseMessage() {
 		
 	}
 
-	public IntegratedRequestResponse(int status, String message, long timeStamp) {
+	public IntegratedResponseMessage(int status, String message, long timeStamp) {
 		super();
 		this.status = status;
 		this.message = message;

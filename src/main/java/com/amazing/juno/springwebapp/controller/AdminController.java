@@ -18,17 +18,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.amazing.juno.springwebapp.dto.IntegratedDto;
-import com.amazing.juno.springwebapp.dto.TechnologyListDto;
-import com.amazing.juno.springwebapp.dto.WorkDeleteDto;
-import com.amazing.juno.springwebapp.dto.WorkListDto;
-import com.amazing.juno.springwebapp.entity.AboutEntity;
-import com.amazing.juno.springwebapp.entity.ContactEntity;
-import com.amazing.juno.springwebapp.entity.IntroductionEntity;
+import com.amazing.juno.springwebapp.dto.IntegratedInfo;
+import com.amazing.juno.springwebapp.dto.TechnologyCategory;
+import com.amazing.juno.springwebapp.dto.WorkDelete;
+import com.amazing.juno.springwebapp.dto.WorkSave;
+import com.amazing.juno.springwebapp.entity.About;
+import com.amazing.juno.springwebapp.entity.Contact;
+import com.amazing.juno.springwebapp.entity.Introduction;
 import com.amazing.juno.springwebapp.entity.Work;
-import com.amazing.juno.springwebapp.exc.IntegratedRequestException;
-import com.amazing.juno.springwebapp.response.IntegratedRequestResponse;
-import com.amazing.juno.springwebapp.service.PropertyService;
+import com.amazing.juno.springwebapp.exc.IntegratedExceptionMessage;
+import com.amazing.juno.springwebapp.response.IntegratedResponseMessage;
+import com.amazing.juno.springwebapp.service.PropertyServiceImpl;
 import com.amazing.juno.springwebapp.service.WorkServiceImpl;
 
 import jakarta.validation.Valid;
@@ -38,18 +38,18 @@ import jakarta.validation.Valid;
 public class AdminController {
 	
 	@Autowired
-	PropertyService propertyService;
+	PropertyServiceImpl propertyService;
 	
 	@Autowired
 	WorkServiceImpl workService;
 	
-	private IntegratedDto getAllDataNeededInAdmin(){
-		IntroductionEntity intro = propertyService.getIntroduction();
-		AboutEntity about = propertyService.getAbout();
-		ContactEntity contact = propertyService.getContactInfo();
-		List<TechnologyListDto> tech = propertyService.getTechnologyStack();
+	private IntegratedInfo getAllDataNeededInAdmin(){
+		Introduction intro = propertyService.getIntroduction();
+		About about = propertyService.getAbout();
+		Contact contact = propertyService.getContactInfo();
+		List<TechnologyCategory> tech = propertyService.getTechnologyStack();
 		Map<String,String> links = propertyService.getSnsLinks();
-		IntegratedDto integrated = new IntegratedDto();
+		IntegratedInfo integrated = new IntegratedInfo();
 		
 		integrated.setIntro(intro);
 		integrated.setAbout(about);
@@ -69,7 +69,7 @@ public class AdminController {
 	@GetMapping("/main")
 	public String home(Model model) {
 		System.out.println("Admin Page Loading....");
-		IntegratedDto allDataNeeded = getAllDataNeededInAdmin();
+		IntegratedInfo allDataNeeded = getAllDataNeededInAdmin();
 		
 		model.addAttribute("integrated",allDataNeeded);
 		return "admin";
@@ -85,11 +85,11 @@ public class AdminController {
 	
 	
 	@PostMapping("/work")
-	public ResponseEntity<WorkListDto> postMainProjects(@RequestBody WorkListDto workList, BindingResult bindingResult){
+	public ResponseEntity<WorkSave> postMainProjects(@RequestBody WorkSave workList, BindingResult bindingResult){
 		
 		System.out.println("\n\n\n\n\n---------------------------------");
 		System.out.println("admin/work");
-		WorkListDto result = new WorkListDto();
+		WorkSave result = new WorkSave();
 		result.setWorks(workList.getWorks());
 		workService.saveOrUpdate(workList.getWorks());
 		System.out.println("--------------------------------------\n\n\n\n");
@@ -98,7 +98,7 @@ public class AdminController {
 	}
 	
 	@DeleteMapping("/work")
-	public ResponseEntity<WorkDeleteDto> getMainProjects(@RequestBody WorkDeleteDto workDeleteDto, BindingResult bindingResult){
+	public ResponseEntity<WorkDelete> getMainProjects(@RequestBody WorkDelete workDeleteDto, BindingResult bindingResult){
 		
 		System.out.println("\n\n\n\n\n---------------------------------");
 		workService.delete(workDeleteDto.getProjectIds());
@@ -109,17 +109,17 @@ public class AdminController {
 	
 	
 	@PostMapping("/main")
-	public ResponseEntity<IntegratedRequestResponse> saveChange(@Valid IntegratedDto integrated, BindingResult bindingResult){
+	public ResponseEntity<IntegratedResponseMessage> saveChange(@Valid IntegratedInfo integrated, BindingResult bindingResult){
 		
 		if(bindingResult.hasErrors()) {
 			System.out.println("\n\n\n\n\n------------------------------------------");
 			System.out.println("Form Validation Error");
 			System.out.println(bindingResult.getAllErrors());
 			System.out.println("------------------------------------------\n\n\n\n");
-			throw new IntegratedRequestException(bindingResult.getAllErrors());
+			throw new IntegratedExceptionMessage(bindingResult.getAllErrors());
 		}
 		
-		IntegratedRequestResponse successResponse = new IntegratedRequestResponse();
+		IntegratedResponseMessage successResponse = new IntegratedResponseMessage();
 		
 		System.out.println("\n\n\n----------------------");
 		System.out.println("Save change");
@@ -146,12 +146,12 @@ public class AdminController {
 	
 	
 	@ExceptionHandler
-	public ResponseEntity<IntegratedRequestResponse> bindExceptionHandler(IntegratedRequestException e) {
+	public ResponseEntity<IntegratedResponseMessage> bindExceptionHandler(IntegratedExceptionMessage e) {
 		System.out.println("\n\n\n\n\n---------------------------------------------------------------");
 		System.out.println("Admin Exception Handler Loading....\n");
 		
 		StringBuilder message = new StringBuilder();
-		IntegratedRequestResponse errorResponse = new IntegratedRequestResponse();
+		IntegratedResponseMessage errorResponse = new IntegratedResponseMessage();
 		
 		for(ObjectError error: e.getErrors()) {
 			message.append(error.getDefaultMessage());

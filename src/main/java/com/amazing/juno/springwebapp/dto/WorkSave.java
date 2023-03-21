@@ -2,17 +2,17 @@ package com.amazing.juno.springwebapp.dto;
 
 import com.amazing.juno.springwebapp.entity.Work;
 
-public class WorkListDto {
+public class WorkSave {
 	Work[] works;
 	
 	
-	public WorkListDto() {
+	public WorkSave() {
 
 	}
 	
 	
 
-	public WorkListDto(Work[] works) {
+	public WorkSave(Work[] works) {
 		this.works = works;
 	}
 

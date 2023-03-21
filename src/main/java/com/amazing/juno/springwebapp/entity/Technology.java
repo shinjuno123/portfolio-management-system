@@ -1,12 +1,12 @@
 package com.amazing.juno.springwebapp.entity;
 
-public class TechnologyEntity {
+public class Technology {
 	private Integer score;
 	private String skill;
 	private String technologyDetail;
 	
 	
-	public TechnologyEntity(Integer score, String skill) {
+	public Technology(Integer score, String skill) {
 		this.score = score;
 		this.skill = skill;
 		this.setTechnologyDetail(this.chainStrings());

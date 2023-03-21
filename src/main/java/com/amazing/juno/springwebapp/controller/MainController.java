@@ -8,29 +8,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.amazing.juno.springwebapp.dto.IntegratedDto;
-import com.amazing.juno.springwebapp.dto.TechnologyListDto;
-import com.amazing.juno.springwebapp.entity.AboutEntity;
-import com.amazing.juno.springwebapp.entity.ContactEntity;
-import com.amazing.juno.springwebapp.entity.IntroductionEntity;
-import com.amazing.juno.springwebapp.service.PropertyService;
+import com.amazing.juno.springwebapp.dto.IntegratedInfo;
+import com.amazing.juno.springwebapp.dto.TechnologyCategory;
+import com.amazing.juno.springwebapp.entity.About;
+import com.amazing.juno.springwebapp.entity.Contact;
+import com.amazing.juno.springwebapp.entity.Introduction;
+import com.amazing.juno.springwebapp.service.PropertyServiceImpl;
 
 @Controller
 public class MainController {
 	
 	@Autowired
-	PropertyService propertyService;
+	PropertyServiceImpl propertyService;
 	
 	@GetMapping("/")
 	public String home(Model model) {
 		System.out.println("Main Page Loading....");
-		IntroductionEntity intro = propertyService.getIntroduction();
-		AboutEntity about = propertyService.getAbout();
-		List<TechnologyListDto> tech = propertyService.getTechnologyStack();
-		ContactEntity contact = propertyService.getContactInfo();
+		Introduction intro = propertyService.getIntroduction();
+		About about = propertyService.getAbout();
+		List<TechnologyCategory> tech = propertyService.getTechnologyStack();
+		Contact contact = propertyService.getContactInfo();
 		Map<String,String> links = propertyService.getSnsLinks();
 		
-		IntegratedDto integrated = new IntegratedDto();
+		IntegratedInfo integrated = new IntegratedInfo();
 		
 		integrated.setIntro(intro);
 		integrated.setAbout(about);

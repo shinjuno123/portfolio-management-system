@@ -2,13 +2,12 @@ package com.amazing.juno.springwebapp.dto;
 
 import java.util.List;
 
-import com.amazing.juno.springwebapp.entity.TechnologyEntity;
-import com.amazing.juno.springwebapp.validator.IsTechElemForm;
+import com.amazing.juno.springwebapp.entity.Technology;
 
-public class TechnologyListDto {
+public class TechnologyCategory {
 	private String categoryName;
 	
-	private List<TechnologyEntity> techList;
+	private List<Technology> techList;
 
 	public String getCategoryName() {
 		return categoryName;
@@ -18,11 +17,11 @@ public class TechnologyListDto {
 		this.categoryName = categoryName;
 	}
 
-	public List<TechnologyEntity> getTechList() {
+	public List<Technology> getTechList() {
 		return techList;
 	}
 
-	public void setTechList(List<TechnologyEntity> techList) {
+	public void setTechList(List<Technology> techList) {
 		this.techList = techList;
 	}
 
