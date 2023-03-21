@@ -30,4 +30,10 @@ public class WorkServiceImpl implements WorkService {
 		return workDaoJpaImpl.saveOrUpdate(works);
 	}
 
+	@Override
+	@Transactional
+	public void delete(Integer[] works) {
+		workDaoJpaImpl.deleteByIds(works);
+	}
+
 }

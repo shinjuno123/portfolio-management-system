@@ -46,6 +46,8 @@ const projectIndicatorButton = (slideNumber, isActive) => `
  <button type="button" data-bs-target="#projectslide" data-bs-slide-to="${slideNumber}" class="${isActive}" aria-label="Slide 1"></button>
 `
 
+window.deletedProjectIds = [];
+
 
 
 
@@ -281,7 +283,7 @@ function removeItemInCategoryMain(id) {
 		headers: neededHeader
 	}).then(response => response.json());
 
-	console.log(projects);
+
 
 	for (let project of projects) {
 		addProjectInfo(project.id, project.projectTitle, project.projectDescription,
@@ -299,6 +301,7 @@ function addDeleteProjectInfoEvent(carouselItem) {
 			const deletedItemNumber = carouselItem.attr("data-bs-number");
 
 			// delete selected slide
+			window.deletedProjectIds.push(Number(carouselItem.attr("db-id")));
 			$(carouselItem).remove();
 
 			// delete a slide button having selected slide number
@@ -355,15 +358,15 @@ function addProjectInfo(id = 0, projectTitle = "", projectDescription = "",
 		activeStatus = "active";
 	}
 
-	const newProject = projectInfo(activeStatus, projectitemsLength,id, projectTitle, projectDescription,
-	projectUrl, projectImageUrl);
+	const newProject = projectInfo(activeStatus, projectitemsLength, id, projectTitle, projectDescription,
+		projectUrl, projectImageUrl);
 	const indicator = projectIndicatorButton(projectitemsLength, activeStatus);
 
 	$(newProject).appendTo(projectSlides);
 	$(indicator).appendTo(projectSlideButtons);
-	
+
 	const justAddedCarouselItem = $(`#work-article > #projectslide > .carousel-inner > div[db-id="${id}"]`)
-	
+
 	addDeleteProjectInfoEvent(justAddedCarouselItem);
 	uploadProjectImage(justAddedCarouselItem);
 }
@@ -417,62 +420,78 @@ function uploadProjectImage(carouselItem) {
 
 
 
-function changeInputValue(){
-	$("input").on("input", function(event){
-		$(event.currentTarget).attr("val",event.currentTarget.value);
+function changeInputValue() {
+	$("input").on("input", function(event) {
+		$(event.currentTarget).attr("val", event.currentTarget.value);
 	});
 };
 
 
 
-function createProjectListForm(){
+function createProjectListForm() {
 	const result = {};
 	const formList = [];
-	
+
 	const projectTags = $("#work-article > #projectslide > .carousel-inner > div");
-	
-	for(let tag of projectTags){
+
+	for (let tag of projectTags) {
 		const id = tag.getAttribute("db-id");
 		const projectTitle = tag.querySelector(".description > div:nth-child(1) > input").value;
 		const projectDescription = tag.querySelector(".description > div:nth-child(2) > textarea").value;
 		const projectUrl = tag.querySelector(".description > div:nth-child(3) > input").value;
 		const projectImageUrl = tag.querySelector(".image > div > img").src;
-		
-		
+
+
 		const form = {
-			id : Number(id),
-			projectTitle : projectTitle,
-			projectDescription : projectDescription,
-			projectUrl : projectUrl,
-			projectImageUrl : projectImageUrl
+			id: Number(id),
+			projectTitle: projectTitle,
+			projectDescription: projectDescription,
+			projectUrl: projectUrl,
+			projectImageUrl: projectImageUrl
 		}
-		
-		
-		formList.push(form);	
+
+
+		formList.push(form);
 	}
-	
+
 	result["works"] = formList;
-	
+
 	return result;
 }
 
 
-async function saveProjects(){
+async function saveProjects() {
 	const projects = JSON.stringify(createProjectListForm());
 	const token = $("meta[name='_csrf']").attr("content");
-	
+
 
 	const result = await fetch('/admin/work', {
 		method: 'POST',
 		headers: {
-			"X-CSRF-TOKEN" : token,
-			"Content-Type" : "application/json"
+			"X-CSRF-TOKEN": token,
+			"Content-Type": "application/json"
 		},
-		body : projects
+		body: projects
 	}).then(response => response.json())
-	.then(data => data["works"]);
+		.then(data => data["works"]);
 
-	
+}
+
+async function deleteProjects() {
+	const projects = JSON.stringify(createProjectListForm());
+	const token = $("meta[name='_csrf']").attr("content");
+
+	const result = await fetch('/admin/work', {
+		method: 'DELETE',
+		headers: {
+			"X-CSRF-TOKEN": token,
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			projectIds: window.deletedProjectIds
+		})
+	}).then(response => response.json())
+		.then(data => data["works"]);
 }
 
 
@@ -480,6 +499,7 @@ async function saveProjects(){
 
 
 (function addCustomFormSubmitEvent() {
+
 	$("#saveToFile").submit(async function(event) {
 
 		event.preventDefault();
@@ -528,9 +548,9 @@ async function saveProjects(){
 		$.ajaxPrefilter(function(options, originalOptions, jqXHR) {
 			jqXHR.setRequestHeader(header, token);
 		});
-		
 
-		$.ajax({
+
+		await $.ajax({
 			url: "/admin/main",
 			data: form,
 			cache: false,
@@ -538,10 +558,6 @@ async function saveProjects(){
 			processData: false,
 			method: "POST",
 			type: "POST",
-			success: function(data) {
-				alert(data.message);
-				window.location.replace("/admin/main");
-			},
 			error: function(e) {
 				const response = e.responseJSON;
 				alert(response.message);
@@ -551,9 +567,15 @@ async function saveProjects(){
 		}
 		);
 
-		
-		saveProjects();
 
+		
+		if(window.deletedProjectIds.length > 0){
+			await deleteProjects();
+		}
+
+		await saveProjects();
+		alert("Succeeded to save all information!");
+		window.location.replace("/admin/main");
 
 	});
 

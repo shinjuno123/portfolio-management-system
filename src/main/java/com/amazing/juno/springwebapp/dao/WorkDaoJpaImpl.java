@@ -8,7 +8,6 @@ import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Repository;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.amazing.juno.springwebapp.entity.Work;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 @Repository
@@ -105,11 +105,9 @@ public class WorkDaoJpaImpl implements WorkDao {
 	@Override
 	public Work[] saveOrUpdate(Work[] works) {
 		for(Work work : works) {
-
 			byte[] imageData = convertStringtoByteArray(work.getProjectImageUrl());
 			String filePath = saveFile(imageData);
 			work.setProjectImageUrl(filePath);
-			System.out.println(work);
 			entityManager.merge(work);
 		}
 
@@ -117,4 +115,31 @@ public class WorkDaoJpaImpl implements WorkDao {
 		
 	}
 
+	@Override
+	public void deleteByIds(Integer[] works) {
+		// TODO Auto-generated method stub
+		StringBuilder query = new StringBuilder();
+		
+		query.append("DELETE FROM Work WHERE id IN (");
+		
+		for(int id: works) {
+			query.append(id);
+			query.append(", ");
+		}
+		query.delete(query.length() - 2, query.length());
+		query.append(")");
+		
+		
+		System.out.println(query.toString());
+		
+		Query result = entityManager.createQuery(query.toString());
+		result.executeUpdate();
+		
+	}
+
 }
+
+
+
+
+

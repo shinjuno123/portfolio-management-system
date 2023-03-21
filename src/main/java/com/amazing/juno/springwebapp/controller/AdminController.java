@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.amazing.juno.springwebapp.dto.IntegratedDto;
 import com.amazing.juno.springwebapp.dto.TechnologyListDto;
+import com.amazing.juno.springwebapp.dto.WorkDeleteDto;
 import com.amazing.juno.springwebapp.dto.WorkListDto;
 import com.amazing.juno.springwebapp.entity.AboutEntity;
 import com.amazing.juno.springwebapp.entity.ContactEntity;
@@ -81,6 +83,7 @@ public class AdminController {
 		return new ResponseEntity<>(works, HttpStatus.ACCEPTED);
 	}
 	
+	
 	@PostMapping("/work")
 	public ResponseEntity<WorkListDto> postMainProjects(@RequestBody WorkListDto workList, BindingResult bindingResult){
 		
@@ -92,6 +95,16 @@ public class AdminController {
 		System.out.println("--------------------------------------\n\n\n\n");
 		
 		return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
+	}
+	
+	@DeleteMapping("/work")
+	public ResponseEntity<WorkDeleteDto> getMainProjects(@RequestBody WorkDeleteDto workDeleteDto, BindingResult bindingResult){
+		
+		System.out.println("\n\n\n\n\n---------------------------------");
+		workService.delete(workDeleteDto.getProjectIds());
+		System.out.println("--------------------------------------\n\n\n\n");
+		
+		return new ResponseEntity<>(workDeleteDto, HttpStatus.ACCEPTED);
 	}
 	
 	

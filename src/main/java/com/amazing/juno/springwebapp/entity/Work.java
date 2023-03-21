@@ -32,10 +32,12 @@ public class Work {
 	@Transient
 	private String projectImageDataURl;
 	
+
+	
 	
 	
 	public Work() {
-		
+
 	}
 
 
@@ -119,6 +121,9 @@ public class Work {
 	public void setProjectImageDataURl(String projectImageDataURl) {
 		this.projectImageDataURl = projectImageDataURl;
 	}
+	
+
+
 
 
 
