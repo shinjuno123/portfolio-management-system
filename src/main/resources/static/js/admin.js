@@ -42,13 +42,62 @@ const projectInfo = (isActive, number, id = null, projectTitle = "", projectDesc
 			</div>
 `
 
+
+const noteworthyProjectBox = (title='', description='', url='')=>
+	`
+						<div class="col-lg-4 col-md-6">
+							<div
+								class="card border border-primary project-box"
+								style="background-color: #0a2647">
+								<div
+									class="d-flex justify-content-center align-items-center h-100">
+									
+									<div class="card-body m-2">
+									
+			
+										<span class="text-light-subtle material-symbols-outlined folder mb-3">
+											folder </span>
+										<div class="text-dark form-floating pb-3">
+												<input type="text" class="form-control"
+														placeholder="Project Title" id="floatingTitleArea" value="${title}"> 
+												<label for="floatingTitleArea">Prssoject Title</label>
+										</div>
+										
+										<div class="text-dark form-floating pb-3">
+											<textarea style="resize: none;" class="form-control" rows="2" placeholder="Project Description" id="floatingDescriptionArea">${description}</textarea>
+											<label for="floatingDescriptionArea">Project Description</label>
+										</div>
+										
+										<div class="text-dark form-floating pb-3">
+												<input type="url" class="form-control"
+														placeholder="URL" id="floatingTitleArea" value="${url}"> 
+												<label for="floatingTitleArea">URL</label>
+										</div>
+								
+									</div>
+										
+								</div>
+							</div>
+						</div>
+`
+
 const projectIndicatorButton = (slideNumber, isActive) => `
  <button type="button" data-bs-target="#projectslide" data-bs-slide-to="${slideNumber}" class="${isActive}" aria-label="Slide 1"></button>
 `
 
 window.deletedProjectIds = [];
 
-
+// prevent enter submitting form
+$(document).ready(function() {
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+  
+  
+});
 
 
 
@@ -289,6 +338,7 @@ function removeItemInCategoryMain(id) {
 		addProjectInfo(project.id, project.projectTitle, project.projectDescription,
 			project.projectUrl, project.projectImageDataURl)
 	}
+
 	changeInputValue();
 })()
 
@@ -369,6 +419,7 @@ function addProjectInfo(id = 0, projectTitle = "", projectDescription = "",
 
 	addDeleteProjectInfoEvent(justAddedCarouselItem);
 	uploadProjectImage(justAddedCarouselItem);
+
 }
 
 (function addProjectinfoEventToButton() {
@@ -422,7 +473,7 @@ function uploadProjectImage(carouselItem) {
 
 function changeInputValue() {
 	$("input").on("input", function(event) {
-		$(event.currentTarget).attr("val", event.currentTarget.value);
+		$(event.currentTarget).attr("value", event.currentTarget.value);
 	});
 };
 
@@ -478,7 +529,6 @@ async function saveProjects() {
 }
 
 async function deleteProjects() {
-	const projects = JSON.stringify(createProjectListForm());
 	const token = $("meta[name='_csrf']").attr("content");
 
 	const result = await fetch('/admin/work', {
@@ -494,6 +544,38 @@ async function deleteProjects() {
 		.then(data => data["works"]);
 }
 
+
+
+/* Noteworthy projects */
+function addOneNoteWorthyProject(title='', description ='' ,url = ''){
+	const noteworthyProjectInner = $('#noteworthyProject > #noteworthProjectArticle > div').last();
+	noteworthyProjectInner.append(noteworthyProjectBox(title,description,url));
+	changeInputValue();
+}
+
+
+
+(function addClickEventCreatingProjectBox(){
+	$('#noteworthyProject > #noteworthProjectArticle > button').on("click",
+	function(){
+		addOneNoteWorthyProject();
+	})
+	
+})();
+
+(async function loadProjectBox(){
+	const token = $("meta[name='_csrf']").attr("content");
+	const result = await fetch('/admin/noteworthy-project', {
+		method: 'GET',
+		headers: {
+			"X-CSRF-TOKEN": token,
+			"Content-Type": "application/json"
+		},
+	
+	}).then(response => response.json());
+	
+	console.log(result);
+})();
 
 
 
@@ -568,8 +650,8 @@ async function deleteProjects() {
 		);
 
 
-		
-		if(window.deletedProjectIds.length > 0){
+
+		if (window.deletedProjectIds.length > 0) {
 			await deleteProjects();
 		}
 

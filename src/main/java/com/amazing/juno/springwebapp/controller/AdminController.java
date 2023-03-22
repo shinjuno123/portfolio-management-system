@@ -25,6 +25,7 @@ import com.amazing.juno.springwebapp.dto.WorkSave;
 import com.amazing.juno.springwebapp.entity.About;
 import com.amazing.juno.springwebapp.entity.Contact;
 import com.amazing.juno.springwebapp.entity.Introduction;
+import com.amazing.juno.springwebapp.entity.NoteworthyProject;
 import com.amazing.juno.springwebapp.entity.Work;
 import com.amazing.juno.springwebapp.exc.IntegratedExceptionMessage;
 import com.amazing.juno.springwebapp.response.IntegratedResponseMessage;
@@ -39,7 +40,7 @@ public class AdminController {
 	
 	@Autowired
 	PropertyServiceImpl propertyService;
-	
+
 	@Autowired
 	WorkServiceImpl workService;
 	
@@ -85,13 +86,14 @@ public class AdminController {
 	
 	
 	@PostMapping("/work")
-	public ResponseEntity<WorkSave> postMainProjects(@RequestBody WorkSave workList, BindingResult bindingResult){
+	public ResponseEntity<WorkSave> postMainProjects(@RequestBody @Valid WorkSave workList, BindingResult bindingResult){
 		
 		System.out.println("\n\n\n\n\n---------------------------------");
-		System.out.println("admin/work");
+		System.out.println("admin/work POST");
 		WorkSave result = new WorkSave();
+		System.out.println(workList.getWorks()[workList.getWorks().length - 1]);
 		result.setWorks(workList.getWorks());
-		workService.saveOrUpdate(workList.getWorks());
+		workService.saveOrUpdateWorks(workList.getWorks());
 		System.out.println("--------------------------------------\n\n\n\n");
 		
 		return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
@@ -101,11 +103,23 @@ public class AdminController {
 	public ResponseEntity<WorkDelete> getMainProjects(@RequestBody WorkDelete workDeleteDto, BindingResult bindingResult){
 		
 		System.out.println("\n\n\n\n\n---------------------------------");
-		workService.delete(workDeleteDto.getProjectIds());
+		workService.deleteWorks(workDeleteDto.getProjectIds());
 		System.out.println("--------------------------------------\n\n\n\n");
 		
 		return new ResponseEntity<>(workDeleteDto, HttpStatus.ACCEPTED);
 	}
+	
+	
+	@GetMapping("/noteworthy-project")
+	public ResponseEntity<List<NoteworthyProject>> getNoteworthyProjects(){
+		List<NoteworthyProject> projects = workService.findAllNoteworthyProjects();
+		
+		return new ResponseEntity<>(projects, HttpStatus.ACCEPTED);
+	}
+	
+	
+	
+	
 	
 	
 	@PostMapping("/main")

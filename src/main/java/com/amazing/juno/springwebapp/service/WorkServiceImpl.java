@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.amazing.juno.springwebapp.dao.NoteworthyProjectDaoImpl;
 import com.amazing.juno.springwebapp.dao.WorkDaoJpaImpl;
+import com.amazing.juno.springwebapp.entity.NoteworthyProject;
 import com.amazing.juno.springwebapp.entity.Work;
 
 import jakarta.transaction.Transactional;
@@ -16,6 +18,9 @@ public class WorkServiceImpl implements WorkService {
 	
 	@Autowired
 	WorkDaoJpaImpl workDaoJpaImpl;
+	
+	@Autowired
+	NoteworthyProjectDaoImpl noteWorthyProjectImpl;
 
 	
 	@Override
@@ -26,14 +31,30 @@ public class WorkServiceImpl implements WorkService {
 
 	@Override
 	@Transactional
-	public Work[] saveOrUpdate(Work[] works) {
+	public Work[] saveOrUpdateWorks(Work[] works) {
 		return workDaoJpaImpl.saveOrUpdate(works);
 	}
 
 	@Override
 	@Transactional
-	public void delete(Integer[] works) {
+	public void deleteWorks(Integer[] works) {
 		workDaoJpaImpl.deleteByIds(works);
+	}
+
+	@Override
+	public List<NoteworthyProject> findAllNoteworthyProjects() {
+		return noteWorthyProjectImpl.findAll();
+	}
+
+	@Override
+	public void saveOrUpdateAllNoteworthyProjects(NoteworthyProject[] projects) {
+		noteWorthyProjectImpl.saveOrUpdateAll(projects);
+		
+	}
+
+	@Override
+	public void deleteAllNoteworthyProjects(Integer[] ids) {
+		noteWorthyProjectImpl.deleteAll(ids);
 	}
 
 }
