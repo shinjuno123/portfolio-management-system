@@ -43,9 +43,9 @@ const projectInfo = (isActive, number, id = null, projectTitle = "", projectDesc
 `
 
 
-const noteworthyProjectBox = (title='', description='', url='')=>
+const noteworthyProjectBox = (id=0, title='', description='', url='')=>
 	`
-						<div class="col-lg-4 col-md-6">
+						<div class="col-lg-4 col-md-6" db-id="${id}">
 							<div
 								class="card border border-primary project-box"
 								style="background-color: #0a2647">
@@ -53,19 +53,21 @@ const noteworthyProjectBox = (title='', description='', url='')=>
 									class="d-flex justify-content-center align-items-center h-100">
 									
 									<div class="card-body m-2">
-									
-			
-										<span class="text-light-subtle material-symbols-outlined folder mb-3">
-											folder </span>
-										<div class="text-dark form-floating pb-3">
-												<input type="text" class="form-control"
-														placeholder="Project Title" id="floatingTitleArea" value="${title}"> 
-												<label for="floatingTitleArea">Prssoject Title</label>
+										
+										<div class="d-flex mb-2" style="justify-content: space-between;">
+											<i class="text-light-subtle material-symbols-outlined folder">folder </i>
+											<button type="button" class="btn btn-danger">Delete</button>
 										</div>
 										
 										<div class="text-dark form-floating pb-3">
-											<textarea style="resize: none;" class="form-control" rows="2" placeholder="Project Description" id="floatingDescriptionArea">${description}</textarea>
-											<label for="floatingDescriptionArea">Project Description</label>
+												<input type="text" class="form-control"
+														placeholder="Title" id="floatingTitleArea" value="${title}"> 
+												<label for="floatingTitleArea">Title</label>
+										</div>
+										
+										<div class="text-dark form-floating pb-3">
+											<textarea style="resize: none;" class="form-control" rows="2" placeholder="Description" id="floatingDescriptionArea">${description}</textarea>
+											<label for="floatingDescriptionArea">Description</label>
 										</div>
 										
 										<div class="text-dark form-floating pb-3">
@@ -86,6 +88,7 @@ const projectIndicatorButton = (slideNumber, isActive) => `
 `
 
 window.deletedProjectIds = [];
+window.deletedNoteworthyProjectIds = [];
 
 // prevent enter submitting form
 $(document).ready(function() {
@@ -547,12 +550,27 @@ async function deleteProjects() {
 
 
 /* Noteworthy projects */
-function addOneNoteWorthyProject(title='', description ='' ,url = ''){
+function addOneNoteWorthyProject(id=0, title='', description ='' ,url = ''){
 	const noteworthyProjectInner = $('#noteworthyProject > #noteworthProjectArticle > div').last();
-	noteworthyProjectInner.append(noteworthyProjectBox(title,description,url));
+	const project = $(noteworthyProjectBox(id, title,description,url))
+	noteworthyProjectInner.append(project);
+	addClickEventDeletingProjectBox(project);
 	changeInputValue();
 }
 
+function deleteOneNoteWorthyProject(component){
+	component.remove();
+	
+	if(component.attr("db-id") > 0){
+		window.deletedNoteworthyProjectIds.push(Number(component.attr("db-id")));
+	}
+}
+
+function addClickEventDeletingProjectBox(component){
+	component.on("click", function(){
+		deleteOneNoteWorthyProject(component);
+	});
+}
 
 
 (function addClickEventCreatingProjectBox(){
@@ -563,8 +581,11 @@ function addOneNoteWorthyProject(title='', description ='' ,url = ''){
 	
 })();
 
+
+
 (async function loadProjectBox(){
 	const token = $("meta[name='_csrf']").attr("content");
+	
 	const result = await fetch('/admin/noteworthy-project', {
 		method: 'GET',
 		headers: {
@@ -574,8 +595,35 @@ function addOneNoteWorthyProject(title='', description ='' ,url = ''){
 	
 	}).then(response => response.json());
 	
-	console.log(result);
+	for(const project of result){
+		addOneNoteWorthyProject(project.id, project.title, project.description, project.url);
+	}
+	
+	
 })();
+
+
+async function submitNoteworthyProjects(){
+	const noteworthyProjectInner = $('#noteworthyProject > #noteworthProjectArticle > div').last().children();
+	const projects = [];
+	
+	noteworthyProjectInner.each((index)=>{
+		const projectTag = noteworthyProjectInner[index];
+		
+		const inputs = projectTag.querySelectorAll(".form-floating > input,textarea");
+		
+		const project = {};
+		
+		for(const input of inputs){
+			project[input.placeholder.toLowerCase()] = input.value;
+		}
+		
+		projects.push(project);
+	})
+	
+	
+	
+}
 
 
 
@@ -630,8 +678,10 @@ function addOneNoteWorthyProject(title='', description ='' ,url = ''){
 		$.ajaxPrefilter(function(options, originalOptions, jqXHR) {
 			jqXHR.setRequestHeader(header, token);
 		});
+		
+		await submitNoteworthyProjects();
 
-
+		/*
 		await $.ajax({
 			url: "/admin/main",
 			data: form,
@@ -658,6 +708,9 @@ function addOneNoteWorthyProject(title='', description ='' ,url = ''){
 		await saveProjects();
 		alert("Succeeded to save all information!");
 		window.location.replace("/admin/main");
+		*/
+		
+		
 
 	});
 

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.amazing.juno.springwebapp.dto.IntegratedInfo;
+import com.amazing.juno.springwebapp.dto.NoteworthyProjectArray;
 import com.amazing.juno.springwebapp.dto.TechnologyCategory;
 import com.amazing.juno.springwebapp.dto.WorkDelete;
 import com.amazing.juno.springwebapp.dto.WorkSave;
@@ -113,6 +114,17 @@ public class AdminController {
 	@GetMapping("/noteworthy-project")
 	public ResponseEntity<List<NoteworthyProject>> getNoteworthyProjects(){
 		List<NoteworthyProject> projects = workService.findAllNoteworthyProjects();
+		
+		return new ResponseEntity<>(projects, HttpStatus.ACCEPTED);
+	}
+	
+	
+	@PostMapping("/noteworthy-project")
+	public ResponseEntity<NoteworthyProjectArray> saveNoteworthyProjects(@RequestBody @Valid NoteworthyProjectArray projects){
+		System.out.println("\n\n\n\n\n---------------------------------");
+		System.out.println("admin/noteworthy-project POST");
+		System.out.println(projects);
+		System.out.println("--------------------------------------\n\n\n\n");
 		
 		return new ResponseEntity<>(projects, HttpStatus.ACCEPTED);
 	}
