@@ -118,22 +118,25 @@ public class WorkDaoJpaImpl implements WorkDao {
 	@Override
 	public void deleteByIds(Integer[] works) {
 		// TODO Auto-generated method stub
-		StringBuilder query = new StringBuilder();
-		
-		query.append("DELETE FROM Work WHERE id IN (");
-		
-		for(int id: works) {
-			query.append(id);
-			query.append(", ");
+		if(works.length > 0) {
+			StringBuilder query = new StringBuilder();
+			
+			query.append("DELETE FROM Work WHERE id IN (");
+			
+			for(int id: works) {
+				query.append(id);
+				query.append(", ");
+			}
+			query.delete(query.length() - 2, query.length());
+			query.append(")");
+			
+			
+			System.out.println(query.toString());
+			
+			Query result = entityManager.createQuery(query.toString());
+			result.executeUpdate();
 		}
-		query.delete(query.length() - 2, query.length());
-		query.append(")");
-		
-		
-		System.out.println(query.toString());
-		
-		Query result = entityManager.createQuery(query.toString());
-		result.executeUpdate();
+	
 		
 	}
 
