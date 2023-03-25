@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.amazing.juno.springwebapp.dto.IntegratedInfo;
 import com.amazing.juno.springwebapp.dto.NoteworthyProjectArray;
 import com.amazing.juno.springwebapp.dto.TechnologyCategory;
-import com.amazing.juno.springwebapp.dto.WorkDelete;
-import com.amazing.juno.springwebapp.dto.WorkSave;
+import com.amazing.juno.springwebapp.dto.IntegerArray;
+import com.amazing.juno.springwebapp.dto.WorkArray;
 import com.amazing.juno.springwebapp.entity.About;
 import com.amazing.juno.springwebapp.entity.Contact;
 import com.amazing.juno.springwebapp.entity.Introduction;
@@ -87,11 +87,11 @@ public class AdminController {
 	
 	
 	@PostMapping("/work")
-	public ResponseEntity<WorkSave> postMainProjects(@RequestBody @Valid WorkSave workList, BindingResult bindingResult){
+	public ResponseEntity<WorkArray> postMainProjects(@RequestBody @Valid WorkArray workList, BindingResult bindingResult){
 		
 		System.out.println("\n\n\n\n\n---------------------------------");
 		System.out.println("admin/work POST");
-		WorkSave result = new WorkSave();
+		WorkArray result = new WorkArray();
 		System.out.println(workList.getWorks()[workList.getWorks().length - 1]);
 		result.setWorks(workList.getWorks());
 		workService.saveOrUpdateWorks(workList.getWorks());
@@ -101,13 +101,13 @@ public class AdminController {
 	}
 	
 	@DeleteMapping("/work")
-	public ResponseEntity<WorkDelete> getMainProjects(@RequestBody WorkDelete workDeleteDto, BindingResult bindingResult){
+	public ResponseEntity<IntegerArray> deleteMainProjects(@RequestBody IntegerArray projectIds, BindingResult bindingResult){
 		
 		System.out.println("\n\n\n\n\n---------------------------------");
-		workService.deleteWorks(workDeleteDto.getProjectIds());
+		workService.deleteWorks(projectIds.getProjectIds());
 		System.out.println("--------------------------------------\n\n\n\n");
 		
-		return new ResponseEntity<>(workDeleteDto, HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(projectIds, HttpStatus.ACCEPTED);
 	}
 	
 	
@@ -124,9 +124,24 @@ public class AdminController {
 		System.out.println("\n\n\n\n\n---------------------------------");
 		System.out.println("admin/noteworthy-project POST");
 		System.out.println(projects);
+		workService.saveOrUpdateAllNoteworthyProjects(projects.getProjects());
 		System.out.println("--------------------------------------\n\n\n\n");
 		
 		return new ResponseEntity<>(projects, HttpStatus.ACCEPTED);
+	}
+	
+	
+
+	@DeleteMapping("noteworthy-project")
+	public ResponseEntity<IntegerArray> deleteNoteworthyProjects(@RequestBody IntegerArray projectIds, BindingResult bindingResult){
+		System.out.println("\n\n\n\n\n---------------------------------");
+		System.out.println("admin/noteworthy-project DELETE");
+		System.out.println(projectIds);
+		workService.deleteAllNoteworthyProjects(projectIds.getProjectIds());
+		System.out.println("--------------------------------------\n\n\n\n");
+		
+		
+		return new ResponseEntity<>(projectIds, HttpStatus.ACCEPTED);
 	}
 	
 	

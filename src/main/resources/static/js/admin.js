@@ -43,7 +43,7 @@ const projectInfo = (isActive, number, id = null, projectTitle = "", projectDesc
 `
 
 
-const noteworthyProjectBox = (id=0, title='', description='', url='')=>
+const noteworthyProjectBox = (id = 0, title = '', description = '', url = '') =>
 	`
 						<div class="col-lg-4 col-md-6" db-id="${id}">
 							<div
@@ -92,14 +92,14 @@ window.deletedNoteworthyProjectIds = [];
 
 // prevent enter submitting form
 $(document).ready(function() {
-  $(window).keydown(function(event){
-    if(event.keyCode == 13) {
-      event.preventDefault();
-      return false;
-    }
-  });
-  
-  
+	$(window).keydown(function(event) {
+		if (event.keyCode == 13) {
+			event.preventDefault();
+			return false;
+		}
+	});
+
+
 });
 
 
@@ -550,79 +550,108 @@ async function deleteProjects() {
 
 
 /* Noteworthy projects */
-function addOneNoteWorthyProject(id=0, title='', description ='' ,url = ''){
+function addOneNoteWorthyProject(id = 0, title = '', description = '', url = '') {
 	const noteworthyProjectInner = $('#noteworthyProject > #noteworthProjectArticle > div').last();
-	const project = $(noteworthyProjectBox(id, title,description,url))
+	const project = $(noteworthyProjectBox(id, title, description, url))
 	noteworthyProjectInner.append(project);
 	addClickEventDeletingProjectBox(project);
 	changeInputValue();
 }
 
-function deleteOneNoteWorthyProject(component){
+function deleteOneNoteWorthyProject(component) {
 	component.remove();
-	
-	if(component.attr("db-id") > 0){
+
+	if (component.attr("db-id") > 0) {
 		window.deletedNoteworthyProjectIds.push(Number(component.attr("db-id")));
 	}
 }
 
-function addClickEventDeletingProjectBox(component){
-	component.on("click", function(){
+function addClickEventDeletingProjectBox(component) {
+	const deleteButton = component.children().children().children().children().first().children("button");
+
+	deleteButton.on("click", function() {
 		deleteOneNoteWorthyProject(component);
 	});
 }
 
 
-(function addClickEventCreatingProjectBox(){
+(function addClickEventCreatingProjectBox() {
 	$('#noteworthyProject > #noteworthProjectArticle > button').on("click",
-	function(){
-		addOneNoteWorthyProject();
-	})
-	
+		function() {
+			addOneNoteWorthyProject();
+		})
+
 })();
 
 
 
-(async function loadProjectBox(){
+(async function loadProjectBox() {
 	const token = $("meta[name='_csrf']").attr("content");
-	
+
 	const result = await fetch('/admin/noteworthy-project', {
 		method: 'GET',
 		headers: {
 			"X-CSRF-TOKEN": token,
 			"Content-Type": "application/json"
 		},
-	
+
 	}).then(response => response.json());
-	
-	for(const project of result){
+
+	for (const project of result) {
 		addOneNoteWorthyProject(project.id, project.title, project.description, project.url);
 	}
-	
-	
+
+
 })();
 
 
-async function submitNoteworthyProjects(){
+async function saveNoteworthyProjects() {
 	const noteworthyProjectInner = $('#noteworthyProject > #noteworthProjectArticle > div').last().children();
 	const projects = [];
-	
-	noteworthyProjectInner.each((index)=>{
+	const token = $("meta[name='_csrf']").attr("content");
+
+	noteworthyProjectInner.each((index) => {
 		const projectTag = noteworthyProjectInner[index];
-		
+
 		const inputs = projectTag.querySelectorAll(".form-floating > input,textarea");
-		
+
+
 		const project = {};
-		
-		for(const input of inputs){
+
+		for (const input of inputs) {
 			project[input.placeholder.toLowerCase()] = input.value;
 		}
-		
+
+		project["id"] = projectTag.getAttribute("db-id");
+
 		projects.push(project);
 	})
-	
-	
-	
+
+
+	const result = await fetch('/admin/noteworthy-project', {
+		method: 'POST',
+		headers: {
+			"X-CSRF-TOKEN": token,
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({ projects: projects })
+	}).then(response => response.json());
+
+}
+
+
+async function deleteNoteworthyProjects() {
+	const token = $("meta[name='_csrf']").attr("content");
+	console.log(window.deletedNoteworthyProjectIds);
+
+	const result = await fetch('/admin/noteworthy-project', {
+		method: 'DELETE',
+		headers: {
+			"X-CSRF-TOKEN": token,
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({ projectIds: window.deletedNoteworthyProjectIds })
+	}).then(response => response.json());
 }
 
 
@@ -679,9 +708,12 @@ async function submitNoteworthyProjects(){
 			jqXHR.setRequestHeader(header, token);
 		});
 		
-		await submitNoteworthyProjects();
+		await deleteNoteworthyProjects();
+		
 
-		/*
+		await saveNoteworthyProjects();
+
+
 		await $.ajax({
 			url: "/admin/main",
 			data: form,
@@ -708,9 +740,8 @@ async function submitNoteworthyProjects(){
 		await saveProjects();
 		alert("Succeeded to save all information!");
 		window.location.replace("/admin/main");
-		*/
-		
-		
+
+
 
 	});
 

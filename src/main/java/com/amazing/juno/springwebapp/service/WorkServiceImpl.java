@@ -42,17 +42,20 @@ public class WorkServiceImpl implements WorkService {
 	}
 
 	@Override
+	@Transactional
 	public List<NoteworthyProject> findAllNoteworthyProjects() {
 		return noteWorthyProjectImpl.findAll();
 	}
 
 	@Override
+	@Transactional
 	public void saveOrUpdateAllNoteworthyProjects(NoteworthyProject[] projects) {
 		noteWorthyProjectImpl.saveOrUpdateAll(projects);
 		
 	}
 
 	@Override
+	@Transactional
 	public void deleteAllNoteworthyProjects(Integer[] ids) {
 		noteWorthyProjectImpl.deleteAll(ids);
 	}

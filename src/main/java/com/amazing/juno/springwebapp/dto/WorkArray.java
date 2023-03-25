@@ -2,17 +2,17 @@ package com.amazing.juno.springwebapp.dto;
 
 import com.amazing.juno.springwebapp.entity.Work;
 
-public class WorkSave {
+public class WorkArray {
 	Work[] works;
 	
 	
-	public WorkSave() {
+	public WorkArray() {
 
 	}
 	
 	
 
-	public WorkSave(Work[] works) {
+	public WorkArray(Work[] works) {
 		this.works = works;
 	}
 

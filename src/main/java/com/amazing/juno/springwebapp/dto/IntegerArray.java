@@ -2,12 +2,12 @@ package com.amazing.juno.springwebapp.dto;
 
 import jakarta.validation.constraints.NotNull;
 
-public class WorkDelete {
+public class IntegerArray {
 	@NotNull
 	Integer[] projectIds;
 	
 	
-	public WorkDelete() {
+	public IntegerArray() {
 	}
 
 	public Integer[] getProjectIds() {
