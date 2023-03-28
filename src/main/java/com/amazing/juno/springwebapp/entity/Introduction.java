@@ -1,61 +1,34 @@
 package com.amazing.juno.springwebapp.entity;
 
+
+
+
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Builder;
+import lombok.Data;
+
+import java.util.UUID;
+
+@Data
+@Builder
+@Entity
 public class Introduction {
-	
-	private String titleMain;
 
-	private String myName;
+	@Id
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private UUID id;
 
-	private String subTitle;
+	private String sayHi;
+
+	private String name;
+
+	private String opening;
 
 	private String detail;
 
-	public Introduction() {
-	}
-
-	public Introduction(String titleMain, String myName, String subTitle, String detail) {
-		this.titleMain = titleMain;
-		this.myName = myName;
-		this.subTitle = subTitle;
-		this.detail = detail;
-	}
-
-	public String getTitleMain() {
-		return titleMain;
-	}
-
-	public void setTitleMain(String titleMain) {
-		this.titleMain = titleMain;
-	}
-
-	public String getMyName() {
-		return myName;
-	}
-
-	public void setMyName(String myName) {
-		this.myName = myName;
-	}
-
-	public String getSubTitle() {
-		return subTitle;
-	}
-
-	public void setSubTitle(String subTitle) {
-		this.subTitle = subTitle;
-	}
-
-	public String getDetail() {
-		return detail;
-	}
-
-	public void setDetail(String detail) {
-		this.detail = detail;
-	}
-
-	@Override
-	public String toString() {
-		return "IntroductionEntity [titleMain=" + titleMain + ", myName=" + myName + ", subTitle=" + subTitle
-				+ ", detail=" + detail + "]";
-	}
-
+	public Introduction() {}
 }
