@@ -12,21 +12,30 @@
 	<artifactId>springwebapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>springwebapp</name>
+	<name>springWebApp</name>
 	<description>Project Management System</description>
 	<properties>
 		<java.version>17</java.version>
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+
 		
 		<!-- ThymeLeaf -->
 		<dependency>

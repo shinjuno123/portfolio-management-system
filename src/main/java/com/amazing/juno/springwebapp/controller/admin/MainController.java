@@ -1,4 +1,4 @@
-package com.amazing.juno.springwebapp.controller;
+package com.amazing.juno.springwebapp.controller.admin;
 
 import java.util.List;
 import java.util.Map;
