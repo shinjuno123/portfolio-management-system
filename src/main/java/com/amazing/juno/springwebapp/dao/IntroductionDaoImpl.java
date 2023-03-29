@@ -38,13 +38,7 @@ public class IntroductionDaoImpl implements IntroductionDao{
 		String detail = env.getProperty("introduction.title.detail");
 
 		
-		return Introduction.builder()
-				.id(UUID.randomUUID())
-				.sayHi(main)
-				.name(name)
-				.opening(sub)
-				.detail(detail)
-				.build();
+		return new Introduction();
 	}
 
 

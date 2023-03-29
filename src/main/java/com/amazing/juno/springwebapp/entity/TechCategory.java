@@ -21,7 +21,7 @@ public class TechCategory {
     private UUID id;
 
 
-    @OneToMany(mappedBy = "technologyItem", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "techCategory", cascade = CascadeType.ALL)
     private final Set<TechCategoryItem> technologies = new HashSet<>();
 
 }

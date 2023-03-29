@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-	
+
 	@Bean
 	public InMemoryUserDetailsManager userDetailsManager() {
 		UserDetails admin = User.builder()
@@ -22,15 +22,15 @@ public class SecurityConfig {
 				.password("{noop}1234")
 				.roles("ADMIN")
 				.build();
-		
+
 		return new InMemoryUserDetailsManager(admin);
 	}
-	
+
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		return http.authorizeHttpRequests(authorize -> authorize
-					.requestMatchers("/admin/**").hasRole("ADMIN")
-					.anyRequest().permitAll()
+						.requestMatchers("/admin/**").hasRole("ADMIN")
+						.anyRequest().permitAll()
 				)
 				.formLogin(withDefaults())
 				.build();
