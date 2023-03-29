@@ -22,17 +22,17 @@ public class IsEmptyConstraintValidator implements ConstraintValidator<IsEmpty, 
 		StringBuilder messageStb = new StringBuilder();
 		boolean isError = false;
 		
-		if(intro.getTitleMain().strip().isBlank()) {
+		if(intro.getSayHi().strip().isBlank()) {
 			messageStb.append(" - SayHi is Empty!\n");
 			isError = true;
 		}
 		
-		if(intro.getMyName().strip().isBlank()) {
+		if(intro.getName().strip().isBlank()) {
 			messageStb.append(" - YourName is Empty!\n");
 			isError = true;	
 		} 
 		
-		if(intro.getSubTitle().strip().isBlank()) {
+		if(intro.getOpening().strip().isBlank()) {
 			messageStb.append(" - Opening is Empty!\n");
 			isError = true;
 		} 
@@ -94,17 +94,17 @@ public class IsEmptyConstraintValidator implements ConstraintValidator<IsEmpty, 
 		StringBuilder messageStb = new StringBuilder();
 		boolean isError = false;
 		
-		if(contact.getTitle().strip().isBlank()) {
+		if(contact.getClosingTitle().strip().isBlank()) {
 			messageStb.append("- Closing Title is Empty!\n");
 			isError = true;
 		}
 		
-		if(contact.getClosing().strip().isBlank()) {
+		if(contact.getClosingContent().strip().isBlank()) {
 			messageStb.append("- Closing Content is Empty!\n");
 			isError = true;
 		}
 		
-		if(contact.getAppreciation().strip().isBlank()) {
+		if(contact.getClosingRegard().strip().isBlank()) {
 			messageStb.append("- Closing Regard is Empty!\n");
 			isError = true;
 		}

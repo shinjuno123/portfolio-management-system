@@ -1,82 +1,37 @@
 package com.amazing.juno.springwebapp.entity;
 
-import java.util.Arrays;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.Path;
+import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URL;
+import java.util.UUID;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class About {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private UUID id;
+
 	private String description;
-	private String[] sentences;
 	private String period;
-	private String degree;
 	private String school;
+	private String degree;
 	private String regionCountry;
 
-	public About() {
-	}
+	private URL faceImagePath;
 
-	public About(String description, String period, String degree, String school, String regionCountry) {
-		setDescription(description);
-		this.period = period;
-		this.degree = degree;
-		this.school = school;
-		this.regionCountry = regionCountry;
-	}
 
-	public String getDescription() {
-		return description;
-	}
 
-	public void setDescription(String description) {
-		this.description = description;
-		String[] lines = description.split("(\r\n|\r|\n)");
-		
-		setSentences(lines);
-	}
-
-	public String getPeriod() {
-		return period;
-	}
-
-	public void setPeriod(String period) {
-		this.period = period;
-	}
-
-	public String getDegree() {
-		return degree;
-	}
-
-	public void setDegree(String degree) {
-		this.degree = degree;
-	}
-
-	public String getRegionCountry() {
-		return regionCountry;
-	}
-
-	public void setRegionCountry(String regionCountry) {
-		this.regionCountry = regionCountry;
-	}
-
-	public String getSchool() {
-		return school;
-	}
-
-	public void setSchool(String school) {
-		this.school = school;
-	}
-	
-	
-	public String[] getSentences() {
-		return sentences;
-	}
-
-	public void setSentences(String[] sentences) {
-		this.sentences = sentences;
-	}
-
-	@Override
-	public String toString() {
-		return "AboutEntity [description=" + description + "\nsentences=" + Arrays.toString(sentences) + "\nperiod="
-				+ period + "\ndegree=" + degree + "\nschool=" + school + "\nregionCountry=" + regionCountry + "]";
-	}
 
 }

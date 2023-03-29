@@ -2,14 +2,14 @@ package com.amazing.juno.springwebapp.entity;
 
 
 
-
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 
+import java.net.URI;
+import java.net.URL;
 import java.util.UUID;
 
 
@@ -19,19 +19,18 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Introduction {
+public class Project {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-	private String sayHi;
+    private URL imagePath;
 
-	private String name;
+    private String title;
 
-	private String opening;
+    private String description;
 
-	private String detail;
-
+    private URL url;
 
 }

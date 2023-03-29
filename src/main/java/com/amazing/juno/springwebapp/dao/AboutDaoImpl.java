@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,9 +33,15 @@ public class AboutDaoImpl implements AboutDao{
 		String degree = env.getProperty("about.education.degree");
 		String regionCountry = env.getProperty("about.education.region&country");
 		
-		About about = new About(description, period, degree, school, regionCountry);
 
-		return about;
+		return About.builder()
+				.id(UUID.randomUUID())
+				.description(description)
+				.period(period)
+				.degree(degree)
+				.school(school)
+				.regionCountry(regionCountry)
+				.build();
 	}
 
 

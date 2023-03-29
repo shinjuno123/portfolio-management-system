@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,34 +31,22 @@ public class ContactDaoImpl implements ContactDao{
 		String buttonContent = env.getProperty("contact.buttonContent");
 		String email = env.getProperty("contact.email");
 		
-		Contact contact = new Contact(title, closing, appreciation, buttonContent, email);
 
-		return contact;
+
+		return Contact.builder().id(UUID.randomUUID())
+				.closingTitle(title)
+				.closingContent(closing)
+				.closingRegard(appreciation)
+				.buttonContent(buttonContent)
+				.email(email)
+				.build();
 	}
 
 	@Override
 	public void setContactInfo(Contact contact) {
 		
 		// Get Abstract superclass of Environment
-		AbstractEnvironment absEnv = (AbstractEnvironment) env;
-		
-		// Read all keys
-		Properties props = (Properties) absEnv.getPropertySources().get("content.props").getSource();
-		
 
-		props.setProperty("contact.title", contact.getTitle());
-		props.setProperty("contect.closing", contact.getClosing());
-		props.setProperty("contact.appreciation", contact.getAppreciation());
-		props.setProperty("contact.buttonContent", contact.getButtonContent());
-		props.setProperty("contact.email", contact.getEmail());
-
-		try {
-			props.store(new FileOutputStream(basicContentSrc), null);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 }
