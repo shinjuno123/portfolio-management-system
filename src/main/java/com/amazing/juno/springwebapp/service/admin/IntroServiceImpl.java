@@ -7,6 +7,10 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+
 @AllArgsConstructor
 @Service
 public class IntroServiceImpl implements IntroService {
@@ -16,6 +20,29 @@ public class IntroServiceImpl implements IntroService {
     @Override
     @Transactional
     public void saveIntroduction(Introduction intro) {
+        intro.setUploaded(LocalDateTime.now());
         introRepository.saveIntroduction(intro);
     }
+
+
+    @Override
+    @Transactional
+    public List<Introduction> getAllIntroductionRecords(){
+        return introRepository.getAllIntroductionRecords();
+    }
+
+
+    @Override
+    @Transactional
+    public Introduction getIntroductionById(UUID id){
+        return introRepository.getIntroductionById(id);
+    }
+
+    @Override
+    @Transactional
+    public Introduction getRecentIntroduction() {
+        return introRepository.getRecentIntroduction();
+    }
+
+
 }

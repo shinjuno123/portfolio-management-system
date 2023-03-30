@@ -11,6 +11,8 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -23,11 +25,9 @@ public class IntroRestController {
     private final IntroService introService;
 
     @GetMapping
-    public ResponseEntity<Introduction> getAllIntroductionRecords(){
+    public ResponseEntity<List<Introduction>> getAllIntroductionRecords(){
 
-        Introduction introduction = new Introduction(UUID.randomUUID(),"hi","name","opening","detail");
-
-        return new ResponseEntity<>(introduction, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(introService.getAllIntroductionRecords(), HttpStatus.ACCEPTED);
     }
 
     @PostMapping
@@ -40,20 +40,14 @@ public class IntroRestController {
     @GetMapping("/{introId}")
     public ResponseEntity<Introduction> getIntroductionById(@PathVariable("introId") UUID introId){
 
-        // Test
-        Introduction introduction = new Introduction();
-
-        return new ResponseEntity<>(introduction, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(introService.getIntroductionById(introId), HttpStatus.ACCEPTED);
     }
 
 
     @GetMapping("/recent")
     public ResponseEntity<Introduction> getRecentIntroduction(){
 
-        // Test
-        Introduction introduction = new Introduction();
-
-        return new ResponseEntity<>(introduction, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(introService.getRecentIntroduction(), HttpStatus.ACCEPTED);
     }
 
 
