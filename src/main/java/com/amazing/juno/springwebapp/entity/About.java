@@ -1,19 +1,15 @@
 package com.amazing.juno.springwebapp.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.Path;
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
 @Setter
-@Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -23,15 +19,22 @@ public class About {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
+	@Column(name = "description")
 	private String description;
+	@Column(name = "period")
 	private String period;
+	@Column(name = "school")
 	private String school;
+	@Column(name = "degree")
 	private String degree;
+	@Column(name = "region_country")
 	private String regionCountry;
 
+	@Column(name = "face_image_path")
 	private URL faceImagePath;
 
-
+	@Column(name = "uploaded")
+	private LocalDateTime uploaded;
 
 
 }

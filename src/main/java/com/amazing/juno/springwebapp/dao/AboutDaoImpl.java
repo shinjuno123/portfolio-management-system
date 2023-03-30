@@ -34,14 +34,7 @@ public class AboutDaoImpl implements AboutDao{
 		String regionCountry = env.getProperty("about.education.region&country");
 		
 
-		return About.builder()
-				.id(UUID.randomUUID())
-				.description(description)
-				.period(period)
-				.degree(degree)
-				.school(school)
-				.regionCountry(regionCountry)
-				.build();
+		return new About();
 	}
 
 

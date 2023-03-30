@@ -9,11 +9,12 @@ import java.util.UUID;
 public interface IntroService {
     void saveIntroduction(Introduction intro);
 
-    @Transactional
+
     List<Introduction> getAllIntroductionRecords();
 
-    @Transactional
+
     Introduction getIntroductionById(UUID id);
+
 
     Introduction getRecentIntroduction();
 }
