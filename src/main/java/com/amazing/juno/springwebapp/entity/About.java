@@ -2,8 +2,6 @@ package com.amazing.juno.springwebapp.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -31,7 +29,7 @@ public class About {
 	private String regionCountry;
 
 	@Column(name = "face_image_path")
-	private URL faceImagePath;
+	private String faceImagePath;
 
 	@Column(name = "uploaded")
 	private LocalDateTime uploaded;

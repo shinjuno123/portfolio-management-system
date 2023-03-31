@@ -12,5 +12,5 @@ public interface AboutService {
     About getAboutById(@PathVariable("aboutId") UUID aboutId);
     About getRecentAbout();
 
-    void saveAbout(About about, MultipartFile faceImage);
+    void saveAbout(About about, String faceImageName);
 }

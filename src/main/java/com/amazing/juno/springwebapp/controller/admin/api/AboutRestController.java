@@ -2,6 +2,8 @@ package com.amazing.juno.springwebapp.controller.admin.api;
 
 
 import com.amazing.juno.springwebapp.entity.About;
+import com.amazing.juno.springwebapp.service.FileStorageService;
+import com.amazing.juno.springwebapp.service.FileStorageServiceImpl;
 import com.amazing.juno.springwebapp.service.admin.AboutService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,8 @@ public class AboutRestController {
 
     private final AboutService aboutService;
 
+    private final FileStorageService fileStorageService;
+
     @GetMapping
     public ResponseEntity<About> getAllAbout(){
 
@@ -29,10 +33,9 @@ public class AboutRestController {
 
     @PostMapping
     public ResponseEntity<?> saveAbout(@RequestPart About about, @RequestPart MultipartFile faceImage){
-        System.out.println("\n\n\n\n\n---------------------------");
-        System.out.println(about);
-        System.out.println(faceImage.getOriginalFilename());
-        System.out.println("---------------------------\n\n\n\n\n");
+        String filePath = fileStorageService.saveFile(faceImage, UUID.randomUUID());
+        aboutService.saveAbout(about, filePath);
+
 
         return new ResponseEntity<>(about, HttpStatus.ACCEPTED);
     }
