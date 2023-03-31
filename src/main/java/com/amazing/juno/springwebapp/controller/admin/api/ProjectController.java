@@ -1,32 +1,71 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
 
+import com.amazing.juno.springwebapp.entity.About;
+import com.amazing.juno.springwebapp.entity.Project;
+import com.amazing.juno.springwebapp.service.FileStorageService;
+import com.amazing.juno.springwebapp.service.admin.ProjectService;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/admin/api/projects")
+@RequestMapping("/api/projects")
 public class ProjectController {
 
-    @GetMapping
-    public ResponseEntity listProjects(){
+    private final FileStorageService fileStorageService;
+    private final ProjectService projectService;
 
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    private String getFullURL(Project project){
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/api/projects/images/")
+                .path(project.getImagePath())
+                .toUriString();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Project>> listProjects(){
+        List<Project> projects = projectService.listProjects().stream().peek(
+                project -> project.setImagePath(
+                        getFullURL(project)
+                )
+        ).toList();
+
+        return new ResponseEntity<>(projects,HttpStatus.ACCEPTED);
     }
 
     @PostMapping
-    public ResponseEntity saveOrUpdateProjects(@RequestBody Object projects){
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    public ResponseEntity<Project> saveOrUpdateProject(@RequestPart("project") Project project, @RequestPart("image") MultipartFile image){
+        String filePath = fileStorageService.saveFile(image,"project",UUID.randomUUID());
+        projectService.saveOrUpdateProject(project, filePath);
+
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{projectId}")
-    public ResponseEntity deleteProject(@PathVariable("projectId") UUID projectId){
+    public ResponseEntity<?> deleteProject(@PathVariable("projectId") UUID projectId){
+        projectService.deleteProject(projectId);
 
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/images/{filename}")
+    public ResponseEntity<Resource> downloadImage(@PathVariable("filename") String filename){
+
+        Resource resource = fileStorageService.loadFile(filename, "project");
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"image.png\"")
+                .body(resource);
+    }
+
 }

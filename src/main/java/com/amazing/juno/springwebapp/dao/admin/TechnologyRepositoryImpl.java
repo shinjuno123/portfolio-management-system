@@ -50,6 +50,7 @@ public class TechnologyRepositoryImpl implements TechnologyRepository {
         }
 
 
+
         item.setTechCategory(category);
 
 
