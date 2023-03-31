@@ -37,28 +37,29 @@ public class TechnologyController {
     }
 
     @GetMapping("/{categoryName}")
-    public ResponseEntity listItemsByCategoryName(@PathVariable("categoryName") String categoryName){
+    public ResponseEntity<List<TechCategoryItem>> listItemsByCategoryName(@PathVariable("categoryName") String categoryName){
 
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(technologyService.listItemsByCategoryName(categoryName),HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/{categoryName}")
     public ResponseEntity<List<TechCategoryItem>> saveOrUpdateItemsToCategory(@PathVariable("categoryName") String categoryName,@RequestBody List<TechCategoryItem> items){
-        log.debug(items.toString());
-        technologyService.saveOrUpdateItemsToCategory(categoryName, items);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
+        return new ResponseEntity<>(technologyService.saveOrUpdateItemsToCategory(categoryName, items),HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{categoryName}")
-    public ResponseEntity deleteCategoryByCategoryName(@PathVariable("categoryName") String categoryName){
-
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    public ResponseEntity<?> deleteCategoryByCategoryName(@PathVariable("categoryName") String categoryName){
+        log.debug(categoryName);
+        technologyService.deleteCategoryByCategoryName(categoryName);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/{categoryName}/{itemId}")
-    public ResponseEntity deleteItemsInCategoryName(@PathVariable("categoryName") String categoryName,@PathVariable("itemId") UUID itemId){
+    @DeleteMapping("/categories/{itemId}")
+    public ResponseEntity<?> deleteItemsInCategory(@PathVariable("itemId") UUID itemId){
+        technologyService.deleteItemsInCategory(itemId);
 
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 

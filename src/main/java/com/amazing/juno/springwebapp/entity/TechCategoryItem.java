@@ -1,5 +1,6 @@
 package com.amazing.juno.springwebapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,7 @@ public class TechCategoryItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tech_category_id")
+    @JsonIgnore
     private TechCategory techCategory;
 
 
