@@ -21,17 +21,17 @@ public class AboutServiceImpl implements AboutService {
 
     @Override
     public List<About> getAllAbout() {
-        return null;
+        return aboutRepository.getAllAbout();
     }
 
     @Override
     public About getAboutById(UUID aboutId) {
-        return null;
+        return aboutRepository.getAboutById(aboutId);
     }
 
     @Override
     public About getRecentAbout() {
-        return null;
+        return aboutRepository.getRecentAbout();
     }
 
     @Override

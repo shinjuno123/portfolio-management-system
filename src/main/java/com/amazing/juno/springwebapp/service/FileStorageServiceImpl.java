@@ -45,11 +45,29 @@ public class FileStorageServiceImpl implements FileStorageService {
         }
     }
 
+    private Path getCategoryDirectoryPath(String category){
+        Path categoryDirection;
+
+        try {
+            categoryDirection =  Paths.get(this.dirLocation.toString() + "/" + category)
+                    .toAbsolutePath()
+                    .normalize();
+            Files.createDirectories(categoryDirection);
+        } catch (IOException e) {
+            throw new FileStorageException("Could not create upload directory!");
+        }
+
+        return categoryDirection;
+    }
+
     @Override
-    public String saveFile(MultipartFile file, UUID uniqueValue) {
+    public String saveFile(MultipartFile file, String category ,UUID uniqueValue) {
+        Path categoryDirection = getCategoryDirectoryPath(category);
+
+
         try {
             String fileName = uniqueValue + "_" + file.getOriginalFilename();
-            Path directoryFile = this.dirLocation.resolve(fileName);
+            Path directoryFile = categoryDirection.resolve(fileName);
             Files.copy(file.getInputStream(), directoryFile, StandardCopyOption.REPLACE_EXISTING);
             return fileName;
         } catch (IOException e) {
@@ -58,9 +76,11 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public Resource loadFile(String fileName) {
+    public Resource loadFile(String fileName, String category) {
+        Path categoryDirection = getCategoryDirectoryPath(category);
+
         try {
-            Path file = this.dirLocation.resolve(fileName).normalize();
+            Path file = categoryDirection.resolve(fileName).normalize();
             Resource resource = new UrlResource(file.toUri());
 
             if (resource.exists() || resource.isReadable()){

@@ -23,7 +23,7 @@ public class IntroRepositoryImpl implements IntroRepository {
 
     @Override
     public List<Introduction> getAllIntroductionRecords(){
-        TypedQuery<Introduction> query  = entityManager.createQuery("from Introduction", Introduction.class);
+        TypedQuery<Introduction> query  = entityManager.createQuery("from About", Introduction.class);
 
         return query.getResultList();
     }

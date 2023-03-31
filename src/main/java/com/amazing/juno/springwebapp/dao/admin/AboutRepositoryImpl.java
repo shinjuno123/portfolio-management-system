@@ -1,7 +1,9 @@
 package com.amazing.juno.springwebapp.dao.admin;
 
 import com.amazing.juno.springwebapp.entity.About;
+import com.amazing.juno.springwebapp.entity.Introduction;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,17 +18,20 @@ public class AboutRepositoryImpl implements AboutRepository {
 
     @Override
     public List<About> getAllAbout() {
-        return null;
+        TypedQuery<About> query= entityManager.createQuery("from About",About.class);
+
+        return query.getResultList();
     }
 
     @Override
     public About getAboutById(UUID aboutId) {
-        return null;
+        return entityManager.find(About.class, aboutId);
     }
 
     @Override
     public About getRecentAbout() {
-        return null;
+        TypedQuery<About> query  = entityManager.createQuery("from About where uploaded = (select max(uploaded) from About )", About.class);
+        return query.getSingleResult();
     }
 
     @Override

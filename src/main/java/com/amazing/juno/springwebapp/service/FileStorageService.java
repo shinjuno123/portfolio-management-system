@@ -8,7 +8,8 @@ import java.util.UUID;
 public interface FileStorageService {
     void init();
 
-    String saveFile(MultipartFile file, UUID uniqueValue);
+    String saveFile(MultipartFile file,String category, UUID uniqueValue);
 
-    Resource loadFile(String fileName);
+
+    Resource loadFile(String fileName, String category);
 }
