@@ -1,29 +1,39 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
 
+import com.amazing.juno.springwebapp.entity.TechCategory;
+import com.amazing.juno.springwebapp.entity.TechCategoryItem;
+import com.amazing.juno.springwebapp.service.admin.TechnologyService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 
+@Slf4j
 @AllArgsConstructor
 @RestController
-@RequestMapping("/admin/api/technology")
+@RequestMapping("/api/technology")
 public class TechnologyController {
 
-    @GetMapping
-    public ResponseEntity listCategories(){
+    private final TechnologyService technologyService;
 
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    @GetMapping
+    public ResponseEntity<List<TechCategory>> listCategories(){
+        List<TechCategory> categories = technologyService.findAllCategories();
+
+        return new ResponseEntity<>(categories,HttpStatus.ACCEPTED);
     }
 
     @PostMapping
-    public ResponseEntity addCategory(@RequestBody Object category){
+    public ResponseEntity<TechCategory> addCategory(@RequestBody TechCategory category){
+        technologyService.addCategory(category);
 
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(category, HttpStatus.CREATED);
     }
 
     @GetMapping("/{categoryName}")
@@ -33,9 +43,10 @@ public class TechnologyController {
     }
 
     @PostMapping("/{categoryName}")
-    public ResponseEntity saveOrUpdateItemsToCategoryName(@PathVariable("categoryName") String categoryName,@RequestBody Object items){
-
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    public ResponseEntity<List<TechCategoryItem>> saveOrUpdateItemsToCategory(@PathVariable("categoryName") String categoryName,@RequestBody List<TechCategoryItem> items){
+        log.debug(items.toString());
+        technologyService.saveOrUpdateItemsToCategory(categoryName, items);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{categoryName}")

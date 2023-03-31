@@ -11,17 +11,21 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name = "tech_category_item")
 public class TechCategoryItem {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "score")
     private Integer score;
+
+    @Column(name = "stack_name")
     private String stackName;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "techCategory_id")
+    @JoinColumn(name = "tech_category_id")
     private TechCategory techCategory;
 
 

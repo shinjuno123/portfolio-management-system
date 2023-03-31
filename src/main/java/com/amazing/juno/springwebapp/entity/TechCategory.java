@@ -11,17 +11,19 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name = "tech_category")
 public class TechCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "category_name")
+    private String categoryName;
+
 
     @OneToMany(mappedBy = "techCategory", cascade = CascadeType.ALL)
-    private final Set<TechCategoryItem> technologies = new HashSet<>();
+    private Set<TechCategoryItem> technologies = new HashSet<>();
 
 }
