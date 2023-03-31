@@ -8,25 +8,31 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.net.URL;
+import java.util.UUID;
+
 
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name = "noteworthy_project")
 public class NoteworthyProject {
 	
 	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private int id;
+	@GeneratedValue(strategy= GenerationType.UUID)
+	private UUID id;
 
+	@Column(name = "title")
 	private String title;
 
+	@Column(name = "description")
 	private String description;
-	
 
-	private String url;
+
+	@Column(name = "url")
+	private URL url;
 
 
 }

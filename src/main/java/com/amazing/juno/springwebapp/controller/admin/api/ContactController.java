@@ -1,53 +1,49 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
+import com.amazing.juno.springwebapp.entity.Contact;
 import com.amazing.juno.springwebapp.entity.Introduction;
+import com.amazing.juno.springwebapp.service.admin.ContactService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/admin/api/contact")
+@RequestMapping("/api/contact")
 public class ContactController {
 
+    private final ContactService contactService;
+
     @GetMapping
-    public ResponseEntity<Introduction> getAllContactRecords(){
-
-        // Test
-        Introduction introduction = new Introduction();
-
-        return new ResponseEntity<>(introduction, HttpStatus.ACCEPTED);
+    public ResponseEntity<List<Contact>> getAllContactRecords(){
+        return new ResponseEntity<>(contactService.getAllContactRecords(), HttpStatus.ACCEPTED);
     }
 
+    @PostMapping
+    public ResponseEntity<Contact> saveContact(@RequestBody Contact contact){
+        contactService.saveContact(contact);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+
     @GetMapping("/{contactId}")
-    public ResponseEntity<Introduction> getContactById(@PathVariable("contactId") UUID contactId){
+    public ResponseEntity<Contact> getContactById(@PathVariable("contactId") UUID contactId){
 
-        // Test
-        Introduction introduction = new Introduction();
-
-        return new ResponseEntity<>(introduction, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(contactService.getContactById(contactId), HttpStatus.ACCEPTED);
     }
 
 
     @GetMapping("/recent")
-    public ResponseEntity<Introduction> getRecentContact(){
+    public ResponseEntity<Contact> getRecentContact(){
 
-        // Test
-        Introduction introduction = new Introduction();
-
-        return new ResponseEntity<>(introduction, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(contactService.getRecentContact(), HttpStatus.ACCEPTED);
     }
 
 
-    @PostMapping
-    public ResponseEntity<Introduction> saveContact(@RequestBody Introduction introduction){
-
-
-        return new ResponseEntity<>(introduction, HttpStatus.ACCEPTED);
-    }
 
 }

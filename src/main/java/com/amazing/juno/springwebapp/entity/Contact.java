@@ -1,12 +1,10 @@
 package com.amazing.juno.springwebapp.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -15,19 +13,30 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name = "contact")
 public class Contact {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	UUID id;
-	private String closingTitle;
-	private String closingContent;
-	private String closingRegard;
-	private String buttonContent;
-	private String email;
-	
+	private UUID id;
 
-	
+	@Column(name = "closing_title")
+	private String closingTitle;
+
+	@Column(name = "closing_content")
+	private String closingContent;
+
+	@Column(name = "closing_regard")
+	private String closingRegard;
+
+	@Column(name="button_content")
+	private String buttonContent;
+
+	@Column(name="email")
+	private String email;
+
+	@Column(name = "uploaded")
+	private LocalDateTime uploaded;
+
 	
 }
