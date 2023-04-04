@@ -4,6 +4,7 @@ package com.amazing.juno.springwebapp.controller.admin.api;
 import com.amazing.juno.springwebapp.entity.NoteworthyProject;
 import com.amazing.juno.springwebapp.service.admin.NoteworthyProjectService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,10 @@ import java.util.UUID;
 
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/noteworthy-projects")
-public class NoteworthyProjectController {
+public class NoteworthyProjectRestController {
 
     private final NoteworthyProjectService noteworthyProjectService;
 

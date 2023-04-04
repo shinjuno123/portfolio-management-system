@@ -5,6 +5,7 @@ import com.amazing.juno.springwebapp.entity.TechCategory;
 import com.amazing.juno.springwebapp.entity.TechCategoryItem;
 import com.amazing.juno.springwebapp.service.admin.TechnologyService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,10 @@ import java.util.UUID;
 
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/technology")
-public class TechnologyController {
+public class TechnologyRestController {
 
     private final TechnologyService technologyService;
 

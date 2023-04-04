@@ -1,9 +1,9 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
 import com.amazing.juno.springwebapp.entity.Contact;
-import com.amazing.juno.springwebapp.entity.Introduction;
 import com.amazing.juno.springwebapp.service.admin.ContactService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.UUID;
 
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/contact")
-public class ContactController {
+public class ContactRestController {
 
     private final ContactService contactService;
 

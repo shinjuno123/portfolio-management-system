@@ -2,14 +2,19 @@ package com.amazing.juno.springwebapp.service.admin;
 
 
 import com.amazing.juno.springwebapp.dao.admin.IntroRepository;
+import com.amazing.juno.springwebapp.dto.IntroDTO;
 import com.amazing.juno.springwebapp.entity.Introduction;
+import com.amazing.juno.springwebapp.mapper.IntroMapper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 @AllArgsConstructor
 @Service
@@ -17,31 +22,44 @@ public class IntroServiceImpl implements IntroService {
 
     private final IntroRepository introRepository;
 
+    private final IntroMapper introMapper;
+
     @Override
     @Transactional
-    public void saveIntroduction(Introduction intro) {
-        intro.setUploaded(LocalDateTime.now());
-        introRepository.saveIntroduction(intro);
+    public IntroDTO saveIntroduction(IntroDTO introDTO) {
+        introDTO.setUploaded(LocalDateTime.now());
+        return introMapper.introductionToIntroDTO(introRepository.save(introMapper.introDTOToIntroduction(introDTO)));
     }
 
 
     @Override
     @Transactional
-    public List<Introduction> getAllIntroductionRecords(){
-        return introRepository.getAllIntroductionRecords();
+    public List<IntroDTO> getAllIntroductionRecords(){
+        return introRepository.findAll()
+                .stream().map(introMapper::introductionToIntroDTO).toList();
     }
 
 
     @Override
     @Transactional
-    public Introduction getIntroductionById(UUID id){
-        return introRepository.getIntroductionById(id);
+    public Optional<IntroDTO> getIntroductionById(UUID id){
+        return Optional.ofNullable(introMapper.introductionToIntroDTO(introRepository.findById(id).orElse(null)));
     }
 
     @Override
     @Transactional
-    public Introduction getRecentIntroduction() {
-        return introRepository.getRecentIntroduction();
+    public Optional<IntroDTO> getRecentIntroduction() {
+        AtomicReference<Optional<IntroDTO>> atomicReference = new AtomicReference<>();
+
+        introRepository.getRecentIntroduction().ifPresentOrElse(introduction->{
+            atomicReference.set(
+                    Optional.of(introMapper.introductionToIntroDTO(introduction))
+            );
+        },()->{
+            atomicReference.set(Optional.empty());
+        });
+
+        return atomicReference.get();
     }
 
 

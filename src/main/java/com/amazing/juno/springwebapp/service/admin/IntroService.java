@@ -1,20 +1,22 @@
 package com.amazing.juno.springwebapp.service.admin;
 
+import com.amazing.juno.springwebapp.dto.IntroDTO;
 import com.amazing.juno.springwebapp.entity.Introduction;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface IntroService {
-    void saveIntroduction(Introduction intro);
+    IntroDTO saveIntroduction(IntroDTO introDTO);
 
 
-    List<Introduction> getAllIntroductionRecords();
+    List<IntroDTO> getAllIntroductionRecords();
 
 
-    Introduction getIntroductionById(UUID id);
+    Optional<IntroDTO> getIntroductionById(UUID id);
 
 
-    Introduction getRecentIntroduction();
+    Optional<IntroDTO> getRecentIntroduction();
 }

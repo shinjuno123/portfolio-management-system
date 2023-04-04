@@ -1,11 +1,11 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
 
-import com.amazing.juno.springwebapp.entity.About;
 import com.amazing.juno.springwebapp.entity.Project;
 import com.amazing.juno.springwebapp.service.FileStorageService;
 import com.amazing.juno.springwebapp.service.admin.ProjectService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,10 +17,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 import java.util.UUID;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/projects")
-public class ProjectController {
+public class ProjectRestController {
 
     private final FileStorageService fileStorageService;
     private final ProjectService projectService;
