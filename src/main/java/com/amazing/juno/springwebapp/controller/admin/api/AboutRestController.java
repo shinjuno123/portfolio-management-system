@@ -1,10 +1,8 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
-
-
+import com.amazing.juno.springwebapp.dto.AboutDTO;
 import com.amazing.juno.springwebapp.entity.About;
 import com.amazing.juno.springwebapp.service.FileStorageService;
 import com.amazing.juno.springwebapp.service.admin.AboutService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -19,61 +17,47 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/about")
 public class AboutRestController {
 
     private final AboutService aboutService;
 
     private final FileStorageService fileStorageService;
 
-    private String getFullURL(About about){
-        return ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/api/about/images/")
-                .path(about.getFaceImagePath())
-                .toUriString();
+    public final static String ABOUT_PATH = "/api/about";
+
+    public final static String ABOUT_ID_PATH = "/api/about/{aboutId}";
+
+
+
+    @GetMapping(ABOUT_PATH)
+    public ResponseEntity<List<AboutDTO>> getAllAbout(){
+
+        return new ResponseEntity<>(aboutService.getAllAbout(), HttpStatus.ACCEPTED);
     }
 
-    @GetMapping
-    public ResponseEntity<List<About>> getAllAbout(){
+    @PostMapping(ABOUT_PATH)
+    public ResponseEntity<AboutDTO> saveAbout(@RequestPart("aboutDTO") AboutDTO aboutDTO, @RequestPart("faceImage") MultipartFile faceImage){
+        String fileName = fileStorageService.saveFile(faceImage, "about" ,UUID.randomUUID());
 
-         List<About> aboutList = aboutService.getAllAbout().stream().peek(
-                about -> about.setFaceImagePath(
-                        getFullURL(about)
-                        )
-        ).toList();
-
-        return new ResponseEntity<>(aboutList, HttpStatus.ACCEPTED);
-    }
-
-    @PostMapping
-    public ResponseEntity<?> saveAbout(@RequestPart About about, @RequestPart MultipartFile faceImage){
-        String filePath = fileStorageService.saveFile(faceImage, "about" ,UUID.randomUUID());
-        aboutService.saveAbout(about, filePath);
-
-
-        return new ResponseEntity<>(about, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(aboutService.saveAbout(aboutDTO, fileName), HttpStatus.CREATED);
     }
 
 
 
-    @GetMapping("/{aboutId}")
-    public ResponseEntity<About> getAboutById(@PathVariable("aboutId") UUID aboutId){
-        About about = aboutService.getAboutById(aboutId);
-        about.setFaceImagePath(getFullURL(about));
+    @GetMapping(ABOUT_ID_PATH)
+    public ResponseEntity<AboutDTO> getAboutById(@PathVariable("aboutId") UUID aboutId){
 
-        return new ResponseEntity<>(about, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(aboutService.getAboutById(aboutId).orElseThrow(), HttpStatus.ACCEPTED);
     }
 
 
-    @GetMapping("/recent")
-    public ResponseEntity<About> getRecentAbout(){
-        About about = aboutService.getRecentAbout();
-        about.setFaceImagePath(getFullURL(about));
+    @GetMapping(ABOUT_PATH + "/recent")
+    public ResponseEntity<AboutDTO> getRecentAbout(){
 
-        return new ResponseEntity<>(about, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(aboutService.getRecentAbout(), HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/images/{filename}")
+    @GetMapping(ABOUT_PATH + "/images/{filename}")
     public ResponseEntity<Resource> downloadImage(@PathVariable("filename") String filename){
 
         Resource resource = fileStorageService.loadFile(filename, "about");
