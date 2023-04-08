@@ -1,12 +1,16 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
 
+import com.amazing.juno.springwebapp.dto.TechCategoryDTO;
+import com.amazing.juno.springwebapp.dto.TechCategoryItemDTO;
 import com.amazing.juno.springwebapp.entity.TechCategory;
 import com.amazing.juno.springwebapp.entity.TechCategoryItem;
+import com.amazing.juno.springwebapp.exc.NotFoundException;
 import com.amazing.juno.springwebapp.service.admin.TechnologyService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.NotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,29 +28,21 @@ public class TechnologyRestController {
     private final TechnologyService technologyService;
 
     @GetMapping
-    public ResponseEntity<List<TechCategory>> listCategories(){
-        List<TechCategory> categories = technologyService.findAllCategories();
-
-        return new ResponseEntity<>(categories,HttpStatus.ACCEPTED);
+    public ResponseEntity<List<TechCategoryDTO>> listCategories(){
+        return new ResponseEntity<>(technologyService.findAllCategories(),HttpStatus.ACCEPTED);
     }
 
     @PostMapping
-    public ResponseEntity<TechCategory> addCategory(@RequestBody TechCategory category){
-        technologyService.addCategory(category);
+    public ResponseEntity<TechCategoryDTO> addCategory(@RequestBody TechCategoryDTO categoryDTO){
 
-        return new ResponseEntity<>(category, HttpStatus.CREATED);
+        return new ResponseEntity<>(technologyService.addCategory(categoryDTO), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{categoryName}")
-    public ResponseEntity<List<TechCategoryItem>> listItemsByCategoryName(@PathVariable("categoryName") String categoryName){
-
-        return new ResponseEntity<>(technologyService.listItemsByCategoryName(categoryName),HttpStatus.ACCEPTED);
-    }
 
     @PostMapping("/{categoryName}")
-    public ResponseEntity<List<TechCategoryItem>> saveOrUpdateItemsToCategory(@PathVariable("categoryName") String categoryName,@RequestBody List<TechCategoryItem> items){
+    public ResponseEntity<TechCategoryDTO> saveOrUpdateItemToCategory(@PathVariable("categoryName") String categoryName, @RequestBody TechCategoryItemDTO items){
 
-        return new ResponseEntity<>(technologyService.saveOrUpdateItemsToCategory(categoryName, items),HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(technologyService.saveOrUpdateItemToCategory(categoryName, items).orElseThrow(NotFoundException::new),HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{categoryName}")
@@ -56,9 +52,11 @@ public class TechnologyRestController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/categories/{itemId}")
-    public ResponseEntity<?> deleteItemsInCategory(@PathVariable("itemId") UUID itemId){
-        technologyService.deleteItemsInCategory(itemId);
+    @DeleteMapping("/{categoryName}/{itemId}")
+    public ResponseEntity<?> deleteItemsInCategory(@PathVariable("categoryName") String categoryName,@PathVariable("itemId") UUID itemId){
+        if(!technologyService.deleteItemsInCategory(categoryName,itemId)){
+            throw new NotFoundException();
+        }
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

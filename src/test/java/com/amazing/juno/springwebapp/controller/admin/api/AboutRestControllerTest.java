@@ -1,29 +1,24 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
 import com.amazing.juno.springwebapp.dto.AboutDTO;
-import com.amazing.juno.springwebapp.entity.About;
 import com.amazing.juno.springwebapp.service.FileStorageService;
 import com.amazing.juno.springwebapp.service.admin.AboutService;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.mock.web.MockPart;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.multipart.MultipartFile;
-
 import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.isNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import java.time.LocalDateTime;
@@ -119,8 +114,6 @@ class AboutRestControllerTest {
 
     @Test
     void saveAbout() throws Exception{
-        MockMultipartFile image = new MockMultipartFile("uploaded-file","sample.txt",
-                "text/plain", "This is just a file content".getBytes());
         AboutDTO jsonInput = tmpAboutDTOList.get(0);
         jsonInput.setFaceImagePath(null);
         jsonInput.setId(null);
@@ -153,14 +146,37 @@ class AboutRestControllerTest {
     }
 
     @Test
-    void getAboutById() {
+    void getAboutById() throws Exception{
+        AboutDTO aboutDTO = tmpAboutDTOList.get(0);
+        given(aboutService.getAboutById(any(UUID.class))).willReturn(Optional.of(aboutDTO));
+
+        mockMvc.perform(get(AboutRestController.ABOUT_ID_PATH, aboutDTO.getId())
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isAccepted())
+                .andExpect(jsonPath("$.id", is(aboutDTO.getId().toString())));
+
     }
 
     @Test
-    void getRecentAbout() {
+    void getRecentAbout() throws Exception{
+        AboutDTO aboutDTO = tmpAboutDTOList.get(0);
+
+        given(aboutService.getRecentAbout()).willReturn(Optional.of(aboutDTO));
+
+        mockMvc.perform(get(AboutRestController.ABOUT_PATH + "/recent")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isAccepted());
     }
 
     @Test
-    void downloadImage() {
+    void downloadImage() throws Exception {
+        Resource mockResource = Mockito.mock(Resource.class);
+
+        given(fileStorageService.loadFile(any(String.class),any(String.class))).willReturn(mockResource);
+
+        mockMvc.perform(get(AboutRestController.ABOUT_PATH + "/images/{filename}", "file.txt")
+                .accept(MediaType.APPLICATION_OCTET_STREAM_VALUE))
+                .andExpect(status().isOk());
+
     }
 }

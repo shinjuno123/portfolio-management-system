@@ -1,6 +1,5 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 import com.amazing.juno.springwebapp.dto.AboutDTO;
-import com.amazing.juno.springwebapp.entity.About;
 import com.amazing.juno.springwebapp.service.FileStorageService;
 import com.amazing.juno.springwebapp.service.admin.AboutService;
 import lombok.RequiredArgsConstructor;
@@ -10,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -54,13 +51,14 @@ public class AboutRestController {
     @GetMapping(ABOUT_PATH + "/recent")
     public ResponseEntity<AboutDTO> getRecentAbout(){
 
-        return new ResponseEntity<>(aboutService.getRecentAbout(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(aboutService.getRecentAbout().orElseThrow(), HttpStatus.ACCEPTED);
     }
 
     @GetMapping(ABOUT_PATH + "/images/{filename}")
     public ResponseEntity<Resource> downloadImage(@PathVariable("filename") String filename){
 
         Resource resource = fileStorageService.loadFile(filename, "about");
+
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"facePhoto.png\"")

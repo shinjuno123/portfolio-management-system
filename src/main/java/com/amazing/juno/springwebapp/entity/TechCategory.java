@@ -22,7 +22,6 @@ public class TechCategory {
     @Column(name = "category_name")
     private String categoryName;
 
-
     @OneToMany(mappedBy = "techCategory", cascade = CascadeType.ALL)
     private Set<TechCategoryItem> technologies = new HashSet<>();
 

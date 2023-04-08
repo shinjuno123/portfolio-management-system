@@ -30,5 +30,16 @@ public class TechCategoryItem {
     @JsonIgnore
     private TechCategory techCategory;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TechCategoryItem that)) return false;
 
+        return getId().equals(that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
+    }
 }

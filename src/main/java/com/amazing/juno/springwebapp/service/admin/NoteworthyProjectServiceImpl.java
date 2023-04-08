@@ -2,35 +2,47 @@ package com.amazing.juno.springwebapp.service.admin;
 
 
 import com.amazing.juno.springwebapp.dao.admin.NoteworthyProjectRepository;
+import com.amazing.juno.springwebapp.dto.NoteworthyProjectDTO;
 import com.amazing.juno.springwebapp.entity.NoteworthyProject;
+import com.amazing.juno.springwebapp.mapper.NoteworthyProjectMapper;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class NoteworthyProjectServiceImpl implements NoteworthyProjectService {
 
     private final NoteworthyProjectRepository noteworthyProjectRepository;
 
+    private final NoteworthyProjectMapper noteworthyProjectMapper;
+
     @Override
     @Transactional
-    public void saveOrUpdateNoteWorthyProject(NoteworthyProject noteworthyProject) {
-        noteworthyProjectRepository.saveOrUpdateNoteWorthyProject(noteworthyProject);
+    public NoteworthyProjectDTO saveOrUpdateNoteWorthyProject(NoteworthyProjectDTO noteworthyProjectDTO) {
+        return noteworthyProjectMapper.noteworthyProjectToNoteworthyProjectDTO(
+                noteworthyProjectRepository.save(noteworthyProjectMapper.noteworthyProjectDTOToNoteworthyProject(noteworthyProjectDTO))
+        );
     }
 
     @Override
     @Transactional
-    public List<NoteworthyProject> listNoteWorthyProjects() {
-        return noteworthyProjectRepository.listNoteWorthyProjects();
+    public List<NoteworthyProjectDTO> listNoteWorthyProjects() {
+        return  noteworthyProjectRepository.findAll().stream()
+                .map(noteworthyProjectMapper::noteworthyProjectToNoteworthyProjectDTO).toList();
     }
 
     @Override
     @Transactional
-    public void deleteNoteWorthyProject(UUID noteworthyProjectId) {
-        noteworthyProjectRepository.deleteNoteWorthyProject(noteworthyProjectId);
+    public boolean deleteNoteWorthyProject(UUID noteworthyProjectId) {
+        if(noteworthyProjectRepository.existsById(noteworthyProjectId)){
+            noteworthyProjectRepository.deleteById(noteworthyProjectId);
+            return true;
+        }
+
+        return false;
     }
 }

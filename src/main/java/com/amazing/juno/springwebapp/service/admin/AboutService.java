@@ -10,7 +10,7 @@ import java.util.UUID;
 public interface AboutService {
     List<AboutDTO> getAllAbout();
     Optional<AboutDTO> getAboutById(UUID aboutId);
-    AboutDTO getRecentAbout();
+    Optional<AboutDTO> getRecentAbout();
 
     AboutDTO saveAbout(AboutDTO about, String faceImageName);
 }

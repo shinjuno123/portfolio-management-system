@@ -1,22 +1,24 @@
 package com.amazing.juno.springwebapp.service.admin;
 
+import com.amazing.juno.springwebapp.dto.TechCategoryDTO;
+import com.amazing.juno.springwebapp.dto.TechCategoryItemDTO;
 import com.amazing.juno.springwebapp.entity.TechCategory;
 import com.amazing.juno.springwebapp.entity.TechCategoryItem;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface TechnologyService {
-    void addCategory(TechCategory category);
+    TechCategoryDTO addCategory(TechCategoryDTO categoryDTO);
 
 
-    List<TechCategoryItem> saveOrUpdateItemsToCategory(String categoryName, List<TechCategoryItem> items);
+    Optional<TechCategoryDTO> saveOrUpdateItemToCategory(String categoryName, TechCategoryItemDTO item);
 
-    List<TechCategory> findAllCategories();
+    List<TechCategoryDTO> findAllCategories();
 
-    List<TechCategoryItem> listItemsByCategoryName(String categoryName);
 
-    void deleteCategoryByCategoryName(String categoryName);
+    boolean deleteCategoryByCategoryName(String categoryName);
 
-    void deleteItemsInCategory(UUID itemId);
+    boolean deleteItemsInCategory(String categoryName,UUID itemId);
 }

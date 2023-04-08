@@ -46,22 +46,25 @@ public class AboutServiceImpl implements AboutService {
     public Optional<AboutDTO> getAboutById(UUID aboutId) {
         AtomicReference<Optional<AboutDTO>> atomicReference = new AtomicReference<>();
 
-        aboutRepository.findById(aboutId).ifPresentOrElse(about -> {
-            atomicReference.set(
-                    Optional.of(getAboutDTOWithFullPhotoUrl(about))
-            );
-        },()->{
-            atomicReference.set(
-                    Optional.empty()
-            );
-        });
+        aboutRepository.findById(aboutId).ifPresentOrElse(about -> atomicReference.set(
+                Optional.of(getAboutDTOWithFullPhotoUrl(about))
+        ),()-> atomicReference.set(
+                Optional.empty()
+        ));
 
         return atomicReference.get();
     }
 
     @Override
-    public AboutDTO getRecentAbout() {
-        return getAboutDTOWithFullPhotoUrl(aboutRepository.getRecentAbout());
+    public Optional<AboutDTO> getRecentAbout() {
+        AtomicReference<Optional<AboutDTO>> atomicReference = new AtomicReference<>();
+
+        aboutRepository.getRecentAbout().ifPresentOrElse(about-> atomicReference.set(Optional.of(
+                aboutMapper.aboutToAboutDTO(about)
+        ))
+        ,()-> atomicReference.set(Optional.empty()));
+
+        return atomicReference.get();
     }
 
     @Override
@@ -71,8 +74,6 @@ public class AboutServiceImpl implements AboutService {
         about.setUploaded(LocalDateTime.now());
 
         return getAboutDTOWithFullPhotoUrl(aboutRepository.save(aboutMapper.aboutDTOToAbout(about)));
-
     }
-
-
+    
 }
