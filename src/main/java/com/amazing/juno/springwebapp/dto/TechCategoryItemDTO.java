@@ -21,6 +21,7 @@ public class TechCategoryItemDTO {
     private String stackName;
 
 
-    private TechCategory techCategory;
+    @JsonIgnore
+    private TechCategoryDTO techCategory;
 
 }

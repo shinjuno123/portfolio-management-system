@@ -4,6 +4,7 @@ import com.amazing.juno.springwebapp.entity.TechCategoryItem;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;

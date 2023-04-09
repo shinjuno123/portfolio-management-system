@@ -8,7 +8,6 @@ import com.amazing.juno.springwebapp.entity.TechCategoryItem;
 import com.amazing.juno.springwebapp.mapper.TechCategoryItemMapper;
 import com.amazing.juno.springwebapp.mapper.TechCategoryMapper;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,7 +37,7 @@ public class TechnologyServiceImpl implements TechnologyService {
     @Override
     @Transactional
     public Optional<TechCategoryDTO> saveOrUpdateItemToCategory(String categoryName, TechCategoryItemDTO item){
-        if(!technologyRepository.existsTechCategoryByCategoryName(categoryName)){
+        if(technologyRepository.existsTechCategoryByCategoryName(categoryName)){
             return Optional.empty();
         }
 
@@ -61,22 +60,22 @@ public class TechnologyServiceImpl implements TechnologyService {
     @Override
     @Transactional
     public boolean deleteCategoryByCategoryName(String categoryName) {
-        if(!technologyRepository.existsTechCategoryByCategoryName(categoryName)){
+        if(technologyRepository.existsTechCategoryByCategoryName(categoryName)){
             return false;
         }
 
-        technologyRepository.delete(technologyRepository.getCategoryByName(categoryName));
+        technologyRepository.delete(technologyRepository.findTechCategoryByCategoryName(categoryName));
         return true;
     }
 
     @Override
     @Transactional
     public boolean deleteItemsInCategory(String categoryName, UUID itemId) {
-        if(!technologyRepository.existsTechCategoryByCategoryName(categoryName)){
+        if(technologyRepository.existsTechCategoryByCategoryName(categoryName)){
             return false;
         }
 
-        TechCategory savedCategory = technologyRepository.getCategoryByName(categoryName);
+        TechCategory savedCategory = technologyRepository.findTechCategoryByCategoryName(categoryName);
 
         if(!savedCategory.getTechnologies().contains(TechCategoryItem.builder().id(itemId).build())){
             return false;
