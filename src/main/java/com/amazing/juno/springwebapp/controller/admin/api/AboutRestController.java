@@ -34,9 +34,9 @@ public class AboutRestController {
 
     @PostMapping(ABOUT_PATH)
     public ResponseEntity<AboutDTO> saveAbout(@RequestPart("aboutDTO") AboutDTO aboutDTO, @RequestPart("faceImage") MultipartFile faceImage){
-        String fileName = fileStorageService.saveFile(faceImage, "about" ,UUID.randomUUID());
+        String filePath = fileStorageService.saveFile(faceImage, "about");
 
-        return new ResponseEntity<>(aboutService.saveAbout(aboutDTO, fileName), HttpStatus.CREATED);
+        return new ResponseEntity<>(aboutService.saveAbout(aboutDTO, filePath), HttpStatus.CREATED);
     }
 
 
@@ -54,16 +54,7 @@ public class AboutRestController {
         return new ResponseEntity<>(aboutService.getRecentAbout().orElseThrow(), HttpStatus.ACCEPTED);
     }
 
-    @GetMapping(ABOUT_PATH + "/images/{filename}")
-    public ResponseEntity<Resource> downloadImage(@PathVariable("filename") String filename){
 
-        Resource resource = fileStorageService.loadFile(filename, "about");
-
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"facePhoto.png\"")
-                .body(resource);
-    }
 
 
 

@@ -1,6 +1,8 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
+import com.amazing.juno.springwebapp.dto.ContactDTO;
 import com.amazing.juno.springwebapp.entity.Contact;
+import com.amazing.juno.springwebapp.exc.NotFoundException;
 import com.amazing.juno.springwebapp.service.admin.ContactService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -14,33 +16,36 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/contact")
 public class ContactRestController {
 
     private final ContactService contactService;
 
-    @GetMapping
-    public ResponseEntity<List<Contact>> getAllContactRecords(){
+    public final static String CONTACT_PATH = "/api/contact";
+
+    public final static String CONTACT_ID_PATH = "/api/contact/{contactId}";
+
+    public final static String CONTACT_RECENT_PATH = "/api/contact/recent";
+
+
+    @GetMapping(CONTACT_PATH)
+    public ResponseEntity<List<ContactDTO>> getAllContactRecords(){
         return new ResponseEntity<>(contactService.getAllContactRecords(), HttpStatus.ACCEPTED);
     }
 
-    @PostMapping
-    public ResponseEntity<Contact> saveContact(@RequestBody Contact contact){
-        contactService.saveContact(contact);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    @PostMapping(CONTACT_PATH)
+    public ResponseEntity<ContactDTO> saveContact(@RequestBody ContactDTO contactDTO){
+        return new ResponseEntity<>(contactService.saveContact(contactDTO),HttpStatus.CREATED);
     }
 
 
-    @GetMapping("/{contactId}")
-    public ResponseEntity<Contact> getContactById(@PathVariable("contactId") UUID contactId){
-
-        return new ResponseEntity<>(contactService.getContactById(contactId), HttpStatus.ACCEPTED);
+    @GetMapping(CONTACT_ID_PATH)
+    public ResponseEntity<ContactDTO> getContactById(@PathVariable("contactId") UUID contactId){
+        return new ResponseEntity<>(contactService.getContactById(contactId).orElseThrow(NotFoundException::new), HttpStatus.ACCEPTED);
     }
 
 
-    @GetMapping("/recent")
-    public ResponseEntity<Contact> getRecentContact(){
-
+    @GetMapping(CONTACT_RECENT_PATH)
+    public ResponseEntity<ContactDTO> getRecentContact(){
         return new ResponseEntity<>(contactService.getRecentContact(), HttpStatus.ACCEPTED);
     }
 

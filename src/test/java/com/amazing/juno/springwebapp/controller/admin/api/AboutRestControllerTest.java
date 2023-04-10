@@ -125,7 +125,7 @@ class AboutRestControllerTest {
 
 
 
-        given(fileStorageService.saveFile(any(MultipartFile.class),any(String.class), any(UUID.class))).willReturn("fileName");
+        given(fileStorageService.saveFile(any(MultipartFile.class),any(String.class))).willReturn("fileName");
         given(aboutService.saveAbout(any(AboutDTO.class),any(String.class))).willReturn(tmpAboutDTOList.get(1));
 
 
@@ -168,15 +168,5 @@ class AboutRestControllerTest {
                 .andExpect(status().isAccepted());
     }
 
-    @Test
-    void downloadImage() throws Exception {
-        Resource mockResource = Mockito.mock(Resource.class);
 
-        given(fileStorageService.loadFile(any(String.class),any(String.class))).willReturn(mockResource);
-
-        mockMvc.perform(get(AboutRestController.ABOUT_PATH + "/images/{filename}", "file.txt")
-                .accept(MediaType.APPLICATION_OCTET_STREAM_VALUE))
-                .andExpect(status().isOk());
-
-    }
 }

@@ -1,16 +1,18 @@
 package com.amazing.juno.springwebapp.service.admin;
 
+import com.amazing.juno.springwebapp.dto.ContactDTO;
 import com.amazing.juno.springwebapp.entity.Contact;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ContactService {
-    void saveContact(Contact contact);
+    ContactDTO saveContact(ContactDTO contactDTO);
 
-    List<Contact> getAllContactRecords();
+    List<ContactDTO> getAllContactRecords();
 
-    Contact getContactById(UUID id);
+    Optional<ContactDTO> getContactById(UUID id);
 
-    Contact getRecentContact();
+    ContactDTO getRecentContact();
 }

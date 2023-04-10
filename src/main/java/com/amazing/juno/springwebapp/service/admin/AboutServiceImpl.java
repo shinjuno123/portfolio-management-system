@@ -24,22 +24,11 @@ public class AboutServiceImpl implements AboutService {
 
     private final AboutMapper aboutMapper;
 
-    private AboutDTO getAboutDTOWithFullPhotoUrl(About about) {
-        AboutDTO aboutDTO = aboutMapper.aboutToAboutDTO(about);
-
-        aboutDTO.setFaceImagePath(ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/api/about/images/")
-                .path(about.getFaceImagePath())
-                .toUriString());
-
-        return aboutDTO;
-    }
-
 
 
     @Override
     public List<AboutDTO> getAllAbout() {
-        return aboutRepository.findAll().stream().map(this::getAboutDTOWithFullPhotoUrl).toList();
+        return aboutRepository.findAll().stream().map(aboutMapper::aboutToAboutDTO).toList();
     }
 
     @Override
@@ -47,7 +36,7 @@ public class AboutServiceImpl implements AboutService {
         AtomicReference<Optional<AboutDTO>> atomicReference = new AtomicReference<>();
 
         aboutRepository.findById(aboutId).ifPresentOrElse(about -> atomicReference.set(
-                Optional.of(getAboutDTOWithFullPhotoUrl(about))
+                Optional.of(aboutMapper.aboutToAboutDTO(about))
         ),()-> atomicReference.set(
                 Optional.empty()
         ));
@@ -69,11 +58,13 @@ public class AboutServiceImpl implements AboutService {
 
     @Override
     @Transactional
-    public AboutDTO saveAbout(AboutDTO about, String faceImageName) {
-        about.setFaceImagePath(faceImageName);
-        about.setUploaded(LocalDateTime.now());
+    public AboutDTO saveAbout(AboutDTO aboutDTO, String imagePath) {
+        aboutDTO.setFaceImagePath(imagePath);
+        aboutDTO.setUploaded(LocalDateTime.now());
 
-        return getAboutDTOWithFullPhotoUrl(aboutRepository.save(aboutMapper.aboutDTOToAbout(about)));
+        return aboutMapper.aboutToAboutDTO(
+                aboutRepository.save(aboutMapper.aboutDTOToAbout(aboutDTO))
+        );
     }
     
 }

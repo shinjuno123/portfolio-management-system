@@ -1,5 +1,6 @@
 package com.amazing.juno.springwebapp.service;
 
+import com.amazing.juno.springwebapp.controller.api.FileRestController;
 import com.amazing.juno.springwebapp.exc.FileNotFoundException;
 import com.amazing.juno.springwebapp.exc.FileStorageException;
 import com.amazing.juno.springwebapp.properties.FileUploadProperties;
@@ -61,15 +62,15 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public String saveFile(MultipartFile file, String category ,UUID uniqueValue) {
+    public String saveFile(MultipartFile file, String category) {
         Path categoryDirection = getCategoryDirectoryPath(category);
 
 
         try {
-            String fileName = uniqueValue + "_" + file.getOriginalFilename();
+            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
             Path directoryFile = categoryDirection.resolve(fileName);
             Files.copy(file.getInputStream(), directoryFile, StandardCopyOption.REPLACE_EXISTING);
-            return fileName;
+            return FileRestController.FILE_IMAGE_PATH + "/" + category +"/" + fileName;
         } catch (IOException e) {
             throw new FileStorageException("Could not upload file");
         }

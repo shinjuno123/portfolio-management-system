@@ -12,5 +12,5 @@ public interface AboutService {
     Optional<AboutDTO> getAboutById(UUID aboutId);
     Optional<AboutDTO> getRecentAbout();
 
-    AboutDTO saveAbout(AboutDTO about, String faceImageName);
+    AboutDTO saveAbout(AboutDTO aboutDTO, String imagePath);
 }
