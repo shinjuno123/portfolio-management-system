@@ -1,22 +1,15 @@
 package com.amazing.juno.springwebapp.service.admin;
 
-
 import com.amazing.juno.springwebapp.dao.admin.IntroRepository;
-import com.amazing.juno.springwebapp.dto.AboutDTO;
 import com.amazing.juno.springwebapp.dto.IntroDTO;
-import com.amazing.juno.springwebapp.entity.Introduction;
 import com.amazing.juno.springwebapp.mapper.IntroMapper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import javax.swing.text.html.Option;
-import java.lang.ref.Reference;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
 
 @AllArgsConstructor
 @Service
@@ -60,8 +53,6 @@ public class IntroServiceImpl implements IntroService {
         if(savedIntroDTO != null){
             optionalIntroDTO = Optional.of(savedIntroDTO);
         }
-
-
 
         return optionalIntroDTO;
     }

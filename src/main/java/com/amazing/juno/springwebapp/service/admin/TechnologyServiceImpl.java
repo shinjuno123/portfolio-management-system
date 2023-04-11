@@ -1,6 +1,7 @@
 package com.amazing.juno.springwebapp.service.admin;
 
-import com.amazing.juno.springwebapp.dao.admin.TechnologyRepository;
+import com.amazing.juno.springwebapp.dao.admin.TechCategoryItemRepository;
+import com.amazing.juno.springwebapp.dao.admin.TechCategoryRepository;
 import com.amazing.juno.springwebapp.dto.TechCategoryDTO;
 import com.amazing.juno.springwebapp.dto.TechCategoryItemDTO;
 import com.amazing.juno.springwebapp.entity.TechCategory;
@@ -19,7 +20,9 @@ import java.util.*;
 @RequiredArgsConstructor
 public class TechnologyServiceImpl implements TechnologyService {
 
-    private final TechnologyRepository technologyRepository;
+    private final TechCategoryRepository techCategoryRepository;
+
+    private final TechCategoryItemRepository techCategoryItemRepository;
 
     private final TechCategoryMapper techCategoryMapper;
 
@@ -30,23 +33,25 @@ public class TechnologyServiceImpl implements TechnologyService {
     @Transactional
     public TechCategoryDTO addCategory(TechCategoryDTO categoryDTO) {
         return techCategoryMapper.techCategoryToTechCategoryDTO(
-                technologyRepository.save(techCategoryMapper.techCategoryDTOToTechCategory(categoryDTO))
+                techCategoryRepository.save(techCategoryMapper.techCategoryDTOToTechCategory(categoryDTO))
         );
     }
 
     @Override
     @Transactional
     public Optional<TechCategoryDTO> saveOrUpdateItemToCategory(String categoryName, TechCategoryItemDTO item){
-        if(technologyRepository.existsTechCategoryByCategoryName(categoryName)){
+        if(techCategoryRepository.existsTechCategoryByCategoryName(categoryName)){
             return Optional.empty();
         }
 
         TechCategoryItem itemToSave = techCategoryItemMapper.techCategoryItemDTOToTechCategoryItem(item);
-        TechCategory savedCategory = technologyRepository.findTechCategoryByCategoryName(categoryName);
+        TechCategory savedCategory = techCategoryRepository.findTechCategoryByCategoryName(categoryName);
 
-        savedCategory.getTechnologies().add(itemToSave);
-        itemToSave.setTechCategory(savedCategory);
-        technologyRepository.save(savedCategory);
+        TechCategoryItem savedItem = techCategoryItemRepository.save(itemToSave);
+
+        savedCategory.getTechnologies().add(savedItem);
+        savedItem.setTechCategory(savedCategory);
+        techCategoryRepository.save(savedCategory);
 
         return Optional.of(techCategoryMapper.techCategoryToTechCategoryDTO(savedCategory));
     }
@@ -54,35 +59,32 @@ public class TechnologyServiceImpl implements TechnologyService {
     @Override
     @Transactional
     public List<TechCategoryDTO> findAllCategories(){
-        return technologyRepository.findAll().stream().map(techCategoryMapper::techCategoryToTechCategoryDTO).toList();
+        return techCategoryRepository.findAll().stream().map(techCategoryMapper::techCategoryToTechCategoryDTO).toList();
     }
 
     @Override
     @Transactional
     public boolean deleteCategoryByCategoryName(String categoryName) {
-        if(technologyRepository.existsTechCategoryByCategoryName(categoryName)){
+        if(techCategoryRepository.existsTechCategoryByCategoryName(categoryName)){
             return false;
         }
 
-        technologyRepository.delete(technologyRepository.findTechCategoryByCategoryName(categoryName));
+        techCategoryRepository.delete(techCategoryRepository.findTechCategoryByCategoryName(categoryName));
         return true;
     }
 
     @Override
     @Transactional
     public boolean deleteItemsInCategory(String categoryName, UUID itemId) {
-        if(technologyRepository.existsTechCategoryByCategoryName(categoryName)){
+        if(!techCategoryRepository.existsTechCategoryByCategoryName(categoryName)){
+            return false;
+        } else if(!techCategoryItemRepository.existsById(itemId)){
             return false;
         }
 
-        TechCategory savedCategory = technologyRepository.findTechCategoryByCategoryName(categoryName);
-
-        if(!savedCategory.getTechnologies().contains(TechCategoryItem.builder().id(itemId).build())){
-            return false;
-        }
-
-        savedCategory.getTechnologies().remove(TechCategoryItem.builder().id(itemId).build());
-        technologyRepository.save(savedCategory);
+        TechCategory category = techCategoryRepository.findTechCategoryByCategoryName(categoryName);
+        category.getTechnologies().remove(TechCategoryItem.builder().id(itemId).build());
+        techCategoryRepository.save(category);
 
         return true;
     }

@@ -14,7 +14,6 @@ import java.util.UUID;
 
 public interface AboutRepository extends JpaRepository<About, UUID> {
 
-    @Query( "SELECT new java.util.Optional(a) FROM About a WHERE a.uploaded=(SELECT max(uploaded) from a)")
     About findFirstByOrderByUploadedDesc();
 
 }

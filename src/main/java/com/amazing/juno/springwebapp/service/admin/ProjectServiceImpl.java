@@ -2,14 +2,10 @@ package com.amazing.juno.springwebapp.service.admin;
 
 import com.amazing.juno.springwebapp.dao.admin.ProjectRepository;
 import com.amazing.juno.springwebapp.dto.ProjectDTO;
-import com.amazing.juno.springwebapp.entity.Project;
 import com.amazing.juno.springwebapp.mapper.ProjectMapper;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.util.List;
 import java.util.UUID;
 
