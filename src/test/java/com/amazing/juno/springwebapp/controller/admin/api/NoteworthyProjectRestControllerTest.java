@@ -10,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import static org.mockito.ArgumentMatchers.any;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -66,14 +68,16 @@ class NoteworthyProjectRestControllerTest {
         NoteworthyProjectDTO noteworthyProjectDTO = noteworthyProjectDTOList.get(0);
         noteworthyProjectDTO.setId(null);
 
-        given(noteworthyProjectService.saveOrUpdateNoteWorthyProject(noteworthyProjectDTO)).willReturn(noteworthyProjectDTOList.get(1));
+        given(noteworthyProjectService.saveOrUpdateNoteWorthyProject(any(NoteworthyProjectDTO.class))).willReturn(noteworthyProjectDTOList.get(1));
 
-        mockMvc.perform(post(NoteworthyProjectRestController.NOTEWORTHY_PATH)
+        MvcResult mvcResult = mockMvc.perform(post(NoteworthyProjectRestController.NOTEWORTHY_PATH)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(noteworthyProjectDTO)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id", notNullValue()));
+                .andExpect(jsonPath("$.id",notNullValue()))
+                .andReturn();
+
     }
 
     @Test

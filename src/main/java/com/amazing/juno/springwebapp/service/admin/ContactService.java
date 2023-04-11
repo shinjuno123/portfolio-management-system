@@ -14,5 +14,5 @@ public interface ContactService {
 
     Optional<ContactDTO> getContactById(UUID id);
 
-    ContactDTO getRecentContact();
+    Optional<ContactDTO> getRecentContact();
 }

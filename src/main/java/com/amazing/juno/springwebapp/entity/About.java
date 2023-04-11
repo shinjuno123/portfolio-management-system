@@ -1,7 +1,11 @@
 package com.amazing.juno.springwebapp.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -15,24 +19,43 @@ public class About {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
+	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(length = 36, columnDefinition = "varchar", updatable = false)
 	private UUID id;
 
-	@Column(name = "description")
+	@NotNull
+	@NotBlank
+	@Column
 	private String description;
-	@Column(name = "period")
+
+	@NotNull
+	@NotBlank
+	@Column
 	private String period;
-	@Column(name = "school")
+
+	@NotNull
+	@NotBlank
+	@Column
 	private String school;
-	@Column(name = "degree")
+
+
+	@NotNull
+	@NotBlank
+	@Column
 	private String degree;
-	@Column(name = "region_country")
+
+	@NotNull
+	@NotBlank
+	@Column
 	private String regionCountry;
 
-	@Column(name = "face_image_path")
+	@NotNull
+	@NotBlank
+	@Column
 	private String faceImagePath;
 
-	@Column(name = "uploaded")
+	@NotNull
+	@Column
 	private LocalDateTime uploaded;
-
 
 }

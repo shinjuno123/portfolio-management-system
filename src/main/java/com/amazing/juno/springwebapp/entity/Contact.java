@@ -2,7 +2,10 @@ package com.amazing.juno.springwebapp.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -13,29 +16,43 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "contact")
+@Entity
 public class Contact {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
+	@GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(length = 36, columnDefinition = "varchar", updatable = false)
 	private UUID id;
 
-	@Column(name = "closing_title")
+
+	@NotNull
+	@NotBlank
+	@Column
 	private String closingTitle;
 
-	@Column(name = "closing_content")
+	@NotNull
+	@NotBlank
+	@Column
 	private String closingContent;
 
-	@Column(name = "closing_regard")
+	@NotNull
+	@NotBlank
+	@Column
 	private String closingRegard;
 
-	@Column(name="button_content")
+	@NotNull
+	@NotBlank
+	@Column
 	private String buttonContent;
 
-	@Column(name="email")
+	@NotNull
+	@NotBlank
+	@Column
 	private String email;
 
-	@Column(name = "uploaded")
+	@NotNull
+	@Column
 	private LocalDateTime uploaded;
 
 	

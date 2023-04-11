@@ -55,9 +55,16 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public ContactDTO getRecentContact() {
-        return contactMapper.contactToContactDTO(
+    public Optional<ContactDTO> getRecentContact() {
+        Optional<ContactDTO> optionalContactDTO = Optional.empty();
+        ContactDTO savedContactDTO = contactMapper.contactToContactDTO(
                 contactRepository.findFirstByOrderByUploadedDesc()
         );
+
+        if(savedContactDTO != null){
+            optionalContactDTO = Optional.of(savedContactDTO);
+        }
+
+        return optionalContactDTO;
     }
 }

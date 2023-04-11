@@ -46,14 +46,17 @@ public class AboutServiceImpl implements AboutService {
 
     @Override
     public Optional<AboutDTO> getRecentAbout() {
-        AtomicReference<Optional<AboutDTO>> atomicReference = new AtomicReference<>();
+        Optional<AboutDTO> optionalAboutDTO = Optional.empty();
 
-        aboutRepository.getRecentAbout().ifPresentOrElse(about-> atomicReference.set(Optional.of(
-                aboutMapper.aboutToAboutDTO(about)
-        ))
-        ,()-> atomicReference.set(Optional.empty()));
+        AboutDTO savedAboutDTO = aboutMapper.aboutToAboutDTO(
+                aboutRepository.findFirstByOrderByUploadedDesc()
+        );
 
-        return atomicReference.get();
+        if(savedAboutDTO != null){
+            optionalAboutDTO = Optional.of(savedAboutDTO);
+        }
+
+        return optionalAboutDTO;
     }
 
     @Override

@@ -91,7 +91,7 @@ class ContactRestControllerTest {
     void getRecentContact() throws Exception{
         ContactDTO contactDTO = contactDTOList.get(0);
 
-        given(contactService.getRecentContact()).willReturn(contactDTO);
+        given(contactService.getRecentContact()).willReturn(Optional.of(contactDTO));
 
         mockMvc.perform(get(ContactRestController.CONTACT_RECENT_PATH)
                         .accept(MediaType.APPLICATION_JSON))

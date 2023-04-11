@@ -9,5 +9,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ContactRepository extends JpaRepository<Contact, UUID> {
+
     Contact findFirstByOrderByUploadedDesc();
 }

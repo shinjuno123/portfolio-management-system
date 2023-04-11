@@ -6,7 +6,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.net.URL;
 import java.util.UUID;
@@ -17,21 +20,28 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "noteworthy_project")
+@Entity
 public class NoteworthyProject {
-	
+
 	@Id
-	@GeneratedValue(strategy= GenerationType.UUID)
+	@GeneratedValue(strategy = GenerationType.UUID)
+	@GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(length = 36, columnDefinition = "varchar", updatable = false)
 	private UUID id;
 
-	@Column(name = "title")
+	@NotNull
+	@NotBlank
+	@Column
 	private String title;
 
-	@Column(name = "description")
+	@NotNull
+	@NotBlank
+	@Column
 	private String description;
 
 
-	@Column(name = "url")
+	@NotNull
+	@Column
 	private URL url;
 
 

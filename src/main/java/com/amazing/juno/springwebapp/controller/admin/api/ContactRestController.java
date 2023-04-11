@@ -46,7 +46,7 @@ public class ContactRestController {
 
     @GetMapping(CONTACT_RECENT_PATH)
     public ResponseEntity<ContactDTO> getRecentContact(){
-        return new ResponseEntity<>(contactService.getRecentContact(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(contactService.getRecentContact().orElseThrow(NotFoundException::new), HttpStatus.ACCEPTED);
     }
 
 

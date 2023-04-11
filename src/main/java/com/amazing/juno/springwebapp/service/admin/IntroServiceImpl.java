@@ -2,6 +2,7 @@ package com.amazing.juno.springwebapp.service.admin;
 
 
 import com.amazing.juno.springwebapp.dao.admin.IntroRepository;
+import com.amazing.juno.springwebapp.dto.AboutDTO;
 import com.amazing.juno.springwebapp.dto.IntroDTO;
 import com.amazing.juno.springwebapp.entity.Introduction;
 import com.amazing.juno.springwebapp.mapper.IntroMapper;
@@ -50,17 +51,19 @@ public class IntroServiceImpl implements IntroService {
     @Override
     @Transactional
     public Optional<IntroDTO> getRecentIntroduction() {
-        AtomicReference<Optional<IntroDTO>> atomicReference = new AtomicReference<>();
+        Optional<IntroDTO> optionalIntroDTO = Optional.empty();
 
-        introRepository.getRecentIntroduction().ifPresentOrElse(introduction->{
-            atomicReference.set(
-                    Optional.of(introMapper.introductionToIntroDTO(introduction))
-            );
-        },()->{
-            atomicReference.set(Optional.empty());
-        });
+        IntroDTO savedIntroDTO = introMapper.introductionToIntroDTO(
+                introRepository.findFirstByOrderByUploadedDesc()
+        );
 
-        return atomicReference.get();
+        if(savedIntroDTO != null){
+            optionalIntroDTO = Optional.of(savedIntroDTO);
+        }
+
+
+
+        return optionalIntroDTO;
     }
 
 

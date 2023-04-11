@@ -1,6 +1,7 @@
 package com.amazing.juno.springwebapp.dao.admin;
 
 import com.amazing.juno.springwebapp.entity.About;
+import com.amazing.juno.springwebapp.entity.Introduction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,6 @@ import java.util.UUID;
 public interface AboutRepository extends JpaRepository<About, UUID> {
 
     @Query( "SELECT new java.util.Optional(a) FROM About a WHERE a.uploaded=(SELECT max(uploaded) from a)")
-    Optional<About> getRecentAbout();
+    About findFirstByOrderByUploadedDesc();
 
 }

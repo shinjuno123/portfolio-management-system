@@ -5,7 +5,10 @@ package com.amazing.juno.springwebapp.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -22,22 +25,32 @@ public class Introduction {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "id")
+	@GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(length = 36, columnDefinition = "varchar", updatable = false)
 	private UUID id;
 
-	@Column(name = "say_hi")
+	@NotNull
+	@NotBlank
+	@Column
 	private String sayHi;
 
-	@Column(name = "name")
+	@NotNull
+	@NotBlank
+	@Column
 	private String name;
 
-	@Column(name = "opening")
+	@NotNull
+	@NotBlank
+	@Column
 	private String opening;
 
-	@Column(name = "detail")
+	@NotNull
+	@NotBlank
+	@Column
 	private String detail;
 
-	@Column(name = "uploaded")
+	@NotNull
+	@Column
 	private LocalDateTime uploaded;
 
 
