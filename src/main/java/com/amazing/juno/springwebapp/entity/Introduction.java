@@ -31,26 +31,26 @@ public class Introduction {
 
 	@NotNull
 	@NotBlank
-	@Column
+	@Column(nullable = false)
 	private String sayHi;
 
 	@NotNull
 	@NotBlank
-	@Column
+	@Column(nullable = false)
 	private String name;
 
 	@NotNull
 	@NotBlank
-	@Column
+	@Column(nullable = false)
 	private String opening;
 
 	@NotNull
 	@NotBlank
-	@Column
+	@Column(nullable = false)
 	private String detail;
 
 	@NotNull
-	@Column
+	@Column(nullable = false)
 	private LocalDateTime uploaded;
 
 

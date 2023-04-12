@@ -8,6 +8,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Locale;
+
 @SpringBootApplication
 @EnableConfigurationProperties({
 		FileUploadProperties.class
@@ -20,7 +22,7 @@ public class SpringwebappApplication extends SpringBootServletInitializer {
 	}
 
 	public static void main(String[] args) {
-
+		Locale.setDefault(Locale.ENGLISH);
 		SpringApplication app = new SpringApplication(SpringwebappApplication.class);
 
 		app.run(args);

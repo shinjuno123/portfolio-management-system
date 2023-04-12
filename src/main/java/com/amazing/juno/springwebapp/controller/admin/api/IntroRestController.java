@@ -9,6 +9,7 @@ import com.amazing.juno.springwebapp.service.admin.IntroService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
@@ -22,6 +23,8 @@ public class IntroRestController {
 
     public static final String INTRO_ID_PATH =  "/api/introduction/{introId}";
 
+    public static final String INTRO_RECENT_PATH = "/api/introduction/recent";
+
     private final IntroService introService;
 
     @GetMapping(INTRO_PATH)
@@ -30,7 +33,7 @@ public class IntroRestController {
     }
 
     @PostMapping(INTRO_PATH)
-    public ResponseEntity<IntroDTO> saveIntroduction(@RequestBody IntroDTO introDTO){
+    public ResponseEntity<IntroDTO> saveIntroduction(@Validated @RequestBody IntroDTO introDTO){
         return new ResponseEntity<>(introService.saveIntroduction(introDTO), HttpStatus.CREATED);
     }
 
@@ -40,7 +43,7 @@ public class IntroRestController {
     }
 
 
-    @GetMapping( INTRO_PATH + "/recent")
+    @GetMapping( INTRO_RECENT_PATH)
     public ResponseEntity<IntroDTO> getRecentIntroduction(){
         return new ResponseEntity<>(introService.getRecentIntroduction().orElseThrow(NotFoundException::new), HttpStatus.ACCEPTED);
     }

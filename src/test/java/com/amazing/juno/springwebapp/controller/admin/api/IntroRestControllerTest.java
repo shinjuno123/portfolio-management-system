@@ -59,7 +59,6 @@ class IntroRestControllerTest {
                 .opening("opening1")
                 .detail("detail1")
                 .uploaded(LocalDateTime.now())
-                .version(1)
                 .build();
 
         IntroDTO introDTO2 = IntroDTO.builder()
@@ -69,7 +68,6 @@ class IntroRestControllerTest {
                 .opening("opening2")
                 .detail("detail")
                 .uploaded(LocalDateTime.now())
-                .version(1)
                 .build();
 
 
@@ -80,7 +78,6 @@ class IntroRestControllerTest {
                 .opening("opening3")
                 .detail("detail3")
                 .uploaded(LocalDateTime.now())
-                .version(1)
                 .build();
 
         IntroDTO introDTO4 = IntroDTO.builder()
@@ -90,7 +87,6 @@ class IntroRestControllerTest {
                 .opening("opening4")
                 .detail("detail4")
                 .uploaded(LocalDateTime.now())
-                .version(1)
                 .build();
 
         tmpIntroductions.add(introDTO1);
@@ -116,7 +112,6 @@ class IntroRestControllerTest {
     void saveIntroduction() throws Exception{
         IntroDTO newIntroDTO = tmpIntroductions.get(0);
         newIntroDTO.setId(null);
-        newIntroDTO.setVersion(null);
         newIntroDTO.setUploaded(null);
 
         System.out.println("Input");
