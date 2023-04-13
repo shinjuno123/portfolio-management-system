@@ -1,17 +1,21 @@
 package com.amazing.juno.springwebapp.advice;
 
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @ControllerAdvice
-public class IntroRestErrorController {
+public class RestErrorController {
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -31,6 +35,7 @@ public class IntroRestErrorController {
 
     }
 
+
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     ResponseEntity<?> handleTypeMisMatchErrors(MethodArgumentTypeMismatchException exception){
 
@@ -39,5 +44,14 @@ public class IntroRestErrorController {
 
         return ResponseEntity.badRequest().body(responseBody);
     }
+
+    @ExceptionHandler(MissingServletRequestPartException.class)
+    public @ResponseBody Map<String,String> handleMissingServletRequestPartException(Exception  exception, HttpServletResponse response) {
+        Map<String,String> errorMap = new HashMap<>();
+        errorMap.put("message","missing parameter");
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        return errorMap;
+    }
+
 
 }
