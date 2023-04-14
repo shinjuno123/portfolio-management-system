@@ -3,9 +3,10 @@ package com.amazing.juno.springwebapp.service.admin;
 import com.amazing.juno.springwebapp.dao.admin.ProjectRepository;
 import com.amazing.juno.springwebapp.dto.ProjectDTO;
 import com.amazing.juno.springwebapp.mapper.ProjectMapper;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.UUID;
 

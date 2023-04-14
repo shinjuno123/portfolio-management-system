@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +86,14 @@ public class RestErrorAdvice {
         return ResponseEntity.badRequest().body(errorMap);
     }
 
+    @ExceptionHandler(MalformedURLException.class)
+    ResponseEntity<?> handleMalformedURLException(MalformedURLException exception){
+        Map<String,String> errorMap = new HashMap<>();
+
+        errorMap.put("message","You have wrong URL form");
+
+        return ResponseEntity.badRequest().body(errorMap);
+    }
 
 
 

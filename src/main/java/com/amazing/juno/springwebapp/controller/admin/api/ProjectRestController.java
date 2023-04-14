@@ -2,16 +2,13 @@ package com.amazing.juno.springwebapp.controller.admin.api;
 
 
 import com.amazing.juno.springwebapp.dto.ProjectDTO;
-import com.amazing.juno.springwebapp.entity.Project;
 import com.amazing.juno.springwebapp.exc.NotFoundException;
 import com.amazing.juno.springwebapp.service.FileStorageService;
 import com.amazing.juno.springwebapp.service.admin.ProjectService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
@@ -28,7 +25,6 @@ public class ProjectRestController {
 
     public final static String PROJECT_ID_PATH = "/api/projects/{projectId}";
 
-
     @GetMapping(PROJECT_PATH)
     public ResponseEntity<List<ProjectDTO>> listProjects(){
 
@@ -36,21 +32,19 @@ public class ProjectRestController {
     }
 
     @PostMapping(PROJECT_PATH)
-    public ResponseEntity<ProjectDTO> saveOrUpdateProject(@RequestPart("projectDTO") ProjectDTO projectDTO, @RequestPart("image") MultipartFile image){
+    public ResponseEntity<ProjectDTO> saveOrUpdateProject(@Validated @RequestPart("projectDTO") ProjectDTO projectDTO, @RequestPart("image") MultipartFile image){
         String filePath = fileStorageService.saveFile(image,"project");
 
         return new ResponseEntity<>( projectService.saveOrUpdateProject(projectDTO, filePath), HttpStatus.CREATED);
     }
 
     @DeleteMapping(PROJECT_ID_PATH)
-    public ResponseEntity<?> deleteProject(@PathVariable("projectId") UUID projectId){
+    public ResponseEntity<?> deleteProjectById(@PathVariable("projectId") UUID projectId){
         if(!projectService.deleteProject(projectId)){
             throw new NotFoundException();
         }
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
 
 }

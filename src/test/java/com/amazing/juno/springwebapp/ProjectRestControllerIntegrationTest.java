@@ -1,10 +1,14 @@
 package com.amazing.juno.springwebapp;
 
+import com.amazing.juno.springwebapp.controller.admin.api.AboutRestController;
 import com.amazing.juno.springwebapp.controller.admin.api.ProjectRestController;
 import com.amazing.juno.springwebapp.controller.api.FileRestController;
 import com.amazing.juno.springwebapp.dao.admin.ProjectRepository;
+import com.amazing.juno.springwebapp.dto.ProjectDTO;
 import com.amazing.juno.springwebapp.entity.Project;
 import com.amazing.juno.springwebapp.mapper.ProjectMapper;
+import com.amazing.juno.springwebapp.service.FileStorageService;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
@@ -13,18 +17,23 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class ProjectRestControllerIntegrationTest {
 
@@ -36,6 +45,9 @@ class ProjectRestControllerIntegrationTest {
 
     @Autowired
     ProjectMapper projectMapper;
+
+    @Autowired
+    FileStorageService fileStorageService;
 
     @Autowired
     WebApplicationContext wac;
@@ -78,10 +90,139 @@ class ProjectRestControllerIntegrationTest {
 
 
     @Test
+    void testListProjects() throws Exception{
+
+        mockMvc.perform(get(ProjectRestController.PROJECT_PATH)
+                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isAccepted())
+                .andExpect(jsonPath("$.length()",greaterThanOrEqualTo(4)));
+    }
+
+
+    @Test
     @Rollback
-    void testListProjects(){
+    void testListProjectAndReturnEmptyList() throws Exception{
+        projectRepository.deleteAll();
+
+        mockMvc.perform(get(ProjectRestController.PROJECT_PATH)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isAccepted())
+                .andExpect(jsonPath("$.length()",is(0)));
+
 
     }
 
+
+    @Test
+    @Rollback
+    void testSaveOrUpdateProject() throws Exception{
+        ResponseEntity<ProjectDTO> projectDTOResponseEntity =
+                projectRestController.saveOrUpdateProject(
+                        ProjectDTO.builder()
+                                .title("new title")
+                                .description("new description")
+                                .url(new URL("https://naver.com"))
+                                .build()
+                        ,
+                        new MockMultipartFile("image","awdawd.png", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes())
+                );
+
+        ProjectDTO savedProjectDTO = projectDTOResponseEntity.getBody();
+
+        assertThat(savedProjectDTO).isNotNull();
+        assertThat(savedProjectDTO.getId()).isNotNull();
+        assertThat(savedProjectDTO.getImagePath()).isNotEmpty();
+    }
+
+    @Test
+    @Rollback
+    void testSaveOrUpdateProjectAndReturnValidationErrorResponse() throws Exception{
+        ProjectDTO wrongProjectDTO = ProjectDTO
+                .builder()
+                .title("   ")
+                .description("")
+                .url(null)
+                .build();
+
+        MockMultipartFile metaData = new MockMultipartFile("projectDTO", "projectDTO", MediaType.APPLICATION_JSON_VALUE,
+                objectMapper.writeValueAsString(wrongProjectDTO).getBytes());
+
+        MockMultipartFile file = new MockMultipartFile("image","awdawd.png", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes());
+
+        mockMvc.perform(multipart(ProjectRestController.PROJECT_PATH)
+                        .file(metaData)
+                        .file(file)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+    }
+
+    @Test
+    @Rollback
+    void testSaveOrUpdateProjectHavingWrongURLAndReturnValidationErrorResponse() throws Exception{
+
+        Map<String, String> projectDTOMap = new HashMap<>();
+        projectDTOMap.put("title", "wjawhkhd");
+        projectDTOMap.put("description", "wdakwjhdkj");
+        projectDTOMap.put("url","awhdjkwd");
+
+        MockMultipartFile metaData = new MockMultipartFile("projectDTO", "projectDTO", MediaType.APPLICATION_JSON_VALUE,
+                objectMapper.writeValueAsString(projectDTOMap).getBytes());
+
+        MockMultipartFile file = new MockMultipartFile("image","awdawd.png", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes());
+
+        mockMvc.perform(multipart(ProjectRestController.PROJECT_PATH)
+                        .file(metaData)
+                        .file(file)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+
+    @Test
+    @Rollback
+    void testSaveOrUpdateProjectWithoutFile()  throws Exception{
+         ProjectDTO projectDTO = ProjectDTO.builder()
+                .title("new title")
+                .description("new description")
+                .url(new URL("https://naver.com"))
+                .build();
+
+         MockMultipartFile metaData = new MockMultipartFile("projectDTO", "projectDTO", MediaType.APPLICATION_JSON_VALUE,
+                objectMapper.writeValueAsString(projectDTO).getBytes());
+
+        MvcResult mvcResult = mockMvc.perform(multipart(ProjectRestController.PROJECT_PATH)
+                        .file(metaData)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+        Map<String,String> response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<>() {});
+
+        assertThat(response.containsKey("image")).isTrue();
+    }
+
+
+    @Test
+    @Rollback
+    void testDeleteProjectById() throws Exception{
+        UUID savedID = savedIds.get(0);
+
+        mockMvc.perform(delete(ProjectRestController.PROJECT_ID_PATH, savedID)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+    }
+
+
+    @Test
+    @Rollback
+    void testDeleteProjectByNotExistingId() throws Exception{
+
+        mockMvc.perform(delete(ProjectRestController.PROJECT_ID_PATH, UUID.randomUUID())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 
 }

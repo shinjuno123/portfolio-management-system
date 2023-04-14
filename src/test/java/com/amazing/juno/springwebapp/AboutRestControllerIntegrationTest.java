@@ -135,7 +135,7 @@ public class AboutRestControllerIntegrationTest {
 
          assertThat(savedAboutDTO).isNotNull();
          assertThat(savedAboutDTO.getId()).isNotNull();
-         assertThat(savedAboutDTO.getFaceImagePath()).isNotNull();
+         assertThat(savedAboutDTO.getFaceImagePath()).isNotEmpty();
     }
 
     @Test
@@ -151,7 +151,6 @@ public class AboutRestControllerIntegrationTest {
                 .degree(null)
                 .faceImagePath("awjhdkjwa")
                 .build();
-
 
         MockMultipartFile metaData = new MockMultipartFile("aboutDTO", "aboutDTO", MediaType.APPLICATION_JSON_VALUE,
                 objectMapper.writeValueAsString(wrongAboutDTO).getBytes());

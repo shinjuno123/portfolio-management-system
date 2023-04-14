@@ -29,21 +29,20 @@ public class Project {
 
     @NotNull
     @NotBlank
-    @Column
+    @Column(nullable = false)
     private String imagePath;
 
     @NotNull
     @NotBlank
-    @Column
+    @Column(nullable = false)
     private String title;
 
     @NotNull
     @NotBlank
-    @Column
+    @Column(nullable = false)
     private String description;
 
     @NotNull
-    @Column(name = "url")
+    @Column(nullable = false)
     private URL url;
-
 }
