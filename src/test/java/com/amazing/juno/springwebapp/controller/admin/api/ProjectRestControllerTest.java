@@ -50,8 +50,8 @@ class ProjectRestControllerTest {
         for(int i=1;i<=4;i++){
 
             ProjectDTO projectDTO = ProjectDTO.builder()
-                    .id(UUID.randomUUID())
                     .url(new URL("https://www.naver.com"))
+                    .title("new title")
                     .description("description" + i)
                     .imagePath("/api/projects/wadawd" + i + ".jpg")
                     .build();
@@ -77,6 +77,7 @@ class ProjectRestControllerTest {
     @Test
     void saveOrUpdateProject() throws Exception{
         ProjectDTO projectDTO = projectDTOList.get(0);
+        projectDTO.setImagePath(null);
 
 
         MockMultipartFile file = new MockMultipartFile("image","project.png", MediaType.IMAGE_PNG.toString(),
@@ -86,27 +87,24 @@ class ProjectRestControllerTest {
                 objectMapper.writeValueAsString(projectDTO).getBytes());
 
         given(fileStorageService.saveFile(any(MultipartFile.class),any(String.class))).willReturn(file.getName());
-        given(projectService.saveOrUpdateProject(any(ProjectDTO.class),any(String.class))).willReturn(projectDTO);
+        given(projectService.saveOrUpdateProject(any(ProjectDTO.class),any(String.class))).willReturn(projectDTOList.get(1));
 
         mockMvc.perform(multipart(ProjectRestController.PROJECT_PATH)
                         .file(file)
                         .file(metaData)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
-
-
     }
 
     @Test
     void deleteProject() throws Exception{
         ProjectDTO projectDTO = projectDTOList.get(0);
+        projectDTO.setId(UUID.randomUUID());
 
-        given(projectService.deleteProject(any(UUID.class))).willReturn(true);
+        given(projectService.deleteProject(projectDTO.getId())).willReturn(true);
 
         mockMvc.perform(delete(ProjectRestController.PROJECT_ID_PATH, projectDTO.getId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
-
-
 }

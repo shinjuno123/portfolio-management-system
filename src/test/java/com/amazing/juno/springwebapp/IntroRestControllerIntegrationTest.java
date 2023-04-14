@@ -4,12 +4,11 @@ import com.amazing.juno.springwebapp.controller.admin.api.IntroRestController;
 import com.amazing.juno.springwebapp.dao.admin.IntroRepository;
 import com.amazing.juno.springwebapp.dto.IntroDTO;
 import com.amazing.juno.springwebapp.entity.Introduction;
+import com.amazing.juno.springwebapp.entity.ResponseError;
 import com.amazing.juno.springwebapp.exc.NotFoundException;
 import com.amazing.juno.springwebapp.mapper.IntroMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
-import jakarta.xml.bind.DataBindingException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +21,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @SpringBootTest
 public class IntroRestControllerIntegrationTest {
@@ -141,8 +142,7 @@ public class IntroRestControllerIntegrationTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        List<Map<String,String>> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
-        });
+        List<Map<String,String>> response = objectMapper.readValue(result.getResponse().getContentAsString(), ResponseError.class).getMessages();
 
 
         Set<String> keySet = new HashSet<>();
@@ -183,9 +183,19 @@ public class IntroRestControllerIntegrationTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        Map<String,String> responseMap = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<Map<String,String>>() {});
+        List<Map<String,String>> response = objectMapper.readValue(result.getResponse().getContentAsString(), ResponseError.class).getMessages();
 
-        assertThat(responseMap.containsKey("introId")).isTrue();
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+
+        response.forEach(
+                error->{
+                    if(error.containsKey("introId")){
+                        atomicBoolean.set(true);
+                    }
+                }
+        );
+
+        assertTrue(atomicBoolean.get());
     }
 
 

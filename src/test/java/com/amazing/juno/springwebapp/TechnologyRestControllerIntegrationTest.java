@@ -6,13 +6,13 @@ import com.amazing.juno.springwebapp.dao.admin.TechCategoryItemRepository;
 import com.amazing.juno.springwebapp.dao.admin.TechCategoryRepository;
 import com.amazing.juno.springwebapp.dto.TechCategoryDTO;
 import com.amazing.juno.springwebapp.dto.TechCategoryItemDTO;
+import com.amazing.juno.springwebapp.entity.ResponseError;
 import com.amazing.juno.springwebapp.entity.TechCategory;
 import com.amazing.juno.springwebapp.entity.TechCategoryItem;
 import com.amazing.juno.springwebapp.mapper.TechCategoryItemMapper;
 import com.amazing.juno.springwebapp.mapper.TechCategoryMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +25,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -117,6 +118,7 @@ public class TechnologyRestControllerIntegrationTest {
 
     @Test
     @Rollback
+    @Transactional
     void testListCategoriesAndReturnEmptyList() throws Exception{
 
         techCategoryRepository.deleteAll();
@@ -132,6 +134,7 @@ public class TechnologyRestControllerIntegrationTest {
 
     @Test
     @Rollback
+    @Transactional
     void testAddOrUpdateCategory() throws Exception{
         TechCategoryDTO newTechCategory = TechCategoryDTO.builder()
                         .categoryName("New Category")
@@ -157,7 +160,7 @@ public class TechnologyRestControllerIntegrationTest {
                 .categoryName("Category")
                 .build();
 
-        System.out.println("start");
+        System.out.println(techCategoryRepository.findAll());
 
 
         MvcResult mvcResult = mockMvc.perform(post(TechnologyRestController.TECHNOLOGY_PATH)
@@ -167,13 +170,25 @@ public class TechnologyRestControllerIntegrationTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        Map<String,String> error = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<>() {});
-        assertThat(error.containsKey("message")).isTrue();
+        List<Map<String,String>> errors = objectMapper.readValue(mvcResult.getResponse().getContentAsString(),ResponseError.class).getMessages();
+
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+
+        errors.forEach(
+                error->{
+                    if(error.containsKey("message")){
+                        atomicBoolean.set(true);
+                    }
+                }
+        );
+
+        assertTrue(atomicBoolean.get());
     }
 
 
     @Test
     @Rollback
+    @Transactional
     void testAddOrUpdateCategoryWithEmptyCategoryName() throws Exception {
         TechCategoryDTO newTechCategory = TechCategoryDTO.builder()
                 .categoryName("")
@@ -192,6 +207,7 @@ public class TechnologyRestControllerIntegrationTest {
 
     @Test
     @Rollback
+    @Transactional
     void testAddOrUpdateCategoryHavingAllEmptyProperties() throws Exception{
         Map<String, String> wrongCategory = new HashMap<>();
 
@@ -209,6 +225,7 @@ public class TechnologyRestControllerIntegrationTest {
 
     @Test
     @Rollback
+    @Transactional
     void testAddOrUpdateCategoryUsingWrongTypeOfBody() throws Exception{
 
         MvcResult mvcResult = mockMvc.perform(post(TechnologyRestController.TECHNOLOGY_PATH)
@@ -218,13 +235,25 @@ public class TechnologyRestControllerIntegrationTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof HttpMessageNotReadableException))
                 .andReturn();
-        Map<String,String> error = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<>() {});
-        assertThat(error.containsKey("message")).isTrue();
+        List<Map<String,String>> errors = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), ResponseError.class).getMessages();
+
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+
+        errors.forEach(
+                error->{
+                    if(error.containsKey("message")){
+                        atomicBoolean.set(true);
+                    }
+                }
+        );
+
+        assertTrue(atomicBoolean.get());
     }
 
 
     @Test
     @Rollback
+    @Transactional
     void testAddOrUpdateCategoryToChangeCategoryName() throws Exception{
         TechCategory savedTechCategoryBefore = techCategoryRepository.findById(savedIds.get(0)).get();
 
@@ -250,6 +279,7 @@ public class TechnologyRestControllerIntegrationTest {
 
     @Test
     @Rollback
+    @Transactional
     void testSaveItemToCategory() throws Exception{
         TechCategoryItemDTO categoryItemDTO = TechCategoryItemDTO.builder()
                         .stackName("new Stack Name!")
@@ -270,6 +300,7 @@ public class TechnologyRestControllerIntegrationTest {
 
     @Test
     @Rollback
+    @Transactional
     void testSaveItemToNotExistingCategory() throws Exception{
         TechCategoryItemDTO categoryItemDTO = TechCategoryItemDTO.builder()
                 .stackName("new Stack Name!")
@@ -291,6 +322,7 @@ public class TechnologyRestControllerIntegrationTest {
 
     @Test
     @Rollback
+    @Transactional
     void testUpdateExistingItemToCategory() throws Exception{
         TechCategoryItem savedItem = techCategoryItemRepository.findAll().get(0);
 

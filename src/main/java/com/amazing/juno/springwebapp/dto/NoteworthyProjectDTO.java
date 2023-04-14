@@ -17,15 +17,15 @@ import java.util.UUID;
 public class NoteworthyProjectDTO{
     private UUID id;
 
-    @NotNull
-    @NotBlank
+    @NotNull(message = "must not be null!")
+    @NotBlank(message = "must not be blank!")
     private String title;
 
-    @NotNull
-    @NotBlank
+    @NotNull(message = "must not be null!")
+    @NotBlank(message = "must not be blank!")
     private String description;
 
-    @NotNull
+    @NotNull(message = "must not be null!")
     private URL url;
 
 }

@@ -1,19 +1,27 @@
 package com.amazing.juno.springwebapp.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
+@Builder
 public class ResponseError {
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+
     private LocalDateTime timeStamp;
 
-    private String message;
+    private Integer status;
 
-    private List<String> errors;
+    private List<Map<String,String>> messages;
+
 }

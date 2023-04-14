@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class ContactRestController {
     }
 
     @PostMapping(CONTACT_PATH)
-    public ResponseEntity<ContactDTO> saveContact(@RequestBody ContactDTO contactDTO){
+    public ResponseEntity<ContactDTO> saveContact(@Validated @RequestBody ContactDTO contactDTO){
         return new ResponseEntity<>(contactService.saveContact(contactDTO),HttpStatus.CREATED);
     }
 
@@ -48,7 +49,5 @@ public class ContactRestController {
     public ResponseEntity<ContactDTO> getRecentContact(){
         return new ResponseEntity<>(contactService.getRecentContact().orElseThrow(NotFoundException::new), HttpStatus.ACCEPTED);
     }
-
-
 
 }

@@ -46,7 +46,7 @@ class ContactRestControllerTest {
                             .closingContent("closingContent"+ i)
                             .closingRegard("closingRegards" + i)
                             .buttonContent("buttonContent" + i)
-                            .email("email" + i)
+                            .email("shinjuno123@naver.com")
                             .build()
             );
         }
@@ -65,6 +65,7 @@ class ContactRestControllerTest {
     @Test
     void saveContact() throws Exception{
         ContactDTO contactDTO = contactDTOList.get(0);
+        contactDTO.setId(null);
 
         given(contactService.saveContact(any(ContactDTO.class))).willReturn(contactDTO);
 
@@ -78,10 +79,11 @@ class ContactRestControllerTest {
     @Test
     void getContactById() throws Exception{
         ContactDTO contactDTO = contactDTOList.get(0);
+        contactDTO.setId(null);
 
-        given(contactService.getContactById(any(UUID.class))).willReturn(Optional.of(contactDTO));
+        given(contactService.getContactById(any(UUID.class))).willReturn(Optional.of(contactDTOList.get(1)));
 
-        mockMvc.perform(get(ContactRestController.CONTACT_ID_PATH, contactDTO.getId())
+        mockMvc.perform(get(ContactRestController.CONTACT_ID_PATH, contactDTOList.get(1).getId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted());
 

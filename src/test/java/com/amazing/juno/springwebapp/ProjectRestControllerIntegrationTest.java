@@ -6,6 +6,7 @@ import com.amazing.juno.springwebapp.controller.api.FileRestController;
 import com.amazing.juno.springwebapp.dao.admin.ProjectRepository;
 import com.amazing.juno.springwebapp.dto.ProjectDTO;
 import com.amazing.juno.springwebapp.entity.Project;
+import com.amazing.juno.springwebapp.entity.ResponseError;
 import com.amazing.juno.springwebapp.mapper.ProjectMapper;
 import com.amazing.juno.springwebapp.service.FileStorageService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -30,6 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -198,9 +200,19 @@ class ProjectRestControllerIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andReturn();
-        Map<String,String> response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<>() {});
+        List<Map<String,String>> response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), ResponseError.class).getMessages();
 
-        assertThat(response.containsKey("image")).isTrue();
+        AtomicBoolean testPassed = new AtomicBoolean(false);
+
+        response.forEach(
+                result ->{
+                    if(result.containsKey("image")){
+                        testPassed.set(true);
+                    }
+                }
+        );
+
+        assertThat(testPassed.get()).isTrue();
     }
 
 

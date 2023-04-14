@@ -7,7 +7,6 @@ import com.amazing.juno.springwebapp.entity.NoteworthyProject;
 import com.amazing.juno.springwebapp.entity.Project;
 import com.amazing.juno.springwebapp.mapper.NoteworthyProjectMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.context.WebApplicationContext;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -95,6 +95,7 @@ public class NoteworthyProjectRestControllerIntegrationTest {
 
     @Test
     @Rollback
+    @Transactional
     void testListNoteworthyProjectsAndReturnEmptyList() throws Exception{
         noteworthyProjectRepository.deleteAll();
 
@@ -106,6 +107,7 @@ public class NoteworthyProjectRestControllerIntegrationTest {
 
     @Test
     @Rollback
+    @Transactional
     void testSaveNoteworthyProject() throws Exception {
         Map<String, String> noteworthyProjectMap = new LinkedHashMap<>();
 
@@ -124,6 +126,7 @@ public class NoteworthyProjectRestControllerIntegrationTest {
 
     @Test
     @Rollback
+    @Transactional
     void testUpdateNoteworthyProject() throws Exception {
         Map<String, String> noteworthyProjectMap = new LinkedHashMap<>();
 
@@ -147,6 +150,7 @@ public class NoteworthyProjectRestControllerIntegrationTest {
 
     @Test
     @Rollback
+    @Transactional
     void testSaveWrongNoteworthyProject() throws Exception{
         Map<String, String> noteworthyProjectMap = new LinkedHashMap<>();
 
@@ -165,6 +169,7 @@ public class NoteworthyProjectRestControllerIntegrationTest {
 
     @Test
     @Rollback
+    @Transactional
     void testSaveNoteworthyProjectHavingWrongURL() throws Exception{
         Map<String, String> noteworthyProjectMap = new LinkedHashMap<>();
 
@@ -182,6 +187,7 @@ public class NoteworthyProjectRestControllerIntegrationTest {
 
     @Test
     @Rollback
+    @Transactional
     void testDeleteNoteworthyProjectById() throws Exception{
 
         mockMvc.perform(delete(NoteworthyProjectRestController.NOTEWORTHY_ID_PATH, savedIds.get(0))
@@ -191,6 +197,7 @@ public class NoteworthyProjectRestControllerIntegrationTest {
 
     @Test
     @Rollback
+    @Transactional
     void testDeleteNoteworthyProjectByNotExistingId() throws Exception{
 
         mockMvc.perform(delete(NoteworthyProjectRestController.NOTEWORTHY_ID_PATH, UUID.randomUUID())

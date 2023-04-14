@@ -5,11 +5,11 @@ import com.amazing.juno.springwebapp.controller.admin.api.AboutRestController;
 import com.amazing.juno.springwebapp.dao.admin.AboutRepository;
 import com.amazing.juno.springwebapp.dto.AboutDTO;
 import com.amazing.juno.springwebapp.entity.About;
+import com.amazing.juno.springwebapp.entity.ResponseError;
 import com.amazing.juno.springwebapp.exc.NotFoundException;
 import com.amazing.juno.springwebapp.mapper.AboutMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,11 +23,14 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -187,9 +190,19 @@ public class AboutRestControllerIntegrationTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        Map<String,String> response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<>() {});
+        List<Map<String,String>> response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), ResponseError.class).getMessages();
 
-        assertThat(response.containsKey("faceImage")).isTrue();
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+
+        response.forEach(
+                error ->{
+                    if(error.containsKey("faceImage")){
+                        atomicBoolean.set(true);
+                    }
+                }
+        );
+
+        assertTrue(atomicBoolean.get());
     }
 
 
@@ -221,9 +234,19 @@ public class AboutRestControllerIntegrationTest {
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentTypeMismatchException))
                 .andReturn();
 
-        Map<String,String> errorResponse = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<>() {});
+        List<Map<String,String>> response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), ResponseError.class).getMessages();
 
-        assertThat(errorResponse.containsKey("aboutId")).isTrue();
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+
+        response.forEach(
+                error -> {
+                    if (error.containsKey("aboutId")){
+                        atomicBoolean.set(true);
+                    }
+                }
+        );
+
+        assertThat(atomicBoolean.get()).isTrue();
     }
 
 
