@@ -65,7 +65,7 @@ public class TechnologyServiceImpl implements TechnologyService {
     @Override
     @Transactional
     public boolean deleteCategoryByCategoryName(String categoryName) {
-        if(techCategoryRepository.existsTechCategoryByCategoryName(categoryName)){
+        if(!techCategoryRepository.existsTechCategoryByCategoryName(categoryName)){
             return false;
         }
 
@@ -85,6 +85,7 @@ public class TechnologyServiceImpl implements TechnologyService {
         TechCategory category = techCategoryRepository.findTechCategoryByCategoryName(categoryName);
         category.getTechnologies().remove(TechCategoryItem.builder().id(itemId).build());
         techCategoryRepository.save(category);
+        techCategoryItemRepository.deleteById(itemId);
 
         return true;
     }

@@ -15,6 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@ToString
 public class TechCategoryItem {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

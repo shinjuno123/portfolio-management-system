@@ -12,6 +12,7 @@ import com.amazing.juno.springwebapp.mapper.TechCategoryItemMapper;
 import com.amazing.juno.springwebapp.mapper.TechCategoryMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,8 +35,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -325,6 +325,77 @@ public class TechnologyRestControllerIntegrationTest {
         assertThat(isExist.get()).isTrue();
 
     }
+    // needs tests for deleteCategoryByCategoryName...
+    @Test
+    @Rollback
+    @Transactional
+    void testDeleteCategoryByCategoryName() throws Exception{
+        TechCategory techCategory = techCategoryRepository.findById(savedIds.get(0)).get();
+
+        System.out.println(techCategory.getCategoryName());
+
+        mockMvc.perform(delete(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_PATH, techCategory.getCategoryName())
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        assertThat(techCategoryRepository.existsTechCategoryByCategoryName(techCategory.getCategoryName())).isFalse();
+    }
+
+
+    @Test
+    @Rollback
+    @Transactional
+    void testDeleteCategoryByNotExistingCategoryName() throws Exception{
+        TechCategory techCategory = techCategoryRepository.findById(savedIds.get(0)).get();
+
+        mockMvc.perform(delete(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_PATH, "awdhkajwd")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+    }
+
+
+
+    @Test
+    @Rollback
+    @Transactional
+    void testDeleteItemsInCategory() throws Exception{
+        TechCategory techCategory = techCategoryRepository.findById(savedIds.get(0)).get();
+        TechCategoryItem savedItem = techCategory.getTechnologies().stream().toList().get(0);
+        System.out.println(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH + techCategory.getCategoryName() +savedItem.getId());
+        mockMvc.perform(delete(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH,techCategory.getCategoryName(),savedItem.getId())
+                .accept(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isNoContent());
+
+        assertThat(techCategoryItemRepository.existsById(savedItem.getId())).isFalse();
+    }
+
+
+    @Test
+    @Rollback
+    @Transactional
+    void testDeleteItemsInNotExistingCategory() throws Exception{
+        TechCategory techCategory = techCategoryRepository.findById(savedIds.get(0)).get();
+        TechCategoryItem savedItem = techCategory.getTechnologies().stream().toList().get(0);
+
+        mockMvc.perform(delete(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH,"ekfhkajhfjkahwdk",savedItem.getId())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+    }
+
+    @Test
+    @Rollback
+    @Transactional
+    void testDeleteNotExistingItemsInCategory() throws Exception{
+        TechCategory techCategory = techCategoryRepository.findById(savedIds.get(0)).get();
+
+        mockMvc.perform(delete(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH,techCategory.getCategoryName(),UUID.randomUUID())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+
 
 
 }
