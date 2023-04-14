@@ -24,9 +24,7 @@ public class TechCategory {
     @Column(length = 36, columnDefinition = "varchar", updatable = false)
     private UUID id;
 
-    @NotNull
-    @NotBlank
-    @Column
+    @Column(unique = true, nullable = false)
     private String categoryName;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "techCategory", cascade = CascadeType.ALL)

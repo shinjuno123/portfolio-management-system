@@ -5,9 +5,9 @@ import com.amazing.juno.springwebapp.dao.admin.NoteworthyProjectRepository;
 import com.amazing.juno.springwebapp.dto.NoteworthyProjectDTO;
 import com.amazing.juno.springwebapp.entity.NoteworthyProject;
 import com.amazing.juno.springwebapp.mapper.NoteworthyProjectMapper;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;

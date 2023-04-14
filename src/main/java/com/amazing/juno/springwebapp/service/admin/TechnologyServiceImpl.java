@@ -8,10 +8,10 @@ import com.amazing.juno.springwebapp.entity.TechCategory;
 import com.amazing.juno.springwebapp.entity.TechCategoryItem;
 import com.amazing.juno.springwebapp.mapper.TechCategoryItemMapper;
 import com.amazing.juno.springwebapp.mapper.TechCategoryMapper;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -40,7 +40,7 @@ public class TechnologyServiceImpl implements TechnologyService {
     @Override
     @Transactional
     public Optional<TechCategoryDTO> saveOrUpdateItemToCategory(String categoryName, TechCategoryItemDTO item){
-        if(techCategoryRepository.existsTechCategoryByCategoryName(categoryName)){
+        if(!techCategoryRepository.existsTechCategoryByCategoryName(categoryName)){
             return Optional.empty();
         }
 

@@ -5,10 +5,10 @@ import com.amazing.juno.springwebapp.dao.admin.ContactRepository;
 import com.amazing.juno.springwebapp.dto.ContactDTO;
 import com.amazing.juno.springwebapp.entity.Contact;
 import com.amazing.juno.springwebapp.mapper.ContactMapper;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,6 +26,7 @@ public class ContactServiceImpl implements ContactService {
 
 
     @Override
+    @Transactional
     public ContactDTO saveContact(ContactDTO contactDTO) {
         contactDTO.setUploaded(LocalDateTime.now());
 

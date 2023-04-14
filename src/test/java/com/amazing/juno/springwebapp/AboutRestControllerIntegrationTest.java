@@ -5,8 +5,9 @@ import com.amazing.juno.springwebapp.controller.admin.api.AboutRestController;
 import com.amazing.juno.springwebapp.dao.admin.AboutRepository;
 import com.amazing.juno.springwebapp.dto.AboutDTO;
 import com.amazing.juno.springwebapp.entity.About;
+import com.amazing.juno.springwebapp.exc.NotFoundException;
 import com.amazing.juno.springwebapp.mapper.AboutMapper;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
@@ -23,15 +24,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -179,22 +179,77 @@ public class AboutRestControllerIntegrationTest {
                 .degree("content")
                 .build();
 
-
         MockMultipartFile metaData = new MockMultipartFile("aboutDTO", "aboutDTO", MediaType.APPLICATION_JSON_VALUE,
                 objectMapper.writeValueAsString(wrongAboutDTO).getBytes());
 
-
-
         MvcResult mvcResult = mockMvc.perform(multipart(AboutRestController.ABOUT_PATH)
                         .file(metaData)
-
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        System.out.println(mvcResult.getResponse().getContentAsString());
+        Map<String,String> response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<>() {});
+
+        assertThat(response.containsKey("faceImage")).isTrue();
+    }
+
+
+    @Test
+    void testGetAboutByExistingId() throws Exception{
+         MvcResult mvcResult = mockMvc.perform(get(AboutRestController.ABOUT_ID_PATH, savedIds.get(0))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isAccepted()).andReturn();
+
+         AboutDTO existingAboutDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), AboutDTO.class);
+
+         assertThat(existingAboutDTO.getId()).isEqualTo(savedIds.get(0));
+    }
+
+
+    @Test
+    void testGetAboutByNotExistingId() throws Exception{
+        mockMvc.perform(get(AboutRestController.ABOUT_ID_PATH,UUID.randomUUID())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException));
+    }
+
+
+    @Test
+    void testGetAboutByWrongTypeOfId() throws Exception{
+        MvcResult mvcResult = mockMvc.perform(get(AboutRestController.ABOUT_ID_PATH,"wdhakwhdkjw")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentTypeMismatchException))
+                .andReturn();
+
+        Map<String,String> errorResponse = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<>() {});
+
+        assertThat(errorResponse.containsKey("aboutId")).isTrue();
+    }
+
+
+    @Test
+    void testGetRecentAbout() throws Exception{
+        mockMvc.perform(get(AboutRestController.ABOUT_RECENT_PATH)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isAccepted())
+                .andReturn();
 
     }
+
+    @Test
+    @Transactional
+    @Rollback
+    void testGetRecentAboutAndReturnNotFound() throws Exception{
+        aboutRepository.deleteAll();
+
+        mockMvc.perform(get(AboutRestController.ABOUT_RECENT_PATH)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException));
+
+    }
+
 
 
 }

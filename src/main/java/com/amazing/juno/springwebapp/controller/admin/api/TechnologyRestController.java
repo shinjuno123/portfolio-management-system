@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.NotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,14 +40,14 @@ public class TechnologyRestController {
     }
 
     @PostMapping(TECHNOLOGY_PATH)
-    public ResponseEntity<TechCategoryDTO> addCategory(@RequestBody TechCategoryDTO categoryDTO){
+    public ResponseEntity<TechCategoryDTO> addOrUpdateCategory(@Validated @RequestBody TechCategoryDTO categoryDTO){
 
         return new ResponseEntity<>(technologyService.addCategory(categoryDTO), HttpStatus.CREATED);
     }
 
 
     @PostMapping(TECHNOLOGY_CATEGORY_NAME_PATH)
-    public ResponseEntity<TechCategoryDTO> saveOrUpdateItemToCategory(@PathVariable("categoryName") String categoryName, @RequestBody TechCategoryItemDTO item){
+    public ResponseEntity<TechCategoryDTO> saveOrUpdateItemToCategory(@PathVariable("categoryName") String categoryName,@Validated @RequestBody TechCategoryItemDTO item){
 
         return new ResponseEntity<>(technologyService.saveOrUpdateItemToCategory(categoryName, item).orElseThrow(NotFoundException::new),HttpStatus.CREATED);
     }

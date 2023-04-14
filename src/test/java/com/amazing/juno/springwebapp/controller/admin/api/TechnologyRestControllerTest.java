@@ -109,7 +109,6 @@ class TechnologyRestControllerTest {
         TechCategoryItemDTO tmpItem = TechCategoryItemDTO.builder()
                 .id(UUID.randomUUID())
                 .stackName("Vue.js")
-                .techCategory(techCategory)
                 .score(5).build();
 
 

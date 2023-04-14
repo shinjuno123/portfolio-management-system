@@ -117,6 +117,7 @@ class AboutRestControllerTest {
         AboutDTO jsonInput = tmpAboutDTOList.get(0);
         jsonInput.setFaceImagePath(null);
         jsonInput.setId(null);
+        jsonInput.setUploaded(null);
 
 
         MockMultipartFile file = new MockMultipartFile("faceImage","awdawd.png", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes());

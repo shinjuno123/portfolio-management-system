@@ -3,9 +3,10 @@ package com.amazing.juno.springwebapp.service.admin;
 import com.amazing.juno.springwebapp.dao.admin.AboutRepository;
 import com.amazing.juno.springwebapp.dto.AboutDTO;
 import com.amazing.juno.springwebapp.mapper.AboutMapper;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

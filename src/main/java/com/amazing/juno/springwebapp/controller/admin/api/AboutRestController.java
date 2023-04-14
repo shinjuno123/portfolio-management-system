@@ -24,6 +24,8 @@ public class AboutRestController {
 
     public final static String ABOUT_ID_PATH = "/api/about/{aboutId}";
 
+    public final static String ABOUT_RECENT_PATH = "/api/about/recent";
+
 
 
     @GetMapping(ABOUT_PATH)
@@ -45,17 +47,15 @@ public class AboutRestController {
     @GetMapping(ABOUT_ID_PATH)
     public ResponseEntity<AboutDTO> getAboutById(@PathVariable("aboutId") UUID aboutId){
 
-        return new ResponseEntity<>(aboutService.getAboutById(aboutId).orElseThrow(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(aboutService.getAboutById(aboutId).orElseThrow(()-> new NotFoundException("aboutId is not Found")), HttpStatus.ACCEPTED);
     }
 
 
-    @GetMapping(ABOUT_PATH + "/recent")
+    @GetMapping(ABOUT_RECENT_PATH)
     public ResponseEntity<AboutDTO> getRecentAbout(){
 
-        return new ResponseEntity<>(aboutService.getRecentAbout().orElseThrow(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(aboutService.getRecentAbout().orElseThrow(()-> new NotFoundException("No recent data")), HttpStatus.ACCEPTED);
     }
-
-
 
 
 

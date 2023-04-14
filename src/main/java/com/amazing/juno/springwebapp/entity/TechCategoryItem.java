@@ -25,12 +25,12 @@ public class TechCategoryItem {
     @NotNull
     @Min(1)
     @Max(5)
-    @Column
+    @Column(nullable = false)
     private Integer score;
 
     @NotNull
     @NotBlank
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String stackName;
 
 
