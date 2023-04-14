@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,13 +35,13 @@ public class NoteworthyProjectRestController {
     }
 
     @PostMapping(NOTEWORTHY_PATH)
-    public ResponseEntity<NoteworthyProjectDTO> saveOrUpdateNoteWorthyProject(@RequestBody NoteworthyProjectDTO noteworthyProjectDTO){
+    public ResponseEntity<NoteworthyProjectDTO> saveOrUpdateNoteWorthyProject(@Validated @RequestBody NoteworthyProjectDTO noteworthyProjectDTO){
 
         return new ResponseEntity<>(noteworthyProjectService.saveOrUpdateNoteWorthyProject(noteworthyProjectDTO),HttpStatus.CREATED);
     }
 
     @DeleteMapping(NOTEWORTHY_ID_PATH)
-    public ResponseEntity<?> deleteNoteWorthyProject(@PathVariable("noteworthyProjectId") UUID noteworthyProjectId){
+    public ResponseEntity<?> deleteNoteWorthyProjectById(@PathVariable("noteworthyProjectId") UUID noteworthyProjectId){
         if (!noteworthyProjectService.deleteNoteWorthyProject(noteworthyProjectId)){
             throw new NotFoundException();
         }

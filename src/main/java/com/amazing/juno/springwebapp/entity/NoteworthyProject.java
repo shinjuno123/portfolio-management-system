@@ -31,17 +31,17 @@ public class NoteworthyProject {
 
 	@NotNull
 	@NotBlank
-	@Column
+	@Column(nullable = false)
 	private String title;
 
 	@NotNull
 	@NotBlank
-	@Column
+	@Column(nullable = false)
 	private String description;
 
 
 	@NotNull
-	@Column
+	@Column(nullable = false)
 	private URL url;
 
 
