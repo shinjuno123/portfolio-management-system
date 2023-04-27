@@ -1,18 +1,18 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
+import com.amazing.juno.springwebapp.controller.api.AboutRestController;
 import com.amazing.juno.springwebapp.dto.AboutDTO;
 import com.amazing.juno.springwebapp.service.FileStorageService;
-import com.amazing.juno.springwebapp.service.admin.AboutService;
+import com.amazing.juno.springwebapp.service.AboutService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import org.mockito.Mockito;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;

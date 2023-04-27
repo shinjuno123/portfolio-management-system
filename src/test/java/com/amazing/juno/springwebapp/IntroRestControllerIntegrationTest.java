@@ -1,13 +1,11 @@
 package com.amazing.juno.springwebapp;
 
-import com.amazing.juno.springwebapp.controller.admin.api.IntroRestController;
-import com.amazing.juno.springwebapp.dao.admin.IntroRepository;
+import com.amazing.juno.springwebapp.controller.api.IntroRestController;
+import com.amazing.juno.springwebapp.dao.IntroRepository;
 import com.amazing.juno.springwebapp.dto.IntroDTO;
 import com.amazing.juno.springwebapp.entity.Introduction;
 import com.amazing.juno.springwebapp.entity.ResponseError;
 import com.amazing.juno.springwebapp.exc.NotFoundException;
-import com.amazing.juno.springwebapp.mapper.IntroMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

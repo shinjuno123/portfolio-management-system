@@ -1,10 +1,8 @@
 package com.amazing.juno.springwebapp;
 
-import com.amazing.juno.springwebapp.controller.admin.api.ContactRestController;
-import com.amazing.juno.springwebapp.dao.admin.ContactRepository;
+import com.amazing.juno.springwebapp.controller.api.ContactRestController;
+import com.amazing.juno.springwebapp.dao.ContactRepository;
 import com.amazing.juno.springwebapp.entity.Contact;
-import com.amazing.juno.springwebapp.entity.Introduction;
-import com.amazing.juno.springwebapp.mapper.ContactMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -22,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.hamcrest.Matchers.is;

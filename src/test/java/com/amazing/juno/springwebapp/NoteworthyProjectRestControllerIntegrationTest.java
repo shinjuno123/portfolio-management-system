@@ -1,11 +1,9 @@
 package com.amazing.juno.springwebapp;
 
 
-import com.amazing.juno.springwebapp.controller.admin.api.NoteworthyProjectRestController;
-import com.amazing.juno.springwebapp.dao.admin.NoteworthyProjectRepository;
+import com.amazing.juno.springwebapp.controller.api.NoteworthyProjectRestController;
+import com.amazing.juno.springwebapp.dao.NoteworthyProjectRepository;
 import com.amazing.juno.springwebapp.entity.NoteworthyProject;
-import com.amazing.juno.springwebapp.entity.Project;
-import com.amazing.juno.springwebapp.mapper.NoteworthyProjectMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +16,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.context.WebApplicationContext;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -28,7 +25,7 @@ import java.util.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.assertj.core.api.Assertions.assertThat;
-import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;

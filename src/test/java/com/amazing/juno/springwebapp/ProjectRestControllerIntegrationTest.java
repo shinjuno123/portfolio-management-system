@@ -1,15 +1,12 @@
 package com.amazing.juno.springwebapp;
 
-import com.amazing.juno.springwebapp.controller.admin.api.AboutRestController;
-import com.amazing.juno.springwebapp.controller.admin.api.ProjectRestController;
+import com.amazing.juno.springwebapp.controller.api.ProjectRestController;
 import com.amazing.juno.springwebapp.controller.api.FileRestController;
-import com.amazing.juno.springwebapp.dao.admin.ProjectRepository;
+import com.amazing.juno.springwebapp.dao.ProjectRepository;
 import com.amazing.juno.springwebapp.dto.ProjectDTO;
 import com.amazing.juno.springwebapp.entity.Project;
 import com.amazing.juno.springwebapp.entity.ResponseError;
-import com.amazing.juno.springwebapp.mapper.ProjectMapper;
 import com.amazing.juno.springwebapp.service.FileStorageService;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;

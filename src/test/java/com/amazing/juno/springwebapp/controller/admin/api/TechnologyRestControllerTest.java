@@ -1,10 +1,11 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
+import com.amazing.juno.springwebapp.controller.api.TechnologyRestController;
 import com.amazing.juno.springwebapp.dto.TechCategoryDTO;
 import com.amazing.juno.springwebapp.dto.TechCategoryItemDTO;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import com.amazing.juno.springwebapp.service.admin.TechnologyService;
+import com.amazing.juno.springwebapp.service.TechnologyService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,8 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
+import com.amazing.juno.springwebapp.controller.api.ContactRestController;
 import com.amazing.juno.springwebapp.dto.ContactDTO;
-import com.amazing.juno.springwebapp.service.admin.ContactService;
+import com.amazing.juno.springwebapp.service.ContactService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

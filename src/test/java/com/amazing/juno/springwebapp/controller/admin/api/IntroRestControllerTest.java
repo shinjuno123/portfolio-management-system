@@ -1,8 +1,9 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
+import com.amazing.juno.springwebapp.controller.api.IntroRestController;
 import com.amazing.juno.springwebapp.dto.IntroDTO;
 
-import com.amazing.juno.springwebapp.service.admin.IntroService;
+import com.amazing.juno.springwebapp.service.IntroService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

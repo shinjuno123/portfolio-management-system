@@ -1,8 +1,9 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
+import com.amazing.juno.springwebapp.controller.api.ProjectRestController;
 import com.amazing.juno.springwebapp.dto.ProjectDTO;
 import com.amazing.juno.springwebapp.service.FileStorageService;
-import com.amazing.juno.springwebapp.service.admin.ProjectService;
+import com.amazing.juno.springwebapp.service.ProjectService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import static org.mockito.ArgumentMatchers.any;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 

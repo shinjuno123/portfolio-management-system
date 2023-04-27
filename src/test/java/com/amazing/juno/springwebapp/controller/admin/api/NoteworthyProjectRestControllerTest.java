@@ -1,7 +1,8 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
+import com.amazing.juno.springwebapp.controller.api.NoteworthyProjectRestController;
 import com.amazing.juno.springwebapp.dto.NoteworthyProjectDTO;
-import com.amazing.juno.springwebapp.service.admin.NoteworthyProjectService;
+import com.amazing.juno.springwebapp.service.NoteworthyProjectService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

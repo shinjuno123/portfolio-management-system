@@ -1,17 +1,14 @@
 package com.amazing.juno.springwebapp;
 
 
-import com.amazing.juno.springwebapp.controller.admin.api.TechnologyRestController;
-import com.amazing.juno.springwebapp.dao.admin.TechCategoryItemRepository;
-import com.amazing.juno.springwebapp.dao.admin.TechCategoryRepository;
+import com.amazing.juno.springwebapp.controller.api.TechnologyRestController;
+import com.amazing.juno.springwebapp.dao.TechCategoryItemRepository;
+import com.amazing.juno.springwebapp.dao.TechCategoryRepository;
 import com.amazing.juno.springwebapp.dto.TechCategoryDTO;
 import com.amazing.juno.springwebapp.dto.TechCategoryItemDTO;
 import com.amazing.juno.springwebapp.entity.ResponseError;
 import com.amazing.juno.springwebapp.entity.TechCategory;
 import com.amazing.juno.springwebapp.entity.TechCategoryItem;
-import com.amazing.juno.springwebapp.mapper.TechCategoryItemMapper;
-import com.amazing.juno.springwebapp.mapper.TechCategoryMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
