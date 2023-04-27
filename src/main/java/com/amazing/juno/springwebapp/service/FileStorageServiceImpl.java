@@ -5,6 +5,7 @@ import com.amazing.juno.springwebapp.exc.FileNotFoundException;
 import com.amazing.juno.springwebapp.exc.FileStorageException;
 import com.amazing.juno.springwebapp.properties.FileUploadProperties;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -29,6 +30,7 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     @Autowired
     public FileStorageServiceImpl(FileUploadProperties fileUploadProperties){
+
         this.dirLocation = Paths.get(fileUploadProperties.getLocation())
                 .toAbsolutePath()
                 .normalize();

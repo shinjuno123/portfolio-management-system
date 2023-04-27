@@ -10,6 +10,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.net.URL;
 import java.util.UUID;
@@ -26,21 +28,20 @@ public class NoteworthyProject {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	@GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@JdbcTypeCode(SqlTypes.CHAR)
 	@Column(length = 36, columnDefinition = "varchar", updatable = false)
 	private UUID id;
 
-	@NotNull
-	@NotBlank
+
 	@Column(nullable = false)
 	private String title;
 
-	@NotNull
-	@NotBlank
+
 	@Column(nullable = false)
 	private String description;
 
 
-	@NotNull
+
 	@Column(nullable = false)
 	private URL url;
 

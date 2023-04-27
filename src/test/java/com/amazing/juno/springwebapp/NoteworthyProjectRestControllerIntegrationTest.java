@@ -64,7 +64,11 @@ public class NoteworthyProjectRestControllerIntegrationTest {
                     .title("title")
                     .build();
 
-            savedIds.add(noteworthyProjectRepository.save(contact).getId());
+            NoteworthyProject saved = noteworthyProjectRepository.save(contact);
+            UUID savedId = saved.getId();
+            savedIds.add(savedId);
+
+            System.out.println(savedIds);
         }
     }
 

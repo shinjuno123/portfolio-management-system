@@ -9,6 +9,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -26,30 +28,26 @@ public class Introduction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	@GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@JdbcTypeCode(SqlTypes.CHAR)
 	@Column(length = 36, columnDefinition = "varchar", updatable = false)
 	private UUID id;
 
-	@NotNull
-	@NotBlank
+
 	@Column(nullable = false)
 	private String sayHi;
 
-	@NotNull
-	@NotBlank
+
 	@Column(nullable = false)
 	private String name;
 
-	@NotNull
-	@NotBlank
 	@Column(nullable = false)
 	private String opening;
 
-	@NotNull
-	@NotBlank
+
 	@Column(nullable = false)
 	private String detail;
 
-	@NotNull
+
 	@Column(nullable = false)
 	private LocalDateTime uploaded;
 

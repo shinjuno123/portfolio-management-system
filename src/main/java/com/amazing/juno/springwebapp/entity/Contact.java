@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -22,37 +24,32 @@ public class Contact {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	@GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@JdbcTypeCode(SqlTypes.CHAR)
 	@Column(length = 36, columnDefinition = "varchar", updatable = false)
 	private UUID id;
 
 
-	@NotNull
-	@NotBlank
-	@Column
+	@Column(nullable = false)
 	private String closingTitle;
 
-	@NotNull
-	@NotBlank
-	@Column
+
+	@Column(nullable = false)
 	private String closingContent;
 
-	@NotNull
-	@NotBlank
-	@Column
+
+	@Column(nullable = false)
 	private String closingRegard;
 
-	@NotNull
-	@NotBlank
-	@Column
+
+	@Column(nullable = false)
 	private String buttonContent;
 
-	@NotNull
-	@NotBlank
-	@Column
+
+	@Column(nullable = false)
 	private String email;
 
-	@NotNull
-	@Column
+
+	@Column(nullable = false)
 	private LocalDateTime uploaded;
 
 	

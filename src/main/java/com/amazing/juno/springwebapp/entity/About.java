@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -20,42 +22,30 @@ public class About {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@JdbcTypeCode(SqlTypes.CHAR)
 	@Column(length = 36, columnDefinition = "varchar", updatable = false)
 	private UUID id;
 
-	@NotNull
-	@NotBlank
-	@Column
+	@Column(nullable = false)
 	private String description;
 
-	@NotNull
-	@NotBlank
-	@Column
+	@Column(nullable = false)
 	private String period;
 
-	@NotNull
-	@NotBlank
-	@Column
+	@Column(nullable = false)
 	private String school;
 
 
-	@NotNull
-	@NotBlank
-	@Column
+	@Column(nullable = false)
 	private String degree;
 
-	@NotNull
-	@NotBlank
-	@Column
+	@Column(nullable = false)
 	private String regionCountry;
 
-	@NotNull
-	@NotBlank
-	@Column
+	@Column(nullable = false)
 	private String faceImagePath;
 
-	@NotNull
-	@Column
+	@Column(nullable = false)
 	private LocalDateTime uploaded;
 
 }
