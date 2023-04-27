@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
@@ -85,7 +86,7 @@ public class NoteworthyProjectRestControllerIntegrationTest {
 
     @Test
     void testListNoteworthyProjects() throws Exception{
-        mockMvc.perform(get(NoteworthyProjectRestController.NOTEWORTHY_PATH)
+        mockMvc.perform(get(NoteworthyProjectRestController.PUBLIC_NOTEWORTHY_PATH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.length()", greaterThanOrEqualTo(4)));
@@ -98,7 +99,7 @@ public class NoteworthyProjectRestControllerIntegrationTest {
     void testListNoteworthyProjectsAndReturnEmptyList() throws Exception{
         noteworthyProjectRepository.deleteAll();
 
-        mockMvc.perform(get(NoteworthyProjectRestController.NOTEWORTHY_PATH)
+        mockMvc.perform(get(NoteworthyProjectRestController.PUBLIC_NOTEWORTHY_PATH)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.length()", is(0)));
@@ -115,7 +116,7 @@ public class NoteworthyProjectRestControllerIntegrationTest {
         noteworthyProjectMap.put("url", "https://www.naver.com");
 
 
-        mockMvc.perform(post(NoteworthyProjectRestController.NOTEWORTHY_PATH)
+        mockMvc.perform(post(NoteworthyProjectRestController.ADMIN_NOTEWORTHY_PATH)
                 .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(noteworthyProjectMap)))
@@ -136,7 +137,7 @@ public class NoteworthyProjectRestControllerIntegrationTest {
         noteworthyProjectMap.put("url", "https://www.naver.com");
 
 
-        mockMvc.perform(post(NoteworthyProjectRestController.NOTEWORTHY_PATH)
+        mockMvc.perform(post(NoteworthyProjectRestController.ADMIN_NOTEWORTHY_PATH)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(noteworthyProjectMap)))
@@ -158,7 +159,7 @@ public class NoteworthyProjectRestControllerIntegrationTest {
         noteworthyProjectMap.put("url", "https://www.naver.com");
 
 
-        mockMvc.perform(post(NoteworthyProjectRestController.NOTEWORTHY_PATH)
+        mockMvc.perform(post(NoteworthyProjectRestController.ADMIN_NOTEWORTHY_PATH)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(noteworthyProjectMap)))
@@ -177,7 +178,7 @@ public class NoteworthyProjectRestControllerIntegrationTest {
         noteworthyProjectMap.put("url", "hdwa");
 
 
-        mockMvc.perform(post(NoteworthyProjectRestController.NOTEWORTHY_PATH)
+        mockMvc.perform(post(NoteworthyProjectRestController.ADMIN_NOTEWORTHY_PATH)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(noteworthyProjectMap)))
@@ -189,7 +190,7 @@ public class NoteworthyProjectRestControllerIntegrationTest {
     @Transactional
     void testDeleteNoteworthyProjectById() throws Exception{
 
-        mockMvc.perform(delete(NoteworthyProjectRestController.NOTEWORTHY_ID_PATH, savedIds.get(0))
+        mockMvc.perform(delete(NoteworthyProjectRestController.ADMIN_NOTEWORTHY_ID_PATH, savedIds.get(0))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
@@ -199,7 +200,7 @@ public class NoteworthyProjectRestControllerIntegrationTest {
     @Transactional
     void testDeleteNoteworthyProjectByNotExistingId() throws Exception{
 
-        mockMvc.perform(delete(NoteworthyProjectRestController.NOTEWORTHY_ID_PATH, UUID.randomUUID())
+        mockMvc.perform(delete(NoteworthyProjectRestController.ADMIN_NOTEWORTHY_ID_PATH, UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }

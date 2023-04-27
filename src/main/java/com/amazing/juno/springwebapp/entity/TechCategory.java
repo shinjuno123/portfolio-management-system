@@ -30,7 +30,7 @@ public class TechCategory {
     @Column(unique = true, nullable = false)
     private String categoryName;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "techCategory", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "techCategory", cascade = CascadeType.ALL)
     private Set<TechCategoryItem> technologies = new HashSet<>();
 
 }

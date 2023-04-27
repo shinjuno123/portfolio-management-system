@@ -1,6 +1,8 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
+import com.amazing.juno.springwebapp.config.SecurityConfig;
 import com.amazing.juno.springwebapp.controller.api.NoteworthyProjectRestController;
+import com.amazing.juno.springwebapp.dao.config.TestSecurityConfig;
 import com.amazing.juno.springwebapp.dto.NoteworthyProjectDTO;
 import com.amazing.juno.springwebapp.service.NoteworthyProjectService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import static org.mockito.ArgumentMatchers.any;
@@ -24,6 +28,7 @@ import java.util.UUID;
 import static org.mockito.BDDMockito.given;
 
 @WebMvcTest(NoteworthyProjectRestController.class)
+@Import(TestSecurityConfig.class)
 class NoteworthyProjectRestControllerTest {
 
     @Autowired
@@ -31,6 +36,7 @@ class NoteworthyProjectRestControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
 
     @MockBean
     NoteworthyProjectService noteworthyProjectService;
@@ -57,7 +63,7 @@ class NoteworthyProjectRestControllerTest {
     void listNoteWorthyProjects() throws Exception{
         given(noteworthyProjectService.listNoteWorthyProjects()).willReturn(noteworthyProjectDTOList);
 
-        mockMvc.perform(get(NoteworthyProjectRestController.NOTEWORTHY_PATH)
+        mockMvc.perform(get(NoteworthyProjectRestController.PUBLIC_NOTEWORTHY_PATH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.length()", is(4)));
@@ -71,7 +77,7 @@ class NoteworthyProjectRestControllerTest {
 
         given(noteworthyProjectService.saveOrUpdateNoteWorthyProject(any(NoteworthyProjectDTO.class))).willReturn(noteworthyProjectDTOList.get(1));
 
-        MvcResult mvcResult = mockMvc.perform(post(NoteworthyProjectRestController.NOTEWORTHY_PATH)
+        MvcResult mvcResult = mockMvc.perform(post(NoteworthyProjectRestController.ADMIN_NOTEWORTHY_PATH)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(noteworthyProjectDTO)))
@@ -86,7 +92,7 @@ class NoteworthyProjectRestControllerTest {
         NoteworthyProjectDTO noteworthyProjectDTO = noteworthyProjectDTOList.get(0);
         given(noteworthyProjectService.deleteNoteWorthyProject(noteworthyProjectDTO.getId())).willReturn(true);
 
-        mockMvc.perform(delete(NoteworthyProjectRestController.NOTEWORTHY_ID_PATH, noteworthyProjectDTO.getId().toString())
+        mockMvc.perform(delete(NoteworthyProjectRestController.ADMIN_NOTEWORTHY_ID_PATH, noteworthyProjectDTO.getId().toString())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }

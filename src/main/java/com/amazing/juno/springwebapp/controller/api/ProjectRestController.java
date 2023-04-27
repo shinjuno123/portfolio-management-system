@@ -21,24 +21,26 @@ public class ProjectRestController {
     private final FileStorageService fileStorageService;
     private final ProjectService projectService;
 
-    public final static String PROJECT_PATH = "/api/projects";
+    public final static String ADMIN_PROJECT_PATH = "/api/admin/projects";
 
-    public final static String PROJECT_ID_PATH = "/api/projects/{projectId}";
+    public final static String PUBLIC_PROJECT_PATH = "/api/public/projects";
 
-    @GetMapping(PROJECT_PATH)
+    public final static String ADMIN_PROJECT_ID_PATH = "/api/admin/projects/{projectId}";
+
+    @GetMapping(PUBLIC_PROJECT_PATH)
     public ResponseEntity<List<ProjectDTO>> listProjects(){
 
         return new ResponseEntity<>(projectService.listProjects(), HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(PROJECT_PATH)
+    @PostMapping(ADMIN_PROJECT_PATH)
     public ResponseEntity<ProjectDTO> saveOrUpdateProject(@Validated @RequestPart("projectDTO") ProjectDTO projectDTO, @RequestPart("image") MultipartFile image){
         String filePath = fileStorageService.saveFile(image,"project");
 
         return new ResponseEntity<>( projectService.saveOrUpdateProject(projectDTO, filePath), HttpStatus.CREATED);
     }
 
-    @DeleteMapping(PROJECT_ID_PATH)
+    @DeleteMapping(ADMIN_PROJECT_ID_PATH)
     public ResponseEntity<?> deleteProjectById(@PathVariable("projectId") UUID projectId){
         if(!projectService.deleteProject(projectId)){
             throw new NotFoundException();

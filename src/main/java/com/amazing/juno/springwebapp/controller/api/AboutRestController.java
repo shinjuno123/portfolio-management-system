@@ -20,21 +20,22 @@ public class AboutRestController {
 
     private final FileStorageService fileStorageService;
 
-    public final static String ABOUT_PATH = "/api/about";
+    public final static String PUBLIC_ABOUT_PATH = "/api/public/about";
 
-    public final static String ABOUT_ID_PATH = "/api/about/{aboutId}";
+    public final static String ADMIN_ABOUT_PATH = "/api/admin/about";
 
-    public final static String ABOUT_RECENT_PATH = "/api/about/recent";
+    public final static String ADMIN_ABOUT_ID_PATH = "/api/admin/about/{aboutId}";
 
 
 
-    @GetMapping(ABOUT_PATH)
+
+    @GetMapping(ADMIN_ABOUT_PATH)
     public ResponseEntity<List<AboutDTO>> getAllAbout(){
 
         return new ResponseEntity<>(aboutService.getAllAbout(), HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(ABOUT_PATH)
+    @PostMapping(ADMIN_ABOUT_PATH)
     public ResponseEntity<AboutDTO> saveAbout(@Validated @RequestPart("aboutDTO") AboutDTO aboutDTO,@RequestPart("faceImage") MultipartFile faceImage){
 
         String filePath = fileStorageService.saveFile(faceImage, "about");
@@ -44,14 +45,14 @@ public class AboutRestController {
 
 
 
-    @GetMapping(ABOUT_ID_PATH)
+    @GetMapping(ADMIN_ABOUT_ID_PATH)
     public ResponseEntity<AboutDTO> getAboutById(@PathVariable("aboutId") UUID aboutId){
 
         return new ResponseEntity<>(aboutService.getAboutById(aboutId).orElseThrow(()-> new NotFoundException("aboutId is not Found")), HttpStatus.ACCEPTED);
     }
 
 
-    @GetMapping(ABOUT_RECENT_PATH)
+    @GetMapping(PUBLIC_ABOUT_PATH)
     public ResponseEntity<AboutDTO> getRecentAbout(){
 
         return new ResponseEntity<>(aboutService.getRecentAbout().orElseThrow(()-> new NotFoundException("No recent data")), HttpStatus.ACCEPTED);

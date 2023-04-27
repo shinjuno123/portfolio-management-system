@@ -1,6 +1,7 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
 import com.amazing.juno.springwebapp.controller.api.TechnologyRestController;
+import com.amazing.juno.springwebapp.dao.config.TestSecurityConfig;
 import com.amazing.juno.springwebapp.dto.TechCategoryDTO;
 import com.amazing.juno.springwebapp.dto.TechCategoryItemDTO;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.hamcrest.Matchers.*;
@@ -21,6 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 
 @WebMvcTest(TechnologyRestController.class)
+@Import(TestSecurityConfig.class)
 class TechnologyRestControllerTest {
 
 
@@ -86,7 +89,7 @@ class TechnologyRestControllerTest {
 
         given(technologyService.findAllCategories()).willReturn(tmpCategoryDTO);
 
-        mockMvc.perform(get(TechnologyRestController.TECHNOLOGY_PATH)
+        mockMvc.perform(get(TechnologyRestController.PUBLIC_TECHNOLOGY_PATH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$..technologies.length()",is(4)));
@@ -98,7 +101,7 @@ class TechnologyRestControllerTest {
         techCategory.setTechnologies(null);
         given(technologyService.addCategory(techCategory)).willReturn(techCategory);
 
-        mockMvc.perform(post(TechnologyRestController.TECHNOLOGY_PATH)
+        mockMvc.perform(post(TechnologyRestController.ADMIN_TECHNOLOGY_PATH)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(techCategory)))
@@ -122,7 +125,7 @@ class TechnologyRestControllerTest {
 
         given(technologyService.saveOrUpdateItemToCategory(any(String.class), any(TechCategoryItemDTO.class))).willReturn(Optional.of(techCategory));
 
-        mockMvc.perform(post(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_PATH, "FrontEnd")
+        mockMvc.perform(post(TechnologyRestController.ADMIN_TECHNOLOGY_CATEGORY_NAME_PATH, "FrontEnd")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(inputItem)))
@@ -135,7 +138,7 @@ class TechnologyRestControllerTest {
 
         given(technologyService.deleteCategoryByCategoryName(any(String.class))).willReturn(true);
 
-        mockMvc.perform(delete(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_PATH, "Frontend")
+        mockMvc.perform(delete(TechnologyRestController.ADMIN_TECHNOLOGY_CATEGORY_NAME_PATH, "Frontend")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
@@ -144,7 +147,7 @@ class TechnologyRestControllerTest {
     void deleteItemsInCategory() throws Exception{
 
         given(technologyService.deleteItemsInCategory(any(String.class),any(UUID.class))).willReturn(true);
-        mockMvc.perform(delete(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH, "Frontend", UUID.randomUUID())
+        mockMvc.perform(delete(TechnologyRestController.ADMIN_TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH, "Frontend", UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }

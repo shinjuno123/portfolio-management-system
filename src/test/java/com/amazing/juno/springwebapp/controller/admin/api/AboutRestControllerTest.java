@@ -1,6 +1,7 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
 import com.amazing.juno.springwebapp.controller.api.AboutRestController;
+import com.amazing.juno.springwebapp.dao.config.TestSecurityConfig;
 import com.amazing.juno.springwebapp.dto.AboutDTO;
 import com.amazing.juno.springwebapp.service.FileStorageService;
 import com.amazing.juno.springwebapp.service.AboutService;
@@ -13,6 +14,7 @@ import static org.mockito.ArgumentMatchers.any;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,6 +30,7 @@ import static org.mockito.BDDMockito.given;
 
 
 @WebMvcTest(AboutRestController.class)
+@Import(TestSecurityConfig.class)
 class AboutRestControllerTest {
 
     @Autowired
@@ -105,7 +108,7 @@ class AboutRestControllerTest {
     void getAllAbout() throws Exception{
         given(aboutService.getAllAbout()).willReturn(tmpAboutDTOList);
 
-        mockMvc.perform(get(AboutRestController.ABOUT_PATH)
+        mockMvc.perform(get(AboutRestController.ADMIN_ABOUT_PATH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -130,7 +133,7 @@ class AboutRestControllerTest {
         given(aboutService.saveAbout(any(AboutDTO.class),any(String.class))).willReturn(tmpAboutDTOList.get(1));
 
 
-        MvcResult mvcResult = mockMvc.perform(multipart(AboutRestController.ABOUT_PATH)
+        MvcResult mvcResult = mockMvc.perform(multipart(AboutRestController.ADMIN_ABOUT_PATH)
                         .file(file)
                         .file(metaData)
                 .accept(MediaType.APPLICATION_JSON)
@@ -151,7 +154,7 @@ class AboutRestControllerTest {
         AboutDTO aboutDTO = tmpAboutDTOList.get(0);
         given(aboutService.getAboutById(any(UUID.class))).willReturn(Optional.of(aboutDTO));
 
-        mockMvc.perform(get(AboutRestController.ABOUT_ID_PATH, aboutDTO.getId())
+        mockMvc.perform(get(AboutRestController.ADMIN_ABOUT_ID_PATH, aboutDTO.getId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.id", is(aboutDTO.getId().toString())));
@@ -164,7 +167,7 @@ class AboutRestControllerTest {
 
         given(aboutService.getRecentAbout()).willReturn(Optional.of(aboutDTO));
 
-        mockMvc.perform(get(AboutRestController.ABOUT_PATH + "/recent")
+        mockMvc.perform(get(AboutRestController.PUBLIC_ABOUT_PATH)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted());
     }

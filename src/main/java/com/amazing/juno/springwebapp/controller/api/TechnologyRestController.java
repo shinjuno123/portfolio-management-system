@@ -21,33 +21,35 @@ import java.util.UUID;
 @RestController
 public class TechnologyRestController {
 
-    public final static String TECHNOLOGY_PATH = "/api/technology";
+    public final static String ADMIN_TECHNOLOGY_PATH = "/api/admin/technology";
 
-    public final static String TECHNOLOGY_CATEGORY_NAME_PATH = "/api/technology/{categoryName}";
+    public final static String PUBLIC_TECHNOLOGY_PATH = "/api/public/technology";
 
-    public final static String TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH = "/api/technology/{categoryName}/{itemId}";
+    public final static String ADMIN_TECHNOLOGY_CATEGORY_NAME_PATH = "/api/admin/technology/{categoryName}";
+
+    public final static String ADMIN_TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH = "/api/admin/technology/{categoryName}/{itemId}";
 
     private final TechnologyService technologyService;
 
-    @GetMapping(TECHNOLOGY_PATH)
+    @GetMapping(PUBLIC_TECHNOLOGY_PATH)
     public ResponseEntity<List<TechCategoryDTO>> listCategories(){
         return new ResponseEntity<>(technologyService.findAllCategories(),HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(TECHNOLOGY_PATH)
+    @PostMapping(ADMIN_TECHNOLOGY_PATH)
     public ResponseEntity<TechCategoryDTO> addOrUpdateCategory(@Validated @RequestBody TechCategoryDTO categoryDTO){
 
         return new ResponseEntity<>(technologyService.addCategory(categoryDTO), HttpStatus.CREATED);
     }
 
 
-    @PostMapping(TECHNOLOGY_CATEGORY_NAME_PATH)
+    @PostMapping(ADMIN_TECHNOLOGY_CATEGORY_NAME_PATH)
     public ResponseEntity<TechCategoryDTO> saveOrUpdateItemToCategory(@PathVariable("categoryName") String categoryName,@Validated @RequestBody TechCategoryItemDTO item){
 
         return new ResponseEntity<>(technologyService.saveOrUpdateItemToCategory(categoryName, item).orElseThrow(NotFoundException::new),HttpStatus.CREATED);
     }
 
-    @DeleteMapping(TECHNOLOGY_CATEGORY_NAME_PATH)
+    @DeleteMapping(ADMIN_TECHNOLOGY_CATEGORY_NAME_PATH)
     public ResponseEntity<?> deleteCategoryByCategoryName(@PathVariable("categoryName") String categoryName){
         if(!technologyService.deleteCategoryByCategoryName(categoryName)){
             throw new NotFoundException();
@@ -56,7 +58,7 @@ public class TechnologyRestController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping(TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH)
+    @DeleteMapping(ADMIN_TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH)
     public ResponseEntity<?> deleteItemsInCategory(@PathVariable("categoryName") String categoryName,@PathVariable("itemId") UUID itemId){
         if(!technologyService.deleteItemsInCategory(categoryName,itemId)){
             throw new NotFoundException();

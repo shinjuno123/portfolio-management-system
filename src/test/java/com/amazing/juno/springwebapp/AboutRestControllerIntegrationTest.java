@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -155,7 +156,7 @@ public class AboutRestControllerIntegrationTest {
         MockMultipartFile file = new MockMultipartFile("faceImage","awdawd.png", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes());
 
 
-        mockMvc.perform(multipart(AboutRestController.ABOUT_PATH)
+        mockMvc.perform(multipart(AboutRestController.ADMIN_ABOUT_PATH)
                         .file(metaData)
                         .file(file)
                 .accept(MediaType.APPLICATION_JSON))
@@ -178,7 +179,7 @@ public class AboutRestControllerIntegrationTest {
         MockMultipartFile metaData = new MockMultipartFile("aboutDTO", "aboutDTO", MediaType.APPLICATION_JSON_VALUE,
                 objectMapper.writeValueAsString(wrongAboutDTO).getBytes());
 
-        MvcResult mvcResult = mockMvc.perform(multipart(AboutRestController.ABOUT_PATH)
+        MvcResult mvcResult = mockMvc.perform(multipart(AboutRestController.ADMIN_ABOUT_PATH)
                         .file(metaData)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
@@ -202,7 +203,7 @@ public class AboutRestControllerIntegrationTest {
 
     @Test
     void testGetAboutByExistingId() throws Exception{
-         MvcResult mvcResult = mockMvc.perform(get(AboutRestController.ABOUT_ID_PATH, savedIds.get(0))
+         MvcResult mvcResult = mockMvc.perform(get(AboutRestController.ADMIN_ABOUT_ID_PATH, savedIds.get(0))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted()).andReturn();
 
@@ -214,7 +215,7 @@ public class AboutRestControllerIntegrationTest {
 
     @Test
     void testGetAboutByNotExistingId() throws Exception{
-        mockMvc.perform(get(AboutRestController.ABOUT_ID_PATH,UUID.randomUUID())
+        mockMvc.perform(get(AboutRestController.ADMIN_ABOUT_ID_PATH,UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException));
@@ -223,7 +224,7 @@ public class AboutRestControllerIntegrationTest {
 
     @Test
     void testGetAboutByWrongTypeOfId() throws Exception{
-        MvcResult mvcResult = mockMvc.perform(get(AboutRestController.ABOUT_ID_PATH,"wdhakwhdkjw")
+        MvcResult mvcResult = mockMvc.perform(get(AboutRestController.ADMIN_ABOUT_ID_PATH,"wdhakwhdkjw")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentTypeMismatchException))
                 .andReturn();
@@ -246,7 +247,7 @@ public class AboutRestControllerIntegrationTest {
 
     @Test
     void testGetRecentAbout() throws Exception{
-        mockMvc.perform(get(AboutRestController.ABOUT_RECENT_PATH)
+        mockMvc.perform(get(AboutRestController.PUBLIC_ABOUT_PATH)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
                 .andReturn();
@@ -259,7 +260,7 @@ public class AboutRestControllerIntegrationTest {
     void testGetRecentAboutAndReturnNotFound() throws Exception{
         aboutRepository.deleteAll();
 
-        mockMvc.perform(get(AboutRestController.ABOUT_RECENT_PATH)
+        mockMvc.perform(get(AboutRestController.PUBLIC_ABOUT_PATH)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException));

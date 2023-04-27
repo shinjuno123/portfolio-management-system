@@ -18,31 +18,30 @@ import java.util.UUID;
 @RestController
 public class IntroRestController {
 
-    public static final String INTRO_PATH = "/api/introduction";
+    public static final String ADMIN_INTRO_PATH = "/api/admin/introduction";
 
-    public static final String INTRO_ID_PATH =  "/api/introduction/{introId}";
-
-    public static final String INTRO_RECENT_PATH = "/api/introduction/recent";
+    public static final String ADMIN_INTRO_ID_PATH =  "/api/admin/introduction/{introId}";
+    public static final String PUBLIC_INTRO_PATH = "/api/public/introduction";
 
     private final IntroService introService;
 
-    @GetMapping(INTRO_PATH)
+    @GetMapping(ADMIN_INTRO_PATH)
     public ResponseEntity<List<IntroDTO>> getAllIntroductionRecords(){
         return new ResponseEntity<>(introService.getAllIntroductionRecords(), HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(INTRO_PATH)
+    @PostMapping(ADMIN_INTRO_PATH)
     public ResponseEntity<IntroDTO> saveIntroduction(@Validated @RequestBody IntroDTO introDTO){
         return new ResponseEntity<>(introService.saveIntroduction(introDTO), HttpStatus.CREATED);
     }
 
-    @GetMapping(INTRO_ID_PATH)
+    @GetMapping(ADMIN_INTRO_ID_PATH)
     public ResponseEntity<IntroDTO> getIntroductionById(@PathVariable("introId") UUID introId){
         return new ResponseEntity<>(introService.getIntroductionById(introId).orElseThrow(NotFoundException::new), HttpStatus.ACCEPTED);
     }
 
 
-    @GetMapping( INTRO_RECENT_PATH)
+    @GetMapping(PUBLIC_INTRO_PATH)
     public ResponseEntity<IntroDTO> getRecentIntroduction(){
         return new ResponseEntity<>(introService.getRecentIntroduction().orElseThrow(NotFoundException::new), HttpStatus.ACCEPTED);
     }

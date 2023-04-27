@@ -19,31 +19,32 @@ public class ContactRestController {
 
     private final ContactService contactService;
 
-    public final static String CONTACT_PATH = "/api/contact";
+    public final static String PUBLIC_CONTACT_PATH = "/api/public/contact";
 
-    public final static String CONTACT_ID_PATH = "/api/contact/{contactId}";
+    public final static String ADMIN_CONTACT_PATH = "/api/admin/contact";
 
-    public final static String CONTACT_RECENT_PATH = "/api/contact/recent";
+    public final static String ADMIN_CONTACT_ID_PATH = "/api/admin/contact/{contactId}";
 
 
-    @GetMapping(CONTACT_PATH)
+
+    @GetMapping(ADMIN_CONTACT_PATH)
     public ResponseEntity<List<ContactDTO>> getAllContactRecords(){
         return new ResponseEntity<>(contactService.getAllContactRecords(), HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(CONTACT_PATH)
+    @PostMapping(ADMIN_CONTACT_PATH)
     public ResponseEntity<ContactDTO> saveContact(@Validated @RequestBody ContactDTO contactDTO){
         return new ResponseEntity<>(contactService.saveContact(contactDTO),HttpStatus.CREATED);
     }
 
 
-    @GetMapping(CONTACT_ID_PATH)
+    @GetMapping(ADMIN_CONTACT_ID_PATH)
     public ResponseEntity<ContactDTO> getContactById(@PathVariable("contactId") UUID contactId){
         return new ResponseEntity<>(contactService.getContactById(contactId).orElseThrow(NotFoundException::new), HttpStatus.ACCEPTED);
     }
 
 
-    @GetMapping(CONTACT_RECENT_PATH)
+    @GetMapping(PUBLIC_CONTACT_PATH)
     public ResponseEntity<ContactDTO> getRecentContact(){
         return new ResponseEntity<>(contactService.getRecentContact().orElseThrow(NotFoundException::new), HttpStatus.ACCEPTED);
     }

@@ -1,6 +1,7 @@
 package com.amazing.juno.springwebapp;
 
 import com.amazing.juno.springwebapp.properties.FileUploadProperties;
+import com.amazing.juno.springwebapp.properties.JWTConstraints;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -12,7 +13,8 @@ import java.util.Locale;
 
 @SpringBootApplication
 @EnableConfigurationProperties({
-		FileUploadProperties.class
+		FileUploadProperties.class,
+		JWTConstraints.class
 })
 public class SpringwebappApplication extends SpringBootServletInitializer {
 

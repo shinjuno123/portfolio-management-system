@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -130,7 +131,7 @@ public class IntroRestControllerIntegrationTest {
         Map<String,Object> wrongIntroduction = new HashMap<>();
         wrongIntroduction.put("opening", "new opening");
 
-        MvcResult result = mockMvc.perform(post(IntroRestController.INTRO_PATH)
+        MvcResult result = mockMvc.perform(post(IntroRestController.ADMIN_INTRO_PATH)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(wrongIntroduction))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -158,7 +159,7 @@ public class IntroRestControllerIntegrationTest {
     void testGetIntroductionById() throws Exception{
         UUID SAVED_ID = savedIds.get(new Random().nextInt(savedIds.size()));
 
-        MvcResult result = mockMvc.perform(get(IntroRestController.INTRO_ID_PATH, SAVED_ID)
+        MvcResult result = mockMvc.perform(get(IntroRestController.ADMIN_INTRO_ID_PATH, SAVED_ID)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
                 .andReturn();
@@ -173,7 +174,7 @@ public class IntroRestControllerIntegrationTest {
     @Test
     void testGetIntroductionByWrongTypeOfId() throws Exception{
 
-        MvcResult result = mockMvc.perform(get(IntroRestController.INTRO_ID_PATH, "whfajkwhdkajhdlk")
+        MvcResult result = mockMvc.perform(get(IntroRestController.ADMIN_INTRO_ID_PATH, "whfajkwhdkajhdlk")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andReturn();
@@ -197,7 +198,7 @@ public class IntroRestControllerIntegrationTest {
     @Test
     void testGetIntroductionByNotExistingId() throws Exception{
 
-        mockMvc.perform(get(IntroRestController.INTRO_ID_PATH, UUID.randomUUID())
+        mockMvc.perform(get(IntroRestController.ADMIN_INTRO_ID_PATH, UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException));
@@ -207,7 +208,7 @@ public class IntroRestControllerIntegrationTest {
     @Test
     void testGetRecentIntroduction() throws Exception{
 
-        mockMvc.perform(get(IntroRestController.INTRO_RECENT_PATH)
+        mockMvc.perform(get(IntroRestController.PUBLIC_INTRO_PATH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted());
     }
@@ -218,7 +219,7 @@ public class IntroRestControllerIntegrationTest {
     void testGetRecentIntroductionAndCauseNotFoundException() throws Exception{
         introRepository.deleteAll();
 
-        mockMvc.perform(get(IntroRestController.INTRO_RECENT_PATH)
+        mockMvc.perform(get(IntroRestController.PUBLIC_INTRO_PATH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException));

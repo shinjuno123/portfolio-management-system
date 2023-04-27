@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
@@ -77,7 +78,7 @@ public class ContactRestControllerIntegrationTest {
     @Test
     void testGetAllContactRecords() throws Exception{
 
-        mockMvc.perform(get(ContactRestController.CONTACT_PATH)
+        mockMvc.perform(get(ContactRestController.ADMIN_CONTACT_PATH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.length()", greaterThanOrEqualTo(4)));
@@ -89,7 +90,7 @@ public class ContactRestControllerIntegrationTest {
     void testGetAllContactRecordsAndReturnEmptyList() throws Exception{
         contactRepository.deleteAll();
 
-        mockMvc.perform(get(ContactRestController.CONTACT_PATH)
+        mockMvc.perform(get(ContactRestController.ADMIN_CONTACT_PATH)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.length()", greaterThanOrEqualTo(0)));
@@ -108,7 +109,7 @@ public class ContactRestControllerIntegrationTest {
         contactMap.put("buttonContent","new");
         contactMap.put("email","shinjuno123@naver.com");
 
-         MvcResult mvcResult  = mockMvc.perform(post(ContactRestController.CONTACT_PATH)
+         MvcResult mvcResult  = mockMvc.perform(post(ContactRestController.ADMIN_CONTACT_PATH)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(contactMap))
                          .contentType(MediaType.APPLICATION_JSON))
@@ -134,7 +135,7 @@ public class ContactRestControllerIntegrationTest {
         contactMap.put("buttonContent","new");
         contactMap.put("email","shinjuno1aver.com");
 
-        mockMvc.perform(post(ContactRestController.CONTACT_PATH)
+        mockMvc.perform(post(ContactRestController.ADMIN_CONTACT_PATH)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(contactMap))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -145,7 +146,7 @@ public class ContactRestControllerIntegrationTest {
 
     @Test
     void testGetContactById() throws Exception{
-        mockMvc.perform(get(ContactRestController.CONTACT_ID_PATH, savedIds.get(0))
+        mockMvc.perform(get(ContactRestController.ADMIN_CONTACT_ID_PATH, savedIds.get(0))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted());
 
@@ -154,14 +155,14 @@ public class ContactRestControllerIntegrationTest {
 
     @Test
     void testGetContactByNotExistingId() throws Exception{
-        mockMvc.perform(get(ContactRestController.CONTACT_ID_PATH, UUID.randomUUID())
+        mockMvc.perform(get(ContactRestController.ADMIN_CONTACT_ID_PATH, UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void testGetRecentContact() throws Exception{
-        mockMvc.perform(get(ContactRestController.CONTACT_RECENT_PATH)
+        mockMvc.perform(get(ContactRestController.PUBLIC_CONTACT_PATH)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted());
     }
@@ -173,7 +174,7 @@ public class ContactRestControllerIntegrationTest {
     void testGetRecentContactAndNotFound() throws Exception{
         contactRepository.deleteAll();
 
-        mockMvc.perform(get(ContactRestController.CONTACT_RECENT_PATH)
+        mockMvc.perform(get(ContactRestController.PUBLIC_CONTACT_PATH)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }

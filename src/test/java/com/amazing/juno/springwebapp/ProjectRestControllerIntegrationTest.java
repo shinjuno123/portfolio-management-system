@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -68,7 +69,7 @@ class ProjectRestControllerIntegrationTest {
                     .url(new URL("https://www.naver.com"))
                     .description("description")
                     .title("title")
-                    .imagePath(FileRestController.FILE_IMAGE_PATH + "/project/" + UUID.randomUUID()+ "_filename.png")
+                    .imagePath(FileRestController.PUBLIC_FILE_IMAGE_PATH + "/project/" + UUID.randomUUID()+ "_filename.png")
                     .build();
 
             savedIds.add(projectRepository.save(project).getId());
@@ -89,7 +90,7 @@ class ProjectRestControllerIntegrationTest {
     @Test
     void testListProjects() throws Exception{
 
-        mockMvc.perform(get(ProjectRestController.PROJECT_PATH)
+        mockMvc.perform(get(ProjectRestController.PUBLIC_PROJECT_PATH)
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.length()",greaterThanOrEqualTo(4)));
@@ -101,7 +102,7 @@ class ProjectRestControllerIntegrationTest {
     void testListProjectAndReturnEmptyList() throws Exception{
         projectRepository.deleteAll();
 
-        mockMvc.perform(get(ProjectRestController.PROJECT_PATH)
+        mockMvc.perform(get(ProjectRestController.PUBLIC_PROJECT_PATH)
                         .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.length()",is(0)));
@@ -146,7 +147,7 @@ class ProjectRestControllerIntegrationTest {
 
         MockMultipartFile file = new MockMultipartFile("image","awdawd.png", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes());
 
-        mockMvc.perform(multipart(ProjectRestController.PROJECT_PATH)
+        mockMvc.perform(multipart(ProjectRestController.ADMIN_PROJECT_PATH)
                         .file(metaData)
                         .file(file)
                         .accept(MediaType.APPLICATION_JSON))
@@ -169,7 +170,7 @@ class ProjectRestControllerIntegrationTest {
 
         MockMultipartFile file = new MockMultipartFile("image","awdawd.png", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes());
 
-        mockMvc.perform(multipart(ProjectRestController.PROJECT_PATH)
+        mockMvc.perform(multipart(ProjectRestController.ADMIN_PROJECT_PATH)
                         .file(metaData)
                         .file(file)
                         .accept(MediaType.APPLICATION_JSON))
@@ -190,7 +191,7 @@ class ProjectRestControllerIntegrationTest {
          MockMultipartFile metaData = new MockMultipartFile("projectDTO", "projectDTO", MediaType.APPLICATION_JSON_VALUE,
                 objectMapper.writeValueAsString(projectDTO).getBytes());
 
-        MvcResult mvcResult = mockMvc.perform(multipart(ProjectRestController.PROJECT_PATH)
+        MvcResult mvcResult = mockMvc.perform(multipart(ProjectRestController.ADMIN_PROJECT_PATH)
                         .file(metaData)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
@@ -216,7 +217,7 @@ class ProjectRestControllerIntegrationTest {
     void testDeleteProjectById() throws Exception{
         UUID savedID = savedIds.get(0);
 
-        mockMvc.perform(delete(ProjectRestController.PROJECT_ID_PATH, savedID)
+        mockMvc.perform(delete(ProjectRestController.ADMIN_PROJECT_ID_PATH, savedID)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
@@ -227,7 +228,7 @@ class ProjectRestControllerIntegrationTest {
     @Rollback
     void testDeleteProjectByNotExistingId() throws Exception{
 
-        mockMvc.perform(delete(ProjectRestController.PROJECT_ID_PATH, UUID.randomUUID())
+        mockMvc.perform(delete(ProjectRestController.ADMIN_PROJECT_ID_PATH, UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }

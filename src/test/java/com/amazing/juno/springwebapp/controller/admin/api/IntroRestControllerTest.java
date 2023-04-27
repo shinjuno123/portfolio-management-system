@@ -1,6 +1,7 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
 import com.amazing.juno.springwebapp.controller.api.IntroRestController;
+import com.amazing.juno.springwebapp.dao.config.TestSecurityConfig;
 import com.amazing.juno.springwebapp.dto.IntroDTO;
 
 import com.amazing.juno.springwebapp.service.IntroService;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -34,6 +36,7 @@ import static org.mockito.BDDMockito.given;
 
 
 @WebMvcTest(IntroRestController.class)
+@Import(TestSecurityConfig.class)
 class IntroRestControllerTest {
 
     @Autowired
@@ -102,7 +105,7 @@ class IntroRestControllerTest {
     void getAllIntroductionRecords() throws Exception {
         given(introService.getAllIntroductionRecords()).willReturn(tmpIntroductions);
 
-        mockMvc.perform(get(IntroRestController.INTRO_PATH)
+        mockMvc.perform(get(IntroRestController.ADMIN_INTRO_PATH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -120,7 +123,7 @@ class IntroRestControllerTest {
 
         given(introService.saveIntroduction(any(IntroDTO.class))).willReturn(tmpIntroductions.get(1));
 
-        MvcResult result =  mockMvc.perform(post(IntroRestController.INTRO_PATH)
+        MvcResult result =  mockMvc.perform(post(IntroRestController.ADMIN_INTRO_PATH)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newIntroDTO)))
@@ -137,7 +140,7 @@ class IntroRestControllerTest {
 
         given(introService.getIntroductionById(any(UUID.class))).willReturn(Optional.of(introDTO));
 
-        mockMvc.perform(get(IntroRestController.INTRO_ID_PATH, introDTO.getId())
+        mockMvc.perform(get(IntroRestController.ADMIN_INTRO_ID_PATH, introDTO.getId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -151,7 +154,7 @@ class IntroRestControllerTest {
 
         given(introService.getRecentIntroduction()).willReturn(Optional.of(introDTO));
 
-        mockMvc.perform(get(IntroRestController.INTRO_PATH + "/recent")
+        mockMvc.perform(get(IntroRestController.PUBLIC_INTRO_PATH)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));

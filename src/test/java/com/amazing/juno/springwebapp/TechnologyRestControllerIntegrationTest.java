@@ -99,7 +99,7 @@ public class TechnologyRestControllerIntegrationTest {
 
     @Test
     void testListCategories() throws Exception{
-        mockMvc.perform(get(TechnologyRestController.TECHNOLOGY_PATH)
+        mockMvc.perform(get(TechnologyRestController.PUBLIC_TECHNOLOGY_PATH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.length()", greaterThanOrEqualTo(1)))
@@ -115,7 +115,7 @@ public class TechnologyRestControllerIntegrationTest {
 
         techCategoryRepository.deleteAll();
 
-        MvcResult mvcResult = mockMvc.perform(get(TechnologyRestController.TECHNOLOGY_PATH)
+        MvcResult mvcResult = mockMvc.perform(get(TechnologyRestController.PUBLIC_TECHNOLOGY_PATH)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.length()", is(0)))
@@ -132,7 +132,7 @@ public class TechnologyRestControllerIntegrationTest {
                         .categoryName("New Category")
                                 .build();
 
-        MvcResult mvcResult = mockMvc.perform(post(TechnologyRestController.TECHNOLOGY_PATH)
+        MvcResult mvcResult = mockMvc.perform(post(TechnologyRestController.ADMIN_TECHNOLOGY_PATH)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newTechCategory))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -155,7 +155,7 @@ public class TechnologyRestControllerIntegrationTest {
         System.out.println(techCategoryRepository.findAll());
 
 
-        MvcResult mvcResult = mockMvc.perform(post(TechnologyRestController.TECHNOLOGY_PATH)
+        MvcResult mvcResult = mockMvc.perform(post(TechnologyRestController.ADMIN_TECHNOLOGY_PATH)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newTechCategory))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -187,7 +187,7 @@ public class TechnologyRestControllerIntegrationTest {
                 .build();
 
 
-        mockMvc.perform(post(TechnologyRestController.TECHNOLOGY_PATH)
+        mockMvc.perform(post(TechnologyRestController.ADMIN_TECHNOLOGY_PATH)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newTechCategory))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -203,7 +203,7 @@ public class TechnologyRestControllerIntegrationTest {
     void testAddOrUpdateCategoryHavingAllEmptyProperties() throws Exception{
         Map<String, String> wrongCategory = new HashMap<>();
 
-        mockMvc.perform(post(TechnologyRestController.TECHNOLOGY_PATH)
+        mockMvc.perform(post(TechnologyRestController.ADMIN_TECHNOLOGY_PATH)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(wrongCategory))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -220,7 +220,7 @@ public class TechnologyRestControllerIntegrationTest {
     @Transactional
     void testAddOrUpdateCategoryUsingWrongTypeOfBody() throws Exception{
 
-        MvcResult mvcResult = mockMvc.perform(post(TechnologyRestController.TECHNOLOGY_PATH)
+        MvcResult mvcResult = mockMvc.perform(post(TechnologyRestController.ADMIN_TECHNOLOGY_PATH)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString("whdkahwd"))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -257,7 +257,7 @@ public class TechnologyRestControllerIntegrationTest {
                 .categoryName("New Category Name")
                 .build();
 
-        mockMvc.perform(post(TechnologyRestController.TECHNOLOGY_PATH)
+        mockMvc.perform(post(TechnologyRestController.ADMIN_TECHNOLOGY_PATH)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newTechCategory))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -279,7 +279,7 @@ public class TechnologyRestControllerIntegrationTest {
                         .build();
 
 
-        MvcResult mvcResult = mockMvc.perform(post(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_PATH, "Category")
+        MvcResult mvcResult = mockMvc.perform(post(TechnologyRestController.ADMIN_TECHNOLOGY_CATEGORY_NAME_PATH, "Category")
                         .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(categoryItemDTO)))
@@ -300,7 +300,7 @@ public class TechnologyRestControllerIntegrationTest {
                 .build();
 
 
-        MvcResult mvcResult = mockMvc.perform(post(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_PATH, "awjdhkjaw")
+        MvcResult mvcResult = mockMvc.perform(post(TechnologyRestController.ADMIN_TECHNOLOGY_CATEGORY_NAME_PATH, "awjdhkjaw")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(categoryItemDTO)))
@@ -325,7 +325,7 @@ public class TechnologyRestControllerIntegrationTest {
                 .build();
 
 
-        MvcResult mvcResult = mockMvc.perform(post(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_PATH, "Category")
+        MvcResult mvcResult = mockMvc.perform(post(TechnologyRestController.ADMIN_TECHNOLOGY_CATEGORY_NAME_PATH, "Category")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(categoryItemDTO)))
@@ -358,7 +358,7 @@ public class TechnologyRestControllerIntegrationTest {
 
         System.out.println(techCategory.getCategoryName());
 
-        mockMvc.perform(delete(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_PATH, techCategory.getCategoryName())
+        mockMvc.perform(delete(TechnologyRestController.ADMIN_TECHNOLOGY_CATEGORY_NAME_PATH, techCategory.getCategoryName())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
@@ -372,7 +372,7 @@ public class TechnologyRestControllerIntegrationTest {
     void testDeleteCategoryByNotExistingCategoryName() throws Exception{
         TechCategory techCategory = techCategoryRepository.findById(savedIds.get(0)).get();
 
-        mockMvc.perform(delete(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_PATH, "awdhkajwd")
+        mockMvc.perform(delete(TechnologyRestController.ADMIN_TECHNOLOGY_CATEGORY_NAME_PATH, "awdhkajwd")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
@@ -386,8 +386,8 @@ public class TechnologyRestControllerIntegrationTest {
     void testDeleteItemsInCategory() throws Exception{
         TechCategory techCategory = techCategoryRepository.findById(savedIds.get(0)).get();
         TechCategoryItem savedItem = techCategory.getTechnologies().stream().toList().get(0);
-        System.out.println(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH + techCategory.getCategoryName() +savedItem.getId());
-        mockMvc.perform(delete(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH,techCategory.getCategoryName(),savedItem.getId())
+        System.out.println(TechnologyRestController.ADMIN_TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH + techCategory.getCategoryName() +savedItem.getId());
+        mockMvc.perform(delete(TechnologyRestController.ADMIN_TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH,techCategory.getCategoryName(),savedItem.getId())
                 .accept(MediaType.APPLICATION_JSON))
                         .andExpect(status().isNoContent());
 
@@ -402,7 +402,7 @@ public class TechnologyRestControllerIntegrationTest {
         TechCategory techCategory = techCategoryRepository.findById(savedIds.get(0)).get();
         TechCategoryItem savedItem = techCategory.getTechnologies().stream().toList().get(0);
 
-        mockMvc.perform(delete(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH,"ekfhkajhfjkahwdk",savedItem.getId())
+        mockMvc.perform(delete(TechnologyRestController.ADMIN_TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH,"ekfhkajhfjkahwdk",savedItem.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
@@ -414,7 +414,7 @@ public class TechnologyRestControllerIntegrationTest {
     void testDeleteNotExistingItemsInCategory() throws Exception{
         TechCategory techCategory = techCategoryRepository.findById(savedIds.get(0)).get();
 
-        mockMvc.perform(delete(TechnologyRestController.TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH,techCategory.getCategoryName(),UUID.randomUUID())
+        mockMvc.perform(delete(TechnologyRestController.ADMIN_TECHNOLOGY_CATEGORY_NAME_ITEM_NAME_PATH,techCategory.getCategoryName(),UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }

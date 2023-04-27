@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,9 +17,9 @@ public class FileRestController {
 
     private final FileStorageService fileStorageService;
 
-    public final static String FILE_IMAGE_PATH = "/api/files/images";
+    public final static String PUBLIC_FILE_IMAGE_PATH = "/api/public/files/images";
 
-    @GetMapping(FILE_IMAGE_PATH + "/{imageCategory}/{imageName}")
+    @GetMapping(PUBLIC_FILE_IMAGE_PATH + "/{imageCategory}/{imageName}")
     public ResponseEntity<Resource> downloadImage(@PathVariable("imageCategory") String imageCategory,
                                                   @PathVariable("imageName") String imageName){
 

@@ -20,25 +20,28 @@ import java.util.UUID;
 @RestController
 public class NoteworthyProjectRestController {
 
-    public final static String NOTEWORTHY_PATH = "/api/noteworthy-projects";
+    public final static String ADMIN_NOTEWORTHY_PATH = "/api/admin/noteworthy-projects";
 
-    public final static String NOTEWORTHY_ID_PATH = "/api/noteworthy-projects/{noteworthyProjectId}";
+    public final static String PUBLIC_NOTEWORTHY_PATH = "/api/public/noteworthy-projects";
+
+    public final static String ADMIN_NOTEWORTHY_ID_PATH = "/api/admin/noteworthy-projects/{noteworthyProjectId}";
+
 
     private final NoteworthyProjectService noteworthyProjectService;
 
-    @GetMapping(NOTEWORTHY_PATH)
+    @GetMapping(PUBLIC_NOTEWORTHY_PATH)
     public ResponseEntity<List<NoteworthyProjectDTO>> listNoteWorthyProjects(){
 
         return new ResponseEntity<>(noteworthyProjectService.listNoteWorthyProjects(), HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(NOTEWORTHY_PATH)
+    @PostMapping(ADMIN_NOTEWORTHY_PATH)
     public ResponseEntity<NoteworthyProjectDTO> saveOrUpdateNoteWorthyProject(@Validated @RequestBody NoteworthyProjectDTO noteworthyProjectDTO){
 
         return new ResponseEntity<>(noteworthyProjectService.saveOrUpdateNoteWorthyProject(noteworthyProjectDTO),HttpStatus.CREATED);
     }
 
-    @DeleteMapping(NOTEWORTHY_ID_PATH)
+    @DeleteMapping(ADMIN_NOTEWORTHY_ID_PATH)
     public ResponseEntity<?> deleteNoteWorthyProjectById(@PathVariable("noteworthyProjectId") UUID noteworthyProjectId){
         if (!noteworthyProjectService.deleteNoteWorthyProject(noteworthyProjectId)){
             throw new NotFoundException();

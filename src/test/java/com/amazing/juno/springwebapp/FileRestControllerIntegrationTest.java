@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
@@ -45,7 +46,6 @@ public class FileRestControllerIntegrationTest {
 
     @Test
     void testDownloadImage() throws Exception{
-        System.out.println(filePath);
         mockMvc.perform(get(filePath)
                 .accept(MediaType.IMAGE_PNG))
                 .andExpect(status().isOk())

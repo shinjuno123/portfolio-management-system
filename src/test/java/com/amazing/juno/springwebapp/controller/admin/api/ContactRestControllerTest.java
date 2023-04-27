@@ -1,6 +1,7 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
 import com.amazing.juno.springwebapp.controller.api.ContactRestController;
+import com.amazing.juno.springwebapp.dao.config.TestSecurityConfig;
 import com.amazing.juno.springwebapp.dto.ContactDTO;
 import com.amazing.juno.springwebapp.service.ContactService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
@@ -22,6 +24,7 @@ import static org.mockito.BDDMockito.given;
 
 
 @WebMvcTest(ContactRestController.class)
+@Import(TestSecurityConfig.class)
 class ContactRestControllerTest {
 
     @Autowired
@@ -58,7 +61,7 @@ class ContactRestControllerTest {
 
         given(contactService.getAllContactRecords()).willReturn(contactDTOList);
 
-        mockMvc.perform(get(ContactRestController.CONTACT_PATH)
+        mockMvc.perform(get(ContactRestController.ADMIN_CONTACT_PATH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted());
     }
@@ -70,7 +73,7 @@ class ContactRestControllerTest {
 
         given(contactService.saveContact(any(ContactDTO.class))).willReturn(contactDTO);
 
-        mockMvc.perform(post(ContactRestController.CONTACT_PATH)
+        mockMvc.perform(post(ContactRestController.ADMIN_CONTACT_PATH)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(contactDTO)))
@@ -84,7 +87,7 @@ class ContactRestControllerTest {
 
         given(contactService.getContactById(any(UUID.class))).willReturn(Optional.of(contactDTOList.get(1)));
 
-        mockMvc.perform(get(ContactRestController.CONTACT_ID_PATH, contactDTOList.get(1).getId())
+        mockMvc.perform(get(ContactRestController.ADMIN_CONTACT_ID_PATH, contactDTOList.get(1).getId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted());
 
@@ -96,7 +99,7 @@ class ContactRestControllerTest {
 
         given(contactService.getRecentContact()).willReturn(Optional.of(contactDTO));
 
-        mockMvc.perform(get(ContactRestController.CONTACT_RECENT_PATH)
+        mockMvc.perform(get(ContactRestController.PUBLIC_CONTACT_PATH)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted());
 

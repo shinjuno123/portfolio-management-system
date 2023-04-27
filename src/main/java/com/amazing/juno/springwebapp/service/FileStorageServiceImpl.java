@@ -5,7 +5,6 @@ import com.amazing.juno.springwebapp.exc.FileNotFoundException;
 import com.amazing.juno.springwebapp.exc.FileStorageException;
 import com.amazing.juno.springwebapp.properties.FileUploadProperties;
 import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -72,7 +71,7 @@ public class FileStorageServiceImpl implements FileStorageService {
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
             Path directoryFile = categoryDirection.resolve(fileName);
             Files.copy(file.getInputStream(), directoryFile, StandardCopyOption.REPLACE_EXISTING);
-            return FileRestController.FILE_IMAGE_PATH + "/" + category +"/" + fileName;
+            return FileRestController.PUBLIC_FILE_IMAGE_PATH + "/" + category +"/" + fileName;
         } catch (IOException e) {
             throw new FileStorageException("Could not upload file");
         }

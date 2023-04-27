@@ -1,6 +1,7 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
 import com.amazing.juno.springwebapp.controller.api.ProjectRestController;
+import com.amazing.juno.springwebapp.dao.config.TestSecurityConfig;
 import com.amazing.juno.springwebapp.dto.ProjectDTO;
 import com.amazing.juno.springwebapp.service.FileStorageService;
 import com.amazing.juno.springwebapp.service.ProjectService;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,6 +29,7 @@ import static org.mockito.BDDMockito.given;
 
 
 @WebMvcTest(ProjectRestController.class)
+@Import(TestSecurityConfig.class)
 class ProjectRestControllerTest {
 
     @Autowired
@@ -68,7 +71,7 @@ class ProjectRestControllerTest {
 
         given(projectService.listProjects()).willReturn(projectDTOList);
 
-        mockMvc.perform(get(ProjectRestController.PROJECT_PATH)
+        mockMvc.perform(get(ProjectRestController.PUBLIC_PROJECT_PATH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted());
 
@@ -89,7 +92,7 @@ class ProjectRestControllerTest {
         given(fileStorageService.saveFile(any(MultipartFile.class),any(String.class))).willReturn(file.getName());
         given(projectService.saveOrUpdateProject(any(ProjectDTO.class),any(String.class))).willReturn(projectDTOList.get(1));
 
-        mockMvc.perform(multipart(ProjectRestController.PROJECT_PATH)
+        mockMvc.perform(multipart(ProjectRestController.ADMIN_PROJECT_PATH)
                         .file(file)
                         .file(metaData)
                 .accept(MediaType.APPLICATION_JSON))
@@ -103,7 +106,7 @@ class ProjectRestControllerTest {
 
         given(projectService.deleteProject(projectDTO.getId())).willReturn(true);
 
-        mockMvc.perform(delete(ProjectRestController.PROJECT_ID_PATH, projectDTO.getId())
+        mockMvc.perform(delete(ProjectRestController.ADMIN_PROJECT_ID_PATH, projectDTO.getId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
