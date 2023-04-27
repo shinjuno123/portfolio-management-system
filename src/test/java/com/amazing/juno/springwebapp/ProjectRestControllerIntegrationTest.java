@@ -45,8 +45,6 @@ class ProjectRestControllerIntegrationTest {
     @Autowired
     ProjectRepository projectRepository;
 
-    @Autowired
-    ProjectMapper projectMapper;
 
     @Autowired
     FileStorageService fileStorageService;

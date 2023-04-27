@@ -42,9 +42,6 @@ public class IntroRestControllerIntegrationTest {
 
 
     @Autowired
-    IntroMapper introMapper;
-
-    @Autowired
     IntroRepository introRepository;
 
     @Autowired

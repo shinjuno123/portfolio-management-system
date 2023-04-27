@@ -42,8 +42,6 @@ public class NoteworthyProjectRestControllerIntegrationTest {
     @Autowired
     NoteworthyProjectRepository noteworthyProjectRepository;
 
-    @Autowired
-    NoteworthyProjectMapper noteworthyProjectMapper;
 
     @Autowired
     WebApplicationContext wac;

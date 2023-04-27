@@ -55,13 +55,8 @@ public class TechnologyRestControllerIntegrationTest {
     TechCategoryRepository techCategoryRepository;
 
     @Autowired
-    TechCategoryItemMapper techCategoryItemMapper;
-
-    @Autowired
     ObjectMapper objectMapper;
 
-    @Autowired
-    TechCategoryMapper techCategoryMapper;
 
     @Autowired
     WebApplicationContext wac;

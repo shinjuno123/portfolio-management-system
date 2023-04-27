@@ -39,9 +39,6 @@ public class ContactRestControllerIntegrationTest {
     ContactRestController contactRestController;
 
     @Autowired
-    ContactMapper contactMapper;
-
-    @Autowired
     ContactRepository contactRepository;
 
     @Autowired

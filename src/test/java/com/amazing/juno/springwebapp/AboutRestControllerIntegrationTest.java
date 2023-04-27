@@ -47,9 +47,6 @@ public class AboutRestControllerIntegrationTest {
     AboutRepository aboutRepository;
 
     @Autowired
-    AboutMapper aboutMapper;
-
-    @Autowired
     WebApplicationContext wac;
 
     @Autowired
