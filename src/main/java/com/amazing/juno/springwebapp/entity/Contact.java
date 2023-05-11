@@ -30,27 +30,20 @@ public class Contact {
 	private UUID id;
 
 
-	@Column(nullable = false)
-	private String closingTitle;
-
-
-	@Column(nullable = false)
-	private String closingContent;
-
-
-	@Column(nullable = false)
-	private String closingRegard;
-
-
-	@Column(nullable = false)
-	private String buttonContent;
-
-
-	@Column(nullable = false)
+	@Column(nullable = false, name = "email")
 	private String email;
 
 
-	@Column(nullable = false)
+	@Column(nullable = false, name = "subject")
+	private String subject;
+
+
+	@Column(nullable = false, name = "content")
+	private String content;
+
+
+
+	@Column(nullable = false, name = "uploaded")
 	@CreationTimestamp
 	private LocalDateTime uploaded;
 

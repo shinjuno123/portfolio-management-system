@@ -5,7 +5,6 @@ import com.amazing.juno.springwebapp.dao.UserRepository;
 import com.amazing.juno.springwebapp.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.Authentication;

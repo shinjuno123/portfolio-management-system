@@ -34,22 +34,18 @@ public class Introduction {
 	private UUID id;
 
 
-	@Column(nullable = false)
+	@Column(nullable = false, name = "say_hi")
 	private String sayHi;
 
 
-	@Column(nullable = false)
+	@Column(nullable = false, name = "name")
 	private String name;
 
-	@Column(nullable = false)
+	@Column(nullable = false, name = "opening")
 	private String opening;
 
 
-	@Column(nullable = false)
-	private String detail;
-
-
-	@Column(nullable = false)
+	@Column(nullable = false, name = "uploaded")
 	@CreationTimestamp
 	private LocalDateTime uploaded;
 
