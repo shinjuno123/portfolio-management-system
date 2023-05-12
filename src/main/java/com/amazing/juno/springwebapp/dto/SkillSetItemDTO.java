@@ -1,40 +1,36 @@
 package com.amazing.juno.springwebapp.dto;
 
-
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
-
 
 @Builder
 @Data
-public class ProjectDTO {
+public class SkillSetItemDTO {
 
     private UUID id;
 
+    @NotBlank(message = "must not be blank!")
+    private String title;
+
     @Null(message = "must be null!")
-    private String imagePath;
+    private URL imagePath;
 
-    @NotNull(message = "must not be null!")
     @NotBlank(message = "must not be blank!")
-    private String projectName;
+    private String description;
 
-
-    @NotNull(message = "must not be null!")
-    @NotBlank(message = "must not be blank!")
-    private URL url;
-
-    @NotNull(message = "must not be null!")
+    @Null(message = "must be null!")
     private LocalDateTime updated;
 
-    @NotNull(message = "must not be null!")
+    @Null(message = "must be null!")
     private LocalDateTime uploaded;
+
+    @Null(message = "must be null!")
+    private Set<RelevantProjectDTO> relevantProjectSet;
 }

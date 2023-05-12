@@ -28,7 +28,7 @@ public class Platform {
     @Column(length = 36, updatable = false, columnDefinition = "varchar")
     private UUID id;
 
-    @Column(nullable = false, name = "name", length = 30)
+    @Column(nullable = false, name = "name", length = 30, unique = true)
     private String name;
 
     @UpdateTimestamp

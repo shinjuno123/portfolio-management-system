@@ -23,7 +23,6 @@ public class AboutServiceImpl implements AboutService {
     private final AboutMapper aboutMapper;
 
 
-
     @Override
     public List<AboutDTO> getAllAbout() {
         return aboutRepository.findAll().stream().map(aboutMapper::aboutToAboutDTO).toList();
@@ -61,7 +60,6 @@ public class AboutServiceImpl implements AboutService {
     @Transactional
     public AboutDTO saveAbout(AboutDTO aboutDTO, String imagePath) {
         aboutDTO.setFaceImagePath(imagePath);
-        aboutDTO.setUploaded(LocalDateTime.now());
 
         return aboutMapper.aboutToAboutDTO(
                 aboutRepository.save(aboutMapper.aboutDTOToAbout(aboutDTO))

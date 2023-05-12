@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Null;
 import lombok.Builder;
 import lombok.Data;
 
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -35,7 +36,11 @@ public class AboutDTO {
 
     @NotBlank(message = "must not be blank!")
     @NotNull(message = "must not be null!")
-    private String degree;
+    private String diploma;
+
+    @NotBlank(message = "must not be blank!")
+    @NotNull(message = "must not be null!")
+    private URL deplomaUrl;
 
     @NotBlank(message = "must not be blank!")
     @NotNull(message = "must not be null!")

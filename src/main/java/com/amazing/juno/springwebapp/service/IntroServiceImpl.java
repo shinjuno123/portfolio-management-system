@@ -24,7 +24,6 @@ public class IntroServiceImpl implements IntroService {
     @Override
     @Transactional
     public IntroDTO saveIntroduction(IntroDTO introDTO) {
-        introDTO.setUploaded(LocalDateTime.now());
         return introMapper.introductionToIntroDTO(introRepository.save(introMapper.introDTOToIntroduction(introDTO)));
     }
 

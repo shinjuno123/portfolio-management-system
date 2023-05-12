@@ -25,20 +25,16 @@ public class ContactDTO {
     private UUID id;
 
     @NotBlank(message = "must not be blank!")
-    private String closingTitle;
+    private String email;
 
     @NotBlank(message = "must not be blank!")
-    private String closingContent;
+    private String subject;
 
     @NotBlank(message = "must not be blank!")
-    private String closingRegard;
+    private String content;
 
     @NotBlank(message = "must not be blank!")
     private String buttonContent;
-
-    @NotBlank(message = "must not be blank!")
-    @Email(message="Please provide a valid email address")
-    private String email;
 
     @Null(message = "must be null!")
     private LocalDateTime uploaded;

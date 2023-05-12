@@ -26,7 +26,6 @@ public class ContactServiceImpl implements ContactService {
     @Override
     @Transactional
     public ContactDTO saveContact(ContactDTO contactDTO) {
-        contactDTO.setUploaded(LocalDateTime.now());
 
         return contactMapper.contactToContactDTO(
                 contactRepository.save(contactMapper.contactDTOToContact(contactDTO))

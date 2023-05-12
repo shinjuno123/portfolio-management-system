@@ -40,7 +40,7 @@ public class Project {
     private String projectName;
 
     @Column(nullable = false, name = "url")
-    private String url;
+    private URL url;
 
     @UpdateTimestamp
     @Column(nullable = false, name = "updated")
