@@ -6,20 +6,21 @@ import com.amazing.juno.springwebapp.dto.RelevantProjectDTO;
 import com.amazing.juno.springwebapp.dto.SkillSetItemDTO;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface SkillSetService {
 
-    PlatformDTO listAllSkillSet();
+    List<PlatformDTO> listAllSkillSet();
 
-    List<SkillSetItemDTO> listSkillSetItemsByCategoryId(UUID platformId,UUID categoryId);
+    List<SkillSetItemDTO> listSkillSetItemsByCategoryId(UUID categoryId);
 
     PlatformDTO saveOrUpdatePlatform(PlatformDTO platformDTO);
 
-    CategoryDTO saveOrUpdateCategory(UUID platformId,CategoryDTO categoryDTO);
+    Optional<CategoryDTO> saveOrUpdateCategory(UUID platformId, CategoryDTO categoryDTO);
 
-    SkillSetItemDTO saveOrUpdateSkillItemSet(UUID categoryId,SkillSetItemDTO skillSetItemDTO);
+    Optional<SkillSetItemDTO> saveOrUpdateSkillItemSet(UUID categoryId,SkillSetItemDTO skillSetItemDTO);
 
-    RelevantProjectDTO saveOrUpdateRelevantProject(UUID skillSetItemId,RelevantProjectDTO relevantProjectDTO);
+    Optional<RelevantProjectDTO> saveOrUpdateRelevantProject(UUID skillSetItemId,RelevantProjectDTO relevantProjectDTO);
 
 }
