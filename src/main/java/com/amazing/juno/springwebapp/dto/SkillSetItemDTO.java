@@ -20,7 +20,7 @@ public class SkillSetItemDTO {
     private String title;
 
     @Null(message = "must be null!")
-    private URL imagePath;
+    private String imagePath;
 
     @NotBlank(message = "must not be blank!")
     private String description;

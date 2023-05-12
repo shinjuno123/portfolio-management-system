@@ -32,7 +32,7 @@ public class Certification {
     private String name;
 
     @Column(nullable = false, name = "download_url")
-    private URL downloadUrl;
+    private String downloadUrl;
 
     @UpdateTimestamp
     @Column(nullable = false, name = "updated")

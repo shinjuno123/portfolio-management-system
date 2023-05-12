@@ -36,11 +36,12 @@ public class AboutRestController {
     }
 
     @PostMapping(ADMIN_ABOUT_PATH)
-    public ResponseEntity<AboutDTO> saveAbout(@Validated @RequestPart("aboutDTO") AboutDTO aboutDTO,@RequestPart("faceImage") MultipartFile faceImage){
+    public ResponseEntity<AboutDTO> saveAbout(@Validated @RequestPart("aboutDTO") AboutDTO aboutDTO,@RequestPart("faceImage") MultipartFile faceImage, @RequestPart("diploma") MultipartFile diploma){
 
         String filePath = fileStorageService.saveFile(faceImage, "about");
+        String diplomaPath = fileStorageService.saveFile(diploma, "diploma");
 
-        return new ResponseEntity<>(aboutService.saveAbout(aboutDTO, filePath), HttpStatus.CREATED);
+        return new ResponseEntity<>(aboutService.saveAbout(aboutDTO, filePath, diplomaPath), HttpStatus.CREATED);
     }
 
 

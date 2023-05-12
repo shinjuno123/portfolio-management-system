@@ -29,6 +29,7 @@ public class AboutServiceImpl implements AboutService {
     }
 
     @Override
+    @Transactional
     public Optional<AboutDTO> getAboutById(UUID aboutId) {
         AtomicReference<Optional<AboutDTO>> atomicReference = new AtomicReference<>();
 
@@ -42,6 +43,7 @@ public class AboutServiceImpl implements AboutService {
     }
 
     @Override
+    @Transactional
     public Optional<AboutDTO> getRecentAbout() {
         Optional<AboutDTO> optionalAboutDTO = Optional.empty();
 
@@ -58,8 +60,9 @@ public class AboutServiceImpl implements AboutService {
 
     @Override
     @Transactional
-    public AboutDTO saveAbout(AboutDTO aboutDTO, String imagePath) {
+    public AboutDTO saveAbout(AboutDTO aboutDTO, String imagePath, String diplomaPath) {
         aboutDTO.setFaceImagePath(imagePath);
+        aboutDTO.setDiplomaUrl(diplomaPath);
 
         return aboutMapper.aboutToAboutDTO(
                 aboutRepository.save(aboutMapper.aboutDTOToAbout(aboutDTO))

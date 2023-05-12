@@ -1,7 +1,7 @@
 package com.amazing.juno.springwebapp.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import com.amazing.juno.springwebapp.entity.NoteworthyProject;
+
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

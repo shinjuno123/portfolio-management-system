@@ -19,8 +19,8 @@ public interface SkillSetService {
 
     Optional<CategoryDTO> saveOrUpdateCategory(UUID platformId, CategoryDTO categoryDTO);
 
-    Optional<SkillSetItemDTO> saveOrUpdateSkillItemSet(UUID categoryId,SkillSetItemDTO skillSetItemDTO);
+    Optional<SkillSetItemDTO> saveOrUpdateSkillSetItem(UUID platformId,UUID categoryId,SkillSetItemDTO skillSetItemDTO,String skillSetImagePath);
 
-    Optional<RelevantProjectDTO> saveOrUpdateRelevantProject(UUID skillSetItemId,RelevantProjectDTO relevantProjectDTO);
+    Optional<RelevantProjectDTO> saveOrUpdateRelevantProject(UUID platformId,UUID categoryId,UUID skillSetItemId,RelevantProjectDTO relevantProjectDTO);
 
 }

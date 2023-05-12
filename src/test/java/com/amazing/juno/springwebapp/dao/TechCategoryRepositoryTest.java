@@ -1,7 +1,5 @@
 package com.amazing.juno.springwebapp.dao;
 
-import com.amazing.juno.springwebapp.entity.TechCategory;
-import com.amazing.juno.springwebapp.entity.TechCategoryItem;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

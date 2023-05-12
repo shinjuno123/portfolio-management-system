@@ -40,7 +40,7 @@ public class About {
 	private String diploma;
 
 	@Column(nullable = false, name = "diploma_url")
-	private URL deplomaUrl;
+	private String diplomaUrl;
 
 	@Column(nullable = false, name = "region_country")
 	private String regionCountry;

@@ -2,6 +2,7 @@ package com.amazing.juno.springwebapp.dto;
 
 import com.amazing.juno.springwebapp.entity.SkillSetItem;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import lombok.Builder;
 import lombok.Data;
@@ -20,8 +21,8 @@ public class RelevantProjectDTO {
     @NotBlank(message = "must not be blank!")
     private String name;
 
-    @Null(message = "must be null!")
-    private URL url;
+    @NotBlank(message = "must not be blank!")
+    private String url;
 
     @Null(message = "must be null!")
     private LocalDateTime updated;

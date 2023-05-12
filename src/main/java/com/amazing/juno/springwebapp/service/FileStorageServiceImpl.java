@@ -71,7 +71,7 @@ public class FileStorageServiceImpl implements FileStorageService {
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
             Path directoryFile = categoryDirection.resolve(fileName);
             Files.copy(file.getInputStream(), directoryFile, StandardCopyOption.REPLACE_EXISTING);
-            return FileRestController.PUBLIC_FILE_IMAGE_PATH + "/" + category +"/" + fileName;
+            return FileRestController.PUBLIC_FILE_IMAGE_PATH + "/image-category-" + category +"/image-name-" + fileName;
         } catch (IOException e) {
             throw new FileStorageException("Could not upload file");
         }

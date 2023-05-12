@@ -30,7 +30,7 @@ public class ProjectDTO {
 
     @NotNull(message = "must not be null!")
     @NotBlank(message = "must not be blank!")
-    private URL url;
+    private String url;
 
     @NotNull(message = "must not be null!")
     private LocalDateTime updated;

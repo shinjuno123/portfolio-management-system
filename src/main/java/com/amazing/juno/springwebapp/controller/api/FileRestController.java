@@ -19,7 +19,7 @@ public class FileRestController {
 
     public final static String PUBLIC_FILE_IMAGE_PATH = "/api/public/files/images";
 
-    @GetMapping(PUBLIC_FILE_IMAGE_PATH + "/{imageCategory}/{imageName}")
+    @GetMapping(PUBLIC_FILE_IMAGE_PATH + "/image-category-{imageCategory}/image-name-{imageName}")
     public ResponseEntity<Resource> downloadImage(@PathVariable("imageCategory") String imageCategory,
                                                   @PathVariable("imageName") String imageName){
 

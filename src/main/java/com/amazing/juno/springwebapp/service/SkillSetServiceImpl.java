@@ -102,9 +102,28 @@ public class SkillSetServiceImpl implements SkillSetService{
         return categoryDTOAtomicReference.get();
     }
 
+    private boolean isIdsNotPresentInDB(UUID platformId, UUID categoryId, UUID skillSetItemId){
+        if(platformId != null && platformRepository.findById(platformId).isEmpty()){
+            return true;
+        }
+        if(categoryId != null && categoryRepository.findById(categoryId).isEmpty()) {
+            return true;
+        }
+        if(skillSetItemId != null && skillSetItemRepository.findById(skillSetItemId).isEmpty()){
+            return true;
+        }
+        return false;
+    }
+
     @Override
     @Transactional
-    public Optional<SkillSetItemDTO> saveOrUpdateSkillItemSet(UUID categoryId, SkillSetItemDTO skillSetItemDTO) {
+    public Optional<SkillSetItemDTO> saveOrUpdateSkillSetItem(UUID platformId,UUID categoryId, SkillSetItemDTO skillSetItemDTO, String skillSetImagePath) {
+        if(isIdsNotPresentInDB(platformId, categoryId, null)){
+            return Optional.empty();
+        }
+
+
+        skillSetItemDTO.setImagePath(skillSetImagePath);
         AtomicReference<Optional<SkillSetItemDTO>> skillSetDtoAtomicReference = new AtomicReference<>();
 
         categoryRepository.findById(categoryId).ifPresentOrElse(
@@ -134,7 +153,11 @@ public class SkillSetServiceImpl implements SkillSetService{
 
     @Override
     @Transactional
-    public Optional<RelevantProjectDTO> saveOrUpdateRelevantProject(UUID skillSetItemId, RelevantProjectDTO relevantProjectDTO) {
+    public Optional<RelevantProjectDTO> saveOrUpdateRelevantProject(UUID platformId,UUID categoryId,UUID skillSetItemId, RelevantProjectDTO relevantProjectDTO) {
+        if(isIdsNotPresentInDB(platformId, categoryId, skillSetItemId)){
+            return Optional.empty();
+        }
+
         AtomicReference<Optional<RelevantProjectDTO>> relevantProjectAtomicReference = new AtomicReference<>();
 
         skillSetItemRepository.findById(skillSetItemId).ifPresentOrElse(

@@ -1,16 +1,12 @@
 package com.amazing.juno.springwebapp;
 
 
-import com.amazing.juno.springwebapp.controller.api.NoteworthyProjectRestController;
-import com.amazing.juno.springwebapp.dao.NoteworthyProjectRepository;
-import com.amazing.juno.springwebapp.entity.NoteworthyProject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
@@ -18,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import java.net.URL;
 import java.util.*;

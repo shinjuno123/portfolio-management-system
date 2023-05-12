@@ -6,6 +6,8 @@ import com.amazing.juno.springwebapp.entity.Certification;
 import com.amazing.juno.springwebapp.mapper.CertificationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class CertificationServiceImpl implements CertificationService{
     private final CertificationMapper certificationMapper;
 
     @Override
+    @Transactional
     public List<CertificationDTO> listCertifications() {
         return certificationRepository.findAll().stream().map(
                 certificationMapper::certificationToCertificationDTO
@@ -26,7 +29,9 @@ public class CertificationServiceImpl implements CertificationService{
     }
 
     @Override
-    public CertificationDTO saveOrUpdateCertification(CertificationDTO certificationDTO) {
+    @Transactional
+    public CertificationDTO saveOrUpdateCertification(CertificationDTO certificationDTO, String certificationPath) {
+        certificationDTO.setDownloadUrl(certificationPath);
         Certification savedCertification = certificationRepository.save(certificationMapper.certificationDTOToCertification(certificationDTO));
 
         return certificationMapper.certificationToCertificationDTO(savedCertification);

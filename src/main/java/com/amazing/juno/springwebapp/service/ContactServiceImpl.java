@@ -33,6 +33,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
+    @Transactional
     public List<ContactDTO> getAllContactRecords() {
         return contactRepository.findAll().stream().map(
                 contactMapper::contactToContactDTO
@@ -40,6 +41,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
+    @Transactional
     public Optional<ContactDTO> getContactById(UUID id) {
         AtomicReference<Optional<ContactDTO>> atomicReference = new AtomicReference<>();
 
@@ -53,6 +55,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
+    @Transactional
     public Optional<ContactDTO> getRecentContact() {
         Optional<ContactDTO> optionalContactDTO = Optional.empty();
         ContactDTO savedContactDTO = contactMapper.contactToContactDTO(

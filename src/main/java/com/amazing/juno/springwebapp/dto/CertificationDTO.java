@@ -22,7 +22,7 @@ public class CertificationDTO {
 
 
     @NotNull(message = "must not be null!")
-    private URL downloadUrl;
+    private String downloadUrl;
 
     @Null(message = "must be null!")
     private LocalDateTime updated;
