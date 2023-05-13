@@ -86,7 +86,7 @@ class ProjectRestControllerTest {
         MockMultipartFile file = new MockMultipartFile("image","project.png", MediaType.IMAGE_PNG.toString(),
                 "wdkalwhfuiehufhwf".getBytes());
 
-        MockMultipartFile metaData = new MockMultipartFile("projectDTO", "projectDTO", MediaType.APPLICATION_JSON_VALUE,
+        MockMultipartFile metaData = new MockMultipartFile("project", "projectDTO", MediaType.APPLICATION_JSON_VALUE,
                 objectMapper.writeValueAsString(projectDTO).getBytes());
 
         given(fileStorageService.saveFile(any(MultipartFile.class),any(String.class))).willReturn(file.getName());

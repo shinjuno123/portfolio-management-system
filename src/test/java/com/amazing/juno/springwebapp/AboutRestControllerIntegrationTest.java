@@ -211,6 +211,8 @@ public class AboutRestControllerIntegrationTest {
                 }
         );
 
+
+
         assertTrue(atomicBoolean.get());
     }
 

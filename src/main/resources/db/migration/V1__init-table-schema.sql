@@ -152,7 +152,7 @@ create table if not exists relevant_project
     uploaded          datetime     not null,
     updated           datetime     not null,
     skill_set_item_id varchar(36)  not null,
-    unique key (url, skill_set_item_id),
+    unique key (url(400), skill_set_item_id),
     constraint fk_skill_set_item_relevant_project foreign key (skill_set_item_id)
         references skill_set_item (id),
     primary key (id)

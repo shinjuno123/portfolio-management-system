@@ -194,7 +194,7 @@ class ProjectRestControllerIntegrationTest {
         List<Map<String,String>> response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), ResponseError.class).getMessages();
 
         AtomicBoolean testPassed = new AtomicBoolean(false);
-
+        System.out.println(response);
         response.forEach(
                 result ->{
                     if(result.containsKey("image")){
@@ -202,7 +202,6 @@ class ProjectRestControllerIntegrationTest {
                     }
                 }
         );
-
         assertThat(testPassed.get()).isTrue();
     }
 

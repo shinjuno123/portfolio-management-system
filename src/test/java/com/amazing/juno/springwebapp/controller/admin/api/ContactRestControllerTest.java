@@ -14,6 +14,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -52,7 +54,6 @@ class ContactRestControllerTest {
                             .email("shinjuno123@naver.com")
                             .subject("closingContent"+ i)
                             .content("closingRegards" + i)
-                            .uploaded(LocalDateTime.now())
                             .build()
             );
         }
@@ -80,6 +81,7 @@ class ContactRestControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(contactDTO)))
                 .andExpect(status().isCreated());
+
     }
 
     @Test

@@ -38,8 +38,7 @@ public class AboutDTO {
     @NotNull(message = "must not be null!")
     private String diploma;
 
-    @NotBlank(message = "must not be blank!")
-    @NotNull(message = "must not be null!")
+    @Null(message = "must be null!")
     private String diplomaUrl;
 
     @NotBlank(message = "must not be blank!")

@@ -47,11 +47,11 @@ public class SkillSetItem {
     @Column(nullable = false, name = "uploaded")
     private LocalDateTime uploaded;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "skillSetItem", cascade = CascadeType.ALL)
     private Set<RelevantProject> relevantProjectSet;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     @JsonIgnore
-    private Category Category;
+    private Category category;
 }
