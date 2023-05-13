@@ -19,6 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "relevant_project")
+@Table(uniqueConstraints = @UniqueConstraint(name = "relevant_project_unique_constraint",columnNames = {"url","skill_set_item_id"}))
 public class RelevantProject {
 
     @Id

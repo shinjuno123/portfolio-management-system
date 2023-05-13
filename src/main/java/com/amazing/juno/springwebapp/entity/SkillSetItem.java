@@ -20,6 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "skill_set_item")
+@Table(uniqueConstraints = @UniqueConstraint(name = "skill_set_item_unique_constraint",columnNames = {"title","category_id"}))
 public class SkillSetItem {
 
     @Id

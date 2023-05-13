@@ -20,6 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(name = "category_unique_constraint",columnNames = {"name","platform_id"}))
 public class Category {
 
     @Id

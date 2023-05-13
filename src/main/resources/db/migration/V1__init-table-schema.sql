@@ -119,6 +119,7 @@ create table if not exists category
     platform_id varchar(36) not null,
     uploaded    datetime    not null,
     updated     datetime    not null,
+    unique key (name, platform_id),
     constraint fk_platform_category foreign key (platform_id)
         references platform (id),
     primary key (id)
@@ -135,6 +136,7 @@ create table if not exists skill_set_item
     uploaded    datetime    not null,
     updated     datetime    not null,
     category_id varchar(36) not null,
+    unique key (title, category_id),
     constraint fk_category_skill_set_item foreign key (category_id)
         references category (id),
     primary key (id)
@@ -150,6 +152,7 @@ create table if not exists relevant_project
     uploaded          datetime     not null,
     updated           datetime     not null,
     skill_set_item_id varchar(36)  not null,
+    unique key (url, skill_set_item_id),
     constraint fk_skill_set_item_relevant_project foreign key (skill_set_item_id)
         references skill_set_item (id),
     primary key (id)
