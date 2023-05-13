@@ -61,7 +61,6 @@ class IntroRestControllerTest {
                 .sayHi("sayHi1")
                 .name("name1")
                 .opening("opening1")
-                .detail("detail1")
                 .uploaded(LocalDateTime.now())
                 .build();
 
@@ -70,7 +69,6 @@ class IntroRestControllerTest {
                 .sayHi("sayHi2")
                 .name("name2")
                 .opening("opening2")
-                .detail("detail")
                 .uploaded(LocalDateTime.now())
                 .build();
 
@@ -80,7 +78,6 @@ class IntroRestControllerTest {
                 .sayHi("sayHi3")
                 .name("name3")
                 .opening("opening3")
-                .detail("detail3")
                 .uploaded(LocalDateTime.now())
                 .build();
 
@@ -89,7 +86,6 @@ class IntroRestControllerTest {
                 .sayHi("sayHi4")
                 .name("name4")
                 .opening("opening4")
-                .detail("detail4")
                 .uploaded(LocalDateTime.now())
                 .build();
 

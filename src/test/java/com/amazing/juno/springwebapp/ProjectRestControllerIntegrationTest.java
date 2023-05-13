@@ -59,16 +59,15 @@ class ProjectRestControllerIntegrationTest {
 
     @BeforeEach
     @Transactional
-    void setUp() throws Exception{
+    void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 
         savedIds = new ArrayList<>();
 
         for(int i=1; i<=4;i++){
             Project project = Project.builder()
-                    .url(new URL("https://www.naver.com"))
-                    .description("description")
-                    .title("title")
+                    .url("https://www.naver.com")
+                    .projectName("description")
                     .imagePath(FileRestController.PUBLIC_FILE_IMAGE_PATH + "/project/" + UUID.randomUUID()+ "_filename.png")
                     .build();
 
@@ -117,9 +116,8 @@ class ProjectRestControllerIntegrationTest {
         ResponseEntity<ProjectDTO> projectDTOResponseEntity =
                 projectRestController.saveOrUpdateProject(
                         ProjectDTO.builder()
-                                .title("new title")
-                                .description("new description")
-                                .url(new URL("https://naver.com"))
+                                .projectName("new title")
+                                .url("https://naver.com")
                                 .build()
                         ,
                         new MockMultipartFile("image","awdawd.png", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes())
@@ -137,8 +135,7 @@ class ProjectRestControllerIntegrationTest {
     void testSaveOrUpdateProjectAndReturnValidationErrorResponse() throws Exception{
         ProjectDTO wrongProjectDTO = ProjectDTO
                 .builder()
-                .title("   ")
-                .description("")
+                .projectName("   ")
                 .url(null)
                 .build();
 
@@ -161,8 +158,7 @@ class ProjectRestControllerIntegrationTest {
     void testSaveOrUpdateProjectHavingWrongURLAndReturnValidationErrorResponse() throws Exception{
 
         Map<String, String> projectDTOMap = new HashMap<>();
-        projectDTOMap.put("title", "wjawhkhd");
-        projectDTOMap.put("description", "wdakwjhdkj");
+        projectDTOMap.put("projectName", "wjawhkhd");
         projectDTOMap.put("url","awhdjkwd");
 
         MockMultipartFile metaData = new MockMultipartFile("projectDTO", "projectDTO", MediaType.APPLICATION_JSON_VALUE,
@@ -183,12 +179,11 @@ class ProjectRestControllerIntegrationTest {
     @Rollback
     void testSaveOrUpdateProjectWithoutFile()  throws Exception{
          ProjectDTO projectDTO = ProjectDTO.builder()
-                .title("new title")
-                .description("new description")
-                .url(new URL("https://naver.com"))
+                .projectName("new title")
+                .url("https://naver.com")
                 .build();
 
-         MockMultipartFile metaData = new MockMultipartFile("projectDTO", "projectDTO", MediaType.APPLICATION_JSON_VALUE,
+         MockMultipartFile metaData = new MockMultipartFile("project", "project", MediaType.APPLICATION_JSON_VALUE,
                 objectMapper.writeValueAsString(projectDTO).getBytes());
 
         MvcResult mvcResult = mockMvc.perform(multipart(ProjectRestController.ADMIN_PROJECT_PATH)

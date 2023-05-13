@@ -1,5 +1,6 @@
 package com.amazing.juno.springwebapp.controller.admin.api;
 
+import com.amazing.juno.springwebapp.controller.api.FileRestController;
 import com.amazing.juno.springwebapp.controller.api.ProjectRestController;
 import com.amazing.juno.springwebapp.dao.config.TestSecurityConfig;
 import com.amazing.juno.springwebapp.dto.ProjectDTO;
@@ -53,10 +54,9 @@ class ProjectRestControllerTest {
         for(int i=1;i<=4;i++){
 
             ProjectDTO projectDTO = ProjectDTO.builder()
-                    .url(new URL("https://www.naver.com"))
-                    .title("new title")
-                    .description("description" + i)
-                    .imagePath("/api/projects/wadawd" + i + ".jpg")
+                    .url("https://www.naver.com")
+                    .projectName("description")
+                    .imagePath(FileRestController.PUBLIC_FILE_IMAGE_PATH + "/project/" + UUID.randomUUID()+ "_filename.png")
                     .build();
 
             projectDTOList.add(projectDTO);

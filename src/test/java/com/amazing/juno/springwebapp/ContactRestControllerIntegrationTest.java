@@ -57,13 +57,9 @@ public class ContactRestControllerIntegrationTest {
 
         for(int i=1; i<=4;i++){
             Contact contact = new Contact();
-            contact.setUploaded(LocalDateTime.now());
-            contact.setButtonContent("content" + i);
             contact.setEmail("content" + i);
-            contact.setClosingContent("content" + i);
-            contact.setClosingRegard("content" + i);
-            contact.setClosingTitle("content" + i);
-
+            contact.setSubject("content" + i);
+            contact.setContent("content" + i);
             savedIds.add(contactRepository.save(contact).getId());
         }
     }
@@ -103,10 +99,9 @@ public class ContactRestControllerIntegrationTest {
     void testSaveContact() throws Exception{
         Map<String, String> contactMap = new HashMap<>();
 
-        contactMap.put("closingTitle","new");
-        contactMap.put("closingContent","new");
-        contactMap.put("closingRegard","new");
-        contactMap.put("buttonContent","new");
+
+        contactMap.put("subject","new");
+        contactMap.put("content","new");
         contactMap.put("email","shinjuno123@naver.com");
 
          MvcResult mvcResult  = mockMvc.perform(post(ContactRestController.ADMIN_CONTACT_PATH)
@@ -129,11 +124,10 @@ public class ContactRestControllerIntegrationTest {
     void testSaveWrongContact() throws Exception{
         Map<String, String> contactMap = new HashMap<>();
 
-        contactMap.put("closingTitle","");
-        contactMap.put("closingContent",null);
-        contactMap.put("closingRegard","new");
-        contactMap.put("buttonContent","new");
-        contactMap.put("email","shinjuno1aver.com");
+        contactMap.put("subject","new");
+        contactMap.put("content",null);
+        contactMap.put("email","shinjuno123@naver.com");
+
 
         mockMvc.perform(post(ContactRestController.ADMIN_CONTACT_PATH)
                         .accept(MediaType.APPLICATION_JSON)

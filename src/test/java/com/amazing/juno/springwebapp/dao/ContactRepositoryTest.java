@@ -27,11 +27,9 @@ class ContactRepositoryTest {
         for(int i=1; i<=4;i++){
             Contact contact = new Contact();
             contact.setUploaded(LocalDateTime.now());
-            contact.setButtonContent("content" + i);
             contact.setEmail("content" + i);
-            contact.setClosingContent("content" + i);
-            contact.setClosingRegard("content" + i);
-            contact.setClosingTitle("content" + i);
+            contact.setSubject("content" + i);
+            contact.setContent("content" + i);
 
             savedIds.add(contactRepository.save(contact).getId());
         }
@@ -51,11 +49,9 @@ class ContactRepositoryTest {
     void testSaveContact(){
         Contact newContact = new Contact();
         newContact.setUploaded(LocalDateTime.now());
-        newContact.setButtonContent("content");
         newContact.setEmail("content");
-        newContact.setClosingContent("content");
-        newContact.setClosingRegard("content");
-        newContact.setClosingTitle("content");
+        newContact.setContent("content");
+        newContact.setSubject("content");
 
         Contact savedContact = contactRepository.save(newContact);
 

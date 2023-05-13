@@ -1,5 +1,6 @@
 package com.amazing.juno.springwebapp.dao;
 
+import com.amazing.juno.springwebapp.controller.api.FileRestController;
 import com.amazing.juno.springwebapp.entity.Project;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
@@ -26,15 +27,14 @@ class ProjectRepositoryTest {
 
     @BeforeEach
     @Transactional
-    void setUp() throws Exception{
+    void setUp(){
         savedIds = new ArrayList<>();
 
         for(int i=1; i<=4;i++){
             Project project = Project.builder()
-                    .url(new URL("https://www.naver.com"))
-                    .description("description")
-                    .title("title")
-                    .imagePath("imagePath")
+                    .url("https://www.naver.com")
+                    .projectName("description")
+                    .imagePath(FileRestController.PUBLIC_FILE_IMAGE_PATH + "/project/" + UUID.randomUUID()+ "_filename.png")
                     .build();
 
             savedIds.add(projectRepository.save(project).getId());
@@ -52,15 +52,14 @@ class ProjectRepositoryTest {
     }
 
     @Test
-    void testSaveProject() throws Exception{
+    void testSaveProject(){
          List<Project> existingProjectList = projectRepository.findAll();
 
          Project savedProject = projectRepository.save(
                 Project.builder()
-                        .url(new URL("https://www.naver.com"))
-                        .description("description")
-                        .title("title")
-                        .imagePath("imagePath")
+                        .url("https://www.naver.com")
+                        .projectName("description")
+                        .imagePath(FileRestController.PUBLIC_FILE_IMAGE_PATH + "/project/" + UUID.randomUUID()+ "_filename.png")
                         .build()
          );
 
@@ -71,17 +70,16 @@ class ProjectRepositoryTest {
 
 
     @Test
-    void testUpdateProject() throws Exception{
+    void testUpdateProject(){
         final UUID ID = savedIds.get(new Random().nextInt(savedIds.size()));
-        final String NEW_DESCRIPTION = "new description des";
+        final String NEW_PROJECT_NAME = "new Project name";
 
         projectRepository.save(
                 Project.builder()
                         .id(ID)
-                        .url(new URL("https://www.naver.com"))
-                        .description(NEW_DESCRIPTION)
-                        .title("title")
-                        .imagePath("imagePath")
+                        .url("https://www.naver.com")
+                        .projectName(NEW_PROJECT_NAME)
+                        .imagePath(FileRestController.PUBLIC_FILE_IMAGE_PATH + "/project/" + UUID.randomUUID()+ "_filename.png")
                         .build()
         );
 
@@ -89,7 +87,7 @@ class ProjectRepositoryTest {
 
         Project updatedProject = projectRepository.findById(ID).get();
 
-        assertThat(updatedProject.getDescription()).isEqualTo(NEW_DESCRIPTION);
+        assertThat(updatedProject.getProjectName()).isEqualTo(NEW_PROJECT_NAME);
 
 
     }

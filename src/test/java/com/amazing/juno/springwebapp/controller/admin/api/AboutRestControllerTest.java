@@ -57,7 +57,8 @@ class AboutRestControllerTest {
                 .description("description1")
                 .school("school1")
                 .period("period1")
-                .degree("degree1")
+                .diploma("degree1")
+                .diplomaUrl("whakjdhkjw")
                 .regionCountry("regionCountry1")
                 .faceImagePath("faceImagePath1")
                 .uploaded(LocalDateTime.now())
@@ -67,8 +68,8 @@ class AboutRestControllerTest {
                 .id(UUID.randomUUID())
                 .description("description2")
                 .school("school2")
-                .period("period2")
-                .degree("degree2")
+                .diploma("degree1")
+                .diplomaUrl("whakjdhkjw")
                 .regionCountry("regionCountry2")
                 .faceImagePath("faceImagePath2")
                 .uploaded(LocalDateTime.now())
@@ -79,8 +80,8 @@ class AboutRestControllerTest {
                 .id(UUID.randomUUID())
                 .description("description3")
                 .school("school3")
-                .period("period3")
-                .degree("degree3")
+                .diploma("degree1")
+                .diplomaUrl("whakjdhkjw")
                 .regionCountry("regionCountry3")
                 .faceImagePath("faceImagePath3")
                 .uploaded(LocalDateTime.now())
@@ -90,8 +91,8 @@ class AboutRestControllerTest {
                 .id(UUID.randomUUID())
                 .description("description4")
                 .school("school4")
-                .period("period4")
-                .degree("degree4")
+                .diploma("degree1")
+                .diplomaUrl("whakjdhkjw")
                 .regionCountry("regionCountry4")
                 .faceImagePath("faceImagePath4")
                 .uploaded(LocalDateTime.now())
@@ -123,18 +124,19 @@ class AboutRestControllerTest {
         jsonInput.setUploaded(null);
 
 
-        MockMultipartFile file = new MockMultipartFile("faceImage","awdawd.png", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes());
-        MockMultipartFile metaData = new MockMultipartFile("aboutDTO", "aboutDTO", MediaType.APPLICATION_JSON_VALUE,
+        MockMultipartFile image = new MockMultipartFile("faceImage","awdawd.png", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes());
+        MockMultipartFile metaData = new MockMultipartFile("about", "about", MediaType.APPLICATION_JSON_VALUE,
                 objectMapper.writeValueAsString(jsonInput).getBytes());
+        MockMultipartFile diploma = new MockMultipartFile("diploma","awdawd.pptx", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes());
 
 
-
-        given(fileStorageService.saveFile(any(MultipartFile.class),any(String.class))).willReturn("fileName");
-        given(aboutService.saveAbout(any(AboutDTO.class),any(String.class))).willReturn(tmpAboutDTOList.get(1));
-
+        given(fileStorageService.saveFile(any(MultipartFile.class),any(String.class))).willReturn("filePath");
+        given(aboutService.saveAbout(any(AboutDTO.class),any(String.class), any(String.class))).willReturn(tmpAboutDTOList.get(1));
+        given(fileStorageService.saveFile(any(MultipartFile.class),any(String.class))).willReturn("filePath");
 
         MvcResult mvcResult = mockMvc.perform(multipart(AboutRestController.ADMIN_ABOUT_PATH)
-                        .file(file)
+                        .file(image)
+                        .file(diploma)
                         .file(metaData)
                 .accept(MediaType.APPLICATION_JSON)
                )

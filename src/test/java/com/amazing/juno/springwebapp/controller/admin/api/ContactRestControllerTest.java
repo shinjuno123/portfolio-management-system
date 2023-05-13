@@ -3,6 +3,7 @@ package com.amazing.juno.springwebapp.controller.admin.api;
 import com.amazing.juno.springwebapp.controller.api.ContactRestController;
 import com.amazing.juno.springwebapp.dao.config.TestSecurityConfig;
 import com.amazing.juno.springwebapp.dto.ContactDTO;
+import com.amazing.juno.springwebapp.entity.Contact;
 import com.amazing.juno.springwebapp.service.ContactService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,11 +49,10 @@ class ContactRestControllerTest {
             contactDTOList.add(
                     ContactDTO.builder()
                             .id(UUID.randomUUID())
-                            .closingTitle("closingTitle" + i)
-                            .closingContent("closingContent"+ i)
-                            .closingRegard("closingRegards" + i)
-                            .buttonContent("buttonContent" + i)
                             .email("shinjuno123@naver.com")
+                            .subject("closingContent"+ i)
+                            .content("closingRegards" + i)
+                            .uploaded(LocalDateTime.now())
                             .build()
             );
         }

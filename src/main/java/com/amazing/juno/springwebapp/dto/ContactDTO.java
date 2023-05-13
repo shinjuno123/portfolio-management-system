@@ -33,8 +33,6 @@ public class ContactDTO {
     @NotBlank(message = "must not be blank!")
     private String content;
 
-    @NotBlank(message = "must not be blank!")
-    private String buttonContent;
 
     @Null(message = "must be null!")
     private LocalDateTime uploaded;

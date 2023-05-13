@@ -26,7 +26,6 @@ class IntroRepositoryTest {
         for(int i=1; i<=4;i++){
             Introduction introduction = new Introduction();
             introduction.setName("name");
-            introduction.setDetail("detail");
             introduction.setOpening("opening");
             introduction.setSayHi("sayhi");
             introduction.setUploaded(LocalDateTime.now());
@@ -49,7 +48,6 @@ class IntroRepositoryTest {
     void testSaveIntroduction(){
         Introduction introduction = Introduction.builder()
                 .sayHi("sayhi")
-                .detail("detail")
                 .opening("opening")
                 .name("name")
                 .uploaded(LocalDateTime.now())

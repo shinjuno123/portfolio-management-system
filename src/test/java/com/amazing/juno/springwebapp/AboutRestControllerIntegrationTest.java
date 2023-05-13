@@ -7,6 +7,7 @@ import com.amazing.juno.springwebapp.dto.AboutDTO;
 import com.amazing.juno.springwebapp.entity.About;
 import com.amazing.juno.springwebapp.entity.ResponseError;
 import com.amazing.juno.springwebapp.exc.NotFoundException;
+import com.amazing.juno.springwebapp.service.FileStorageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,6 +46,9 @@ public class AboutRestControllerIntegrationTest {
     AboutRepository aboutRepository;
 
     @Autowired
+    FileStorageService fileStorageService;
+
+    @Autowired
     WebApplicationContext wac;
 
     @Autowired
@@ -61,13 +65,19 @@ public class AboutRestControllerIntegrationTest {
 
         savedIds = new ArrayList<>();
 
+
+
         for(int i=1; i<=4;i++){
+            String filePath = fileStorageService.saveFile(new MockMultipartFile("faceImage","awdawd.png", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes())
+                    ,"test");
+
             About about = new About();
             about.setDescription("description" + i);
             about.setFaceImagePath("faceImage" + i);
             about.setSchool("school" + i);
-            about.setDegree("degree" + i);
+            about.setDiploma("diploma" + i);
             about.setPeriod("period" + i);
+            about.setDiplomaUrl(filePath);
             about.setRegionCountry("regionCountry" + i);
             about.setUploaded(LocalDateTime.now());
 
@@ -116,16 +126,19 @@ public class AboutRestControllerIntegrationTest {
     @Rollback
     @Transactional
     void testSaveABout(){
+
+
          ResponseEntity<AboutDTO> responseEntity = aboutRestController.saveAbout(
                 AboutDTO.builder()
                         .school("content")
                         .description("content")
                         .regionCountry("content")
                         .period("content")
-                        .degree("content")
+                        .diploma("diploma")
                         .build()
                 ,
-                 new MockMultipartFile("faceImage","awdawd.png", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes())
+                 new MockMultipartFile("faceImage","awdawd.png", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes()),
+                 new MockMultipartFile("diploma","awdawd.pptx", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes())
         );
 
 
@@ -146,19 +159,20 @@ public class AboutRestControllerIntegrationTest {
                 .description("content")
                 .regionCountry("content")
                 .period("  ")
-                .degree(null)
+                .diploma(null)
                 .faceImagePath("awjhdkjwa")
                 .build();
 
-        MockMultipartFile metaData = new MockMultipartFile("aboutDTO", "aboutDTO", MediaType.APPLICATION_JSON_VALUE,
+        MockMultipartFile metaData = new MockMultipartFile("about", "aboutDTO", MediaType.APPLICATION_JSON_VALUE,
                 objectMapper.writeValueAsString(wrongAboutDTO).getBytes());
 
-        MockMultipartFile file = new MockMultipartFile("faceImage","awdawd.png", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes());
-
+        MockMultipartFile faceImage = new MockMultipartFile("faceImage","awdawd.png", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes());
+        MockMultipartFile diploma = new MockMultipartFile("diploma","awdawd.pptx", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes());
 
         mockMvc.perform(multipart(AboutRestController.ADMIN_ABOUT_PATH)
                         .file(metaData)
-                        .file(file)
+                        .file(faceImage)
+                        .file(diploma)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andReturn();
@@ -173,10 +187,10 @@ public class AboutRestControllerIntegrationTest {
                 .description("content")
                 .regionCountry("content")
                 .period("content")
-                .degree("content")
+                .diploma("content")
                 .build();
 
-        MockMultipartFile metaData = new MockMultipartFile("aboutDTO", "aboutDTO", MediaType.APPLICATION_JSON_VALUE,
+        MockMultipartFile metaData = new MockMultipartFile("about", "aboutDTO", MediaType.APPLICATION_JSON_VALUE,
                 objectMapper.writeValueAsString(wrongAboutDTO).getBytes());
 
         MvcResult mvcResult = mockMvc.perform(multipart(AboutRestController.ADMIN_ABOUT_PATH)

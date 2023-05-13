@@ -62,7 +62,6 @@ public class IntroRestControllerIntegrationTest {
         for(int i=1; i<=4;i++){
             Introduction introduction = new Introduction();
             introduction.setName("name");
-            introduction.setDetail("detail");
             introduction.setOpening("opening");
             introduction.setSayHi("sayhi");
             introduction.setUploaded(LocalDateTime.now());
@@ -114,8 +113,6 @@ public class IntroRestControllerIntegrationTest {
                         .sayHi("new say hi")
                         .opening("new opening")
                         .name("new name")
-                        .detail("new detail")
-                        .uploaded(LocalDateTime.now())
                         .build()
         );
 
@@ -148,7 +145,6 @@ public class IntroRestControllerIntegrationTest {
         });
 
         assertThat(keySet.contains("opening")).isFalse();
-        assertThat(keySet.contains("detail")).isTrue();
         assertThat(keySet.contains("name")).isTrue();
         assertThat(keySet.contains("sayHi")).isTrue();
 

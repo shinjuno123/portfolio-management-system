@@ -34,7 +34,7 @@ public class ProjectRestController {
     }
 
     @PostMapping(ADMIN_PROJECT_PATH)
-    public ResponseEntity<ProjectDTO> saveOrUpdateProject(@Validated @RequestPart("projectDTO") ProjectDTO projectDTO, @RequestPart("image") MultipartFile image){
+    public ResponseEntity<ProjectDTO> saveOrUpdateProject(@Validated @RequestPart("project") ProjectDTO projectDTO, @RequestPart("image") MultipartFile image){
         String filePath = fileStorageService.saveFile(image,"project");
 
         return new ResponseEntity<>( projectService.saveOrUpdateProject(projectDTO, filePath), HttpStatus.CREATED);

@@ -37,7 +37,8 @@ class AboutRepositoryTest {
             about.setDescription("description" + i);
             about.setFaceImagePath("faceImage" + i);
             about.setSchool("school" + i);
-            about.setDegree("degree" + i);
+            about.setDiploma("diploma" + i);
+            about.setDiplomaUrl("https://www.naver.com");
             about.setPeriod("period" + i);
             about.setRegionCountry("regionCountry" + i);
             about.setUploaded(LocalDateTime.now());
@@ -117,7 +118,8 @@ class AboutRepositoryTest {
     void testSaveAbout(){
         About about =  new About();
         about.setSchool("new school");
-        about.setDegree("new degree");
+        about.setDiploma("diploma");
+        about.setDiplomaUrl("https://www.naver.com");
         about.setRegionCountry("new region country");
         about.setDescription("new description");
         about.setFaceImagePath("new face image");

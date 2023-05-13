@@ -11,9 +11,9 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
+import org.hibernate.validator.constraints.URL;
 
 import java.net.URI;
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -40,6 +40,7 @@ public class Project {
     private String projectName;
 
     @Column(nullable = false, name = "url")
+    @URL
     private String url;
 
     @UpdateTimestamp
