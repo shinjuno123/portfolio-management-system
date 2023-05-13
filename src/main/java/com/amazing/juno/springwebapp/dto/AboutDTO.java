@@ -32,6 +32,10 @@ public class AboutDTO {
 
     @NotBlank(message = "must not be blank!")
     @NotNull(message = "must not be null!")
+    private String name;
+
+    @NotBlank(message = "must not be blank!")
+    @NotNull(message = "must not be null!")
     private String school;
 
     @NotBlank(message = "must not be blank!")

@@ -14,15 +14,16 @@ create table if not exists user
 
 create table if not exists about
 (
-    id              varchar(36) not null,
-    description     text        not null,
-    `period`        text        not null,
-    school          text        not null,
-    diploma         text        not null,
-    diploma_url     text        not null,
-    region_country  text        not null,
-    face_image_path text        not null,
-    uploaded        datetime    not null,
+    id              varchar(36)  not null,
+    description     text         not null,
+    `period`        text         not null,
+    name            varchar(200) not null,
+    school          text         not null,
+    diploma         text         not null,
+    diploma_url     text         not null,
+    region_country  text         not null,
+    face_image_path text         not null,
+    uploaded        datetime     not null,
     primary key (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -34,8 +35,8 @@ create table if not exists certification
     id           varchar(36) not null,
     name         text        not null,
     download_url text        not null,
-    updated      datetime     not null,
-    uploaded     datetime     not null,
+    updated      datetime    not null,
+    uploaded     datetime    not null,
     primary key (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4

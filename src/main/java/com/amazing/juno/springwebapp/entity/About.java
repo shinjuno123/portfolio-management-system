@@ -17,6 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 public class About {
 
 	@Id
@@ -34,6 +35,9 @@ public class About {
 
 	@Column(nullable = false, name = "school")
 	private String school;
+
+	@Column(nullable = false, name = "name", length = 200)
+	private String name;
 
 
 	@Column(nullable = false, name = "diploma")
