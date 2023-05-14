@@ -54,4 +54,15 @@ public class SkillSetItem {
     @JoinColumn(name = "category_id")
     @JsonIgnore
     private Category category;
+
+
+    public void addRelevantProject(RelevantProject relevantProject){
+        this.relevantProjectSet.add(relevantProject);
+        relevantProject.setSkillSetItem(this);
+    }
+
+    public void removeRelevantProject(RelevantProject relevantProject){
+        this.relevantProjectSet.remove(relevantProject);
+        relevantProject.setSkillSetItem(null);
+    }
 }

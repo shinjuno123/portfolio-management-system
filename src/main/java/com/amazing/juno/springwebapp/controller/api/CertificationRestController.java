@@ -33,7 +33,7 @@ public class CertificationRestController {
     }
 
     @PostMapping(ADMIN_CERTIFICATION_PATH)
-    public ResponseEntity<CertificationDTO> saveCertification(@Validated @RequestPart("certification") CertificationDTO certificationDTO, @RequestPart("certificationFile")MultipartFile certificationFile){
+    public ResponseEntity<CertificationDTO> saveOrUpdateCertification(@Validated @RequestPart("certification") CertificationDTO certificationDTO, @RequestPart("certificationFile")MultipartFile certificationFile){
         String certificationFilePath = fileStorageService.saveFile(certificationFile, "certification");
 
         return new ResponseEntity<>(certificationService.saveOrUpdateCertification(certificationDTO, certificationFilePath), HttpStatus.ACCEPTED);

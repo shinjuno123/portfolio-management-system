@@ -3,6 +3,8 @@ package com.amazing.juno.springwebapp.service;
 
 import com.amazing.juno.springwebapp.dao.ContactRepository;
 import com.amazing.juno.springwebapp.dto.ContactDTO;
+import com.amazing.juno.springwebapp.entity.Contact;
+import com.amazing.juno.springwebapp.exc.NotSavedException;
 import com.amazing.juno.springwebapp.mapper.ContactMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,10 +28,9 @@ public class ContactServiceImpl implements ContactService {
     @Override
     @Transactional
     public ContactDTO saveContact(ContactDTO contactDTO) {
+        Contact savedContact = contactRepository.save(contactMapper.contactDTOToContact(contactDTO));
 
-        return contactMapper.contactToContactDTO(
-                contactRepository.save(contactMapper.contactDTOToContact(contactDTO))
-        );
+        return contactMapper.contactToContactDTO(savedContact);
     }
 
     @Override
@@ -54,18 +55,5 @@ public class ContactServiceImpl implements ContactService {
         return atomicReference.get();
     }
 
-    @Override
-    @Transactional
-    public Optional<ContactDTO> getRecentContact() {
-        Optional<ContactDTO> optionalContactDTO = Optional.empty();
-        ContactDTO savedContactDTO = contactMapper.contactToContactDTO(
-                contactRepository.findFirstByOrderByUploadedDesc()
-        );
 
-        if(savedContactDTO != null){
-            optionalContactDTO = Optional.of(savedContactDTO);
-        }
-
-        return optionalContactDTO;
-    }
 }

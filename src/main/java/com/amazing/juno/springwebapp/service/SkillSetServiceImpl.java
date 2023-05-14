@@ -78,14 +78,14 @@ public class SkillSetServiceImpl implements SkillSetService{
     public Optional<CategoryDTO> saveOrUpdateCategory(UUID platformId, CategoryDTO categoryDTO) {
         AtomicReference<Optional< CategoryDTO>> categoryDTOAtomicReference = new AtomicReference<>();
 
+
         platformRepository.findById(platformId).ifPresentOrElse(
                 platform -> {
                     Category category = categoryMapper.categoryDTOToCategory(categoryDTO);
 
-                    platform.getCategorySet().add(category);
-                    category.setPlatform(platform);
-
+                    platform.addCategory(category);
                     platformRepository.save(platform);
+
                     Category savedCategory = categoryRepository.save(category);
                     CategoryDTO savedCategoryDTO = categoryMapper.categoryToCategoryDTO(savedCategory);
 
@@ -130,10 +130,9 @@ public class SkillSetServiceImpl implements SkillSetService{
                 category -> {
                     SkillSetItem skillSetItem = skillSetItemMapper.skillSetItemDTOToSkillSetItem(skillSetItemDTO);
 
-                    category.getSkillSetItemSet().add(skillSetItem);
-                    skillSetItem.setCategory(category);
-
+                    category.addSkillSetItem(skillSetItem);
                     categoryRepository.save(category);
+
                     SkillSetItem savedSkillSetItem = skillSetItemRepository.save(skillSetItem);
                     SkillSetItemDTO savedSkillSetItemDTO = skillSetItemMapper.skillSetItemToSkillSetItemDTO(savedSkillSetItem);
 
@@ -164,10 +163,9 @@ public class SkillSetServiceImpl implements SkillSetService{
                 skillSetItem -> {
                     RelevantProject relevantProject = relevantProjectMapper.relevantProjectDTORelevantProject(relevantProjectDTO);
 
-                    skillSetItem.getRelevantProjectSet().add(relevantProject);
-                    relevantProject.setSkillSetItem(skillSetItem);
-
+                    skillSetItem.addRelevantProject(relevantProject);
                     skillSetItemRepository.save(skillSetItem);
+
                     RelevantProject savedRelevantProject = relevantProjectRepository.save(relevantProject);
                     RelevantProjectDTO savedRelevantProjectDTO = relevantProjectMapper.relevantProjectRelevantProjectDTO(savedRelevantProject);
 

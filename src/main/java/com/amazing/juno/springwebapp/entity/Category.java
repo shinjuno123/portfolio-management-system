@@ -50,4 +50,15 @@ public class Category {
     @JsonIgnore
     private Platform platform;
 
+    public void addSkillSetItem(SkillSetItem skillSetItem){
+        this.skillSetItemSet.add(skillSetItem);
+        skillSetItem.setCategory(this);
+    }
+
+    public void removeSkillSetItem(SkillSetItem skillSetItem){
+        this.skillSetItemSet.remove(skillSetItem);
+        skillSetItem.setCategory(this);
+    }
+
+
 }

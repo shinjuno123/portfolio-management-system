@@ -106,7 +106,7 @@ public class ContactRestControllerIntegrationTest {
         contactMap.put("content","new");
         contactMap.put("email","shinjuno123@naver.com");
 
-         MvcResult mvcResult  = mockMvc.perform(post(ContactRestController.ADMIN_CONTACT_PATH)
+         MvcResult mvcResult  = mockMvc.perform(post(ContactRestController.PUBLIC_CONTACT_PATH)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(contactMap))
                          .contentType(MediaType.APPLICATION_JSON))
@@ -131,7 +131,7 @@ public class ContactRestControllerIntegrationTest {
         contactMap.put("email","shinjuno123@naver.com");
 
 
-        mockMvc.perform(post(ContactRestController.ADMIN_CONTACT_PATH)
+        mockMvc.perform(post(ContactRestController.PUBLIC_CONTACT_PATH)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(contactMap))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -156,23 +156,8 @@ public class ContactRestControllerIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
-    void testGetRecentContact() throws Exception{
-        mockMvc.perform(get(ContactRestController.PUBLIC_CONTACT_PATH)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isAccepted());
-    }
 
 
-    @Test
-    @Rollback
-    @Transactional
-    void testGetRecentContactAndNotFound() throws Exception{
-        contactRepository.deleteAll();
 
-        mockMvc.perform(get(ContactRestController.PUBLIC_CONTACT_PATH)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
-    }
 
 }

@@ -42,6 +42,16 @@ public class Platform {
     private LocalDateTime uploaded;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "platform", cascade = CascadeType.ALL)
-    private Set<Category> categorySet = new HashSet<>();;
+    private Set<Category> categorySet = new HashSet<>();
+
+    public void addCategory(Category category){
+        this.categorySet.add(category);
+        category.setPlatform(this);
+    }
+
+    public void removeCategory(Category category){
+        this.categorySet.remove(category);
+        category.setPlatform(null);
+    }
 
 }

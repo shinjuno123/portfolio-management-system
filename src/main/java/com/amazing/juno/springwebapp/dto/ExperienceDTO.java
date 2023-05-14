@@ -5,15 +5,11 @@ import jakarta.validation.constraints.Null;
 import lombok.Builder;
 import lombok.Data;
 
-import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
-
 @Builder
 @Data
-public class SkillSetItemDTO {
+public class ExperienceDTO {
 
     private UUID id;
 
@@ -21,17 +17,26 @@ public class SkillSetItemDTO {
     private String title;
 
     @Null(message = "must be null!")
-    private String imagePath;
+    private String imgPath;
+
+    @NotBlank(message = "must not be blank!")
+    private String company;
+
+    @NotBlank(message = "must not be blank!")
+    private String positionName;
+
+    @NotBlank(message = "must not be blank!")
+    private String status;
+
+    @NotBlank(message = "must not be blank!")
+    private String workingPeriod;
 
     @NotBlank(message = "must not be blank!")
     private String description;
 
     @Null(message = "must be null!")
-    private LocalDateTime updated;
-
-    @Null(message = "must be null!")
     private LocalDateTime uploaded;
 
     @Null(message = "must be null!")
-    private Set<RelevantProjectDTO> relevantProjectSet;
+    private LocalDateTime updated;
 }

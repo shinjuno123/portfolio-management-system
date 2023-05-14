@@ -38,6 +38,8 @@ public class BootstrapData implements CommandLineRunner {
 
     private final CategoryRepository categoryRepository;
 
+    private final ExperienceRepository experienceRepository;
+
     private final List<Platform> platforms = new ArrayList<>();
 
     private final List<Category> categories = new ArrayList<>();
@@ -51,6 +53,7 @@ public class BootstrapData implements CommandLineRunner {
         saveDefaultCertification();
         saveDefaultProject();
         saveSkillSet();
+        saveExperience();
     }
 
     private void saveDefaultIntroduction() {
@@ -98,6 +101,28 @@ public class BootstrapData implements CommandLineRunner {
                     Certification.builder()
                             .name("AWS Solutions Architect - associate")
                             .downloadUrl(FileRestController.PUBLIC_FILE_PATH + "/file-category-certification/file-name-AWS-Certified-Solutions-Architect-certificate.pdf")
+                            .build()
+            );
+        }
+    }
+
+    private void saveExperience(){
+        if(experienceRepository.count() < 1){
+            experienceRepository.save(
+                    Experience.builder()
+                            .title("KT Aivle School Tutor")
+                            .company("KT")
+                            .description("I have relevant work experience as a tutor at KT Aivle School, where I helped students with web programming. During my time there, I provided guidance to students on solving problems related to AWS server setting, Django, HTML, Javascript and Django REST API.\n" +
+                                    "\n" +
+                                    "One of my standout experiences as a tutor was when I assisted students in developing a website. The students were not aware that they needed to use deepcopy to avoid reflecting changes of properties to the view of the browser. With my knowledge and expertise, I was able to help them resolve this problem and continue their development.\n" +
+                                    "\n" +
+                                    "My time at KT Aivle School lasted from August 2022 to November 2022, during my final year of college. My work as a tutor helped me develop strong program-solving skills and an ability to communicate technical concepts effectively to others.\n" +
+                                    "\n" +
+                                    "Overall, my experience as a web programming tutor demonstrates my proficiency in a range of programming languages and my ability to mentor others. These skills make me an asset to any team and position me well for future opportunities in the field of software development.")
+                            .imgPath(FileRestController.PUBLIC_FILE_PATH + "/file-category-experience/file-name-aivler.png")
+                            .positionName("Tutor")
+                            .status("Part Time")
+                            .workingPeriod("Aug, 2022 ~ Nov, 2022")
                             .build()
             );
         }

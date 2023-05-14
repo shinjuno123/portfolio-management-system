@@ -32,7 +32,7 @@ public class ContactRestController {
         return new ResponseEntity<>(contactService.getAllContactRecords(), HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(ADMIN_CONTACT_PATH)
+    @PostMapping(PUBLIC_CONTACT_PATH)
     public ResponseEntity<ContactDTO> saveContact(@Validated @RequestBody ContactDTO contactDTO){
         return new ResponseEntity<>(contactService.saveContact(contactDTO),HttpStatus.CREATED);
     }
@@ -44,9 +44,6 @@ public class ContactRestController {
     }
 
 
-    @GetMapping(PUBLIC_CONTACT_PATH)
-    public ResponseEntity<ContactDTO> getRecentContact(){
-        return new ResponseEntity<>(contactService.getRecentContact().orElseThrow(NotFoundException::new), HttpStatus.ACCEPTED);
-    }
+
 
 }

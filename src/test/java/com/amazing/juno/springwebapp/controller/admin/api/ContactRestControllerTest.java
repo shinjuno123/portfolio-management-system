@@ -76,7 +76,7 @@ class ContactRestControllerTest {
 
         given(contactService.saveContact(any(ContactDTO.class))).willReturn(contactDTO);
 
-        mockMvc.perform(post(ContactRestController.ADMIN_CONTACT_PATH)
+        mockMvc.perform(post(ContactRestController.PUBLIC_CONTACT_PATH)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(contactDTO)))
@@ -97,15 +97,5 @@ class ContactRestControllerTest {
 
     }
 
-    @Test
-    void getRecentContact() throws Exception{
-        ContactDTO contactDTO = contactDTOList.get(0);
 
-        given(contactService.getRecentContact()).willReturn(Optional.of(contactDTO));
-
-        mockMvc.perform(get(ContactRestController.PUBLIC_CONTACT_PATH)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isAccepted());
-
-    }
 }
