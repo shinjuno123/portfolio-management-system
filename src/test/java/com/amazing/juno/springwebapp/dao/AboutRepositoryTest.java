@@ -35,6 +35,7 @@ class AboutRepositoryTest {
         for(int i=1; i<=4;i++){
             About about = new About();
             about.setDescription("description" + i);
+            about.setName("Junho Shin");
             about.setFaceImagePath("faceImage" + i);
             about.setSchool("school" + i);
             about.setDiploma("diploma" + i);

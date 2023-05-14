@@ -11,5 +11,5 @@ public interface FileStorageService {
     String saveFile(MultipartFile file, String category);
 
 
-    Resource loadFile(String fileName, String category);
+    byte[] loadFile(String fileName, String category);
 }

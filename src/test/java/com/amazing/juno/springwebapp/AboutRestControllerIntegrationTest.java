@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -37,6 +38,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@ActiveProfiles("test")
 public class AboutRestControllerIntegrationTest {
 
     @Autowired
@@ -76,6 +78,7 @@ public class AboutRestControllerIntegrationTest {
             about.setFaceImagePath("faceImage" + i);
             about.setSchool("school" + i);
             about.setDiploma("diploma" + i);
+            about.setName("name");
             about.setPeriod("period" + i);
             about.setDiplomaUrl(filePath);
             about.setRegionCountry("regionCountry" + i);
@@ -185,6 +188,7 @@ public class AboutRestControllerIntegrationTest {
         AboutDTO wrongAboutDTO = AboutDTO.builder()
                 .school("content")
                 .description("content")
+                .name("name")
                 .regionCountry("content")
                 .period("content")
                 .diploma("content")

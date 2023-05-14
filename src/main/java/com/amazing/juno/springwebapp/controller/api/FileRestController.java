@@ -32,9 +32,8 @@ public class FileRestController {
     public ResponseEntity<byte[]> downloadImage(@PathVariable("fileCategory") String fileCategory,
                                                              @PathVariable("fileName") String fileName) throws IOException {
 
-        Resource resource = fileStorageService.loadFile(fileName, fileCategory);
-        InputStream in = resource.getInputStream();
-        byte[] bytes = IOUtils.toByteArray(in);
+
+        byte[] bytes = fileStorageService.loadFile(fileName, fileCategory);
 
 
 
