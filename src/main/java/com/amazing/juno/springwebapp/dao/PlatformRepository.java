@@ -4,8 +4,11 @@ import com.amazing.juno.springwebapp.entity.Platform;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
 public interface PlatformRepository extends JpaRepository<Platform, UUID> {
+
+    Platform findByName(String name);
 }

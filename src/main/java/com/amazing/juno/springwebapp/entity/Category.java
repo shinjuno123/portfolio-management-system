@@ -11,12 +11,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 @Setter
 @Getter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -43,7 +43,7 @@ public class Category {
     private LocalDateTime uploaded;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "category", cascade = CascadeType.ALL)
-    private Set<SkillSetItem> skillSetItemSet;
+    private Set<SkillSetItem> skillSetItemSet = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "platform_id")

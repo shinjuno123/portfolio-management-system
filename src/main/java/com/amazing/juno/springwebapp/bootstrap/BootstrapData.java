@@ -1,18 +1,20 @@
 package com.amazing.juno.springwebapp.bootstrap;
 
-import com.amazing.juno.springwebapp.controller.api.AboutRestController;
+import com.amazing.juno.springwebapp.controller.api.FileRestController;
 import com.amazing.juno.springwebapp.controller.api.IntroRestController;
-import com.amazing.juno.springwebapp.dao.AboutRepository;
-import com.amazing.juno.springwebapp.dao.IntroRepository;
-import com.amazing.juno.springwebapp.dto.AboutDTO;
+import com.amazing.juno.springwebapp.dao.*;
 import com.amazing.juno.springwebapp.dto.IntroDTO;
-import com.amazing.juno.springwebapp.entity.About;
+import com.amazing.juno.springwebapp.entity.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 
 
 @Component
@@ -24,20 +26,33 @@ public class BootstrapData implements CommandLineRunner {
 
     private final IntroRepository introRepository;
 
-    private final AboutRestController aboutRestController;
-
     private final AboutRepository aboutRepository;
 
+    private final CertificationRepository certificationRepository;
+
+    private final ProjectRepository projectRepository;
+
+    private final PlatformRepository platformRepository;
+
+    private final CategoryRepository categoryRepository;
+
+    private final List<Platform> platforms = new ArrayList<>();
+
+    private final List<Category> categories = new ArrayList<>();
+
+
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         log.info("Bootstrap is loaded");
         saveDefaultIntroduction();
         saveDefaultAbout();
+        saveDefaultCertification();
+        saveDefaultProject();
+        saveSkillSet();
     }
 
-    @Transactional
-    public void saveDefaultIntroduction(){
-        if(introRepository.count() < 1){
+    private void saveDefaultIntroduction() {
+        if (introRepository.count() < 1) {
             introRestController.saveIntroduction(
                     IntroDTO.builder()
                             .sayHi("Hello, My name is")
@@ -52,10 +67,9 @@ public class BootstrapData implements CommandLineRunner {
         }
     }
 
-    @Transactional
-    public void saveDefaultAbout() {
+    private void saveDefaultAbout() {
 
-        if(aboutRepository.count() < 1){
+        if (aboutRepository.count() < 1) {
             aboutRepository.save(
                     About.builder()
                             .description("Allow me to introduce myself. I am a South Korean native who graduated with a degree in Computer Science and relocated to America after tying the knot. I have a deep passion for software development and currently seeking employment in America as a developer. My primary area of interest lies in crafting web applications as I find it both challenging and fulfilling.\n" +
@@ -66,14 +80,163 @@ public class BootstrapData implements CommandLineRunner {
                             .name("Junho Shin")
                             .school("Konyang University")
                             .diploma("B.S in Computer Science")
-                            .diplomaUrl("/api/public/files/images/image-category-diploma/file-name-diploma.pdf")
+                            .diplomaUrl(FileRestController.PUBLIC_FILE_PATH + "/file-category-diploma/file-name-diploma.pdf")
                             .period("Mar, 2017 ~ Feb, 2023")
                             .regionCountry("Daejeon, South Korea")
-                            .faceImagePath("/api/public/files/images/image-category-about/file-name-test.jpg")
+                            .faceImagePath(FileRestController.PUBLIC_FILE_PATH + "/file-category-about/file-name-test.jpg")
                             .build()
 
             );
         }
+    }
+
+    private void saveDefaultCertification() {
+        if (certificationRepository.count() < 1) {
+            certificationRepository.save(
+                    Certification.builder()
+                            .name("AWS Solutions Architect - associate")
+                            .downloadUrl(FileRestController.PUBLIC_FILE_PATH + "/file-category-certification/file-name-AWS-Certified-Solutions-Architect-certificate.pdf")
+                            .build()
+            );
+        }
+    }
+
+    private void saveDefaultProject() {
+        if (projectRepository.count() < 1) {
+            projectRepository.save(
+                    Project.builder()
+                            .imagePath(FileRestController.PUBLIC_FILE_PATH + "/file-category-project/file-name-208680381-ceda31c0-d274-47b0-bdf3-89b087dfb56e.png")
+                            .projectName("Konyang University Crawler Service")
+                            .url("https://github.com/shinjuno123/konyang-university-crawler-service")
+                            .build()
+            );
+
+            projectRepository.save(
+                    Project.builder()
+                            .imagePath(FileRestController.PUBLIC_FILE_PATH + "/file-category-project/file-name-208895331-7a96d273-bc9a-4530-8b99-0d36d2659ffd.png")
+                            .projectName("App Recommending Solar power plants installation region")
+                            .url("https://github.com/shinjuno123/solar-pick")
+                            .build()
+            );
+
+            projectRepository.save(
+                    Project.builder()
+                            .imagePath(FileRestController.PUBLIC_FILE_PATH + "/file-category-project/file-name-208895331-7a96d273-nn9a-4530-2399-0d36d2659ffd.png")
+                            .projectName("Tomato Disease Detector")
+                            .url("https://github.com/shinjuno123/tomato-disease-detector")
+                            .build()
+            );
+        }
+    }
+
+
+    private void saveSkillSet() {
+        if (platformRepository.count() < 1) {
+            platforms.addAll(savePlatform());
+            categories.addAll(saveCategories());
+
+        }
+
+    }
+
+
+    private List<Platform> savePlatform() {
+        Platform platform1 = new Platform();
+        platform1.setName("Web");
+
+        Platform platform2 = new Platform();
+        platform2.setName("Mobile");
+
+        Platform platform3 = new Platform();
+        platform3.setName("Desktop");
+
+        return Arrays.asList(
+
+                platformRepository.save(
+                        platform1
+                ),
+                platformRepository.save(
+                        platform2
+                ),
+                platformRepository.save(
+                        platform3
+                )
+        );
+
+
+    }
+
+    private List<Category> saveCategories() {
+
+        for (int i = 0; i < platforms.size(); i++) {
+            Platform platform = platforms.get(i);
+
+            switch (platform.getName()) {
+                case "Web" -> categories.addAll(saveCategoriesRelatedToWeb(platform));
+                case "Mobile" -> categories.addAll(saveCategoriesRelatedToMobile(platform));
+                case "Desktop" -> categories.addAll(saveCategoriesRelatedToDesktop(platform));
+            }
+
+            Platform savedPlatform = platformRepository.save(platform);
+
+            platforms.set(i, savedPlatform);
+        }
+
+        return categories;
+    }
+
+    private Collection<? extends Category> saveCategoriesRelatedToDesktop(Platform platform) {
+        Category category = new Category();
+        category.setName("OS Independent");
+
+        platform.getCategorySet().add(category);
+        category.setPlatform(platform);
+
+        Category savedCategory1 = categoryRepository.save(
+                category
+        );
+
+
+        return List.of(savedCategory1);
+    }
+
+    private Collection<? extends Category> saveCategoriesRelatedToMobile(Platform platform) {
+        Category category1 = new Category();
+        category1.setName("Android");
+
+        platform.getCategorySet().add(category1);
+        category1.setPlatform(platform);
+
+        Category savedCategory1 = categoryRepository.save(
+                category1
+        );
+
+
+        return List.of(savedCategory1);
+    }
+
+    private Collection<? extends Category> saveCategoriesRelatedToWeb(Platform platform) {
+        Category category1 = new Category();
+        category1.setName("Frontend");
+
+
+        platform.getCategorySet().add(category1);
+        category1.setPlatform(platform);
+
+        Category savedCategory1 = categoryRepository.save(
+                category1
+        );
+
+        Category category2 = new Category();
+        category2.setName("Backend");
+
+        platform.getCategorySet().add(category2);
+        category2.setPlatform(platform);
+
+
+        Category savedCategory2 = categoryRepository.save(category2);
+
+        return Arrays.asList(savedCategory1, savedCategory2);
     }
 
 

@@ -14,7 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import java.net.URL;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -68,7 +67,7 @@ class ProjectRestControllerIntegrationTest {
             Project project = Project.builder()
                     .url("https://www.naver.com")
                     .projectName("description")
-                    .imagePath(FileRestController.PUBLIC_FILE_IMAGE_PATH + "/project/" + UUID.randomUUID()+ "_filename.png")
+                    .imagePath(FileRestController.PUBLIC_FILE_PATH + "/project/" + UUID.randomUUID()+ "_filename.png")
                     .build();
 
             savedIds.add(projectRepository.save(project).getId());

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.EmptyResultDataAccessException;
-import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -34,7 +34,7 @@ class ProjectRepositoryTest {
             Project project = Project.builder()
                     .url("https://www.naver.com")
                     .projectName("description")
-                    .imagePath(FileRestController.PUBLIC_FILE_IMAGE_PATH + "/project/" + UUID.randomUUID()+ "_filename.png")
+                    .imagePath(FileRestController.PUBLIC_FILE_PATH + "/project/" + UUID.randomUUID()+ "_filename.png")
                     .build();
 
             savedIds.add(projectRepository.save(project).getId());
@@ -59,7 +59,7 @@ class ProjectRepositoryTest {
                 Project.builder()
                         .url("https://www.naver.com")
                         .projectName("description")
-                        .imagePath(FileRestController.PUBLIC_FILE_IMAGE_PATH + "/project/" + UUID.randomUUID()+ "_filename.png")
+                        .imagePath(FileRestController.PUBLIC_FILE_PATH + "/project/" + UUID.randomUUID()+ "_filename.png")
                         .build()
          );
 
@@ -79,7 +79,7 @@ class ProjectRepositoryTest {
                         .id(ID)
                         .url("https://www.naver.com")
                         .projectName(NEW_PROJECT_NAME)
-                        .imagePath(FileRestController.PUBLIC_FILE_IMAGE_PATH + "/project/" + UUID.randomUUID()+ "_filename.png")
+                        .imagePath(FileRestController.PUBLIC_FILE_PATH + "/project/" + UUID.randomUUID()+ "_filename.png")
                         .build()
         );
 

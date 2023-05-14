@@ -10,16 +10,18 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 @Setter
 @Getter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Platform {
+
+
 
     @Id
     @JdbcTypeCode(SqlTypes.CHAR)
@@ -40,6 +42,6 @@ public class Platform {
     private LocalDateTime uploaded;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "platform", cascade = CascadeType.ALL)
-    private Set<Category> categorySet;
+    private Set<Category> categorySet = new HashSet<>();;
 
 }

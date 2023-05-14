@@ -33,7 +33,7 @@ class FileRestControllerTest {
 
         given(fileStorageService.loadFile(any(String.class), any(String.class))).willReturn(resource);
 
-        mockMvc.perform(get(FileRestController.PUBLIC_FILE_IMAGE_PATH + "/image-category-{imageCategory}/image-name-{imageName}","category","fileName.png"))
+        mockMvc.perform(get(FileRestController.PUBLIC_FILE_PATH + "/image-category-{imageCategory}/image-name-{imageName}","category","fileName.png"))
                 .andExpect(status().isOk());
     }
 

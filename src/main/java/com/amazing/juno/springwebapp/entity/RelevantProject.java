@@ -15,7 +15,6 @@ import java.util.UUID;
 
 @Setter
 @Getter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "relevant_project")

@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -56,7 +55,7 @@ class ProjectRestControllerTest {
             ProjectDTO projectDTO = ProjectDTO.builder()
                     .url("https://www.naver.com")
                     .projectName("description")
-                    .imagePath(FileRestController.PUBLIC_FILE_IMAGE_PATH + "/project/" + UUID.randomUUID()+ "_filename.png")
+                    .imagePath(FileRestController.PUBLIC_FILE_PATH + "/project/" + UUID.randomUUID()+ "_filename.png")
                     .build();
 
             projectDTOList.add(projectDTO);

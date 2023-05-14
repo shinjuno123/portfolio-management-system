@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 
 import org.springframework.http.*;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -22,27 +21,27 @@ public class FileRestController {
 
     private final FileStorageService fileStorageService;
 
-    public final static String PUBLIC_FILE_IMAGE_PATH = "/api/public/files/images";
+    public final static String PUBLIC_FILE_PATH = "/api/public/files";
 
-    @GetMapping(value=PUBLIC_FILE_IMAGE_PATH + "/image-category-{imageCategory}/file-name-{imageName}",
+    @GetMapping(value= PUBLIC_FILE_PATH + "/file-category-{fileCategory}/file-name-{fileName}",
             produces={
             MediaType.IMAGE_JPEG_VALUE,
             MediaType.IMAGE_PNG_VALUE,
             MediaType.IMAGE_GIF_VALUE,
             MediaType.APPLICATION_PDF_VALUE})
-    public ResponseEntity<byte[]> downloadImage(@PathVariable("imageCategory") String imageCategory,
-                                                             @PathVariable("imageName") String imageName) throws IOException {
+    public ResponseEntity<byte[]> downloadImage(@PathVariable("fileCategory") String fileCategory,
+                                                             @PathVariable("fileName") String fileName) throws IOException {
 
-        Resource resource = fileStorageService.loadFile(imageName, imageCategory);
+        Resource resource = fileStorageService.loadFile(fileName, fileCategory);
         InputStream in = resource.getInputStream();
         byte[] bytes = IOUtils.toByteArray(in);
 
 
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(getAppropriateContentType(imageName).orElseThrow(NotFoundException::new));
+        headers.setContentType(getAppropriateContentType(fileName).orElseThrow(()->new NotFoundException("The extension you entered is not a supported view type")));
         headers.setContentLength(bytes.length);
-        headers.setContentDisposition(ContentDisposition.inline().filename(imageName).build());
+        headers.setContentDisposition(ContentDisposition.inline().filename(fileName).build());
 
         return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
     }

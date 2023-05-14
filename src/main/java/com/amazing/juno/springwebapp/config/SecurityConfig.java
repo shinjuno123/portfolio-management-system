@@ -52,7 +52,6 @@ public class SecurityConfig {
                 .requestMatchers("/api/public/**").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().denyAll()
-                .and().formLogin()
                 .and().httpBasic()
                 .and().build();
 
