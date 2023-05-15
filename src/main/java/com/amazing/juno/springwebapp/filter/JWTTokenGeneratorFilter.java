@@ -30,7 +30,7 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return !request.getServletPath().equals("/api/public/user");
+        return !request.getServletPath().equals("/user");
     }
 
     @Override
@@ -40,7 +40,7 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
         if(authentication != null){
             SecretKey key = Keys.hmacShaKeyFor(jwtConstraints.getKey().getBytes(StandardCharsets.UTF_8));
             String jwt = Jwts.builder().setIssuer(jwtConstraints.getIssuer()).setSubject(jwtConstraints.getSubject())
-                    .claim("username", authentication.getAuthorities())
+                    .claim("username", authentication.getName())
                     .claim("authorities", populateAuthorities(authentication.getAuthorities()))
                     .setIssuedAt(new Date())
                     .setExpiration(new Date((new Date()).getTime() + 1000 * 60 * 60 * 24))

@@ -1,5 +1,6 @@
 package com.amazing.juno.springwebapp.filter;
 
+import com.amazing.juno.springwebapp.exc.CustomBadCredentialsException;
 import com.amazing.juno.springwebapp.properties.JWTConstraints;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -30,7 +31,7 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return request.getServletPath().contains("/api/public");
+        return request.getServletPath().contains("/api/public") || request.getServletPath().contains("/user");
     }
 
     @Override
@@ -48,14 +49,14 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
                         .parseClaimsJws(jwt)
                         .getBody();
 
-                String username=(String) claims.get("username");
+                String username= String.valueOf(claims.get("username"));
                 String authorities = (String) claims.get("authorities");
                 Authentication auth = new UsernamePasswordAuthenticationToken(
                         username, null, AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
 
                 SecurityContextHolder.getContext().setAuthentication(auth);
             } catch (Exception e){
-                throw new BadCredentialsException("Invalid Token received!");
+                throw new BadCredentialsException("You entered bad credentials");
             }
         }
 

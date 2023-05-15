@@ -49,9 +49,10 @@ public class SecurityConfig {
                 .addFilterAfter(new JWTTokenGeneratorFilter(jwtConstraints), BasicAuthenticationFilter.class)
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests()
+                .requestMatchers("/user").authenticated()
                 .requestMatchers("/api/public/**").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .anyRequest().denyAll()
+                .anyRequest().permitAll()
                 .and().httpBasic()
                 .and().build();
 
@@ -59,7 +60,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(10);
     }
 }
 
