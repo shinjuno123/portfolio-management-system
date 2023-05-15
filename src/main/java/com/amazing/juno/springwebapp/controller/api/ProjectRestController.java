@@ -43,7 +43,7 @@ public class ProjectRestController {
     @DeleteMapping(ADMIN_PROJECT_ID_PATH)
     public ResponseEntity<?> deleteProjectById(@PathVariable("projectId") UUID projectId){
         if(!projectService.deleteProject(projectId)){
-            throw new NotFoundException();
+            throw new NotFoundException("Entered id does not exist!");
         }
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -49,7 +49,7 @@ public class AboutRestController {
     @GetMapping(ADMIN_ABOUT_ID_PATH)
     public ResponseEntity<AboutDTO> getAboutById(@PathVariable("aboutId") UUID aboutId){
 
-        return new ResponseEntity<>(aboutService.getAboutById(aboutId).orElseThrow(()-> new NotFoundException("aboutId is not Found")), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(aboutService.getAboutById(aboutId).orElseThrow(()-> new NotFoundException("Entered id is not Found")), HttpStatus.ACCEPTED);
     }
 
 

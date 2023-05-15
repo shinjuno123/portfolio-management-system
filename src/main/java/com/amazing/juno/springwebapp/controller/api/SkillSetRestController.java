@@ -5,6 +5,7 @@ import com.amazing.juno.springwebapp.dto.CategoryDTO;
 import com.amazing.juno.springwebapp.dto.PlatformDTO;
 import com.amazing.juno.springwebapp.dto.RelevantProjectDTO;
 import com.amazing.juno.springwebapp.dto.SkillSetItemDTO;
+import com.amazing.juno.springwebapp.entity.ResponseSuccess;
 import com.amazing.juno.springwebapp.exc.NotSavedException;
 import com.amazing.juno.springwebapp.service.FileStorageService;
 import com.amazing.juno.springwebapp.service.SkillSetService;
@@ -26,17 +27,54 @@ public class SkillSetRestController {
 
     private final FileStorageService fileStorageService;
 
-    public final static String PUBLIC_SKILL_SET_PATH = "/api/public/skill-set";
+    // Url partial paths
 
-    public final static String PUBLIC_SKILL_SET_CATEGORY_ID_PATH = "/api/public/skill-set/category-id-{categoryId}";
+    public final static String PLATFORM_ID = "/platforms/{platformId}";
 
-    public final static String ADMIN_SKILL_SET_PLATFORM_PATH = "/api/admin/skill-set/platform";
+    public final static String CATEGORY_ID = "/categories/{categoryId}";
 
-    public final static String ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_PATH = "/api/admin/skill-set/platform-id-{platformId}/category";
+    public final static String SKILL_SET_ITEM_ID = "/skill-set-items/{skillSetItemId}";
 
-    public final static String ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_ID_SKILL_ITEM_PATH = "/api/admin/skill-set/platform-id-{platformId}/category-id-{categoryId}/skill-set-item";
+    public final static String PUBLIC_ROOT_URL = "/api/public/skill-set";
 
-    public final static String ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_ID_SKILL_ITEM_ID_RELEVANT_PROJECT_PATH = "/api/admin/skill-set/platform-id-{platformId}/category-id-{categoryId}/skill-set-item-id-{skillSetItemId}/relevant-project";
+    public final static String ADMIN_ROOT_URL = "/api/public/skill-set";
+
+    // Full Url Paths
+
+    public final static String PUBLIC_SKILL_SET_PATH =
+            PUBLIC_ROOT_URL;
+
+    public final static String PUBLIC_SKILL_SET_CATEGORY_ID_PATH =
+            PUBLIC_ROOT_URL
+                    + CATEGORY_ID;
+
+    public final static String ADMIN_SKILL_SET_PLATFORM_PATH =
+            PUBLIC_ROOT_URL
+                    + "/platform";
+
+
+    public final static String ADMIN_SKILL_SET_PLATFORM_ID =
+            ADMIN_ROOT_URL
+                    + PLATFORM_ID;
+
+    public final static String ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_PATH =
+            ADMIN_ROOT_URL
+                    + PLATFORM_ID
+                    + "/category";
+
+    public final static String ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_ID_SKILL_ITEM_PATH =
+            ADMIN_ROOT_URL
+                    + PLATFORM_ID
+                    + CATEGORY_ID
+                    + "/skill-set-item";
+
+    public final static String ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_ID_SKILL_ITEM_ID_RELEVANT_PROJECT_PATH =
+            ADMIN_ROOT_URL
+                    + PLATFORM_ID
+                    + CATEGORY_ID
+                    + SKILL_SET_ITEM_ID
+                    + "/relevant-project";
+
 
 
     @GetMapping(PUBLIC_SKILL_SET_PATH)
@@ -81,6 +119,15 @@ public class SkillSetRestController {
 
         return new ResponseEntity<>(skillSetService.saveOrUpdateRelevantProject(platformId,categoryId,skillSetItemId,relevantProjectDTO).orElseThrow(NotSavedException::new), HttpStatus.OK);
     }
+
+    @DeleteMapping(ADMIN_SKILL_SET_PLATFORM_ID)
+    public ResponseEntity<ResponseSuccess> deletePlatform(@PathVariable("platformId") UUID platformId){
+
+        return null;
+    }
+
+
+
 
 
 }

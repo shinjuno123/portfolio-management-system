@@ -44,6 +44,7 @@ public class Platform {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "platform", cascade = CascadeType.ALL)
     private Set<Category> categorySet = new HashSet<>();
 
+
     public void addCategory(Category category){
         this.categorySet.add(category);
         category.setPlatform(this);

@@ -72,82 +72,121 @@ public class SkillSetServiceImpl implements SkillSetService{
         return platformMapper.platformToPlatformDTO(savedPlatform);
     }
 
+    private Object isIdsNotPresentInDB(UUID platformId, UUID categoryId, UUID skillSetItemId){
+        AtomicReference<Platform> platformAtomicReference = new AtomicReference<>();
+        AtomicReference<Category> categoryAtomicReference = new AtomicReference<>();
+        AtomicReference<SkillSetItem> skillSetItemAtomicReference = new AtomicReference<>();
+
+
+        platformRepository.findById(platformId).ifPresentOrElse(
+                // If Platform is found, set found Platform object to AtomicReference
+                platformAtomicReference::set,
+                // Else Platform is not found, set null to AtomicReference
+                () -> platformAtomicReference.set(null)
+        );
+
+        Platform savedPlatform = platformAtomicReference.get();
+
+        // If categoryId is not entered, and We also couldn't find Platform object corresponding to platformId entered,
+        // return null
+        if(categoryId == null && savedPlatform == null){
+            return null;
+        }
+        // If categoryId is not entered, but We also found Platform object corresponding to platformId entered,
+        // return the saved platform
+        else if (categoryId == null) {
+            return savedPlatform;
+        }
+
+
+        categoryRepository.findCategoryByPlatformAndId(savedPlatform, categoryId).ifPresentOrElse(
+                // If Category is found, set found Category object to AtomicReference
+                categoryAtomicReference::set,
+                // Else Category is not found, set null to AtomicReference
+                () -> categoryAtomicReference.set(null)
+        );
+
+        Category savedCategory = categoryAtomicReference.get();
+
+
+        // If categoryId is not entered, and We also couldn't find Platform object corresponding to platformId entered,
+        // return null
+        if(skillSetItemId == null && savedPlatform == null){
+            return null;
+        }
+        // If skillSetItemId is not entered, but We also found Category object corresponding to categoryId entered,
+        // return the saved category
+        else if (skillSetItemId == null){
+            return savedCategory;
+        }
+
+
+        skillSetItemRepository.findSkillSetItemByCategoryAndId(savedCategory, skillSetItemId).ifPresentOrElse(
+                // If SkillSetItem is found, set found SkillSetItem object to AtomicReference
+                skillSetItemAtomicReference::set,
+                // Else SkillSetItem is not found, set null to AtomicReference
+                () -> skillSetItemAtomicReference.set(null)
+        );
+
+        return skillSetItemAtomicReference.get();
+    }
+
 
     @Override
     @Transactional
     public Optional<CategoryDTO> saveOrUpdateCategory(UUID platformId, CategoryDTO categoryDTO) {
-        AtomicReference<Optional< CategoryDTO>> categoryDTOAtomicReference = new AtomicReference<>();
+        Platform savedPlatform = isIdsNotPresentInDB(platformId, null, null) instanceof Platform
+                ? (Platform) isIdsNotPresentInDB(platformId, null, null) : null;
 
+        if(savedPlatform == null){
+            return Optional.empty();
+        }
 
-        platformRepository.findById(platformId).ifPresentOrElse(
-                platform -> {
-                    Category category = categoryMapper.categoryDTOToCategory(categoryDTO);
+        // In the case that category is found in the database,
+        // Change type Category to type CategoryDTO
+        Category category = categoryMapper.categoryDTOToCategory(categoryDTO);
 
-                    platform.addCategory(category);
-                    platformRepository.save(platform);
+        // Bind Category object to Platform object
+        savedPlatform.addCategory(category);
 
-                    Category savedCategory = categoryRepository.save(category);
-                    CategoryDTO savedCategoryDTO = categoryMapper.categoryToCategoryDTO(savedCategory);
+        // Save the Platform object which Category object was bound
+        platformRepository.save(savedPlatform);
 
-                    categoryDTOAtomicReference.set(
-                            Optional.of(savedCategoryDTO)
-                    );
+        // Save Category object
+        Category savedCategory = categoryRepository.save(category);
 
-                },
-                () -> {
-                    categoryDTOAtomicReference.set(Optional.empty());
-                }
-        );
+        // Change type Category to CategoryDTO
+        CategoryDTO savedCategoryDTO = categoryMapper.categoryToCategoryDTO(savedCategory);
 
-        return categoryDTOAtomicReference.get();
+        // Return already saved CategoryDTO object
+        return Optional.of(savedCategoryDTO);
     }
 
-    private boolean isIdsNotPresentInDB(UUID platformId, UUID categoryId, UUID skillSetItemId){
-        if(platformId != null && platformRepository.findById(platformId).isEmpty()){
-            return true;
-        }
-        if(categoryId != null && categoryRepository.findById(categoryId).isEmpty()) {
-            return true;
-        }
-        if(skillSetItemId != null && skillSetItemRepository.findById(skillSetItemId).isEmpty()){
-            return true;
-        }
-        return false;
-    }
 
     @Override
     @Transactional
     public Optional<SkillSetItemDTO> saveOrUpdateSkillSetItem(UUID platformId,UUID categoryId, SkillSetItemDTO skillSetItemDTO, String skillSetImagePath) {
-        if(isIdsNotPresentInDB(platformId, categoryId, null)){
+        Category savedCategory = isIdsNotPresentInDB(platformId, categoryId, null) instanceof Category
+                ? (Category) isIdsNotPresentInDB(platformId, categoryId, null) : null;
+
+        if(savedCategory == null){
             return Optional.empty();
         }
 
-
+        // Set skillSetImagePath
         skillSetItemDTO.setImagePath(skillSetImagePath);
-        AtomicReference<Optional<SkillSetItemDTO>> skillSetDtoAtomicReference = new AtomicReference<>();
 
-        categoryRepository.findById(categoryId).ifPresentOrElse(
-                category -> {
-                    SkillSetItem skillSetItem = skillSetItemMapper.skillSetItemDTOToSkillSetItem(skillSetItemDTO);
+        // 
+        SkillSetItem skillSetItem = skillSetItemMapper.skillSetItemDTOToSkillSetItem(skillSetItemDTO);
 
-                    category.addSkillSetItem(skillSetItem);
-                    categoryRepository.save(category);
+        savedCategory.addSkillSetItem(skillSetItem);
 
-                    SkillSetItem savedSkillSetItem = skillSetItemRepository.save(skillSetItem);
-                    SkillSetItemDTO savedSkillSetItemDTO = skillSetItemMapper.skillSetItemToSkillSetItemDTO(savedSkillSetItem);
+        categoryRepository.save(savedCategory);
+        SkillSetItem savedSkillSetItem = skillSetItemRepository.save(skillSetItem);
 
-                    skillSetDtoAtomicReference.set(
-                            Optional.of(savedSkillSetItemDTO)
-                    );
-                },
-                () -> {
-                    skillSetDtoAtomicReference.set(
-                            Optional.empty()
-                    );
-                }
-        );
+        SkillSetItemDTO savedSkillSetItemDTO = skillSetItemMapper.skillSetItemToSkillSetItemDTO(savedSkillSetItem);
 
-        return skillSetDtoAtomicReference.get();
+        return Optional.of(savedSkillSetItemDTO);
     }
 
     @Override
