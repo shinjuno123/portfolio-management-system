@@ -2,6 +2,8 @@ package com.amazing.juno.springwebapp.controller.api;
 
 
 import com.amazing.juno.springwebapp.dto.CertificationDTO;
+import com.amazing.juno.springwebapp.entity.ResponseSuccess;
+import com.amazing.juno.springwebapp.exc.NotFoundException;
 import com.amazing.juno.springwebapp.service.CertificationService;
 import com.amazing.juno.springwebapp.service.FileStorageService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.net.MalformedURLException;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +30,8 @@ public class CertificationRestController {
 
     public final static String ADMIN_CERTIFICATION_PATH = "/api/admin/certifications";
 
+    public final static String ADMIN_CERTIFICATION_ID_PATH= "/api/admin/certifications/{certificationId}";
+
 
     @GetMapping(PUBLIC_CERTIFICATION_PATH)
     public ResponseEntity<List<CertificationDTO>> listCertifications(){
@@ -37,6 +43,13 @@ public class CertificationRestController {
         String certificationFilePath = fileStorageService.saveFile(certificationFile, "certification");
 
         return new ResponseEntity<>(certificationService.saveOrUpdateCertification(certificationDTO, certificationFilePath), HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping(ADMIN_CERTIFICATION_ID_PATH)
+    public ResponseEntity<ResponseSuccess> deleteCertification(@PathVariable("certificationId") UUID certificationId){
+        Optional<ResponseSuccess> responseSuccessOptional = certificationService.deleteCertificationById(certificationId);
+
+        return new ResponseEntity<>(responseSuccessOptional.orElseThrow(()-> new NotFoundException("Entered id does not exist")), HttpStatus.ACCEPTED);
     }
 
 }
