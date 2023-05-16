@@ -4,6 +4,7 @@ import com.amazing.juno.springwebapp.dto.CategoryDTO;
 import com.amazing.juno.springwebapp.dto.PlatformDTO;
 import com.amazing.juno.springwebapp.dto.RelevantProjectDTO;
 import com.amazing.juno.springwebapp.dto.SkillSetItemDTO;
+import com.amazing.juno.springwebapp.entity.ResponseSuccess;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,4 +24,5 @@ public interface SkillSetService {
 
     Optional<RelevantProjectDTO> saveOrUpdateRelevantProject(UUID platformId,UUID categoryId,UUID skillSetItemId,RelevantProjectDTO relevantProjectDTO);
 
+    Optional<ResponseSuccess> deletePlatform(UUID platformId);
 }

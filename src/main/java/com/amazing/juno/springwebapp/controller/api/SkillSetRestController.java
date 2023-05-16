@@ -6,10 +6,12 @@ import com.amazing.juno.springwebapp.dto.PlatformDTO;
 import com.amazing.juno.springwebapp.dto.RelevantProjectDTO;
 import com.amazing.juno.springwebapp.dto.SkillSetItemDTO;
 import com.amazing.juno.springwebapp.entity.ResponseSuccess;
+import com.amazing.juno.springwebapp.exc.NotFoundException;
 import com.amazing.juno.springwebapp.exc.NotSavedException;
 import com.amazing.juno.springwebapp.service.FileStorageService;
 import com.amazing.juno.springwebapp.service.SkillSetService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -34,6 +36,8 @@ public class SkillSetRestController {
     public final static String CATEGORY_ID = "/categories/{categoryId}";
 
     public final static String SKILL_SET_ITEM_ID = "/skill-set-items/{skillSetItemId}";
+
+    public final static String RELEVANT_PROJECT_ID = "/relevant-projects/{relevantProjectId}";
 
     public final static String PUBLIC_ROOT_URL = "/api/public/skill-set";
 
@@ -62,11 +66,22 @@ public class SkillSetRestController {
                     + PLATFORM_ID
                     + "/category";
 
+    public final static String ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_ID =
+            ADMIN_ROOT_URL
+                    + PLATFORM_ID
+                    + CATEGORY_ID;
+
     public final static String ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_ID_SKILL_ITEM_PATH =
             ADMIN_ROOT_URL
                     + PLATFORM_ID
                     + CATEGORY_ID
                     + "/skill-set-item";
+
+    public final static String ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_ID_SKILL_ITEM_ID =
+            ADMIN_ROOT_URL
+                    + PLATFORM_ID
+                    + CATEGORY_ID
+                    + SKILL_SET_ITEM_ID;
 
     public final static String ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_ID_SKILL_ITEM_ID_RELEVANT_PROJECT_PATH =
             ADMIN_ROOT_URL
@@ -75,6 +90,12 @@ public class SkillSetRestController {
                     + SKILL_SET_ITEM_ID
                     + "/relevant-project";
 
+    public final static String ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_ID_SKILL_ITEM_ID_RELEVANT_PROJECT_ID =
+            ADMIN_ROOT_URL
+                    + PLATFORM_ID
+                    + CATEGORY_ID
+                    + SKILL_SET_ITEM_ID
+                    + RELEVANT_PROJECT_ID;
 
 
     @GetMapping(PUBLIC_SKILL_SET_PATH)
@@ -115,19 +136,46 @@ public class SkillSetRestController {
                                                                           @PathVariable("categoryId") UUID categoryId,
                                                                           @PathVariable("skillSetItemId") UUID skillSetItemId,
                                                                           @Validated @RequestBody RelevantProjectDTO relevantProjectDTO
-                                                                          ) {
+    ) {
 
-        return new ResponseEntity<>(skillSetService.saveOrUpdateRelevantProject(platformId,categoryId,skillSetItemId,relevantProjectDTO).orElseThrow(NotSavedException::new), HttpStatus.OK);
+        return new ResponseEntity<>(skillSetService.saveOrUpdateRelevantProject(platformId, categoryId, skillSetItemId, relevantProjectDTO).orElseThrow(NotSavedException::new), HttpStatus.OK);
     }
 
     @DeleteMapping(ADMIN_SKILL_SET_PLATFORM_ID)
-    public ResponseEntity<ResponseSuccess> deletePlatform(@PathVariable("platformId") UUID platformId){
+    public ResponseEntity<ResponseSuccess> deletePlatform(@PathVariable("platformId") UUID platformId) {
+
+
+
+        return new ResponseEntity<>(skillSetService.deletePlatform(platformId).orElseThrow(() -> new NotFoundException("Entered Id is not valid")), HttpStatus.OK);
+    }
+
+
+    @DeleteMapping(ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_ID)
+    public ResponseEntity<ResponseSuccess> deleteCategory(@PathVariable("platformId") UUID platformId,
+                                                              @PathVariable("categoryId") UUID categoryId){
+
 
         return null;
     }
 
 
+    @DeleteMapping(ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_ID_SKILL_ITEM_ID)
+    public ResponseEntity<ResponseSuccess> deleteSkillSetItem(@PathVariable("platformId") UUID platformId,
+                                                              @PathVariable("categoryId") UUID categoryId,
+                                                              @PathVariable("skillSetItemId") UUID skillSetItemId){
 
+        return null;
+    }
+
+
+    @DeleteMapping(ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_ID_SKILL_ITEM_ID_RELEVANT_PROJECT_ID)
+    public ResponseEntity<ResponseSuccess> deleteRelevantProject(@PathVariable("platformId") UUID platformId,
+                                                                 @PathVariable("categoryId") UUID categoryId,
+                                                                 @PathVariable("skillSetItemId") UUID skillSetItemId,
+                                                                 @PathVariable("relevantProjectId") UUID relevantProjectId) {
+
+        return null;
+    }
 
 
 }
