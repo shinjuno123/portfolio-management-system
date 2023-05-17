@@ -16,7 +16,7 @@ public interface SkillSetService {
 
     List<SkillSetItemDTO> listSkillSetItemsByCategoryId(UUID categoryId);
 
-    PlatformDTO saveOrUpdatePlatform(PlatformDTO platformDTO);
+    Optional<PlatformDTO> saveOrUpdatePlatform(PlatformDTO platformDTO);
 
     Optional<CategoryDTO> saveOrUpdateCategory(UUID platformId, CategoryDTO categoryDTO);
 
@@ -25,4 +25,11 @@ public interface SkillSetService {
     Optional<RelevantProjectDTO> saveOrUpdateRelevantProject(UUID platformId,UUID categoryId,UUID skillSetItemId,RelevantProjectDTO relevantProjectDTO);
 
     Optional<ResponseSuccess> deletePlatform(UUID platformId);
+
+    Optional<ResponseSuccess> deleteCategory(UUID platformId, UUID categoryId);
+
+
+    Optional<ResponseSuccess> deleteSkillSetItem(UUID platformId, UUID categoryId, UUID skillSetItemId);
+
+    Optional<ResponseSuccess> deleteRelevantProject(UUID platformId, UUID categoryId, UUID skillSetItemId, UUID relevantProjectId);
 }

@@ -21,9 +21,9 @@ public class ContactRestController {
 
     public final static String PUBLIC_CONTACT_PATH = "/api/public/contact";
 
-    public final static String ADMIN_CONTACT_PATH = "/api/admin/contact";
+    public final static String ADMIN_CONTACT_PATH = "/api/admin/contacts";
 
-    public final static String ADMIN_CONTACT_ID_PATH = "/api/admin/contact/{contactId}";
+    public final static String ADMIN_CONTACT_ID_PATH = "/api/admin/contacts/{contactId}";
 
 
 

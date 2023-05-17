@@ -4,6 +4,7 @@ import com.amazing.juno.springwebapp.dao.ExperienceRepository;
 import com.amazing.juno.springwebapp.dto.ExperienceDTO;
 import com.amazing.juno.springwebapp.entity.Experience;
 import com.amazing.juno.springwebapp.entity.ResponseSuccess;
+import com.amazing.juno.springwebapp.exc.NotFoundException;
 import com.amazing.juno.springwebapp.mapper.ExperienceMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ public class ExperienceServiceImpl implements ExperienceService {
 
     private final ExperienceMapper experienceMapper;
 
+
     @Override
     @Transactional
     public List<ExperienceDTO> listExperience() {
@@ -39,11 +41,61 @@ public class ExperienceServiceImpl implements ExperienceService {
     public ExperienceDTO saveOrUpdateExperience(ExperienceDTO experienceDTO, String filePath) {
         experienceDTO.setImgPath(filePath);
 
-         Experience savedExperience = experienceRepository.save(
-                experienceMapper.experienceDTOToExperience(experienceDTO)
+        // Save experience
+        if(experienceDTO.getId() == null){
+            Experience savedExperience = experienceRepository.save(
+                    experienceMapper.experienceDTOToExperience(experienceDTO)
+            );
+
+            return experienceMapper.experienceToExperienceDTO(savedExperience);
+        }
+        // Update experience
+        Optional<Experience> savedExperienceOptional = experienceRepository.findById(experienceDTO.getId());
+
+        if(savedExperienceOptional.isEmpty()){
+            throw new NotFoundException("Entered Id is not valid");
+        }
+
+        Experience savedExperience = savedExperienceOptional.get();
+        Experience updatedExperience = updateExperience(savedExperience,experienceDTO);
+
+        // Persist updated experience
+        Experience persistedUpdatedExperience = experienceRepository.save(updatedExperience);
+
+        return experienceMapper.experienceToExperienceDTO(persistedUpdatedExperience);
+    }
+
+    private Experience updateExperience(Experience savedExperience, ExperienceDTO experienceDTO){
+        savedExperience.setTitle(experienceDTO.getTitle().equals(savedExperience.getTitle())?
+                savedExperience.getTitle(): experienceDTO.getTitle()
         );
 
-        return experienceMapper.experienceToExperienceDTO(savedExperience);
+        savedExperience.setCompany(experienceDTO.getCompany().equals(savedExperience.getCompany())?
+                savedExperience.getCompany(): experienceDTO.getCompany()
+        );
+
+        savedExperience.setStatus(experienceDTO.getStatus().equals(savedExperience.getStatus())?
+                savedExperience.getStatus(): experienceDTO.getStatus()
+        );
+
+        savedExperience.setPositionName(experienceDTO.getPositionName().equals(savedExperience.getPositionName())?
+                savedExperience.getPositionName(): experienceDTO.getPositionName()
+        );
+
+        savedExperience.setWorkingPeriod(experienceDTO.getWorkingPeriod().equals(savedExperience.getWorkingPeriod())?
+                savedExperience.getWorkingPeriod(): experienceDTO.getWorkingPeriod()
+        );
+
+        savedExperience.setDescription(experienceDTO.getDescription().equals(savedExperience.getDescription())?
+                savedExperience.getDescription(): experienceDTO.getDescription()
+        );
+
+        savedExperience.setImgPath(experienceDTO.getImgPath().equals(savedExperience.getImgPath())?
+                savedExperience.getImgPath(): experienceDTO.getImgPath()
+        );
+
+
+        return savedExperience;
     }
 
     @Override

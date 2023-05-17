@@ -14,7 +14,9 @@ import com.amazing.juno.springwebapp.mapper.PlatformMapper;
 import com.amazing.juno.springwebapp.mapper.RelevantProjectMapper;
 import com.amazing.juno.springwebapp.mapper.SkillSetItemMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +29,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @RequiredArgsConstructor
-public class SkillSetServiceImpl implements SkillSetService{
+public class SkillSetServiceImpl implements SkillSetService {
 
     private final PlatformRepository platformRepository;
 
@@ -61,84 +63,118 @@ public class SkillSetServiceImpl implements SkillSetService{
                 .map(skillSetItemMapper::skillSetItemToSkillSetItemDTO).toList();
     }
 
-    @Override
-    @Transactional
-    public PlatformDTO saveOrUpdatePlatform(PlatformDTO platformDTO) {
-        Platform savedPlatform = platformRepository.save(platformMapper.platformDTOToPlatform(platformDTO));
 
-        return platformMapper.platformToPlatformDTO(savedPlatform);
-    }
+    private Object getSavedEntity(UUID id, JpaRepository<?, UUID> jpaRepository) {
+        AtomicReference<Object> atomicReference = new AtomicReference<>();
 
-    private Object getAppropriateEntityByIds(UUID platformId, UUID categoryId, UUID skillSetItemId){
-        AtomicReference<Platform> platformAtomicReference = new AtomicReference<>();
-        AtomicReference<Category> categoryAtomicReference = new AtomicReference<>();
-        AtomicReference<SkillSetItem> skillSetItemAtomicReference = new AtomicReference<>();
-
-
-        platformRepository.findById(platformId).ifPresentOrElse(
-                // If Platform is found, set found Platform object to AtomicReference
-                platformAtomicReference::set,
-                // Else Platform is not found, set null to AtomicReference
-                () -> platformAtomicReference.set(null)
+        jpaRepository.findById(id).ifPresentOrElse(
+                // If Object is found, set found object to AtomicReference
+                atomicReference::set,
+                // Else Object is not found, set null to AtomicReference
+                () -> atomicReference.set(null)
         );
 
-        Platform savedPlatform = platformAtomicReference.get();
+        return atomicReference.get();
+    }
 
-        // If categoryId is not entered, and We also couldn't find Platform object corresponding to platformId entered,
-        // return null
-        if(categoryId == null && savedPlatform == null){
-            return null;
+
+    @Override
+    @Transactional
+    public Optional<PlatformDTO> saveOrUpdatePlatform(PlatformDTO platformDTO) {
+
+        if (platformDTO.getId() == null) {
+            Platform savedPlatform = platformRepository.save(platformMapper.platformDTOToPlatform(platformDTO));
+            return Optional.of(platformMapper.platformToPlatformDTO(savedPlatform));
         }
+
+        Optional<Platform> savedPlatform = platformRepository.findById(platformDTO.getId());
+
+        if (savedPlatform.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Platform updatedPlatform = updatePlatform(savedPlatform.get(), platformDTO);
+
+        Platform persistedUpdatedPlatform = platformRepository.save(updatedPlatform);
+
+        return Optional.of(platformMapper.platformToPlatformDTO(persistedUpdatedPlatform));
+    }
+
+    private Platform updatePlatform(Platform savedPlatform, PlatformDTO platformDTO) {
+        savedPlatform.setName(platformDTO.getName().equals(savedPlatform.getName()) ?
+                savedPlatform.getName() : platformDTO.getName()
+        );
+
+        return savedPlatform;
+    }
+
+    private Object getAppropriateEntityByIds(UUID platformId, UUID categoryId, UUID skillSetItemId, UUID relevantProjectId) {
+
+        Platform savedPlatform = (Platform) getSavedEntity(platformId, platformRepository);
+
         // If categoryId is not entered, but We also found Platform object corresponding to platformId entered,
         // return the saved platform
-        else if (categoryId == null) {
+        if (categoryId == null) {
             return savedPlatform;
         }
 
+        Category savedCategory = (Category) getSavedEntity(categoryId, categoryRepository);
 
-        categoryRepository.findCategoryByPlatformAndId(savedPlatform, categoryId).ifPresentOrElse(
-                // If Category is found, set found Category object to AtomicReference
-                categoryAtomicReference::set,
-                // Else Category is not found, set null to AtomicReference
-                () -> categoryAtomicReference.set(null)
-        );
-
-        Category savedCategory = categoryAtomicReference.get();
-
-
-        // If categoryId is not entered, and We also couldn't find Platform object corresponding to platformId entered,
-        // return null
-        if(skillSetItemId == null && savedPlatform == null){
-            return null;
-        }
         // If skillSetItemId is not entered, but We also found Category object corresponding to categoryId entered,
         // return the saved category
-        else if (skillSetItemId == null){
+        if (skillSetItemId == null) {
             return savedCategory;
         }
 
+        SkillSetItem savedSkillSetItem = (SkillSetItem) getSavedEntity(skillSetItemId, skillSetItemRepository);
 
-        skillSetItemRepository.findSkillSetItemByCategoryAndId(savedCategory, skillSetItemId).ifPresentOrElse(
-                // If SkillSetItem is found, set found SkillSetItem object to AtomicReference
-                skillSetItemAtomicReference::set,
-                // Else SkillSetItem is not found, set null to AtomicReference
-                () -> skillSetItemAtomicReference.set(null)
-        );
+        if (relevantProjectId == null) {
+            return savedSkillSetItem;
+        }
 
-        return skillSetItemAtomicReference.get();
+        // If skillSetItemId is not entered, but We also found Category object corresponding to categoryId entered,
+        // return the saved category
+        return getSavedEntity(relevantProjectId, relevantProjectRepository);
     }
 
 
     @Override
     @Transactional
     public Optional<CategoryDTO> saveOrUpdateCategory(UUID platformId, CategoryDTO categoryDTO) {
-        Platform savedPlatform = getAppropriateEntityByIds(platformId, null, null) instanceof Platform
-                ? (Platform) getAppropriateEntityByIds(platformId, null, null) : null;
+        Platform savedPlatform = getAppropriateEntityByIds(platformId, null, null, null) instanceof Platform
+                ? (Platform) getAppropriateEntityByIds(platformId, null, null, null) : null;
 
-        if(savedPlatform == null){
+        if (savedPlatform == null) {
             return Optional.empty();
         }
 
+        if (categoryDTO.getId() == null) {
+            return saveCategory(savedPlatform, categoryDTO);
+        }
+
+        Optional<Category> savedCategory = categoryRepository.findById(categoryDTO.getId());
+
+        if (savedCategory.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Category updatedCategory = updateCategory(savedCategory.get(), categoryDTO);
+
+        // Persist Category object
+        Category persistedUpdatedCategory = bindCategoryToPlatform(updatedCategory, savedPlatform);
+
+        return Optional.of(categoryMapper.categoryToCategoryDTO(persistedUpdatedCategory));
+    }
+
+    private Category updateCategory(Category savedCategory, CategoryDTO categoryDTO) {
+        savedCategory.setName(categoryDTO.getName().equals(savedCategory.getName()) ?
+                savedCategory.getName() : categoryDTO.getName()
+        );
+
+        return savedCategory;
+    }
+
+    private Optional<CategoryDTO> saveCategory(Platform savedPlatform, CategoryDTO categoryDTO) {
         // In the case that category is found in the database,
         // Change type Category to type CategoryDTO
         Category category = categoryMapper.categoryDTOToCategory(categoryDTO);
@@ -159,31 +195,77 @@ public class SkillSetServiceImpl implements SkillSetService{
         return Optional.of(savedCategoryDTO);
     }
 
+    private Category bindCategoryToPlatform(Category category, Platform savedPlatform){
+        // Bind Category object to Platform object
+        savedPlatform.addCategory(category);
+
+        // Save the Platform object which Category object was bound
+        platformRepository.save(savedPlatform);
+
+        // Save Category object
+        return categoryRepository.save(category);
+    }
+
 
     @Override
     @Transactional
-    public Optional<SkillSetItemDTO> saveOrUpdateSkillSetItem(UUID platformId,UUID categoryId, SkillSetItemDTO skillSetItemDTO, String skillSetImagePath) {
-        Category savedCategory = getAppropriateEntityByIds(platformId, categoryId, null) instanceof Category
-                ? (Category) getAppropriateEntityByIds(platformId, categoryId, null) : null;
+    public Optional<SkillSetItemDTO> saveOrUpdateSkillSetItem(UUID platformId, UUID categoryId, SkillSetItemDTO skillSetItemDTO, String skillSetImagePath) {
+        Category savedCategory = getAppropriateEntityByIds(platformId, categoryId, null, null) instanceof Category
+                ? (Category) getAppropriateEntityByIds(platformId, categoryId, null, null) : null;
 
-        if(savedCategory == null){
+        if (savedCategory == null) {
             return Optional.empty();
         }
 
         // Set skillSetImagePath to skillSetItemDTO
         skillSetItemDTO.setImagePath(skillSetImagePath);
 
+        if (skillSetItemDTO.getId() == null) {
+            return saveSkillSetItem(savedCategory, skillSetItemDTO);
+        }
+
+        Optional<SkillSetItem> savedSkillSetItem = skillSetItemRepository.findById(skillSetItemDTO.getId());
+
+        if (savedSkillSetItem.isEmpty()) {
+            return Optional.empty();
+        }
+
+        SkillSetItem updatedSkillSetItem = updateSkillSetItem(savedSkillSetItem.get(), skillSetItemDTO);
+
+        // Persist Category object
+        SkillSetItem persistedUpdatedSkillSetItem = bindSkillSetItemToCategory(savedCategory, updatedSkillSetItem);
+
+        return Optional.of(skillSetItemMapper.skillSetItemToSkillSetItemDTO(persistedUpdatedSkillSetItem));
+
+    }
+
+    private SkillSetItem updateSkillSetItem(SkillSetItem savedSkillSetItem, SkillSetItemDTO skillSetItemDTO) {
+        savedSkillSetItem.setTitle(
+                skillSetItemDTO.getTitle().equals(savedSkillSetItem.getTitle()) ?
+                        savedSkillSetItem.getTitle() : skillSetItemDTO.getTitle()
+        );
+
+        savedSkillSetItem.setDescription(
+                skillSetItemDTO.getDescription().equals(savedSkillSetItem.getDescription()) ?
+                        savedSkillSetItem.getDescription() : skillSetItemDTO.getDescription()
+        );
+
+        savedSkillSetItem.setImagePath(
+                skillSetItemDTO.getImagePath().equals(savedSkillSetItem.getImagePath()) ?
+                        savedSkillSetItem.getImagePath() : skillSetItemDTO.getImagePath()
+        );
+
+        return savedSkillSetItem;
+    }
+
+    private Optional<SkillSetItemDTO> saveSkillSetItem(Category savedCategory, SkillSetItemDTO skillSetItemDTO) {
+
         // Change type SkillSetItemDTO to SkillSetItem
         SkillSetItem skillSetItem = skillSetItemMapper.skillSetItemDTOToSkillSetItem(skillSetItemDTO);
 
-        // Bind SkillSetItem object to Category object
-        savedCategory.addSkillSetItem(skillSetItem);
-
-        // Save the Category object which SkillSetItem object was bound
-        categoryRepository.save(savedCategory);
 
         // Save SkillSetItemObject
-        SkillSetItem savedSkillSetItem = skillSetItemRepository.save(skillSetItem);
+        SkillSetItem savedSkillSetItem = bindSkillSetItemToCategory(savedCategory, skillSetItem);
 
         // Change type SkillSetItem to SkillSetItemDTO
         SkillSetItemDTO savedSkillSetItemDTO = skillSetItemMapper.skillSetItemToSkillSetItemDTO(savedSkillSetItem);
@@ -192,27 +274,73 @@ public class SkillSetServiceImpl implements SkillSetService{
         return Optional.of(savedSkillSetItemDTO);
     }
 
+    private SkillSetItem bindSkillSetItemToCategory(Category savedCategory, SkillSetItem skillSetItem) {
+        // Bind SkillSetItem object to Category object
+        savedCategory.addSkillSetItem(skillSetItem);
+
+        // Save the Category object which SkillSetItem object was bound
+        categoryRepository.save(savedCategory);
+
+        // Save SkillSetItemObject and return it
+        return skillSetItemRepository.save(skillSetItem);
+    }
+
     @Override
     @Transactional
-    public Optional<RelevantProjectDTO> saveOrUpdateRelevantProject(UUID platformId,UUID categoryId,UUID skillSetItemId, RelevantProjectDTO relevantProjectDTO) {
-        SkillSetItem savedSkillSetItem = getAppropriateEntityByIds(platformId, categoryId, skillSetItemId) instanceof SkillSetItem
-                ? (SkillSetItem) getAppropriateEntityByIds(platformId, categoryId, skillSetItemId) : null;
+    public Optional<RelevantProjectDTO> saveOrUpdateRelevantProject(UUID platformId, UUID categoryId, UUID skillSetItemId, RelevantProjectDTO relevantProjectDTO) {
+        SkillSetItem savedSkillSetItem = getAppropriateEntityByIds(platformId, categoryId, skillSetItemId, null) instanceof SkillSetItem
+                ? (SkillSetItem) getAppropriateEntityByIds(platformId, categoryId, skillSetItemId, null) : null;
 
-        if(savedSkillSetItem == null){
+        if (savedSkillSetItem == null) {
             return Optional.empty();
         }
 
-        // Change type RelevantProjectDTO to RelevantProject
-        RelevantProject relevantProject = relevantProjectMapper.relevantProjectDTORelevantProject(relevantProjectDTO);
+        if(relevantProjectDTO.getId() == null){
+            return saveRelevantProject(savedSkillSetItem, relevantProjectDTO);
+        }
 
+        Optional<RelevantProject> savedRelevantProjectOptional = relevantProjectRepository.findById(relevantProjectDTO.getId());
+
+        if(savedRelevantProjectOptional.isEmpty()){
+            return Optional.empty();
+        }
+
+        RelevantProject updatedRelevantProject = updateRelevantProject(savedRelevantProjectOptional.get(), relevantProjectDTO);
+
+        RelevantProject persistedUpdatedRelevantProject = bindRelevantProjectToSkillSetItem(updatedRelevantProject, savedSkillSetItem);
+
+        return Optional.of(relevantProjectMapper.relevantProjectRelevantProjectDTO(persistedUpdatedRelevantProject));
+    }
+
+    private RelevantProject updateRelevantProject(RelevantProject savedRelevantProject, RelevantProjectDTO relevantProjectDTO) {
+        savedRelevantProject.setName(savedRelevantProject.getName().equals(relevantProjectDTO.getName())?
+                savedRelevantProject.getName() : relevantProjectDTO.getName()
+        );
+
+        savedRelevantProject.setUrl(savedRelevantProject.getUrl().equals(relevantProjectDTO.getUrl())?
+                savedRelevantProject.getUrl() : relevantProjectDTO.getUrl()
+        );
+
+        return savedRelevantProject;
+    }
+
+    private RelevantProject bindRelevantProjectToSkillSetItem(RelevantProject updatedRelevantProject, SkillSetItem savedSkillSetItem) {
         // Bind Relevant object to SkillSetItem object
-        savedSkillSetItem.addRelevantProject(relevantProject);
+        savedSkillSetItem.addRelevantProject(updatedRelevantProject);
 
         // Save the SkillSetItem object which RelevantProject object was bound
         skillSetItemRepository.save(savedSkillSetItem);
 
+        // Save RelevantProject Object and return it
+        return relevantProjectRepository.save(updatedRelevantProject);
+    }
+
+    private Optional<RelevantProjectDTO> saveRelevantProject(SkillSetItem savedSkillSetItem, RelevantProjectDTO relevantProjectDTO) {
+        // Change type RelevantProjectDTO to RelevantProject
+        RelevantProject relevantProject = relevantProjectMapper.relevantProjectDTORelevantProject(relevantProjectDTO);
+
         // Save RelevantProject Object
-        RelevantProject savedRelevantProject = relevantProjectRepository.save(relevantProject);
+        RelevantProject savedRelevantProject = bindRelevantProjectToSkillSetItem(relevantProject, savedSkillSetItem);
 
         // Change type RelevantProject to RelevantProjectDTO
         RelevantProjectDTO savedRelevantProjectDTO = relevantProjectMapper.relevantProjectRelevantProjectDTO(savedRelevantProject);
@@ -222,16 +350,59 @@ public class SkillSetServiceImpl implements SkillSetService{
     }
 
     @Override
+    @Transactional
     public Optional<ResponseSuccess> deletePlatform(UUID platformId) {
-        Platform savedPlatform = getAppropriateEntityByIds(platformId, null, null) instanceof Platform
-                ? (Platform) getAppropriateEntityByIds(platformId, null, null) : null;
+        Platform savedPlatform = getAppropriateEntityByIds(platformId, null, null, null) instanceof Platform
+                ? (Platform) getAppropriateEntityByIds(platformId, null, null, null) : null;
 
-        if(savedPlatform == null){
+        if (savedPlatform == null) {
             return Optional.empty();
         }
 
         platformRepository.delete(savedPlatform);
 
-        return Optional.of(new ResponseSuccess(LocalDateTime.now(), HttpStatus.OK.value(), "successfully deleted"));
+        return Optional.of(new ResponseSuccess(LocalDateTime.now(), HttpStatus.ACCEPTED.value(), "successfully deleted"));
+    }
+
+    @Override
+    @Transactional
+    public Optional<ResponseSuccess> deleteCategory(UUID platformId, UUID categoryId) {
+        Category savedCategory = getAppropriateEntityByIds(platformId, categoryId, null, null) instanceof Category
+                ? (Category) getAppropriateEntityByIds(platformId, categoryId, null, null) : null;
+
+        if (savedCategory == null) {
+            return Optional.empty();
+        }
+
+        categoryRepository.delete(savedCategory);
+
+        return Optional.of(new ResponseSuccess(LocalDateTime.now(), HttpStatus.ACCEPTED.value(), "successfully deleted"));
+    }
+
+    @Override
+    @Transactional
+    public Optional<ResponseSuccess> deleteSkillSetItem(UUID platformId, UUID categoryId, UUID skillSetItemId) {
+        SkillSetItem savedSkillSetItem = getAppropriateEntityByIds(platformId, categoryId, skillSetItemId, null) instanceof SkillSetItem
+                ? (SkillSetItem) getAppropriateEntityByIds(platformId, categoryId, skillSetItemId, null) : null;
+
+        if (savedSkillSetItem == null) {
+            return Optional.empty();
+        }
+
+        skillSetItemRepository.delete(savedSkillSetItem);
+
+        return Optional.of(new ResponseSuccess(LocalDateTime.now(), HttpStatus.ACCEPTED.value(), "successfully deleted"));
+    }
+
+    @Override
+    public Optional<ResponseSuccess> deleteRelevantProject(UUID platformId, UUID categoryId, UUID skillSetItemId, UUID relevantProjectId) {
+        RelevantProject savedRelevantProject = getAppropriateEntityByIds(platformId, categoryId, skillSetItemId, relevantProjectId) instanceof RelevantProject
+                ? (RelevantProject) getAppropriateEntityByIds(platformId, categoryId, skillSetItemId, relevantProjectId) : null;
+
+        if (savedRelevantProject == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(new ResponseSuccess(LocalDateTime.now(), HttpStatus.ACCEPTED.value(), "successfully deleted"));
     }
 }

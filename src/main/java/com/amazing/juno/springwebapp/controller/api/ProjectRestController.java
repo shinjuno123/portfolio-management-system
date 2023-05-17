@@ -2,6 +2,7 @@ package com.amazing.juno.springwebapp.controller.api;
 
 
 import com.amazing.juno.springwebapp.dto.ProjectDTO;
+import com.amazing.juno.springwebapp.entity.ResponseSuccess;
 import com.amazing.juno.springwebapp.exc.NotFoundException;
 import com.amazing.juno.springwebapp.service.FileStorageService;
 import com.amazing.juno.springwebapp.service.ProjectService;
@@ -34,19 +35,16 @@ public class ProjectRestController {
     }
 
     @PostMapping(ADMIN_PROJECT_PATH)
-    public ResponseEntity<ProjectDTO> saveOrUpdateProject(@Validated @RequestPart("project") ProjectDTO projectDTO, @RequestPart("image") MultipartFile image){
-        String filePath = fileStorageService.saveFile(image,"project");
+    public ResponseEntity<ProjectDTO> saveOrUpdateProject(@Validated @RequestPart("project") ProjectDTO projectDTO, @RequestPart("projectImage") MultipartFile projectImage){
+        String filePath = fileStorageService.saveFile(projectImage,"project");
 
-        return new ResponseEntity<>( projectService.saveOrUpdateProject(projectDTO, filePath), HttpStatus.CREATED);
+        return new ResponseEntity<>(projectService.saveOrUpdateProject(projectDTO, filePath), HttpStatus.CREATED);
     }
 
     @DeleteMapping(ADMIN_PROJECT_ID_PATH)
-    public ResponseEntity<?> deleteProjectById(@PathVariable("projectId") UUID projectId){
-        if(!projectService.deleteProject(projectId)){
-            throw new NotFoundException("Entered id does not exist!");
-        }
+    public ResponseEntity<ResponseSuccess> deleteProjectById(@PathVariable("projectId") UUID projectId){
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(projectService.deleteProject(projectId).orElseThrow(()-> new NotFoundException("Entered id does not exist!")) ,HttpStatus.ACCEPTED);
     }
 
 }

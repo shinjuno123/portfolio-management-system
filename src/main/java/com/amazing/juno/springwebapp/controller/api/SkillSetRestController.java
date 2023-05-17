@@ -111,13 +111,13 @@ public class SkillSetRestController {
 
     @PostMapping(ADMIN_SKILL_SET_PLATFORM_PATH)
     public ResponseEntity<PlatformDTO> saveOrUpdatePlatform(@Validated @RequestBody PlatformDTO platformDTO) {
-        return new ResponseEntity<>(skillSetService.saveOrUpdatePlatform(platformDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(skillSetService.saveOrUpdatePlatform(platformDTO).orElseThrow(()->new NotFoundException("Entered Id in entity is invalid!")), HttpStatus.ACCEPTED);
     }
 
 
     @PostMapping(ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_PATH)
     public ResponseEntity<CategoryDTO> saveOrUpdateCategory(@PathVariable("platformId") UUID platformId, @Validated @RequestBody CategoryDTO categoryDTO) {
-        return new ResponseEntity<>(skillSetService.saveOrUpdateCategory(platformId, categoryDTO).orElseThrow(NotSavedException::new), HttpStatus.OK);
+        return new ResponseEntity<>(skillSetService.saveOrUpdateCategory(platformId, categoryDTO).orElseThrow(NotSavedException::new), HttpStatus.ACCEPTED);
     }
 
     @PostMapping(ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_ID_SKILL_ITEM_PATH)
@@ -128,7 +128,7 @@ public class SkillSetRestController {
 
         String skillSetImagePath = fileStorageService.saveFile(multipartFile, "skill-set");
 
-        return new ResponseEntity<>(skillSetService.saveOrUpdateSkillSetItem(platformId, categoryId, skillSetItemDTO, skillSetImagePath).orElseThrow(NotSavedException::new), HttpStatus.OK);
+        return new ResponseEntity<>(skillSetService.saveOrUpdateSkillSetItem(platformId, categoryId, skillSetItemDTO, skillSetImagePath).orElseThrow(NotSavedException::new), HttpStatus.ACCEPTED);
     }
 
     @PostMapping(ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_ID_SKILL_ITEM_ID_RELEVANT_PROJECT_PATH)
@@ -138,7 +138,7 @@ public class SkillSetRestController {
                                                                           @Validated @RequestBody RelevantProjectDTO relevantProjectDTO
     ) {
 
-        return new ResponseEntity<>(skillSetService.saveOrUpdateRelevantProject(platformId, categoryId, skillSetItemId, relevantProjectDTO).orElseThrow(NotSavedException::new), HttpStatus.OK);
+        return new ResponseEntity<>(skillSetService.saveOrUpdateRelevantProject(platformId, categoryId, skillSetItemId, relevantProjectDTO).orElseThrow(NotSavedException::new), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping(ADMIN_SKILL_SET_PLATFORM_ID)
@@ -146,7 +146,7 @@ public class SkillSetRestController {
 
 
 
-        return new ResponseEntity<>(skillSetService.deletePlatform(platformId).orElseThrow(() -> new NotFoundException("Entered Id is not valid")), HttpStatus.OK);
+        return new ResponseEntity<>(skillSetService.deletePlatform(platformId).orElseThrow(() -> new NotFoundException("Entered Id is not valid")), HttpStatus.ACCEPTED);
     }
 
 
@@ -155,7 +155,7 @@ public class SkillSetRestController {
                                                               @PathVariable("categoryId") UUID categoryId){
 
 
-        return null;
+        return new ResponseEntity<>(skillSetService.deleteCategory(platformId, categoryId).orElseThrow(() -> new NotFoundException("Entered Ids are not valid")), HttpStatus.ACCEPTED);
     }
 
 
@@ -164,8 +164,8 @@ public class SkillSetRestController {
                                                               @PathVariable("categoryId") UUID categoryId,
                                                               @PathVariable("skillSetItemId") UUID skillSetItemId){
 
-        return null;
-    }
+        return new ResponseEntity<>(skillSetService.deleteSkillSetItem(platformId, categoryId, skillSetItemId).orElseThrow(() -> new NotFoundException("Entered Ids are not valid")), HttpStatus.ACCEPTED);
+}
 
 
     @DeleteMapping(ADMIN_SKILL_SET_PLATFORM_ID_CATEGORY_ID_SKILL_ITEM_ID_RELEVANT_PROJECT_ID)
@@ -174,7 +174,7 @@ public class SkillSetRestController {
                                                                  @PathVariable("skillSetItemId") UUID skillSetItemId,
                                                                  @PathVariable("relevantProjectId") UUID relevantProjectId) {
 
-        return null;
+        return new ResponseEntity<>(skillSetService.deleteRelevantProject(platformId, categoryId, skillSetItemId, relevantProjectId).orElseThrow(() -> new NotFoundException("Entered Ids are not valid")), HttpStatus.ACCEPTED);
     }
 
 

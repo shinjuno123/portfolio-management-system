@@ -1,9 +1,10 @@
 package com.amazing.juno.springwebapp.service;
 
 import com.amazing.juno.springwebapp.dto.ProjectDTO;
-import com.amazing.juno.springwebapp.entity.Project;
+import com.amazing.juno.springwebapp.entity.ResponseSuccess;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ProjectService {
@@ -11,5 +12,5 @@ public interface ProjectService {
 
     List<ProjectDTO> listProjects();
 
-    boolean deleteProject(UUID projectId);
+    Optional<ResponseSuccess> deleteProject(UUID projectId);
 }

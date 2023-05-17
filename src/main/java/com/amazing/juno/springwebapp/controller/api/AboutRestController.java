@@ -5,6 +5,7 @@ import com.amazing.juno.springwebapp.service.FileStorageService;
 import com.amazing.juno.springwebapp.service.AboutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class AboutRestController {
         return new ResponseEntity<>(aboutService.getAllAbout(), HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(ADMIN_ABOUT_PATH)
+    @PostMapping(value = ADMIN_ABOUT_PATH)
     public ResponseEntity<AboutDTO> saveAbout(@Validated @RequestPart("about") AboutDTO aboutDTO,@RequestPart("faceImage") MultipartFile faceImage, @RequestPart("diploma") MultipartFile diploma){
 
         String filePath = fileStorageService.saveFile(faceImage, "about");
