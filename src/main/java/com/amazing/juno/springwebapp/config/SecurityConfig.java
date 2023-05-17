@@ -41,8 +41,8 @@ public class SecurityConfig {
                     return config;
                 }).and().csrf(
                         httpSecurityCsrfConfigurer ->
-                            httpSecurityCsrfConfigurer.csrfTokenRequestHandler(csrfTokenRequestAttributeHandler)
-                                    .ignoringRequestMatchers("/api/public/**").csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                            httpSecurityCsrfConfigurer.csrfTokenRequestHandler(csrfTokenRequestAttributeHandler).ignoringRequestMatchers("/api/public/**")
+                                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 
                 )
                 .addFilterBefore(new JWTTokenValidatorFilter(jwtConstraints), BasicAuthenticationFilter.class)

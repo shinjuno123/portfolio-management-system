@@ -21,16 +21,14 @@ import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+
+@RequiredArgsConstructor
 public class JWTTokenValidatorFilter extends OncePerRequestFilter {
 
-    JWTConstraints jwtConstraints;
-
-    public JWTTokenValidatorFilter(JWTConstraints jwtConstraints){
-        this.jwtConstraints = jwtConstraints;
-    }
+    private final JWTConstraints jwtConstraints;
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    protected boolean shouldNotFilter(HttpServletRequest request){
         return request.getServletPath().contains("/api/public") || request.getServletPath().contains("/user");
     }
 
