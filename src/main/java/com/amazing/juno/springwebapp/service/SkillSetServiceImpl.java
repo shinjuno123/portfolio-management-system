@@ -1,11 +1,11 @@
 package com.amazing.juno.springwebapp.service;
 
-import com.amazing.juno.springwebapp.dao.CategoryRepository;
-import com.amazing.juno.springwebapp.dao.PlatformRepository;
+import com.amazing.juno.springwebapp.dao.SecondCategoryRepository;
+import com.amazing.juno.springwebapp.dao.FirstCategoryRepository;
 import com.amazing.juno.springwebapp.dao.RelevantProjectRepository;
 import com.amazing.juno.springwebapp.dao.SkillSetItemRepository;
-import com.amazing.juno.springwebapp.dto.CategoryDTO;
-import com.amazing.juno.springwebapp.dto.PlatformDTO;
+import com.amazing.juno.springwebapp.dto.SecondCategoryDTO;
+import com.amazing.juno.springwebapp.dto.FirstCategoryDTO;
 import com.amazing.juno.springwebapp.dto.RelevantProjectDTO;
 import com.amazing.juno.springwebapp.dto.SkillSetItemDTO;
 import com.amazing.juno.springwebapp.entity.*;
@@ -13,11 +13,9 @@ import com.amazing.juno.springwebapp.mapper.CategoryMapper;
 import com.amazing.juno.springwebapp.mapper.PlatformMapper;
 import com.amazing.juno.springwebapp.mapper.RelevantProjectMapper;
 import com.amazing.juno.springwebapp.mapper.SkillSetItemMapper;
-import com.sun.tools.jconsole.JConsoleContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,9 +30,9 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequiredArgsConstructor
 public class SkillSetServiceImpl implements SkillSetService {
 
-    private final PlatformRepository platformRepository;
+    private final FirstCategoryRepository firstCategoryRepository;
 
-    private final CategoryRepository categoryRepository;
+    private final SecondCategoryRepository secondCategoryRepository;
 
     private final SkillSetItemRepository skillSetItemRepository;
 
@@ -51,8 +49,8 @@ public class SkillSetServiceImpl implements SkillSetService {
 
     @Override
     @Transactional
-    public List<PlatformDTO> listAllSkillSet() {
-        return platformRepository.findAll().stream().map(
+    public List<FirstCategoryDTO> listAllSkillSet() {
+        return firstCategoryRepository.findAll().stream().map(
                 platformMapper::platformToPlatformDTO
         ).toList();
     }
@@ -60,7 +58,7 @@ public class SkillSetServiceImpl implements SkillSetService {
     @Override
     @Transactional
     public List<SkillSetItemDTO> listSkillSetItemsByCategoryId(UUID categoryId) {
-        return skillSetItemRepository.findAllByCategoryId(categoryId).stream()
+        return skillSetItemRepository.findAllBySecondCategoryId(categoryId).stream()
                 .map(skillSetItemMapper::skillSetItemToSkillSetItemDTO).toList();
     }
 
@@ -81,50 +79,50 @@ public class SkillSetServiceImpl implements SkillSetService {
 
     @Override
     @Transactional
-    public Optional<PlatformDTO> saveOrUpdatePlatform(PlatformDTO platformDTO) {
+    public Optional<FirstCategoryDTO> saveOrUpdatePlatform(FirstCategoryDTO firstCategoryDTO) {
 
-        if (platformDTO.getId() == null) {
-            Platform savedPlatform = platformRepository.save(platformMapper.platformDTOToPlatform(platformDTO));
-            return Optional.of(platformMapper.platformToPlatformDTO(savedPlatform));
+        if (firstCategoryDTO.getId() == null) {
+            FirstCategory savedFirstCategory = firstCategoryRepository.save(platformMapper.platformDTOToPlatform(firstCategoryDTO));
+            return Optional.of(platformMapper.platformToPlatformDTO(savedFirstCategory));
         }
 
-        Optional<Platform> savedPlatform = platformRepository.findById(platformDTO.getId());
+        Optional<FirstCategory> savedPlatform = firstCategoryRepository.findById(firstCategoryDTO.getId());
 
         if (savedPlatform.isEmpty()) {
             return Optional.empty();
         }
 
-        Platform updatedPlatform = updatePlatform(savedPlatform.get(), platformDTO);
+        FirstCategory updatedFirstCategory = updatePlatform(savedPlatform.get(), firstCategoryDTO);
 
-        Platform persistedUpdatedPlatform = platformRepository.save(updatedPlatform);
+        FirstCategory persistedUpdatedFirstCategory = firstCategoryRepository.save(updatedFirstCategory);
 
-        return Optional.of(platformMapper.platformToPlatformDTO(persistedUpdatedPlatform));
+        return Optional.of(platformMapper.platformToPlatformDTO(persistedUpdatedFirstCategory));
     }
 
-    private Platform updatePlatform(Platform savedPlatform, PlatformDTO platformDTO) {
-        savedPlatform.setName(platformDTO.getName().equals(savedPlatform.getName()) ?
-                savedPlatform.getName() : platformDTO.getName()
+    private FirstCategory updatePlatform(FirstCategory savedFirstCategory, FirstCategoryDTO firstCategoryDTO) {
+        savedFirstCategory.setName(firstCategoryDTO.getName().equals(savedFirstCategory.getName()) ?
+                savedFirstCategory.getName() : firstCategoryDTO.getName()
         );
 
-        return savedPlatform;
+        return savedFirstCategory;
     }
 
     private Object getAppropriateEntityByIds(UUID platformId, UUID categoryId, UUID skillSetItemId, UUID relevantProjectId) {
 
-        Platform savedPlatform = (Platform) getSavedEntity(platformId, platformRepository);
+        FirstCategory savedFirstCategory = (FirstCategory) getSavedEntity(platformId, firstCategoryRepository);
 
         // If categoryId is not entered, but We also found Platform object corresponding to platformId entered,
         // return the saved platform
         if (categoryId == null) {
-            return savedPlatform;
+            return savedFirstCategory;
         }
 
-        Category savedCategory = (Category) getSavedEntity(categoryId, categoryRepository);
+        SecondCategory savedSecondCategory = (SecondCategory) getSavedEntity(categoryId, secondCategoryRepository);
 
         // If skillSetItemId is not entered, but We also found Category object corresponding to categoryId entered,
         // return the saved category
         if (skillSetItemId == null) {
-            return savedCategory;
+            return savedSecondCategory;
         }
 
         SkillSetItem savedSkillSetItem = (SkillSetItem) getSavedEntity(skillSetItemId, skillSetItemRepository);
@@ -141,77 +139,77 @@ public class SkillSetServiceImpl implements SkillSetService {
 
     @Override
     @Transactional
-    public Optional<CategoryDTO> saveOrUpdateCategory(UUID platformId, CategoryDTO categoryDTO) {
-        Platform savedPlatform = getAppropriateEntityByIds(platformId, null, null, null) instanceof Platform
-                ? (Platform) getAppropriateEntityByIds(platformId, null, null, null) : null;
+    public Optional<SecondCategoryDTO> saveOrUpdateCategory(UUID platformId, SecondCategoryDTO secondCategoryDTO) {
+        FirstCategory savedFirstCategory = getAppropriateEntityByIds(platformId, null, null, null) instanceof FirstCategory
+                ? (FirstCategory) getAppropriateEntityByIds(platformId, null, null, null) : null;
 
-        if (savedPlatform == null) {
+        if (savedFirstCategory == null) {
             return Optional.empty();
         }
 
-        if (categoryDTO.getId() == null) {
-            return saveCategory(savedPlatform, categoryDTO);
+        if (secondCategoryDTO.getId() == null) {
+            return saveCategory(savedFirstCategory, secondCategoryDTO);
         }
 
-        Optional<Category> savedCategory = categoryRepository.findById(categoryDTO.getId());
+        Optional<SecondCategory> savedCategory = secondCategoryRepository.findById(secondCategoryDTO.getId());
 
         if (savedCategory.isEmpty()) {
             return Optional.empty();
         }
 
-        Category updatedCategory = updateCategory(savedCategory.get(), categoryDTO);
+        SecondCategory updatedSecondCategory = updateCategory(savedCategory.get(), secondCategoryDTO);
 
         // Persist Category object
-        Category persistedUpdatedCategory = bindCategoryToPlatform(updatedCategory, savedPlatform);
+        SecondCategory persistedUpdatedSecondCategory = bindCategoryToPlatform(updatedSecondCategory, savedFirstCategory);
 
-        return Optional.of(categoryMapper.categoryToCategoryDTO(persistedUpdatedCategory));
+        return Optional.of(categoryMapper.categoryToCategoryDTO(persistedUpdatedSecondCategory));
     }
 
-    private Category updateCategory(Category savedCategory, CategoryDTO categoryDTO) {
-        savedCategory.setName(categoryDTO.getName().equals(savedCategory.getName()) ?
-                savedCategory.getName() : categoryDTO.getName()
+    private SecondCategory updateCategory(SecondCategory savedSecondCategory, SecondCategoryDTO secondCategoryDTO) {
+        savedSecondCategory.setName(secondCategoryDTO.getName().equals(savedSecondCategory.getName()) ?
+                savedSecondCategory.getName() : secondCategoryDTO.getName()
         );
 
-        return savedCategory;
+        return savedSecondCategory;
     }
 
-    private Optional<CategoryDTO> saveCategory(Platform savedPlatform, CategoryDTO categoryDTO) {
+    private Optional<SecondCategoryDTO> saveCategory(FirstCategory savedFirstCategory, SecondCategoryDTO secondCategoryDTO) {
         // In the case that category is found in the database,
         // Change type Category to type CategoryDTO
-        Category category = categoryMapper.categoryDTOToCategory(categoryDTO);
+        SecondCategory secondCategory = categoryMapper.categoryDTOToCategory(secondCategoryDTO);
 
         // Save Category object
-        Category savedCategory = bindCategoryToPlatform(category, savedPlatform);
+        SecondCategory savedSecondCategory = bindCategoryToPlatform(secondCategory, savedFirstCategory);
 
         // Change type Category to CategoryDTO
-        CategoryDTO savedCategoryDTO = categoryMapper.categoryToCategoryDTO(savedCategory);
+        SecondCategoryDTO savedSecondCategoryDTO = categoryMapper.categoryToCategoryDTO(savedSecondCategory);
 
         // Return already saved CategoryDTO object
-        return Optional.of(savedCategoryDTO);
+        return Optional.of(savedSecondCategoryDTO);
     }
 
-    private Category bindCategoryToPlatform(Category category, Platform savedPlatform){
+    private SecondCategory bindCategoryToPlatform(SecondCategory secondCategory, FirstCategory savedFirstCategory){
         // Bind Category object to Platform object
-        savedPlatform.addCategory(category);
+        savedFirstCategory.addCategory(secondCategory);
 
         // Persist Category object to DB
-        Category savedCategory = categoryRepository.save(category);
+        SecondCategory savedSecondCategory = secondCategoryRepository.save(secondCategory);
 
         // Save the Platform object which Category object was bound
-        platformRepository.save(savedPlatform);
+        firstCategoryRepository.save(savedFirstCategory);
 
         // Save Category object
-        return savedCategory;
+        return savedSecondCategory;
     }
 
 
     @Override
     @Transactional
     public Optional<SkillSetItemDTO> saveOrUpdateSkillSetItem(UUID platformId, UUID categoryId, SkillSetItemDTO skillSetItemDTO, String skillSetImagePath) {
-        Category savedCategory = getAppropriateEntityByIds(platformId, categoryId, null, null) instanceof Category
-                ? (Category) getAppropriateEntityByIds(platformId, categoryId, null, null) : null;
+        SecondCategory savedSecondCategory = getAppropriateEntityByIds(platformId, categoryId, null, null) instanceof SecondCategory
+                ? (SecondCategory) getAppropriateEntityByIds(platformId, categoryId, null, null) : null;
 
-        if (savedCategory == null) {
+        if (savedSecondCategory == null) {
             return Optional.empty();
         }
 
@@ -219,7 +217,7 @@ public class SkillSetServiceImpl implements SkillSetService {
         skillSetItemDTO.setImagePath(skillSetImagePath);
 
         if (skillSetItemDTO.getId() == null) {
-            return saveSkillSetItem(savedCategory, skillSetItemDTO);
+            return saveSkillSetItem(savedSecondCategory, skillSetItemDTO);
         }
 
         Optional<SkillSetItem> savedSkillSetItem = skillSetItemRepository.findById(skillSetItemDTO.getId());
@@ -231,7 +229,7 @@ public class SkillSetServiceImpl implements SkillSetService {
         SkillSetItem updatedSkillSetItem = updateSkillSetItem(savedSkillSetItem.get(), skillSetItemDTO);
 
         // Persist Category object
-        SkillSetItem persistedUpdatedSkillSetItem = bindSkillSetItemToCategory(savedCategory, updatedSkillSetItem);
+        SkillSetItem persistedUpdatedSkillSetItem = bindSkillSetItemToCategory(savedSecondCategory, updatedSkillSetItem);
 
         return Optional.of(skillSetItemMapper.skillSetItemToSkillSetItemDTO(persistedUpdatedSkillSetItem));
 
@@ -256,14 +254,14 @@ public class SkillSetServiceImpl implements SkillSetService {
         return savedSkillSetItem;
     }
 
-    private Optional<SkillSetItemDTO> saveSkillSetItem(Category savedCategory, SkillSetItemDTO skillSetItemDTO) {
+    private Optional<SkillSetItemDTO> saveSkillSetItem(SecondCategory savedSecondCategory, SkillSetItemDTO skillSetItemDTO) {
 
         // Change type SkillSetItemDTO to SkillSetItem
         SkillSetItem skillSetItem = skillSetItemMapper.skillSetItemDTOToSkillSetItem(skillSetItemDTO);
 
 
         // Save SkillSetItemObject
-        SkillSetItem savedSkillSetItem = bindSkillSetItemToCategory(savedCategory, skillSetItem);
+        SkillSetItem savedSkillSetItem = bindSkillSetItemToCategory(savedSecondCategory, skillSetItem);
 
         // Change type SkillSetItem to SkillSetItemDTO
         SkillSetItemDTO savedSkillSetItemDTO = skillSetItemMapper.skillSetItemToSkillSetItemDTO(savedSkillSetItem);
@@ -272,15 +270,15 @@ public class SkillSetServiceImpl implements SkillSetService {
         return Optional.of(savedSkillSetItemDTO);
     }
 
-    private SkillSetItem bindSkillSetItemToCategory(Category savedCategory, SkillSetItem skillSetItem) {
+    private SkillSetItem bindSkillSetItemToCategory(SecondCategory savedSecondCategory, SkillSetItem skillSetItem) {
         // Bind SkillSetItem object to Category object
-        savedCategory.addSkillSetItem(skillSetItem);
+        savedSecondCategory.addSkillSetItem(skillSetItem);
 
         // Persist SkillSetItem object to db
         SkillSetItem savedSkillSetItem = skillSetItemRepository.save(skillSetItem);
 
         // Save the Category object which SkillSetItem object was bound
-        categoryRepository.save(savedCategory);
+        secondCategoryRepository.save(savedSecondCategory);
 
         // Save SkillSetItemObject and return it
         return savedSkillSetItem;
@@ -356,14 +354,14 @@ public class SkillSetServiceImpl implements SkillSetService {
     @Override
     @Transactional
     public Optional<ResponseSuccess> deletePlatform(UUID platformId) {
-        Platform savedPlatform = getAppropriateEntityByIds(platformId, null, null, null) instanceof Platform
-                ? (Platform) getAppropriateEntityByIds(platformId, null, null, null) : null;
+        FirstCategory savedFirstCategory = getAppropriateEntityByIds(platformId, null, null, null) instanceof FirstCategory
+                ? (FirstCategory) getAppropriateEntityByIds(platformId, null, null, null) : null;
 
-        if (savedPlatform == null) {
+        if (savedFirstCategory == null) {
             return Optional.empty();
         }
 
-        platformRepository.delete(savedPlatform);
+        firstCategoryRepository.delete(savedFirstCategory);
 
         return Optional.of(new ResponseSuccess(LocalDateTime.now(), HttpStatus.ACCEPTED.value(), "successfully deleted"));
     }
@@ -371,14 +369,14 @@ public class SkillSetServiceImpl implements SkillSetService {
     @Override
     @Transactional
     public Optional<ResponseSuccess> deleteCategory(UUID platformId, UUID categoryId) {
-        Category savedCategory = getAppropriateEntityByIds(platformId, categoryId, null, null) instanceof Category
-                ? (Category) getAppropriateEntityByIds(platformId, categoryId, null, null) : null;
+        SecondCategory savedSecondCategory = getAppropriateEntityByIds(platformId, categoryId, null, null) instanceof SecondCategory
+                ? (SecondCategory) getAppropriateEntityByIds(platformId, categoryId, null, null) : null;
 
-        if (savedCategory == null) {
+        if (savedSecondCategory == null) {
             return Optional.empty();
         }
 
-        categoryRepository.delete(savedCategory);
+        secondCategoryRepository.delete(savedSecondCategory);
 
         return Optional.of(new ResponseSuccess(LocalDateTime.now(), HttpStatus.ACCEPTED.value(), "successfully deleted"));
     }

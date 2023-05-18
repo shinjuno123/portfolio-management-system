@@ -101,7 +101,7 @@ create table if not exists experience
   COLLATE = utf8mb4_0900_ai_ci;
 
 
-create table if not exists platform
+create table if not exists first_category
 (
     id       varchar(36) not null,
     name     varchar(30) not null,
@@ -113,16 +113,16 @@ create table if not exists platform
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
-create table if not exists category
+create table if not exists second_category
 (
     id          varchar(36) not null,
     name        varchar(30) not null,
-    platform_id varchar(36) not null,
+    first_category_id varchar(36) not null,
     uploaded    datetime    not null,
     updated     datetime    not null,
-    constraint fk_platform_category foreign key (platform_id)
-        references platform (id),
-    constraint category_unique_key unique key (name, platform_id),
+    constraint fk_platform_category foreign key (first_category_id)
+        references first_category (id),
+    constraint category_unique_key unique key (name, first_category_id),
     primary key (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -136,10 +136,10 @@ create table if not exists skill_set_item
     description text         not null,
     uploaded    datetime     not null,
     updated     datetime     not null,
-    category_id varchar(200) not null,
-    constraint fk_category_skill_set_item foreign key (category_id)
-        references category (id),
-    constraint skill_set_item_unique_key unique key (category_id, title),
+    second_category_id varchar(200) not null,
+    constraint fk_category_skill_set_item foreign key (second_category_id)
+        references second_category (id),
+    constraint skill_set_item_unique_key unique key (second_category_id, title),
     primary key (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4

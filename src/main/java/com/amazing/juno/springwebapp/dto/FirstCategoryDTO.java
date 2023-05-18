@@ -1,7 +1,6 @@
 package com.amazing.juno.springwebapp.dto;
 
-import com.amazing.juno.springwebapp.entity.Platform;
-import com.amazing.juno.springwebapp.entity.SkillSetItem;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Null;
 import lombok.Builder;
@@ -11,9 +10,11 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
-@Builder
+
 @Data
-public class CategoryDTO {
+@Builder
+public class FirstCategoryDTO {
+
 
     private UUID id;
 
@@ -27,5 +28,5 @@ public class CategoryDTO {
     private LocalDateTime uploaded;
 
     @Null(message = "must be null!")
-    private Set<SkillSetItemDTO> skillSetItemSet;
+    private Set<SecondCategoryDTO> categorySet;
 }

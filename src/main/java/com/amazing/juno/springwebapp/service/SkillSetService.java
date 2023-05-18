@@ -1,7 +1,7 @@
 package com.amazing.juno.springwebapp.service;
 
-import com.amazing.juno.springwebapp.dto.CategoryDTO;
-import com.amazing.juno.springwebapp.dto.PlatformDTO;
+import com.amazing.juno.springwebapp.dto.SecondCategoryDTO;
+import com.amazing.juno.springwebapp.dto.FirstCategoryDTO;
 import com.amazing.juno.springwebapp.dto.RelevantProjectDTO;
 import com.amazing.juno.springwebapp.dto.SkillSetItemDTO;
 import com.amazing.juno.springwebapp.entity.ResponseSuccess;
@@ -12,13 +12,13 @@ import java.util.UUID;
 
 public interface SkillSetService {
 
-    List<PlatformDTO> listAllSkillSet();
+    List<FirstCategoryDTO> listAllSkillSet();
 
     List<SkillSetItemDTO> listSkillSetItemsByCategoryId(UUID categoryId);
 
-    Optional<PlatformDTO> saveOrUpdatePlatform(PlatformDTO platformDTO);
+    Optional<FirstCategoryDTO> saveOrUpdatePlatform(FirstCategoryDTO firstCategoryDTO);
 
-    Optional<CategoryDTO> saveOrUpdateCategory(UUID platformId, CategoryDTO categoryDTO);
+    Optional<SecondCategoryDTO> saveOrUpdateCategory(UUID platformId, SecondCategoryDTO secondCategoryDTO);
 
     Optional<SkillSetItemDTO> saveOrUpdateSkillSetItem(UUID platformId,UUID categoryId,SkillSetItemDTO skillSetItemDTO,String skillSetImagePath);
 

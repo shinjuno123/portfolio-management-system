@@ -34,15 +34,15 @@ public class BootstrapData implements CommandLineRunner {
 
     private final ProjectRepository projectRepository;
 
-    private final PlatformRepository platformRepository;
+    private final FirstCategoryRepository firstCategoryRepository;
 
-    private final CategoryRepository categoryRepository;
+    private final SecondCategoryRepository secondCategoryRepository;
 
     private final ExperienceRepository experienceRepository;
 
-    private final List<Platform> platforms = new ArrayList<>();
+    private final List<FirstCategory> firstCategories = new ArrayList<>();
 
-    private final List<Category> categories = new ArrayList<>();
+    private final List<SecondCategory> categories = new ArrayList<>();
 
 
     @Override
@@ -158,8 +158,8 @@ public class BootstrapData implements CommandLineRunner {
 
 
     private void saveSkillSet() {
-        if (platformRepository.count() < 1) {
-            platforms.addAll(savePlatform());
+        if (firstCategoryRepository.count() < 1) {
+            firstCategories.addAll(savePlatform());
             categories.addAll(saveCategories());
 
         }
@@ -167,103 +167,103 @@ public class BootstrapData implements CommandLineRunner {
     }
 
 
-    private List<Platform> savePlatform() {
-        Platform platform1 = new Platform();
-        platform1.setName("Web");
+    private List<FirstCategory> savePlatform() {
+        FirstCategory firstCategory1 = new FirstCategory();
+        firstCategory1.setName("Web");
 
-        Platform platform2 = new Platform();
-        platform2.setName("Mobile");
+        FirstCategory firstCategory2 = new FirstCategory();
+        firstCategory2.setName("Mobile");
 
-        Platform platform3 = new Platform();
-        platform3.setName("Desktop");
+        FirstCategory firstCategory3 = new FirstCategory();
+        firstCategory3.setName("Desktop");
 
         return Arrays.asList(
 
-                platformRepository.save(
-                        platform1
+                firstCategoryRepository.save(
+                        firstCategory1
                 ),
-                platformRepository.save(
-                        platform2
+                firstCategoryRepository.save(
+                        firstCategory2
                 ),
-                platformRepository.save(
-                        platform3
+                firstCategoryRepository.save(
+                        firstCategory3
                 )
         );
 
 
     }
 
-    private List<Category> saveCategories() {
+    private List<SecondCategory> saveCategories() {
 
-        for (int i = 0; i < platforms.size(); i++) {
-            Platform platform = platforms.get(i);
+        for (int i = 0; i < firstCategories.size(); i++) {
+            FirstCategory firstCategory = firstCategories.get(i);
 
-            switch (platform.getName()) {
-                case "Web" -> categories.addAll(saveCategoriesRelatedToWeb(platform));
-                case "Mobile" -> categories.addAll(saveCategoriesRelatedToMobile(platform));
-                case "Desktop" -> categories.addAll(saveCategoriesRelatedToDesktop(platform));
+            switch (firstCategory.getName()) {
+                case "Web" -> categories.addAll(saveCategoriesRelatedToWeb(firstCategory));
+                case "Mobile" -> categories.addAll(saveCategoriesRelatedToMobile(firstCategory));
+                case "Desktop" -> categories.addAll(saveCategoriesRelatedToDesktop(firstCategory));
             }
 
-            Platform savedPlatform = platformRepository.save(platform);
+            FirstCategory savedFirstCategory = firstCategoryRepository.save(firstCategory);
 
-            platforms.set(i, savedPlatform);
+            firstCategories.set(i, savedFirstCategory);
         }
 
         return categories;
     }
 
-    private Collection<? extends Category> saveCategoriesRelatedToDesktop(Platform platform) {
-        Category category = new Category();
-        category.setName("OS Independent");
+    private Collection<? extends SecondCategory> saveCategoriesRelatedToDesktop(FirstCategory firstCategory) {
+        SecondCategory secondCategory = new SecondCategory();
+        secondCategory.setName("OS Independent");
 
-        platform.getCategorySet().add(category);
-        category.setPlatform(platform);
+        firstCategory.getSecondCategorySet().add(secondCategory);
+        secondCategory.setFirstCategory(firstCategory);
 
-        Category savedCategory1 = categoryRepository.save(
-                category
+        SecondCategory savedSecondCategory1 = secondCategoryRepository.save(
+                secondCategory
         );
 
 
-        return List.of(savedCategory1);
+        return List.of(savedSecondCategory1);
     }
 
-    private Collection<? extends Category> saveCategoriesRelatedToMobile(Platform platform) {
-        Category category1 = new Category();
-        category1.setName("Android");
+    private Collection<? extends SecondCategory> saveCategoriesRelatedToMobile(FirstCategory firstCategory) {
+        SecondCategory secondCategory1 = new SecondCategory();
+        secondCategory1.setName("Android");
 
-        platform.getCategorySet().add(category1);
-        category1.setPlatform(platform);
+        firstCategory.getSecondCategorySet().add(secondCategory1);
+        secondCategory1.setFirstCategory(firstCategory);
 
-        Category savedCategory1 = categoryRepository.save(
-                category1
+        SecondCategory savedSecondCategory1 = secondCategoryRepository.save(
+                secondCategory1
         );
 
 
-        return List.of(savedCategory1);
+        return List.of(savedSecondCategory1);
     }
 
-    private Collection<? extends Category> saveCategoriesRelatedToWeb(Platform platform) {
-        Category category1 = new Category();
-        category1.setName("Frontend");
+    private Collection<? extends SecondCategory> saveCategoriesRelatedToWeb(FirstCategory firstCategory) {
+        SecondCategory secondCategory1 = new SecondCategory();
+        secondCategory1.setName("Frontend");
 
 
-        platform.getCategorySet().add(category1);
-        category1.setPlatform(platform);
+        firstCategory.getSecondCategorySet().add(secondCategory1);
+        secondCategory1.setFirstCategory(firstCategory);
 
-        Category savedCategory1 = categoryRepository.save(
-                category1
+        SecondCategory savedSecondCategory1 = secondCategoryRepository.save(
+                secondCategory1
         );
 
-        Category category2 = new Category();
-        category2.setName("Backend");
+        SecondCategory secondCategory2 = new SecondCategory();
+        secondCategory2.setName("Backend");
 
-        platform.getCategorySet().add(category2);
-        category2.setPlatform(platform);
+        firstCategory.getSecondCategorySet().add(secondCategory2);
+        secondCategory2.setFirstCategory(firstCategory);
 
 
-        Category savedCategory2 = categoryRepository.save(category2);
+        SecondCategory savedSecondCategory2 = secondCategoryRepository.save(secondCategory2);
 
-        return Arrays.asList(savedCategory1, savedCategory2);
+        return Arrays.asList(savedSecondCategory1, savedSecondCategory2);
     }
 
 

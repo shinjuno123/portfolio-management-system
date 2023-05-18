@@ -50,9 +50,9 @@ public class SkillSetItem {
     private Set<RelevantProject> relevantProjectSet= new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "second_category_id")
     @JsonIgnore
-    private Category category;
+    private SecondCategory secondCategory;
 
 
     public void addRelevantProject(RelevantProject relevantProject){

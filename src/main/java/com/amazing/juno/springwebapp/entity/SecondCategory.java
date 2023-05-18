@@ -1,6 +1,7 @@
 package com.amazing.juno.springwebapp.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,10 +19,8 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class Platform {
-
-
+@Entity(name = "second_category")
+public class SecondCategory {
 
     @Id
     @JdbcTypeCode(SqlTypes.CHAR)
@@ -30,7 +29,8 @@ public class Platform {
     @Column(length = 36, updatable = false, columnDefinition = "varchar")
     private UUID id;
 
-    @Column(nullable = false, name = "name", length = 30, unique = true)
+
+    @Column(nullable = false, name = "name", length = 30)
     private String name;
 
     @UpdateTimestamp
@@ -41,18 +41,23 @@ public class Platform {
     @Column(nullable = false, name = "uploaded")
     private LocalDateTime uploaded;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "platform", cascade = CascadeType.ALL)
-    private Set<Category> categorySet = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "secondCategory", cascade = CascadeType.ALL)
+    private Set<SkillSetItem> skillSetItemSet = new HashSet<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "first_category_id")
+    @JsonIgnore
+    private FirstCategory firstCategory;
 
-    public void addCategory(Category category){
-        this.categorySet.add(category);
-        category.setPlatform(this);
+    public void addSkillSetItem(SkillSetItem skillSetItem){
+        this.skillSetItemSet.add(skillSetItem);
+        skillSetItem.setSecondCategory(this);
     }
 
-    public void removeCategory(Category category){
-        this.categorySet.remove(category);
-        category.setPlatform(null);
+    public void removeSkillSetItem(SkillSetItem skillSetItem){
+        this.skillSetItemSet.remove(skillSetItem);
+        skillSetItem.setSecondCategory(this);
     }
+
 
 }

@@ -1,13 +1,13 @@
 package com.amazing.juno.springwebapp.mapper;
 
-import com.amazing.juno.springwebapp.dto.CategoryDTO;
-import com.amazing.juno.springwebapp.entity.Category;
+import com.amazing.juno.springwebapp.dto.SecondCategoryDTO;
+import com.amazing.juno.springwebapp.entity.SecondCategory;
 import org.mapstruct.Mapper;
 
 @Mapper
 public interface CategoryMapper {
 
-    CategoryDTO categoryToCategoryDTO(Category category);
+    SecondCategoryDTO categoryToCategoryDTO(SecondCategory secondCategory);
 
-    Category categoryDTOToCategory(CategoryDTO categoryDTO);
+    SecondCategory categoryDTOToCategory(SecondCategoryDTO secondCategoryDTO);
 }
