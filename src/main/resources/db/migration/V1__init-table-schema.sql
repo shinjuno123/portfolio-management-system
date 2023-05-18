@@ -120,9 +120,9 @@ create table if not exists category
     platform_id varchar(36) not null,
     uploaded    datetime    not null,
     updated     datetime    not null,
-    unique key (name, platform_id),
     constraint fk_platform_category foreign key (platform_id)
         references platform (id),
+    constraint category_unique_key unique key (name, platform_id),
     primary key (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -131,15 +131,15 @@ create table if not exists category
 create table if not exists skill_set_item
 (
     id          varchar(36) not null,
-    title       varchar(30) not null,
-    image_path  text        not null,
-    description text        not null,
-    uploaded    datetime    not null,
-    updated     datetime    not null,
-    category_id varchar(36) not null,
-    unique key (title, category_id),
+    title       varchar(30)  not null,
+    image_path  text         not null,
+    description text         not null,
+    uploaded    datetime     not null,
+    updated     datetime     not null,
+    category_id varchar(200) not null,
     constraint fk_category_skill_set_item foreign key (category_id)
         references category (id),
+    constraint skill_set_item_unique_key unique key (category_id, title),
     primary key (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -153,13 +153,17 @@ create table if not exists relevant_project
     uploaded          datetime     not null,
     updated           datetime     not null,
     skill_set_item_id varchar(36)  not null,
-    unique key (url(400), skill_set_item_id),
     constraint fk_skill_set_item_relevant_project foreign key (skill_set_item_id)
         references skill_set_item (id),
+    constraint relevant_project_unique_key unique key (skill_set_item_id, url(400)),
     primary key (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
+
+
+
+
 
 
 

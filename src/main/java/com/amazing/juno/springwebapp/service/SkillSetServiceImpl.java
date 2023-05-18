@@ -13,6 +13,7 @@ import com.amazing.juno.springwebapp.mapper.CategoryMapper;
 import com.amazing.juno.springwebapp.mapper.PlatformMapper;
 import com.amazing.juno.springwebapp.mapper.RelevantProjectMapper;
 import com.amazing.juno.springwebapp.mapper.SkillSetItemMapper;
+import com.sun.tools.jconsole.JConsoleContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
@@ -179,14 +180,8 @@ public class SkillSetServiceImpl implements SkillSetService {
         // Change type Category to type CategoryDTO
         Category category = categoryMapper.categoryDTOToCategory(categoryDTO);
 
-        // Bind Category object to Platform object
-        savedPlatform.addCategory(category);
-
-        // Save the Platform object which Category object was bound
-        platformRepository.save(savedPlatform);
-
         // Save Category object
-        Category savedCategory = categoryRepository.save(category);
+        Category savedCategory = bindCategoryToPlatform(category, savedPlatform);
 
         // Change type Category to CategoryDTO
         CategoryDTO savedCategoryDTO = categoryMapper.categoryToCategoryDTO(savedCategory);
@@ -199,11 +194,14 @@ public class SkillSetServiceImpl implements SkillSetService {
         // Bind Category object to Platform object
         savedPlatform.addCategory(category);
 
+        // Persist Category object to DB
+        Category savedCategory = categoryRepository.save(category);
+
         // Save the Platform object which Category object was bound
         platformRepository.save(savedPlatform);
 
         // Save Category object
-        return categoryRepository.save(category);
+        return savedCategory;
     }
 
 
@@ -278,11 +276,14 @@ public class SkillSetServiceImpl implements SkillSetService {
         // Bind SkillSetItem object to Category object
         savedCategory.addSkillSetItem(skillSetItem);
 
+        // Persist SkillSetItem object to db
+        SkillSetItem savedSkillSetItem = skillSetItemRepository.save(skillSetItem);
+
         // Save the Category object which SkillSetItem object was bound
         categoryRepository.save(savedCategory);
 
         // Save SkillSetItemObject and return it
-        return skillSetItemRepository.save(skillSetItem);
+        return savedSkillSetItem;
     }
 
     @Override
@@ -328,11 +329,14 @@ public class SkillSetServiceImpl implements SkillSetService {
         // Bind Relevant object to SkillSetItem object
         savedSkillSetItem.addRelevantProject(updatedRelevantProject);
 
+        // Persist RelevantProject
+        RelevantProject savedRelevantProject = relevantProjectRepository.save(updatedRelevantProject);
+
         // Save the SkillSetItem object which RelevantProject object was bound
         skillSetItemRepository.save(savedSkillSetItem);
 
         // Save RelevantProject Object and return it
-        return relevantProjectRepository.save(updatedRelevantProject);
+        return savedRelevantProject;
     }
 
     private Optional<RelevantProjectDTO> saveRelevantProject(SkillSetItem savedSkillSetItem, RelevantProjectDTO relevantProjectDTO) {

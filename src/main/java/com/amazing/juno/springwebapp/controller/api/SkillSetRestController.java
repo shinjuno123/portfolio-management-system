@@ -41,7 +41,7 @@ public class SkillSetRestController {
 
     public final static String PUBLIC_ROOT_URL = "/api/public/skill-set";
 
-    public final static String ADMIN_ROOT_URL = "/api/public/skill-set";
+    public final static String ADMIN_ROOT_URL = "/api/admin/skill-set";
 
     // Full Url Paths
 
@@ -53,7 +53,7 @@ public class SkillSetRestController {
                     + CATEGORY_ID;
 
     public final static String ADMIN_SKILL_SET_PLATFORM_PATH =
-            PUBLIC_ROOT_URL
+            ADMIN_ROOT_URL
                     + "/platform";
 
 
