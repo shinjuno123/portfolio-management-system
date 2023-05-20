@@ -198,7 +198,7 @@ class ProjectRestControllerIntegrationTest {
         System.out.println(response);
         response.forEach(
                 result ->{
-                    if(result.containsKey("image")){
+                    if(result.containsKey("projectImage")){
                         testPassed.set(true);
                     }
                 }
@@ -214,7 +214,7 @@ class ProjectRestControllerIntegrationTest {
 
         mockMvc.perform(delete(ProjectRestController.ADMIN_PROJECT_ID_PATH, savedID)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isAccepted());
 
     }
 

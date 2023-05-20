@@ -4,6 +4,7 @@ import com.amazing.juno.springwebapp.controller.api.FileRestController;
 import com.amazing.juno.springwebapp.controller.api.ProjectRestController;
 import com.amazing.juno.springwebapp.dao.config.TestSecurityConfig;
 import com.amazing.juno.springwebapp.dto.ProjectDTO;
+import com.amazing.juno.springwebapp.entity.ResponseSuccess;
 import com.amazing.juno.springwebapp.service.FileStorageService;
 import com.amazing.juno.springwebapp.service.ProjectService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,8 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import java.net.MalformedURLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -82,7 +85,7 @@ class ProjectRestControllerTest {
         projectDTO.setImagePath(null);
 
 
-        MockMultipartFile file = new MockMultipartFile("image","project.png", MediaType.IMAGE_PNG.toString(),
+        MockMultipartFile file = new MockMultipartFile("projectImage","project.png", MediaType.IMAGE_PNG.toString(),
                 "wdkalwhfuiehufhwf".getBytes());
 
         MockMultipartFile metaData = new MockMultipartFile("project", "projectDTO", MediaType.APPLICATION_JSON_VALUE,
@@ -103,10 +106,10 @@ class ProjectRestControllerTest {
         ProjectDTO projectDTO = projectDTOList.get(0);
         projectDTO.setId(UUID.randomUUID());
 
-        given(projectService.deleteProject(projectDTO.getId())).willReturn(true);
+        given(projectService.deleteProject(projectDTO.getId())).willReturn(Optional.of(new ResponseSuccess(LocalDateTime.now(),202,"Success")));
 
         mockMvc.perform(delete(ProjectRestController.ADMIN_PROJECT_ID_PATH, projectDTO.getId())
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isAccepted());
     }
 }

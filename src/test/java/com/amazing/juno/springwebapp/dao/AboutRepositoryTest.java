@@ -39,6 +39,7 @@ class AboutRepositoryTest {
             about.setFaceImagePath("faceImage" + i);
             about.setSchool("school" + i);
             about.setDiploma("diploma" + i);
+            about.setTranscriptUrl("wajhdkjawd" + i);
             about.setDiplomaUrl("https://www.naver.com");
             about.setPeriod("period" + i);
             about.setRegionCountry("regionCountry" + i);

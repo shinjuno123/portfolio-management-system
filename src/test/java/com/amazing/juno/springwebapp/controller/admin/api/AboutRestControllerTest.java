@@ -92,6 +92,7 @@ class AboutRestControllerTest {
                 .description("description4")
                 .name("name")
                 .school("school4")
+                .transcriptUrl("twefsef")
                 .diploma("degree1")
                 .regionCountry("regionCountry4")
                 .faceImagePath("faceImagePath4")
@@ -128,7 +129,7 @@ class AboutRestControllerTest {
         MockMultipartFile metaData = new MockMultipartFile("about", "about", MediaType.APPLICATION_JSON_VALUE,
                 objectMapper.writeValueAsString(jsonInput).getBytes());
         MockMultipartFile diploma = new MockMultipartFile("diploma","awdawd.pptx", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes());
-
+        MockMultipartFile transcript = new MockMultipartFile("transcript","awdawd.pptx", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes());
 
         given(fileStorageService.saveFile(any(MultipartFile.class),any(String.class))).willReturn("filePath");
         given(aboutService.saveAbout(any(AboutDTO.class),any(String.class), any(String.class), any(String.class))).willReturn(tmpAboutDTOList.get(1));
@@ -138,6 +139,7 @@ class AboutRestControllerTest {
                         .file(image)
                         .file(diploma)
                         .file(metaData)
+                        .file(transcript)
                 .accept(MediaType.APPLICATION_JSON)
                )
                 .andExpect(status().isCreated())

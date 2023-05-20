@@ -79,6 +79,7 @@ public class AboutRestControllerIntegrationTest {
             about.setSchool("school" + i);
             about.setDiploma("diploma" + i);
             about.setName("name");
+            about.setTranscriptUrl("wadwadawd");
             about.setPeriod("period" + i);
             about.setDiplomaUrl(filePath);
             about.setRegionCountry("regionCountry" + i);
