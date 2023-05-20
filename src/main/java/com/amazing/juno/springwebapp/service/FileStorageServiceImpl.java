@@ -77,9 +77,8 @@ public class FileStorageServiceImpl implements FileStorageService {
             Path directoryFile = categoryDirection.resolve(fileName);
             Files.copy(file.getInputStream(), directoryFile, StandardCopyOption.REPLACE_EXISTING);
 
-            return UriComponentsBuilder.fromUri(URI.create(FileRestController.PUBLIC_FILE_PATH + FileRestController.CATEGORY_FILENAME_PATH))
-                    .buildAndExpand(category, fileName)
-                    .toUriString();
+            return UriComponentsBuilder.fromUriString(FileRestController.PUBLIC_FILE_PATH + FileRestController.CATEGORY_FILENAME_PATH)
+                    .build(category, fileName).toString();
         } catch (IOException e) {
             throw new FileStorageException("Could not upload file");
         }
