@@ -22,8 +22,9 @@ public class FileRestController {
     private final FileStorageService fileStorageService;
 
     public final static String PUBLIC_FILE_PATH = "/api/public/files";
+    public final static String CATEGORY_FILENAME_PATH = "/file-categories/{fileCategory}/file-names/{fileName}";
 
-    @GetMapping(value= PUBLIC_FILE_PATH + "/file-category-{fileCategory}/file-name-{fileName}",
+    @GetMapping(value= PUBLIC_FILE_PATH + CATEGORY_FILENAME_PATH,
             produces={
             MediaType.IMAGE_JPEG_VALUE,
             MediaType.IMAGE_PNG_VALUE,

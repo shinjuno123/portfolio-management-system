@@ -28,5 +28,5 @@ public class FirstCategoryDTO {
     private LocalDateTime uploaded;
 
     @Null(message = "must be null!")
-    private Set<SecondCategoryDTO> categorySet;
+    private Set<SecondCategoryDTO> secondCategorySet;
 }

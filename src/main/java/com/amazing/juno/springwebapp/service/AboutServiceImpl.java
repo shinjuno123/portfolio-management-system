@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -60,9 +59,10 @@ public class AboutServiceImpl implements AboutService {
 
     @Override
     @Transactional
-    public AboutDTO saveAbout(AboutDTO aboutDTO, String imagePath, String diplomaPath) {
+    public AboutDTO saveAbout(AboutDTO aboutDTO, String imagePath, String diplomaPath, String transcriptPath) {
         aboutDTO.setFaceImagePath(imagePath);
         aboutDTO.setDiplomaUrl(diplomaPath);
+        aboutDTO.setTranscriptUrl(transcriptPath);
 
         return aboutMapper.aboutToAboutDTO(
                 aboutRepository.save(aboutMapper.aboutDTOToAbout(aboutDTO))

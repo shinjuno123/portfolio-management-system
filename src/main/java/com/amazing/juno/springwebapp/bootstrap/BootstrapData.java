@@ -85,10 +85,11 @@ public class BootstrapData implements CommandLineRunner {
                             .name("Junho Shin")
                             .school("Konyang University")
                             .diploma("B.S in Computer Science")
-                            .diplomaUrl(FileRestController.PUBLIC_FILE_PATH + "/file-category-diploma/file-name-diploma.pdf")
+                            .diplomaUrl(FileRestController.PUBLIC_FILE_PATH + "/file-categories/diploma/file-names/diploma.pdf")
                             .period("Mar, 2017 ~ Feb, 2023")
                             .regionCountry("Daejeon, South Korea")
-                            .faceImagePath(FileRestController.PUBLIC_FILE_PATH + "/file-category-about/file-name-test.jpg")
+                            .transcriptUrl(FileRestController.PUBLIC_FILE_PATH + "/file-categories/transcript/file-names/transcript.pdf")
+                            .faceImagePath(FileRestController.PUBLIC_FILE_PATH + "/file-categories/about/file-names/test.jpg")
                             .build()
 
             );
@@ -100,7 +101,7 @@ public class BootstrapData implements CommandLineRunner {
             certificationRepository.save(
                     Certification.builder()
                             .name("AWS Solutions Architect - associate")
-                            .downloadUrl(FileRestController.PUBLIC_FILE_PATH + "/file-category-certification/file-name-AWS-Certified-Solutions-Architect-certificate.pdf")
+                            .downloadUrl(FileRestController.PUBLIC_FILE_PATH + "/file-categories/certification/file-names/AWS-Certified-Solutions-Architect-certificate.pdf")
                             .build()
             );
         }
@@ -119,7 +120,7 @@ public class BootstrapData implements CommandLineRunner {
                                     "My time at KT Aivle School lasted from August 2022 to November 2022, during my final year of college. My work as a tutor helped me develop strong program-solving skills and an ability to communicate technical concepts effectively to others.\n" +
                                     "\n" +
                                     "Overall, my experience as a web programming tutor demonstrates my proficiency in a range of programming languages and my ability to mentor others. These skills make me an asset to any team and position me well for future opportunities in the field of software development.")
-                            .imgPath(FileRestController.PUBLIC_FILE_PATH + "/file-category-experience/file-name-aivler.png")
+                            .imgPath(FileRestController.PUBLIC_FILE_PATH + "/file-categories/experience/file-names/aivler.png")
                             .positionName("Tutor")
                             .status("Part Time")
                             .workingPeriod("Aug, 2022 ~ Nov, 2022")
@@ -132,7 +133,7 @@ public class BootstrapData implements CommandLineRunner {
         if (projectRepository.count() < 1) {
             projectRepository.save(
                     Project.builder()
-                            .imagePath(FileRestController.PUBLIC_FILE_PATH + "/file-category-project/file-name-208680381-ceda31c0-d274-47b0-bdf3-89b087dfb56e.png")
+                            .imagePath(FileRestController.PUBLIC_FILE_PATH + "/file-categories/project/file-names/208680381-ceda31c0-d274-47b0-bdf3-89b087dfb56e.png")
                             .projectName("Konyang University Crawler Service")
                             .url("https://github.com/shinjuno123/konyang-university-crawler-service")
                             .build()
@@ -140,7 +141,7 @@ public class BootstrapData implements CommandLineRunner {
 
             projectRepository.save(
                     Project.builder()
-                            .imagePath(FileRestController.PUBLIC_FILE_PATH + "/file-category-project/file-name-208895331-7a96d273-bc9a-4530-8b99-0d36d2659ffd.png")
+                            .imagePath(FileRestController.PUBLIC_FILE_PATH + "/file-categories/project/file-names/208895331-7a96d273-bc9a-4530-8b99-0d36d2659ffd.png")
                             .projectName("App Recommending Solar power plants installation region")
                             .url("https://github.com/shinjuno123/solar-pick")
                             .build()
@@ -148,7 +149,7 @@ public class BootstrapData implements CommandLineRunner {
 
             projectRepository.save(
                     Project.builder()
-                            .imagePath(FileRestController.PUBLIC_FILE_PATH + "/file-category-project/file-name-208895331-7a96d273-nn9a-4530-2399-0d36d2659ffd.png")
+                            .imagePath(FileRestController.PUBLIC_FILE_PATH + "/file-categories/project/file-names/208895331-7a96d273-nn9a-4530-2399-0d36d2659ffd.png")
                             .projectName("Tomato Disease Detector")
                             .url("https://github.com/shinjuno123/tomato-disease-detector")
                             .build()

@@ -131,7 +131,7 @@ class AboutRestControllerTest {
 
 
         given(fileStorageService.saveFile(any(MultipartFile.class),any(String.class))).willReturn("filePath");
-        given(aboutService.saveAbout(any(AboutDTO.class),any(String.class), any(String.class))).willReturn(tmpAboutDTOList.get(1));
+        given(aboutService.saveAbout(any(AboutDTO.class),any(String.class), any(String.class), any(String.class))).willReturn(tmpAboutDTOList.get(1));
         given(fileStorageService.saveFile(any(MultipartFile.class),any(String.class))).willReturn("filePath");
 
         MvcResult mvcResult = mockMvc.perform(multipart(AboutRestController.ADMIN_ABOUT_PATH)

@@ -45,6 +45,9 @@ public class AboutDTO {
     @Null(message = "must be null!")
     private String diplomaUrl;
 
+    @Null(message = "must be null!")
+    private String transcriptUrl;
+
     @NotBlank(message = "must not be blank!")
     @NotNull(message = "must not be null!")
     private String regionCountry;

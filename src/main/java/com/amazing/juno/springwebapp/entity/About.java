@@ -46,6 +46,9 @@ public class About {
 	@Column(nullable = false, name = "diploma_url")
 	private String diplomaUrl;
 
+	@Column(nullable = false, name= "transcript_url")
+	private String transcriptUrl;
+
 	@Column(nullable = false, name = "region_country")
 	private String regionCountry;
 

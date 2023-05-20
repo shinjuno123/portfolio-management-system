@@ -21,6 +21,7 @@ create table if not exists about
     school          text         not null,
     diploma         text         not null,
     diploma_url     text         not null,
+    transcript_url  text         not null,
     region_country  text         not null,
     face_image_path text         not null,
     uploaded        datetime     not null,
@@ -115,11 +116,11 @@ create table if not exists first_category
 
 create table if not exists second_category
 (
-    id          varchar(36) not null,
-    name        varchar(30) not null,
+    id                varchar(36) not null,
+    name              varchar(30) not null,
     first_category_id varchar(36) not null,
-    uploaded    datetime    not null,
-    updated     datetime    not null,
+    uploaded          datetime    not null,
+    updated           datetime    not null,
     constraint fk_platform_category foreign key (first_category_id)
         references first_category (id),
     constraint category_unique_key unique key (name, first_category_id),
@@ -130,12 +131,12 @@ create table if not exists second_category
 
 create table if not exists skill_set_item
 (
-    id          varchar(36) not null,
-    title       varchar(30)  not null,
-    image_path  text         not null,
-    description text         not null,
-    uploaded    datetime     not null,
-    updated     datetime     not null,
+    id                 varchar(36)  not null,
+    title              varchar(30)  not null,
+    image_path         text         not null,
+    description        text         not null,
+    uploaded           datetime     not null,
+    updated            datetime     not null,
     second_category_id varchar(200) not null,
     constraint fk_category_skill_set_item foreign key (second_category_id)
         references second_category (id),

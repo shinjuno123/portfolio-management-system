@@ -21,8 +21,6 @@ import java.util.UUID;
 @Entity(name = "first_category")
 public class FirstCategory {
 
-
-
     @Id
     @JdbcTypeCode(SqlTypes.CHAR)
     @GeneratedValue(strategy = GenerationType.UUID)

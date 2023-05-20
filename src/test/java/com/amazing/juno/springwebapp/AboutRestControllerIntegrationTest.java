@@ -138,10 +138,12 @@ public class AboutRestControllerIntegrationTest {
                         .regionCountry("content")
                         .period("content")
                         .diploma("diploma")
+
                         .build()
                 ,
                  new MockMultipartFile("faceImage","awdawd.png", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes()),
-                 new MockMultipartFile("diploma","awdawd.pptx", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes())
+                 new MockMultipartFile("diploma","awdawd.pptx", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes()),
+                 new MockMultipartFile("transcript","awdawd.pptx", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes())
         );
 
 

@@ -12,9 +12,12 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -73,7 +76,10 @@ public class FileStorageServiceImpl implements FileStorageService {
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
             Path directoryFile = categoryDirection.resolve(fileName);
             Files.copy(file.getInputStream(), directoryFile, StandardCopyOption.REPLACE_EXISTING);
-            return FileRestController.PUBLIC_FILE_PATH + "/file-category-" + category +"/file-name-" + fileName;
+
+            return UriComponentsBuilder.fromUri(URI.create(FileRestController.PUBLIC_FILE_PATH + FileRestController.CATEGORY_FILENAME_PATH))
+                    .buildAndExpand(category, fileName)
+                    .toUriString();
         } catch (IOException e) {
             throw new FileStorageException("Could not upload file");
         }
