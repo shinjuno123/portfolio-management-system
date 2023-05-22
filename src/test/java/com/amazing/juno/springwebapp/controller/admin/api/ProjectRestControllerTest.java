@@ -16,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,6 +34,7 @@ import static org.mockito.BDDMockito.given;
 
 @WebMvcTest(ProjectRestController.class)
 @Import(TestSecurityConfig.class)
+@ActiveProfiles("test")
 class ProjectRestControllerTest {
 
     @Autowired

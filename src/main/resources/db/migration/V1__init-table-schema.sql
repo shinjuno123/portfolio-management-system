@@ -1,3 +1,5 @@
+
+
 create table if not exists user
 (
     id            char(36)     not null,
