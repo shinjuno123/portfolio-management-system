@@ -34,7 +34,7 @@
         <profile>
             <id>develop</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
                 <SPRING_PROFILE>develop</SPRING_PROFILE>
@@ -43,7 +43,7 @@
         <profile>
             <id>prod</id>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
                 <SPRING_PROFILE>prod</SPRING_PROFILE>
