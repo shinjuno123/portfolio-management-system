@@ -30,8 +30,8 @@ public class ProjectRestController {
     public final static String ADMIN_PROJECT_ID_PATH = "/api/admin/projects/{projectId}";
 
     @GetMapping(PUBLIC_PROJECT_PATH)
-    public ResponseEntity<Page<ProjectDTO>> listProjects(@RequestParam(required = false) Integer pageSize,
-                                                         @RequestParam(required = false) Integer pageNumber){
+    public ResponseEntity<Page<ProjectDTO>> listProjects(@RequestParam(required = false, name = "pageSize") Integer pageSize,
+                                                         @RequestParam(required = false, name = "pageNumber") Integer pageNumber){
 
         return new ResponseEntity<>(projectService.listProjects(pageSize, pageNumber), HttpStatus.ACCEPTED);
     }
