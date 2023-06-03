@@ -20,7 +20,7 @@ public class CertificationDTO {
     private String name;
 
 
-    @NotNull(message = "must not be null!")
+    @Null(message = "must be null!")
     private String downloadUrl;
 
     @Null(message = "must be null!")
