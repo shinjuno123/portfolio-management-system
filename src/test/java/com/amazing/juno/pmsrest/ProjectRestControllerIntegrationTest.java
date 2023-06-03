@@ -90,10 +90,12 @@ class ProjectRestControllerIntegrationTest {
     @Test
     void testListProjects() throws Exception{
 
-        mockMvc.perform(get(ProjectRestController.PUBLIC_PROJECT_PATH)
+        MvcResult mvcResult =  mockMvc.perform(get(ProjectRestController.PUBLIC_PROJECT_PATH)
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isAccepted())
-                .andExpect(jsonPath("$.length()",greaterThanOrEqualTo(4)));
+                .andExpect(jsonPath("$.content.length()",greaterThanOrEqualTo(3))).andReturn();
+
+        System.out.println(mvcResult);
     }
 
 
@@ -102,11 +104,12 @@ class ProjectRestControllerIntegrationTest {
     void testListProjectAndReturnEmptyList() throws Exception{
         projectRepository.deleteAll();
 
-        mockMvc.perform(get(ProjectRestController.PUBLIC_PROJECT_PATH)
+         MvcResult mvcResult = mockMvc.perform(get(ProjectRestController.PUBLIC_PROJECT_PATH)
                         .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isAccepted())
-                .andExpect(jsonPath("$.length()",is(0)));
+                .andExpect(jsonPath("$.content.length()",is(0))).andReturn();
 
+        System.out.println(mvcResult);
 
     }
 

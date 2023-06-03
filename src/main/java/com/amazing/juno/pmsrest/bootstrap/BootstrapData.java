@@ -153,7 +153,30 @@ public class BootstrapData implements CommandLineRunner {
     }
 
     private void saveDefaultProject() {
-        if (projectRepository.count() < 1) {
+        if (projectRepository.count() < 4) {
+            projectRepository.save(
+                    Project.builder()
+                            .imagePath(FileRestController.PUBLIC_FILE_PATH + "/file-categories/project/file-names/208680381-ceda31c0-d274-47b0-bdf3-89b087dfb56e.png")
+                            .projectName("Konyang University Crawler Service")
+                            .url("https://github.com/shinjuno123/konyang-university-crawler-service")
+                            .build()
+            );
+
+            projectRepository.save(
+                    Project.builder()
+                            .imagePath(FileRestController.PUBLIC_FILE_PATH + "/file-categories/project/file-names/208895331-7a96d273-bc9a-4530-8b99-0d36d2659ffd.png")
+                            .projectName("App Recommending Solar power plants installation region")
+                            .url("https://github.com/shinjuno123/solar-pick")
+                            .build()
+            );
+
+            projectRepository.save(
+                    Project.builder()
+                            .imagePath(FileRestController.PUBLIC_FILE_PATH + "/file-categories/project/file-names/208895331-7a96d273-nn9a-4530-2399-0d36d2659ffd.png")
+                            .projectName("Tomato Disease Detector")
+                            .url("https://github.com/shinjuno123/tomato-disease-detector")
+                            .build()
+            );
             projectRepository.save(
                     Project.builder()
                             .imagePath(FileRestController.PUBLIC_FILE_PATH + "/file-categories/project/file-names/208680381-ceda31c0-d274-47b0-bdf3-89b087dfb56e.png")

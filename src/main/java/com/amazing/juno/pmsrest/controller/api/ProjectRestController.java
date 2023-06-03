@@ -7,6 +7,7 @@ import com.amazing.juno.pmsrest.exc.NotFoundException;
 import com.amazing.juno.pmsrest.service.FileStorageService;
 import com.amazing.juno.pmsrest.service.ProjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -29,9 +30,10 @@ public class ProjectRestController {
     public final static String ADMIN_PROJECT_ID_PATH = "/api/admin/projects/{projectId}";
 
     @GetMapping(PUBLIC_PROJECT_PATH)
-    public ResponseEntity<List<ProjectDTO>> listProjects(){
+    public ResponseEntity<Page<ProjectDTO>> listProjects(@RequestParam(required = false) Integer pageSize,
+                                                         @RequestParam(required = false) Integer pageNumber){
 
-        return new ResponseEntity<>(projectService.listProjects(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(projectService.listProjects(pageSize, pageNumber), HttpStatus.ACCEPTED);
     }
 
     @PostMapping(ADMIN_PROJECT_PATH)

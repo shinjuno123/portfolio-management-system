@@ -8,6 +8,9 @@ import com.amazing.juno.pmsrest.entity.ResponseSuccess;
 import com.amazing.juno.pmsrest.exc.NotFoundException;
 import com.amazing.juno.pmsrest.mapper.ProjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +27,9 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
 
     private final ProjectMapper projectMapper;
+
+    private static final int DEFAULT_PAGE = 0;
+    private static final int DEFAULT_PAGE_SIZE = 3;
 
 
     @Override
@@ -73,10 +79,38 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @Transactional
-    public List<ProjectDTO> listProjects() {
-        return projectRepository.findAll().stream().map(
-                projectMapper::projectToProjectDTO
-        ).toList();
+    public Page<ProjectDTO> listProjects(Integer pageSize, Integer pageNumber) {
+        PageRequest pageRequest = buildPageRequest(pageNumber, pageSize);
+
+        Page<Project> projectPage = projectRepository.findAll(pageRequest);
+
+        return projectPage.map(projectMapper::projectToProjectDTO);
+    }
+
+
+    private PageRequest buildPageRequest(Integer pageNumber, Integer pageSize){
+        int queryPageNumber;
+        int queryPageSize;
+
+        if(pageNumber != null && pageNumber > 0){
+            queryPageNumber = pageNumber - 1;
+        } else {
+            queryPageNumber = DEFAULT_PAGE;
+        }
+
+        if(pageSize == null) {
+            queryPageSize = DEFAULT_PAGE_SIZE;
+        } else {
+            if(pageSize > 4){
+                queryPageSize = 4;
+            } else {
+                queryPageSize = pageSize;
+            }
+        }
+
+        Sort sort = Sort.by(Sort.Order.asc("projectName"));
+
+        return PageRequest.of(queryPageNumber, queryPageSize, sort);
     }
 
     @Override

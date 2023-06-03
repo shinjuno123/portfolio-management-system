@@ -10,10 +10,13 @@ import com.amazing.juno.pmsrest.service.ProjectService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
@@ -73,8 +76,9 @@ class ProjectRestControllerTest {
 
     @Test
     void listProjects() throws Exception{
+        Page<ProjectDTO> projects = new PageImpl<>(projectDTOList);
 
-        given(projectService.listProjects()).willReturn(projectDTOList);
+        given(projectService.listProjects(null,null)).willReturn(projects);
 
         mockMvc.perform(get(ProjectRestController.PUBLIC_PROJECT_PATH)
                 .accept(MediaType.APPLICATION_JSON))
