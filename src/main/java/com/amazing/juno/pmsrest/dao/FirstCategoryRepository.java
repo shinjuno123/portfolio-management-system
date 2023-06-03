@@ -1,0 +1,13 @@
+package com.amazing.juno.pmsrest.dao;
+
+import com.amazing.juno.pmsrest.entity.FirstCategory;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.UUID;
+
+@Repository
+public interface FirstCategoryRepository extends JpaRepository<FirstCategory, UUID> {
+
+    FirstCategory findByName(String name);
+}
