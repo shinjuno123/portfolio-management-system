@@ -1,5 +1,6 @@
 package com.amazing.juno.pmsrest;
 
+import com.amazing.juno.pmsrest.properties.ClientMailProp;
 import com.amazing.juno.pmsrest.properties.FileUploadProperties;
 import com.amazing.juno.pmsrest.properties.JWTConstraints;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,8 @@ import java.util.Locale;
 @SpringBootApplication
 @EnableConfigurationProperties({
 		FileUploadProperties.class,
-		JWTConstraints.class
+		JWTConstraints.class,
+		ClientMailProp.class
 })
 public class SpringwebappApplication extends SpringBootServletInitializer {
 

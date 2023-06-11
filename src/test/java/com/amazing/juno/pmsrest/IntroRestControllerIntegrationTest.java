@@ -1,17 +1,21 @@
 package com.amazing.juno.pmsrest;
 
+import com.amazing.juno.pmsrest.controller.api.ContactRestController;
 import com.amazing.juno.pmsrest.controller.api.IntroRestController;
 import com.amazing.juno.pmsrest.dao.IntroRepository;
 import com.amazing.juno.pmsrest.dto.IntroDTO;
 import com.amazing.juno.pmsrest.entity.Introduction;
 import com.amazing.juno.pmsrest.entity.ResponseError;
 import com.amazing.juno.pmsrest.exc.NotFoundException;
+import com.amazing.juno.pmsrest.gmail.service.GmailService;
+import com.amazing.juno.pmsrest.service.ContactService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +53,12 @@ public class IntroRestControllerIntegrationTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @MockBean
+    ContactService contactService;
+
+    @MockBean
+    GmailService gmailService;
 
     MockMvc mockMvc;
 

@@ -3,6 +3,8 @@ package com.amazing.juno.pmsrest;
 import com.amazing.juno.pmsrest.controller.api.ContactRestController;
 import com.amazing.juno.pmsrest.dao.ContactRepository;
 import com.amazing.juno.pmsrest.entity.Contact;
+import com.amazing.juno.pmsrest.gmail.service.GmailService;
+import com.amazing.juno.pmsrest.service.ContactService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -10,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
@@ -46,6 +49,11 @@ public class ContactRestControllerIntegrationTest {
     @Autowired
     ObjectMapper objectMapper;
 
+
+    @MockBean
+    GmailService gmailService;
+
+
     MockMvc mockMvc;
 
     List<UUID> savedIds;
@@ -62,6 +70,7 @@ public class ContactRestControllerIntegrationTest {
             contact.setSubject("content" + i);
             contact.setContent("content" + i);
             savedIds.add(contactRepository.save(contact).getId());
+            System.out.println(savedIds);
         }
     }
 
@@ -75,10 +84,12 @@ public class ContactRestControllerIntegrationTest {
     @Test
     void testGetAllContactRecords() throws Exception{
 
-        mockMvc.perform(get(ContactRestController.ADMIN_CONTACT_PATH)
-                .accept(MediaType.APPLICATION_JSON))
+        MvcResult mvcResult = mockMvc.perform(get(ContactRestController.ADMIN_CONTACT_PATH)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted())
-                .andExpect(jsonPath("$.length()", greaterThanOrEqualTo(4)));
+                .andExpect(jsonPath("$.length()", greaterThanOrEqualTo(4))).andReturn();
+
+        System.out.println();
     }
 
     @Test
