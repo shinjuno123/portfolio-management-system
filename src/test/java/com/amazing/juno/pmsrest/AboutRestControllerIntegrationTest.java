@@ -7,7 +7,7 @@ import com.amazing.juno.pmsrest.dto.AboutDTO;
 import com.amazing.juno.pmsrest.entity.About;
 import com.amazing.juno.pmsrest.entity.ResponseError;
 import com.amazing.juno.pmsrest.exc.NotFoundException;
-import com.amazing.juno.pmsrest.gmail.service.GmailService;
+import com.amazing.juno.pmsrest.service.gmail.GmailService;
 import com.amazing.juno.pmsrest.service.ContactService;
 import com.amazing.juno.pmsrest.service.FileStorageService;
 import com.fasterxml.jackson.databind.ObjectMapper;

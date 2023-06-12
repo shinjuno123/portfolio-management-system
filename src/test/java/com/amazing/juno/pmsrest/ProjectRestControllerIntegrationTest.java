@@ -6,7 +6,7 @@ import com.amazing.juno.pmsrest.dao.ProjectRepository;
 import com.amazing.juno.pmsrest.dto.ProjectDTO;
 import com.amazing.juno.pmsrest.entity.Project;
 import com.amazing.juno.pmsrest.entity.ResponseError;
-import com.amazing.juno.pmsrest.gmail.service.GmailService;
+import com.amazing.juno.pmsrest.service.gmail.GmailService;
 import com.amazing.juno.pmsrest.service.ContactService;
 import com.amazing.juno.pmsrest.service.FileStorageService;
 import com.fasterxml.jackson.databind.ObjectMapper;

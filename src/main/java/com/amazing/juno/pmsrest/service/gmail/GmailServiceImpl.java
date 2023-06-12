@@ -1,4 +1,4 @@
-package com.amazing.juno.pmsrest.gmail.service;
+package com.amazing.juno.pmsrest.service.gmail;
 
 
 import lombok.RequiredArgsConstructor;

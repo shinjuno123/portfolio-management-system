@@ -1,13 +1,12 @@
 package com.amazing.juno.pmsrest;
 
-import com.amazing.juno.pmsrest.controller.api.ContactRestController;
 import com.amazing.juno.pmsrest.controller.api.IntroRestController;
 import com.amazing.juno.pmsrest.dao.IntroRepository;
 import com.amazing.juno.pmsrest.dto.IntroDTO;
 import com.amazing.juno.pmsrest.entity.Introduction;
 import com.amazing.juno.pmsrest.entity.ResponseError;
 import com.amazing.juno.pmsrest.exc.NotFoundException;
-import com.amazing.juno.pmsrest.gmail.service.GmailService;
+import com.amazing.juno.pmsrest.service.gmail.GmailService;
 import com.amazing.juno.pmsrest.service.ContactService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;

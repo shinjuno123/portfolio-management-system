@@ -4,7 +4,7 @@ package com.amazing.juno.pmsrest.service;
 import com.amazing.juno.pmsrest.dao.ContactRepository;
 import com.amazing.juno.pmsrest.dto.ContactDTO;
 import com.amazing.juno.pmsrest.entity.Contact;
-import com.amazing.juno.pmsrest.gmail.service.GmailService;
+import com.amazing.juno.pmsrest.service.gmail.GmailService;
 import com.amazing.juno.pmsrest.mapper.ContactMapper;
 import com.amazing.juno.pmsrest.properties.ClientMailProp;
 import lombok.RequiredArgsConstructor;
@@ -47,9 +47,9 @@ public class ContactServiceImpl implements ContactService {
 
 
         // Send email to my email address
-        adminSubject += contactDTO.getEmail();
+        String newAdminSubject = adminSubject + contactDTO.getEmail();
         gmailService.sendMessage(myEmail,
-                adminSubject,
+                newAdminSubject,
                 contactDTO.getSubject() + "\n\n" +contactDTO.getContent());
 
         return contactMapper.contactToContactDTO(savedContact);
