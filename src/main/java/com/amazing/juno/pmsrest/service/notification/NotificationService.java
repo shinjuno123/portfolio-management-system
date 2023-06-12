@@ -1,20 +1,21 @@
 package com.amazing.juno.pmsrest.service.notification;
 
 import com.amazing.juno.pmsrest.entity.Notification;
-import com.amazing.juno.pmsrest.entity.ResponseSuccess;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 public interface NotificationService {
+    List<Notification> findAllUnderCondition(UUID id, String subject, String body,
+                                             String imageUrl, String videoUrl,
+                                             Boolean active, Boolean displayed,
+                                             Integer version, LocalDateTime from,
+                                             LocalDateTime to);
 
-    List<Notification> findAllWhereIsActiveAndIsDisplayedAre(boolean isActive, boolean isDisplayed);
+    UUID saveNotification(Notification notification);
 
-    List<Notification> findAllWhereActiveIs(boolean isActive);
+    UUID updateNotification(Notification notification);
 
-    List<Notification> listUnderTheCondition();
-
-    Optional<ResponseSuccess> deleteUnderTheCondition();
-
-    Optional<ResponseSuccess> saveUnderTheCondition();
+    long count();
 }

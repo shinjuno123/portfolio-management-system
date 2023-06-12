@@ -44,35 +44,35 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         String whereClause = "";
 
         if(id != null){
-            whereClause += String.format("noti.id='%s' AND",id);
+            whereClause += String.format("noti.id='%s' AND ",id);
         }
 
         if(subject != null && !subject.isEmpty()){
-            whereClause += String.format("noti.subject='%s' AND",subject);
+            whereClause += String.format("noti.subject='%s' AND ",subject);
         }
 
         if(body != null && !body.isEmpty()){
-            whereClause += String.format("noti.body='%s' AND",body);
+            whereClause += String.format("noti.body='%s' AND ",body);
         }
 
         if(imageUrl != null && !imageUrl.isEmpty()){
-            whereClause += String.format("noti.imgUrl='%s' AND",imageUrl);
+            whereClause += String.format("noti.imageUrl='%s' AND ",imageUrl);
         }
 
         if(videoUrl != null && !videoUrl.isEmpty()){
-            whereClause += String.format("noti.imgUrl='%s' AND",videoUrl);
+            whereClause += String.format("noti.videoUrl='%s' AND ",videoUrl);
         }
 
         if(active != null){
-            whereClause += String.format("noti.active='%s' AND",active);
+            whereClause += String.format("noti.active=%s AND ",active);
         }
 
         if(displayed != null){
-            whereClause += String.format("noti.displayed='%s' AND",displayed);
+            whereClause += String.format("noti.displayed=%s AND ",displayed);
         }
 
         if(version != null) {
-            whereClause += String.format("noti.version='%s' AND",version);
+            whereClause += String.format("noti.version=%d AND ",version);
         }
 
         // Remove last AND
