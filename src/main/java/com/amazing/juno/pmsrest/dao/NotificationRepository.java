@@ -1,10 +1,10 @@
 package com.amazing.juno.pmsrest.dao;
 
 import com.amazing.juno.pmsrest.entity.Notification;
-import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -15,12 +15,14 @@ public interface NotificationRepository {
                                              String imageUrl, String videoUrl,
                                              Boolean active, Boolean displayed,
                                              Integer version, LocalDateTime from,
-                                             LocalDateTime to);
+                                             LocalDateTime to, Integer pageNumber,
+                                             Integer pageSize);
 
+    Notification saveNotification(Notification notification);
 
-    UUID saveNotification(Notification notification);
+    Optional<Notification> updateNotification(Notification notification);
 
-    UUID updateNotification(Notification notification);
+    Optional<UUID> deleteNotificationById(UUID id);
 
     long count();
 }
