@@ -1,12 +1,14 @@
 package com.amazing.juno.pmsrest.dao;
 
+import com.amazing.juno.pmsrest.dto.notification.NotificationFindUnderConditionResponseDTO;
 import com.amazing.juno.pmsrest.entity.Notification;
-import com.amazing.juno.pmsrest.exc.NotFoundException;
+import com.amazing.juno.pmsrest.mapper.NotificationMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,25 +21,28 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequiredArgsConstructor
 public class NotificationRepositoryImpl implements NotificationRepository {
 
+    private final NotificationMapper notificationMapper;
+
     private final EntityManager entityManager;
 
     private Integer PAGE_NUMBER = 1;
     private Integer PAGE_SIZE = 10;
 
+    private String completeWhereClause;
+
     @Override
     @Transactional
-    public List<Notification> findAllUnderCondition(UUID id,
-                                                    String subject,
-                                                    String body,
-                                                    String imageUrl,
-                                                    String videoUrl,
-                                                    Boolean active,
-                                                    Boolean displayed,
-                                                    Integer version,
-                                                    LocalDateTime from, LocalDateTime to,
-                                                    Integer pageNumber,
-                                                    Integer pageSize) {
-
+    public NotificationFindUnderConditionResponseDTO findAllUnderCondition(UUID id,
+                                                                           String subject,
+                                                                           String body,
+                                                                           String imageUrl,
+                                                                           String videoUrl,
+                                                                           Boolean active,
+                                                                           Boolean displayed,
+                                                                           Integer version,
+                                                                           LocalDateTime from, LocalDateTime to,
+                                                                           Integer pageNumber,
+                                                                           Integer pageSize) {
 
         String finalQuery = makeEntireDynamicQueryForSelectingNotification(id,
                 subject,
@@ -50,8 +55,10 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
         TypedQuery<Notification> resultQuery = entityManager.createQuery(finalQuery,Notification.class);
 
+        List<Notification> foundNotifications = applyPagination(resultQuery, pageNumber, pageSize).getResultList();
 
-        return applyPagination(resultQuery, pageNumber, pageSize).getResultList();
+
+        return generateNotificationFindUnderConditionResponseDTO(foundNotifications, pageNumber, pageSize);
     }
 
 
@@ -77,24 +84,59 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         // Remove last AND
         String resultWhereClause = removeLastMatchingWord("AND", whereClause);
 
+        completeWhereClause = addUploadedDurationCondition(resultWhereClause,from, to);
 
-       return basicSelectQuery + addUploadedDurationCondition(resultWhereClause,from, to);
+       return basicSelectQuery + completeWhereClause;
 
     }
 
     private TypedQuery<Notification> applyPagination(TypedQuery<Notification> typedQuery,Integer pageNumber, Integer pageSize){
-        if(pageNumber != null){
-            PAGE_NUMBER = pageNumber;
-        }
-        if(pageSize != null){
-            PAGE_SIZE = pageSize;
-        }
+
+        int pageNumberResult = pageNumber != null? pageNumber: PAGE_NUMBER;
+        int pageSizeResult = pageSize != null? pageSize: PAGE_SIZE;
 
         // Apply Pagination
-        typedQuery.setFirstResult((PAGE_NUMBER - 1) * PAGE_SIZE);
-        typedQuery.setMaxResults(PAGE_SIZE);
+        typedQuery.setFirstResult((pageNumberResult - 1) * pageSizeResult);
+        typedQuery.setMaxResults(pageSizeResult);
 
         return typedQuery;
+    }
+
+    private NotificationFindUnderConditionResponseDTO generateNotificationFindUnderConditionResponseDTO(List<Notification> notifications,
+                                                                                                        Integer pageNumber,
+                                                                                                        Integer pageSize) {
+        NotificationFindUnderConditionResponseDTO notificationFindUnderConditionResponseDTO = new NotificationFindUnderConditionResponseDTO();
+        notificationFindUnderConditionResponseDTO.setNotificationDTOs(
+                notifications.stream().map(notificationMapper::notificationToNotificationDTO).toList()
+        );
+
+
+        int pageNumberResult = pageNumber != null? pageNumber: PAGE_NUMBER;
+        int pageSizeResult = pageSize != null? pageSize: PAGE_SIZE;
+
+        // Count number of notifications under the same condition
+        Query queryTotal = entityManager.createQuery
+                ("Select count(noti.id) From notification noti " + completeWhereClause);
+
+
+        // Get total number of items
+        int totalItemCount = ((Long) queryTotal.getSingleResult()).intValue();
+
+        // Get number of total pages.
+        double numberOfTotalPages = Math.ceil((double) totalItemCount / pageSizeResult);
+
+        // Define what page the request is at.
+        boolean isFirstPage = numberOfTotalPages == 0 || (pageNumberResult <= numberOfTotalPages && pageNumberResult == 1);
+        boolean isLastPage = numberOfTotalPages == 0 || (pageNumberResult <= numberOfTotalPages && pageNumberResult == numberOfTotalPages);
+
+        // fill the response object.
+        notificationFindUnderConditionResponseDTO.setTotalPage((int) numberOfTotalPages);
+        notificationFindUnderConditionResponseDTO.setCurrentPage(pageNumberResult);
+        notificationFindUnderConditionResponseDTO.setFirstPage(isFirstPage);
+        notificationFindUnderConditionResponseDTO.setLastPage(isLastPage);
+        notificationFindUnderConditionResponseDTO.setPageSize(pageSizeResult);
+
+        return notificationFindUnderConditionResponseDTO;
     }
 
     private String addWhereClauseExceptForDurationCondition(UUID id,
@@ -105,6 +147,14 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                                                             Boolean active,
                                                             Boolean displayed,
                                                             Integer version) {
+
+        if(id == null && (subject == null || subject.isEmpty()) && (body == null || body.isEmpty()) &&
+                (imageUrl == null || imageUrl.isEmpty()) &&
+                (videoUrl == null || videoUrl.isEmpty()) &&
+                active == null && displayed == null && version == null){
+            return "";
+        }
+
         String whereClause = "WHERE ";
 
         if(id != null){
@@ -195,6 +245,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         return notification;
     }
 
+
     private Optional<Notification> findById(UUID id){
         TypedQuery<Notification> typedQuery = entityManager.createQuery("SELECT noti from notification noti WHERE noti.id=:id",Notification.class);
         typedQuery.setParameter("id", id);
@@ -218,6 +269,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         Optional<Notification> savedNotificationOptional = findById(notification.getId());
         AtomicReference<Optional<Notification>> atomicReference = new AtomicReference<>();
 
+
         savedNotificationOptional.ifPresentOrElse(
                 (savedNotification) -> {
                     Notification updatedNotification = entityManager.merge(notification);
@@ -232,7 +284,6 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
         return atomicReference.get();
     }
-
 
     // if id exists, return Optional<Null>.
     // if not return Optional empty.

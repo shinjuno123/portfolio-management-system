@@ -1,9 +1,8 @@
 package com.amazing.juno.pmsrest.bootstrap;
 
-import com.amazing.juno.pmsrest.controller.api.FileRestController;
-import com.amazing.juno.pmsrest.controller.api.IntroRestController;
+import com.amazing.juno.pmsrest.controller.api.v1.FileRestController;
+import com.amazing.juno.pmsrest.controller.api.v1.IntroRestController;
 import com.amazing.juno.pmsrest.dao.*;
-import com.amazing.juno.pmsrest.dto.*;
 import com.amazing.juno.pmsrest.dto.IntroDTO;
 import com.amazing.juno.pmsrest.entity.*;
 import lombok.RequiredArgsConstructor;

@@ -37,7 +37,7 @@ public class NotificationDTO {
     @NotNull(message = "\"displayed\" must not be null.")
     private boolean displayed;
 
-    @Null(message = "\"version\" must be null.")
+    @NotNull(message = "\"version\" must not be null.")
     private Integer version;
 
 

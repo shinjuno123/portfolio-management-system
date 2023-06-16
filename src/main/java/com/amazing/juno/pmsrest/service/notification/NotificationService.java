@@ -2,20 +2,18 @@ package com.amazing.juno.pmsrest.service.notification;
 
 import com.amazing.juno.pmsrest.dto.notification.NotificationDTO;
 import com.amazing.juno.pmsrest.dto.notification.NotificationFindUnderConditionDTO;
+import com.amazing.juno.pmsrest.dto.notification.NotificationFindUnderConditionResponseDTO;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface NotificationService {
-    List<NotificationDTO> findAllUnderCondition(NotificationFindUnderConditionDTO notificationFindUnderConditionDTO);
+    NotificationFindUnderConditionResponseDTO findAllUnderCondition(NotificationFindUnderConditionDTO notificationFindUnderConditionDTO);
 
-    NotificationDTO saveNotification(NotificationDTO notificationDTO);
+    NotificationDTO saveNotification(NotificationDTO notificationDTO, String imagePath);
 
-    Optional<NotificationDTO> updateNotification(UUID id, NotificationDTO notificationDTO);
+    Optional<NotificationDTO> updateNotification(UUID id, NotificationDTO notificationDTO, String imagePath);
 
     Optional<UUID> deleteNotificationById(UUID id);
 
-    long count();
 }
