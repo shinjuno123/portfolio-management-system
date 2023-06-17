@@ -46,7 +46,7 @@ public class RelevantSiteServiceImpl implements RelevantSiteService{
     }
 
     @Override
-    public Optional<RelevantSiteDTO> updateById(UUID id, RelevantSiteDTO relevantSiteDTO, String imagePath) {
+    public Optional<RelevantSiteDTO> updateById(UUID id, RelevantSiteDTO relevantSiteDTO) {
         AtomicReference<Optional<RelevantSiteDTO>> atomicReference = new AtomicReference<>();
 
         relevantSiteDTO.setId(id);

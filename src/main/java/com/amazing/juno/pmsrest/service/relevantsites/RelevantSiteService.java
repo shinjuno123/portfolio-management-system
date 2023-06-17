@@ -15,7 +15,7 @@ public interface RelevantSiteService {
 
     RelevantSiteDTO save(RelevantSiteDTO relevantSiteDTO);
 
-    Optional<RelevantSiteDTO> updateById(UUID id, RelevantSiteDTO relevantSiteDTO, String imagePath);
+    Optional<RelevantSiteDTO> updateById(UUID id, RelevantSiteDTO relevantSiteDTO);
 
     Optional<UUID> deleteById(UUID id);
 }
