@@ -1,6 +1,6 @@
 package com.amazing.juno.pmsrest.service.notification;
 
-import com.amazing.juno.pmsrest.dao.NotificationRepository;
+import com.amazing.juno.pmsrest.dao.notification.NotificationRepository;
 import com.amazing.juno.pmsrest.dto.notification.NotificationDTO;
 import com.amazing.juno.pmsrest.dto.notification.NotificationFindUnderConditionDTO;
 import com.amazing.juno.pmsrest.dto.notification.NotificationFindUnderConditionResponseDTO;

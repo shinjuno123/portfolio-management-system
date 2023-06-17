@@ -1,7 +1,7 @@
 package com.amazing.juno.pmsrest.v1.dao;
 
 
-import com.amazing.juno.pmsrest.dao.NotificationRepository;
+import com.amazing.juno.pmsrest.dao.notification.NotificationRepository;
 import com.amazing.juno.pmsrest.dto.notification.NotificationDTO;
 import com.amazing.juno.pmsrest.dto.notification.NotificationFindUnderConditionResponseDTO;
 import com.amazing.juno.pmsrest.entity.Notification;
@@ -123,42 +123,42 @@ public class NotificationRepositoryTest {
     @Test
     void testFindAllUnderConditionMethodWith1Parameter(){
         List<NotificationDTO> notifications = notificationRepository.findAllUnderCondition(savedIds.get(0),
-                null,null,null,null,null,null,null,null,null,null,null).getNotificationDTOs();
+                null,null,null,null,null,null,null,null,null,null,null).getDataDTOs();
         assertThat(notifications.size()).isEqualTo(1);
     }
 
     @Test
     void testFindAllUnderConditionMethodHavingSecondParameter(){
         List<NotificationDTO> notifications = notificationRepository.findAllUnderCondition(null,
-               "Subject" ,null,null,null,null,null,null,null,null,null,null).getNotificationDTOs();
+               "Subject" ,null,null,null,null,null,null,null,null,null,null).getDataDTOs();
         assertThat(notifications.size()).isEqualTo(4);
     }
 
     @Test
     void testFindAllUnderConditionMethodHavingSecondAndThirdParameter(){
         List<NotificationDTO> notifications = notificationRepository.findAllUnderCondition(null,
-                "Subject" ,"body",null,null,null,null,null,null,null,null,null).getNotificationDTOs();
+                "Subject" ,"body",null,null,null,null,null,null,null,null,null).getDataDTOs();
         assertThat(notifications.size()).isEqualTo(4);
     }
 
     @Test
     void testFindAllUnderConditionMethodHaving3Parameters(){
         List<NotificationDTO> notifications = notificationRepository.findAllUnderCondition(null,
-                "Subject" ,"body","https://www.naver.com",null,null,null,null,null,null,null,null).getNotificationDTOs();
+                "Subject" ,"body","https://www.naver.com",null,null,null,null,null,null,null,null).getDataDTOs();
         assertThat(notifications.size()).isEqualTo(4);
     }
 
     @Test
     void testFindAllUnderConditionMethodHaving4Parameters(){
         List<NotificationDTO> notifications = notificationRepository.findAllUnderCondition(null,
-                "Subject" ,"body","https://www.naver.com","https://www.youtube.com/watch?v=r8-RLV3pp3U",null,null,null,null,null,null,null).getNotificationDTOs();
+                "Subject" ,"body","https://www.naver.com","https://www.youtube.com/watch?v=r8-RLV3pp3U",null,null,null,null,null,null,null).getDataDTOs();
         assertThat(notifications.size()).isEqualTo(3);
     }
 
     @Test
     void testFindAllUnderConditionMethodHaving5Parameters(){
         List<NotificationDTO> notifications = notificationRepository.findAllUnderCondition(null,
-                "Subject" ,"body","https://www.naver.com","https://www.youtube.com/watch?v=r8-RLV3pp3U",true,null,null,null,null,null,null).getNotificationDTOs();
+                "Subject" ,"body","https://www.naver.com","https://www.youtube.com/watch?v=r8-RLV3pp3U",true,null,null,null,null,null,null).getDataDTOs();
         assertThat(notifications.size()).isEqualTo(3);
     }
 
@@ -166,7 +166,7 @@ public class NotificationRepositoryTest {
     @Test
     void testFindAllUnderConditionMethodHaving6Parameters(){
         List<NotificationDTO> notifications = notificationRepository.findAllUnderCondition(null,
-                "Subject" ,"body","https://www.naver.com","https://www.youtube.com/watch?v=r8-RLV3pp3U",true,true,null,null,null,null,null).getNotificationDTOs();
+                "Subject" ,"body","https://www.naver.com","https://www.youtube.com/watch?v=r8-RLV3pp3U",true,true,null,null,null,null,null).getDataDTOs();
         assertThat(notifications.size()).isEqualTo(2);
     }
 
@@ -174,7 +174,7 @@ public class NotificationRepositoryTest {
     @Test
     void testFindAllUnderConditionMethodHaving7Parameters(){
         List<NotificationDTO> notifications = notificationRepository.findAllUnderCondition(null,
-                "Subject" ,"body","https://www.naver.com","https://www.youtube.com/watch?v=r8-RLV3pp3U",true,true,0,null,null,null,null).getNotificationDTOs();
+                "Subject" ,"body","https://www.naver.com","https://www.youtube.com/watch?v=r8-RLV3pp3U",true,true,0,null,null,null,null).getDataDTOs();
         assertThat(notifications.size()).isEqualTo(2);
     }
 
@@ -184,7 +184,7 @@ public class NotificationRepositoryTest {
         LocalDateTime fourDaysAgoFromNow = LocalDateTime.now().minusDays(4L);
 
         List<NotificationDTO> notifications = notificationRepository.findAllUnderCondition(null,
-                "Subject" ,"body","https://www.naver.com","https://www.youtube.com/watch?v=r8-RLV3pp3U",true,true,0,fourDaysAgoFromNow,null,null,null).getNotificationDTOs();
+                "Subject" ,"body","https://www.naver.com","https://www.youtube.com/watch?v=r8-RLV3pp3U",true,true,0,fourDaysAgoFromNow,null,null,null).getDataDTOs();
         assertThat(notifications.size()).isEqualTo(2);
     }
 
@@ -194,7 +194,7 @@ public class NotificationRepositoryTest {
 
         List<NotificationDTO> notifications = notificationRepository.findAllUnderCondition(null,
                 "Subject" ,"body","https://www.naver.com","https://www.youtube.com/watch?v=r8-RLV3pp3U",true,true,0,fourDaysAgoFromNow,LocalDateTime.now(),
-                null,null).getNotificationDTOs();
+                null,null).getDataDTOs();
         assertThat(notifications.size()).isEqualTo(2);
     }
 
@@ -204,7 +204,7 @@ public class NotificationRepositoryTest {
 
         List<NotificationDTO> notifications = notificationRepository.findAllUnderCondition(savedIds.get(0),
                 "Subject" ,"body","https://www.naver.com","https://www.youtube.com/watch?v=r8-RLV3pp3U",true,true,0,fourDaysAgoFromNow,LocalDateTime.now(),
-                null,null).getNotificationDTOs();
+                null,null).getDataDTOs();
         assertThat(notifications.size()).isEqualTo(1);
     }
 
@@ -215,7 +215,7 @@ public class NotificationRepositoryTest {
 
         List<NotificationDTO> notifications = notificationRepository.findAllUnderCondition(null,
                 null ,null,null,null,true,true,null,null,
-                null,1, 5).getNotificationDTOs();
+                null,1, 5).getDataDTOs();
 
         assertThat(notifications.size()).isEqualTo(5);
 
@@ -248,7 +248,7 @@ public class NotificationRepositoryTest {
     @Transactional
     void testUpdateNotification(){
         List<NotificationDTO> notifications = notificationRepository.findAllUnderCondition(savedIds.get(0),
-                null,null,null,null,null,null,null,null,null,null,null).getNotificationDTOs();
+                null,null,null,null,null,null,null,null,null,null,null).getDataDTOs();
 
         assertThat(notifications.size()).isEqualTo(1);
 
@@ -258,7 +258,7 @@ public class NotificationRepositoryTest {
         notificationRepository.updateNotification(savedNotification);
 
         NotificationDTO updatedNotification = notificationRepository.findAllUnderCondition(savedIds.get(0),
-                null,null,null,null,null,null,null,null,null,null,null).getNotificationDTOs().get(0);
+                null,null,null,null,null,null,null,null,null,null,null).getDataDTOs().get(0);
 
         assertThat(updatedNotification.getBody()).isEqualTo("Updated Body");
         assertThat(updatedNotification.getSubject()).isEqualTo("Subject");

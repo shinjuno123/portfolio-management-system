@@ -1,7 +1,6 @@
 package com.amazing.juno.pmsrest.v1.controller.api;
 
 import com.amazing.juno.pmsrest.controller.api.v1.NotificationRestController;
-import com.amazing.juno.pmsrest.dao.NotificationRepository;
 import com.amazing.juno.pmsrest.dto.notification.NotificationDTO;
 import com.amazing.juno.pmsrest.dto.notification.NotificationFindUnderConditionDTO;
 import com.amazing.juno.pmsrest.dto.notification.NotificationFindUnderConditionResponseDTO;
@@ -21,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -78,6 +78,7 @@ class NotificationRestControllerTest {
                     .body("body")
                     .imageUrl("https://www.naver.com")
                     .videoUrl("https://www.youtube.com/watch?v=r8-RLV3pp3U")
+                    .version(0)
                     .active(true)
                     .displayed(true)
                     .build();
@@ -87,6 +88,7 @@ class NotificationRestControllerTest {
                     .subject("Subject")
                     .body("body")
                     .imageUrl("https://www.naver.com")
+                    .version(0)
                     .videoUrl(null)
                     .active(false)
                     .displayed(true)
@@ -98,6 +100,7 @@ class NotificationRestControllerTest {
                     .body("body")
                     .imageUrl("https://www.naver.com")
                     .videoUrl("https://www.youtube.com/watch?v=r8-RLV3pp3U")
+                    .version(0)
                     .active(true)
                     .displayed(false)
                     .build();
@@ -108,6 +111,7 @@ class NotificationRestControllerTest {
                     .body("body")
                     .imageUrl("https://www.naver.com")
                     .videoUrl("https://www.youtube.com/watch?v=r8-RLV3pp3U")
+                    .version(0)
                     .active(true)
                     .displayed(true)
                     .build();
@@ -119,6 +123,7 @@ class NotificationRestControllerTest {
             notifications.add(notification4);
 
     }
+
 
 
     @Test
@@ -176,9 +181,6 @@ class NotificationRestControllerTest {
 
         dummyNotificationDTO.setId(null);
         dummyNotificationDTO.setImageUrl(null);
-        dummyNotificationDTO.setVersion(null);
-        dummyNotificationDTO.setUpdated(null);
-        dummyNotificationDTO.setUploaded(null);
 
         MockMultipartFile notification = new MockMultipartFile("notification", "notificationDTO", MediaType.APPLICATION_JSON_VALUE,
                 objectMapper.writeValueAsString(dummyNotificationDTO).getBytes());
@@ -216,9 +218,6 @@ class NotificationRestControllerTest {
 
         dummyNotificationDTO.setId(null);
         dummyNotificationDTO.setImageUrl(null);
-        dummyNotificationDTO.setVersion(null);
-        dummyNotificationDTO.setUpdated(null);
-        dummyNotificationDTO.setUploaded(null);
 
         MockMultipartFile notification = new MockMultipartFile("notification", "notificationDTO", MediaType.APPLICATION_JSON_VALUE,
                 objectMapper.writeValueAsString(dummyNotificationDTO).getBytes());
@@ -253,9 +252,7 @@ class NotificationRestControllerTest {
 
         dummyNotificationDTO.setId(null);
         dummyNotificationDTO.setImageUrl(null);
-        dummyNotificationDTO.setVersion(null);
-        dummyNotificationDTO.setUpdated(null);
-        dummyNotificationDTO.setUploaded(null);
+
 
         MockMultipartFile notification = new MockMultipartFile("notification", "notificationDTO", MediaType.APPLICATION_JSON_VALUE,
                 objectMapper.writeValueAsString(dummyNotificationDTO).getBytes());
@@ -274,12 +271,14 @@ class NotificationRestControllerTest {
             return request;
         });
 
-        mockMvc.perform(builder
+        MvcResult mvcResult = mockMvc.perform(builder
                         .file(notification)
                         .file(image)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andReturn();
+
+        System.out.println(mvcResult);
     }
 
 

@@ -1,4 +1,4 @@
-package com.amazing.juno.pmsrest.dao;
+package com.amazing.juno.pmsrest.dao.notification;
 
 import com.amazing.juno.pmsrest.dto.notification.NotificationFindUnderConditionResponseDTO;
 import com.amazing.juno.pmsrest.entity.Notification;

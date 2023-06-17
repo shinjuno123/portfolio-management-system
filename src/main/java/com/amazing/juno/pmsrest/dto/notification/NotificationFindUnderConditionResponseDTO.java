@@ -1,22 +1,7 @@
 package com.amazing.juno.pmsrest.dto.notification;
-
-import lombok.Data;
-import lombok.ToString;
-
-import java.util.List;
+import com.amazing.juno.pmsrest.common.PaginationResponseDTO;
 
 
-@Data
-public class NotificationFindUnderConditionResponseDTO {
-    private List<NotificationDTO> notificationDTOs;
+public class NotificationFindUnderConditionResponseDTO extends PaginationResponseDTO<NotificationDTO> {
 
-    private Integer pageSize;
-
-    private Integer currentPage;
-
-    private Integer totalPage;
-
-    private boolean isLastPage;
-
-    private boolean isFirstPage;
 }

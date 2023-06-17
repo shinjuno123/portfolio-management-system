@@ -50,11 +50,11 @@ public class Notification {
     private Integer version;
 
     @UpdateTimestamp
-    @Column(nullable = false, name = "updated")
+    @Column(name = "updated")
     private LocalDateTime updated;
 
     @CreationTimestamp
-    @Column(nullable = false, name = "uploaded")
+    @Column(name = "uploaded")
     private LocalDateTime uploaded;
 
 }

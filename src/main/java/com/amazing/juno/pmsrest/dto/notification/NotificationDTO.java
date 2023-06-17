@@ -40,10 +40,7 @@ public class NotificationDTO {
     @NotNull(message = "\"version\" must not be null.")
     private Integer version;
 
-
-    @Null(message = "\"updated\" must be null.")
     private LocalDateTime updated;
 
-    @Null(message = "\"uploaded\" must be null.")
     private LocalDateTime uploaded;
 }
