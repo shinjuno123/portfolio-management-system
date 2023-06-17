@@ -18,11 +18,15 @@ public interface NotificationRepository {
                                                                     LocalDateTime to, Integer pageNumber,
                                                                     Integer pageSize);
 
-    Notification saveNotification(Notification notification);
 
-    Optional<Notification> updateNotification(Notification notification);
+    Notification save(Notification notification);
 
-    Optional<UUID> deleteNotificationById(UUID id);
+
+    Optional<Notification> update(Notification notification, UUID id);
+
+
+    Optional<UUID> deleteById(UUID id);
 
     long count();
+
 }

@@ -43,7 +43,8 @@ public class NotificationServiceImpl implements NotificationService {
     public NotificationDTO saveNotification(NotificationDTO notificationDTO, String imagePath) {
         notificationDTO.setImageUrl(imagePath);
 
-        Notification savedNotification = notificationRepository.saveNotification(
+
+        Notification savedNotification = notificationRepository.save(
                 notificationMapper.notificationDTOToNotification(notificationDTO)
         );
 
@@ -57,8 +58,9 @@ public class NotificationServiceImpl implements NotificationService {
         notificationDTO.setId(id);
         notificationDTO.setImageUrl(imagePath);
 
-        Optional<Notification> notificationOptional = notificationRepository.updateNotification(
-                notificationMapper.notificationDTOToNotification(notificationDTO)
+        Optional<Notification> notificationOptional = notificationRepository.update(
+                notificationMapper.notificationDTOToNotification(notificationDTO),
+                id
         );
 
         notificationOptional.ifPresentOrElse(
@@ -78,7 +80,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public Optional<UUID> deleteNotificationById(UUID id) {
-        return notificationRepository.deleteNotificationById(id);
+        return notificationRepository.deleteById(id);
     }
 
 }

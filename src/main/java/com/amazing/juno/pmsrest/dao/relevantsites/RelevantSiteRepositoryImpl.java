@@ -1,7 +1,9 @@
 package com.amazing.juno.pmsrest.dao.relevantsites;
 
+import com.amazing.juno.pmsrest.common.BasicJpaMethods;
 import com.amazing.juno.pmsrest.common.PaginationResponseGenerator;
 import com.amazing.juno.pmsrest.dto.relevantsites.RelevantSiteFindAllUnderConditionResponseDTO;
+import com.amazing.juno.pmsrest.entity.Notification;
 import com.amazing.juno.pmsrest.entity.RelevantSite;
 import com.amazing.juno.pmsrest.mapper.RelevantSiteMapper;
 import jakarta.persistence.EntityManager;
@@ -14,16 +16,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static com.amazing.juno.pmsrest.common.CommonMethod.addUploadedDurationCondition;
 import static com.amazing.juno.pmsrest.common.CommonMethod.removeLastMatchingWord;
 
 
 @Repository
-@RequiredArgsConstructor
-public class RelevantSiteRepositoryImpl implements RelevantSiteRepository {
-
-    private final EntityManager entityManager;
+public class RelevantSiteRepositoryImpl extends BasicJpaMethods<RelevantSite> implements RelevantSiteRepository {
 
     private final static String DATABASE_NAME = "relevant_site";
 
@@ -34,6 +34,15 @@ public class RelevantSiteRepositoryImpl implements RelevantSiteRepository {
     private final RelevantSiteMapper relevantSiteMapper;
 
     private final PaginationResponseGenerator paginationResponseGenerator;
+
+    public RelevantSiteRepositoryImpl(EntityManager entityManager,
+                                      RelevantSiteMapper relevantSiteMapper,
+                                      PaginationResponseGenerator paginationResponseGenerator
+                                      ) {
+        super(entityManager, RelevantSite.class, DATABASE_NAME, DATABASE_ALIAS);
+        this.relevantSiteMapper = relevantSiteMapper;
+        this.paginationResponseGenerator = paginationResponseGenerator;
+    }
 
     @Override
     @Transactional
@@ -79,8 +88,6 @@ public class RelevantSiteRepositoryImpl implements RelevantSiteRepository {
     }
 
 
-
-
     private String makeEntireDynamicQueryForSelectingRelevantProject(UUID id,
                                                                      String name,
                                                                      String url,
@@ -105,7 +112,6 @@ public class RelevantSiteRepositoryImpl implements RelevantSiteRepository {
 
         return basicSelectQuery + completeWhereClause;
     }
-
 
 
     private String addWhereClauseExceptForDurationCondition(UUID id,
@@ -140,21 +146,7 @@ public class RelevantSiteRepositoryImpl implements RelevantSiteRepository {
         return whereClause;
     }
 
-    @Override
-    @Transactional
-    public RelevantSite saveRelevantSite(RelevantSite relevantSite) {
-        return null;
-    }
 
-    @Override
-    @Transactional
-    public Optional<RelevantSite> updateRelevantSite(UUID id) {
-        return Optional.empty();
-    }
 
-    @Override
-    @Transactional
-    public long count() {
-        return 0;
-    }
+
 }

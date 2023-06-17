@@ -1,5 +1,6 @@
 package com.amazing.juno.pmsrest.dao.notification;
 
+import com.amazing.juno.pmsrest.common.BasicJpaMethods;
 import com.amazing.juno.pmsrest.common.PaginationResponseGenerator;
 import com.amazing.juno.pmsrest.dto.notification.NotificationFindUnderConditionResponseDTO;
 import com.amazing.juno.pmsrest.entity.Notification;
@@ -20,12 +21,10 @@ import static com.amazing.juno.pmsrest.common.CommonMethod.removeLastMatchingWor
 
 
 @Repository
-@RequiredArgsConstructor
-public class NotificationRepositoryImpl implements NotificationRepository {
+public class NotificationRepositoryImpl extends BasicJpaMethods<Notification> implements NotificationRepository {
 
     private final NotificationMapper notificationMapper;
 
-    private final EntityManager entityManager;
 
     private final static String DATABASE_NAME = "notification";
 
@@ -35,6 +34,14 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     private final PaginationResponseGenerator paginationResponseGenerator;
 
     private String completeWhereClause;
+
+    public NotificationRepositoryImpl(EntityManager entityManager,
+                                      NotificationMapper notificationMapper,
+                                      PaginationResponseGenerator paginationResponseGenerator) {
+        super(entityManager, Notification.class, DATABASE_NAME, DATABASE_ALIAS);
+        this.notificationMapper = notificationMapper;
+        this.paginationResponseGenerator = paginationResponseGenerator;
+    }
 
     @Override
     @Transactional
@@ -167,88 +174,25 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     }
 
 
-
-
-
-
-
     @Override
-    @Transactional
-    public Notification saveNotification(Notification notification) {
-        entityManager.persist(notification);
-
-        return notification;
+    public Optional<UUID> deleteById(UUID id) {
+        return super.deleteById(id);
     }
 
-
-    private Optional<Notification> findById(UUID id){
-        TypedQuery<Notification> typedQuery = entityManager.createQuery("SELECT noti from notification noti WHERE noti.id=:id",Notification.class);
-        typedQuery.setParameter("id", id);
-
-        List<Notification> notification = typedQuery.getResultList();
-
-        if(notification.isEmpty()){
-            return Optional.empty();
-        }
-
-        return Optional.of(notification.get(0));
+    @Override
+    public Notification save(Notification data) {
+        return super.save(data);
     }
 
-
-
-    // if id exists, return Optional<Notification>.
-    // if not return Optional empty.
     @Override
-    @Transactional
-    public Optional<Notification> updateNotification(Notification notification) {
-        Optional<Notification> savedNotificationOptional = findById(notification.getId());
-        AtomicReference<Optional<Notification>> atomicReference = new AtomicReference<>();
-
-
-        savedNotificationOptional.ifPresentOrElse(
-                (savedNotification) -> {
-                    Notification updatedNotification = entityManager.merge(notification);
-                    atomicReference.set(
-                            Optional.of(updatedNotification)
-                    );
-                },
-                () -> {
-                    atomicReference.set(Optional.empty());
-                }
-        );
-
-        return atomicReference.get();
+    public Optional<Notification> update(Notification data, UUID id) {
+        return super.update(data, id);
     }
 
-    // if id exists, return Optional<Null>.
-    // if not return Optional empty.
     @Override
-    @Transactional
-    public Optional<UUID> deleteNotificationById(UUID id) {
-        Optional<Notification> savedNotificationOptional = findById(id);
-        AtomicReference<Optional<UUID>> atomicReference = new AtomicReference<>();
-
-        savedNotificationOptional.ifPresentOrElse(
-                (savedNotification) -> {
-                    entityManager.remove(savedNotification);
-                    atomicReference.set(
-                            Optional.of(savedNotification.getId())
-                    );
-                },
-                () -> atomicReference.set(Optional.empty())
-
-        );
-
-
-        return atomicReference.get();
-    }
-
-
-    @Override
-    @Transactional
     public long count() {
-        Query query = entityManager.createQuery("SELECT count(*) FROM notification");
-
-        return (long) query.getSingleResult();
+        return super.count();
     }
+
+
 }

@@ -1,10 +1,7 @@
 package com.amazing.juno.pmsrest.dao.relevantsites;
 
 import com.amazing.juno.pmsrest.dto.relevantsites.RelevantSiteFindAllUnderConditionResponseDTO;
-import com.amazing.juno.pmsrest.entity.RelevantSite;
-
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface RelevantSiteRepository {
@@ -14,9 +11,6 @@ public interface RelevantSiteRepository {
                                                                          LocalDateTime to, Integer pageNumber,
                                                                          Integer pageSize);
 
-    RelevantSite saveRelevantSite(RelevantSite relevantSite);
 
-    Optional<RelevantSite> updateRelevantSite(UUID id);
 
-    long count();
 }

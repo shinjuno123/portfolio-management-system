@@ -95,10 +95,10 @@ public class NotificationRestControllerIntegrationTest {
                     .displayed(true)
                     .build();
 
-            savedIds.add(notificationRepository.saveNotification(notification1).getId());
-            savedIds.add(notificationRepository.saveNotification(notification2).getId());
-            savedIds.add(notificationRepository.saveNotification(notification3).getId());
-            savedIds.add(notificationRepository.saveNotification(notification4).getId());
+            savedIds.add(notificationRepository.save(notification1).getId());
+            savedIds.add(notificationRepository.save(notification2).getId());
+            savedIds.add(notificationRepository.save(notification3).getId());
+            savedIds.add(notificationRepository.save(notification4).getId());
 
     }
 
@@ -106,7 +106,7 @@ public class NotificationRestControllerIntegrationTest {
     @AfterEach
     void deleteAllData(){
         for(UUID id: savedIds){
-            notificationRepository.deleteNotificationById(id);
+            notificationRepository.deleteById(id);
         }
     }
 

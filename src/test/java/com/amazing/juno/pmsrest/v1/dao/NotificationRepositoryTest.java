@@ -61,14 +61,14 @@ public class NotificationRepositoryTest {
                     .displayed(true)
                     .build();
 
-            additionalSavedIds.add(notificationRepository.saveNotification(notification1).getId());
+            additionalSavedIds.add(notificationRepository.save(notification1).getId());
         }
 
     }
 
     void delete40Notification() {
         additionalSavedIds.forEach(uuid -> {
-            notificationRepository.deleteNotificationById(uuid);
+            notificationRepository.deleteById(uuid);
         });
     }
 
@@ -112,10 +112,10 @@ public class NotificationRepositoryTest {
                     .displayed(true)
                     .build();
 
-            savedIds.add(notificationRepository.saveNotification(notification1).getId());
-            savedIds.add(notificationRepository.saveNotification(notification2).getId());
-            savedIds.add(notificationRepository.saveNotification(notification3).getId());
-            savedIds.add(notificationRepository.saveNotification(notification4).getId());
+            savedIds.add(notificationRepository.save(notification1).getId());
+            savedIds.add(notificationRepository.save(notification2).getId());
+            savedIds.add(notificationRepository.save(notification3).getId());
+            savedIds.add(notificationRepository.save(notification4).getId());
         }
 
     }
@@ -237,7 +237,7 @@ public class NotificationRepositoryTest {
                 .displayed(true)
                 .build();
 
-        notificationRepository.saveNotification(notification);
+        notificationRepository.save(notification);
 
         assertThat(notificationRepository.count()).isEqualTo(5);
     }
@@ -255,7 +255,7 @@ public class NotificationRepositoryTest {
         Notification savedNotification = notificationMapper.notificationDTOToNotification(notifications.get(0));
         savedNotification.setBody("Updated Body");
 
-        notificationRepository.updateNotification(savedNotification);
+        notificationRepository.update(savedNotification, savedNotification.getId());
 
         NotificationDTO updatedNotification = notificationRepository.findAllUnderCondition(savedIds.get(0),
                 null,null,null,null,null,null,null,null,null,null,null).getDataDTOs().get(0);
@@ -272,9 +272,9 @@ public class NotificationRepositoryTest {
         // Enter unknown id.
         notification.setId(UUID.randomUUID());
 
-        assertThat(notificationRepository.updateNotification(notification)).isEqualTo(Optional.empty());
+        assertThat(notificationRepository.update(notification, notification.getId())).isEqualTo(Optional.empty());
 
-        assertThat(notificationRepository.deleteNotificationById(UUID.randomUUID())).isEqualTo(Optional.empty());
+        assertThat(notificationRepository.deleteById(UUID.randomUUID())).isEqualTo(Optional.empty());
     }
 
     @Test
