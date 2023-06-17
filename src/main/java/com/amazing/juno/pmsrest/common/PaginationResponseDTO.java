@@ -7,6 +7,11 @@ import java.util.List;
 
 @Data
 public abstract class PaginationResponseDTO<T> {
+
+    public void setDataDTOs(List<T> dataDTOs) {
+        this.dataDTOs = dataDTOs;
+    }
+
     private List<T> dataDTOs;
 
     Integer pageSize;
@@ -18,4 +23,6 @@ public abstract class PaginationResponseDTO<T> {
     boolean isLastPage;
 
     boolean isFirstPage;
+
+
 }

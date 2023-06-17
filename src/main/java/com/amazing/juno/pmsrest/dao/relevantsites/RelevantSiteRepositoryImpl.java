@@ -2,6 +2,7 @@ package com.amazing.juno.pmsrest.dao.relevantsites;
 
 import com.amazing.juno.pmsrest.common.BasicJpaMethods;
 import com.amazing.juno.pmsrest.common.PaginationResponseGenerator;
+import com.amazing.juno.pmsrest.dto.relevantsites.RelevantSiteDTO;
 import com.amazing.juno.pmsrest.dto.relevantsites.RelevantSiteFindAllUnderConditionResponseDTO;
 import com.amazing.juno.pmsrest.entity.Notification;
 import com.amazing.juno.pmsrest.entity.RelevantSite;
@@ -80,8 +81,16 @@ public class RelevantSiteRepositoryImpl extends BasicJpaMethods<RelevantSite> im
     private RelevantSiteFindAllUnderConditionResponseDTO convertListOfRelevantSiteToRelevantSiteFindAllUnderConditionResponseDTO(List<RelevantSite> relevantSites){
 
             RelevantSiteFindAllUnderConditionResponseDTO relevantSiteFindAllUnderConditionResponseDTO = new RelevantSiteFindAllUnderConditionResponseDTO();
+
+
+            List<RelevantSiteDTO> relevantSiteDTOs = relevantSites.stream().map(
+                    relevantSite -> {
+                        RelevantSiteDTO relevantSiteDTO = relevantSiteMapper.relevantSiteToRelevantSiteDTO(relevantSite);
+                        return relevantSiteDTO;
+                    }
+            ).toList();
             relevantSiteFindAllUnderConditionResponseDTO.setDataDTOs(
-                    relevantSites.stream().map(relevantSiteMapper::relevantSiteToRelevantSiteDTO).toList()
+                    relevantSiteDTOs
             );
 
             return relevantSiteFindAllUnderConditionResponseDTO;
@@ -135,7 +144,7 @@ public class RelevantSiteRepositoryImpl extends BasicJpaMethods<RelevantSite> im
         }
 
         if(url != null && !url.isEmpty()) {
-            whereClause += String.format("rel.url='%s'",url);
+            whereClause += String.format("rel.url='%s' AND ",url);
         }
 
         if(version != null) {

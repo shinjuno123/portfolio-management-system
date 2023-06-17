@@ -22,7 +22,6 @@ public abstract class BasicJpaMethods<T> {
     private final String DATABASE_ALIAS;
 
 
-
     protected BasicJpaMethods(EntityManager entityManager, Class<T> typeParameterClass,
                               String DATABASE_NAME, String DATABASE_ALIAS) {
         this.entityManager = entityManager;
