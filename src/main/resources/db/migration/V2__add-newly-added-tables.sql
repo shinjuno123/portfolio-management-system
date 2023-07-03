@@ -1,4 +1,4 @@
-CREATE TABLE notification (
+CREATE TABLE IF NOT EXISTS notification (
     id CHAR(36) NOT NULL,
     subject VARCHAR(255) NOT NULL,
     body TEXT NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE notification (
   COLLATE = utf8mb4_0900_ai_ci;
 
 
-CREATE TABLE relevant_site (
+CREATE TABLE IF NOT EXISTS relevant_site (
     id CHAR(36) NOT NULL,
     name VARCHAR(255) NOT NULL,
     url TEXT NOT NULL,

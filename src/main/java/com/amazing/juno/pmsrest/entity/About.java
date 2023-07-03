@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
@@ -54,8 +55,15 @@ public class About {
 	@Column(nullable = false, name = "face_image_path")
 	private String faceImagePath;
 
+	@Column(nullable = false, name = "active")
+	private boolean active;
+
 	@Column(nullable = false, name = "uploaded")
 	@CreationTimestamp
 	private LocalDateTime uploaded;
+
+	@Column(nullable = false, name = "updated")
+	@UpdateTimestamp
+	private LocalDateTime updated;
 
 }

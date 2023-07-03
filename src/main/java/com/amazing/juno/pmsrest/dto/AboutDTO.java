@@ -43,6 +43,9 @@ public class AboutDTO {
     @Null(message = "must be null!")
     private String transcriptUrl;
 
+    @NotNull(message = "must not be null!")
+    private boolean active;
+
     @NotBlank(message = "must not be blank!")
     @NotNull(message = "must not be null!")
     private String regionCountry;
@@ -53,4 +56,6 @@ public class AboutDTO {
     @Null(message = "must be null!")
     private LocalDateTime uploaded;
 
+    @Null(message = "must be null!")
+    private LocalDateTime updated;
 }

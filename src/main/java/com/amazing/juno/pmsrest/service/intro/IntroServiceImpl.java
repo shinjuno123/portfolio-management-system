@@ -38,7 +38,11 @@ public class IntroServiceImpl implements IntroService {
     @Override
     @Transactional
     public Optional<IntroDTO> getIntroductionById(UUID id){
-        return Optional.ofNullable(introMapper.introductionToIntroDTO(introRepository.findById(id).orElse(null)));
+        return Optional.ofNullable(
+                introMapper.introductionToIntroDTO(
+                        introRepository.findById(id).orElse(null)
+                )
+        );
     }
 
     @Override

@@ -9,6 +9,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
@@ -41,10 +42,13 @@ public class Introduction {
 	@Column(nullable = false, name = "opening")
 	private String opening;
 
+	@Column(nullable = false, name = "active")
+	private boolean active;
 
-	@Column(nullable = false, name = "uploaded")
+
 	@CreationTimestamp
 	private LocalDateTime uploaded;
 
-
+	@UpdateTimestamp
+	private LocalDateTime updated;
 }

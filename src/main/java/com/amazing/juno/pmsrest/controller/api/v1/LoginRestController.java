@@ -22,7 +22,7 @@ public class LoginRestController {
 
     @GetMapping(PUBLIC_USER)
     public User getUserDetailsAfterLogin(Authentication authentication){
-        System.out.println();
+        System.out.println(authentication.getName());
         User foundUser = userRepository.findUserByEmail(authentication.getName());
 
         return Optional.ofNullable(foundUser).orElseThrow(()-> new BadCredentialsException("User doesn't exist!"));

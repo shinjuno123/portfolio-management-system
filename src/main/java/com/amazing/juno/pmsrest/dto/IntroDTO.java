@@ -15,9 +15,7 @@ import java.util.UUID;
 @Data
 public class IntroDTO {
 
-    @Null(message = "must be null!")
     private UUID id;
-
 
     @NotBlank(message = "must not be blank!")
     @NotNull(message = "must not be null!")
@@ -31,8 +29,13 @@ public class IntroDTO {
     @NotNull(message = "must not be null!")
     private String opening;
 
+    @NotNull(message = "must not be null!")
+    private boolean active;
 
     @Null(message = "must be null!")
     private LocalDateTime uploaded;
+
+    @Null(message = "must be null!")
+    private LocalDateTime updated;
 
 }
