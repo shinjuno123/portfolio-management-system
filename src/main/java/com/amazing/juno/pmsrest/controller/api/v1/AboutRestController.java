@@ -1,5 +1,6 @@
 package com.amazing.juno.pmsrest.controller.api.v1;
 import com.amazing.juno.pmsrest.dto.AboutDTO;
+import com.amazing.juno.pmsrest.entity.ResponseSuccess;
 import com.amazing.juno.pmsrest.exc.NotFoundException;
 import com.amazing.juno.pmsrest.service.filestorage.FileStorageService;
 import com.amazing.juno.pmsrest.service.about.AboutService;
@@ -35,13 +36,24 @@ public class AboutRestController {
 
     @PostMapping(value = ADMIN_ABOUT_PATH)
     public ResponseEntity<AboutDTO> saveAbout(@Validated @RequestPart("about") AboutDTO aboutDTO,
-                                              @RequestPart("faceImage") MultipartFile faceImage,
-                                              @RequestPart("diploma") MultipartFile diploma,
-                                              @RequestPart("transcript") MultipartFile transcript){
+                                              @RequestPart(value = "faceImage", required = false) MultipartFile faceImage,
+                                              @RequestPart(value = "diploma", required = false) MultipartFile diploma,
+                                              @RequestPart(value = "transcript", required = false) MultipartFile transcript){
 
-        String filePath = fileStorageService.saveFile(faceImage, "about");
-        String diplomaPath = fileStorageService.saveFile(diploma, "diploma");
-        String transcriptPath = fileStorageService.saveFile(transcript, "transcript");
+
+        String filePath = "";
+        String diplomaPath = "";
+        String transcriptPath = "";
+
+        if(faceImage != null) {
+            filePath = fileStorageService.saveFile(faceImage, "about");
+        }
+        if(diploma != null) {
+            diplomaPath = fileStorageService.saveFile(diploma, "diploma");
+        }
+        if(transcript != null) {
+            transcriptPath = fileStorageService.saveFile(transcript, "transcript");
+        }
 
         return new ResponseEntity<>(aboutService.saveAbout(aboutDTO, filePath, diplomaPath, transcriptPath), HttpStatus.CREATED);
     }
@@ -53,9 +65,17 @@ public class AboutRestController {
     }
 
     @GetMapping(PUBLIC_ABOUT_PATH)
-    public ResponseEntity<AboutDTO> getRecentAbout(){
+    public ResponseEntity<AboutDTO> getRecentAbout(@RequestParam(required = false) Boolean active){
+        if(active != null && active) {
+            return new ResponseEntity<>(aboutService.getActiveAbout().orElseThrow(NotFoundException::new), HttpStatus.ACCEPTED);
+        }
 
         return new ResponseEntity<>(aboutService.getRecentAbout().orElseThrow(()-> new NotFoundException("No recent data")), HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping(ADMIN_ABOUT_ID_PATH)
+    public ResponseEntity<ResponseSuccess> deleteAboutById(@PathVariable("aboutId") UUID aboutId) {
+        return new ResponseEntity<>(aboutService.deleteAboutById(aboutId).orElseThrow(()-> new NotFoundException("Entered id is not Found")), HttpStatus.ACCEPTED);
     }
 
 }

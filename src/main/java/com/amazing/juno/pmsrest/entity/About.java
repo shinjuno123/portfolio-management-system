@@ -56,13 +56,11 @@ public class About {
 	private String faceImagePath;
 
 	@Column(nullable = false, name = "active")
-	private boolean active;
+	private Boolean active;
 
-	@Column(nullable = false, name = "uploaded")
 	@CreationTimestamp
 	private LocalDateTime uploaded;
 
-	@Column(nullable = false, name = "updated")
 	@UpdateTimestamp
 	private LocalDateTime updated;
 

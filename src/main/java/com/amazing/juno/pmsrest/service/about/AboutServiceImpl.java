@@ -2,6 +2,10 @@ package com.amazing.juno.pmsrest.service.about;
 
 import com.amazing.juno.pmsrest.dao.AboutRepository;
 import com.amazing.juno.pmsrest.dto.AboutDTO;
+import com.amazing.juno.pmsrest.dto.IntroDTO;
+import com.amazing.juno.pmsrest.entity.About;
+import com.amazing.juno.pmsrest.entity.Introduction;
+import com.amazing.juno.pmsrest.entity.ResponseSuccess;
 import com.amazing.juno.pmsrest.mapper.AboutMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -60,13 +64,69 @@ public class AboutServiceImpl implements AboutService {
     @Override
     @Transactional
     public AboutDTO saveAbout(AboutDTO aboutDTO, String imagePath, String diplomaPath, String transcriptPath) {
-        aboutDTO.setFaceImagePath(imagePath);
-        aboutDTO.setDiplomaUrl(diplomaPath);
-        aboutDTO.setTranscriptUrl(transcriptPath);
+
+        if(!imagePath.isBlank()) {
+            aboutDTO.setFaceImagePath(imagePath);
+        }
+
+        if(!diplomaPath.isBlank()) {
+            aboutDTO.setDiplomaUrl(diplomaPath);
+        }
+
+        if(!transcriptPath.isBlank()) {
+            aboutDTO.setTranscriptUrl(transcriptPath);
+        }
+
+        if(aboutDTO.getActive()) {
+            // Find all activated introductions
+            List<About> activatedAbouts = aboutRepository.findAllByActiveIs(true);
+
+            // Deactivate all found activated introductions
+            List<About> deactivatedAbouts = activatedAbouts.stream().peek(
+                    about -> about.setActive(false)
+            ).toList();
+
+            // Save all
+            aboutRepository.saveAll(deactivatedAbouts);
+        }
+
 
         return aboutMapper.aboutToAboutDTO(
                 aboutRepository.save(aboutMapper.aboutDTOToAbout(aboutDTO))
         );
     }
-    
+
+    @Override
+    @Transactional
+    public Optional<ResponseSuccess> deleteAboutById(UUID id) {
+        if(aboutRepository.existsById(id)) {
+            aboutRepository.deleteById(id);
+
+            ResponseSuccess responseSuccess = new ResponseSuccess();
+            responseSuccess.setMessage(String.format("ID(%s) has been successfully deleted",id));
+
+            return Optional.of(responseSuccess);
+
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<AboutDTO> getActiveAbout() {
+        Optional<AboutDTO> optionalAboutDTO = Optional.empty();
+
+        List<About> activeAbouts = aboutRepository.findAllByActiveIs(true);
+
+        if(!activeAbouts.isEmpty()) {
+            optionalAboutDTO = Optional.of(
+                    aboutMapper.aboutToAboutDTO(
+                            activeAbouts.get(0)
+                    )
+            );
+        }
+
+        return optionalAboutDTO;
+    }
+
 }

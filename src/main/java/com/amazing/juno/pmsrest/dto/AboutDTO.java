@@ -14,7 +14,6 @@ import java.util.UUID;
 @Builder
 public class AboutDTO {
 
-    @Null(message = "must be null!")
     private UUID id;
 
     @NotBlank(message = "must not be blank!")
@@ -37,23 +36,20 @@ public class AboutDTO {
     @NotNull(message = "must not be null!")
     private String diploma;
 
-    @Null(message = "must be null!")
     private String diplomaUrl;
 
-    @Null(message = "must be null!")
     private String transcriptUrl;
 
     @NotNull(message = "must not be null!")
-    private boolean active;
+    private Boolean active;
 
     @NotBlank(message = "must not be blank!")
     @NotNull(message = "must not be null!")
     private String regionCountry;
 
-    @Null(message = "must be null!")
     private String faceImagePath;
 
-    @Null(message = "must be null!")
+
     private LocalDateTime uploaded;
 
     @Null(message = "must be null!")

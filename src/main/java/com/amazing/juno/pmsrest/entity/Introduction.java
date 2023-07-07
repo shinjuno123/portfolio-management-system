@@ -43,7 +43,7 @@ public class Introduction {
 	private String opening;
 
 	@Column(nullable = false, name = "active")
-	private boolean active;
+	private Boolean active;
 
 
 	@CreationTimestamp

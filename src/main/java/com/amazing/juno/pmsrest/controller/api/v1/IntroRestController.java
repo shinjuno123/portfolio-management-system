@@ -3,6 +3,7 @@ package com.amazing.juno.pmsrest.controller.api.v1;
 
 
 import com.amazing.juno.pmsrest.dto.IntroDTO;
+import com.amazing.juno.pmsrest.entity.ResponseSuccess;
 import com.amazing.juno.pmsrest.exc.NotFoundException;
 import com.amazing.juno.pmsrest.service.intro.IntroService;
 import lombok.RequiredArgsConstructor;
@@ -42,10 +43,18 @@ public class IntroRestController {
 
 
     @GetMapping(PUBLIC_INTRO_PATH)
-    public ResponseEntity<IntroDTO> getRecentIntroduction(){
+    public ResponseEntity<IntroDTO> getRecentIntroduction(@RequestParam(required = false) Boolean active){
+        if(active != null && active) {
+            return new ResponseEntity<>(introService.getActiveIntroduction().orElseThrow(NotFoundException::new), HttpStatus.ACCEPTED);
+        }
+
         return new ResponseEntity<>(introService.getRecentIntroduction().orElseThrow(NotFoundException::new), HttpStatus.ACCEPTED);
     }
 
+    @DeleteMapping(ADMIN_INTRO_ID_PATH)
+    public ResponseEntity<ResponseSuccess> deleteIntroduction(@PathVariable("introId") UUID introId) {
+        return new ResponseEntity<>(introService.deleteIntroductionById(introId).orElseThrow(NotFoundException::new), HttpStatus.ACCEPTED);
+    }
 
 
 

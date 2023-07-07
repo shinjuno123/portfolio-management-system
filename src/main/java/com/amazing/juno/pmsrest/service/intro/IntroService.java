@@ -1,6 +1,7 @@
 package com.amazing.juno.pmsrest.service.intro;
 
 import com.amazing.juno.pmsrest.dto.IntroDTO;
+import com.amazing.juno.pmsrest.entity.ResponseSuccess;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,4 +18,8 @@ public interface IntroService {
 
 
     Optional<IntroDTO> getRecentIntroduction();
+
+    Optional<IntroDTO> getActiveIntroduction();
+
+    Optional<ResponseSuccess> deleteIntroductionById(UUID id);
 }

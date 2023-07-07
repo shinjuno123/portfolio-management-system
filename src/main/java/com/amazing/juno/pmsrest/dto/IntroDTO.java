@@ -30,9 +30,8 @@ public class IntroDTO {
     private String opening;
 
     @NotNull(message = "must not be null!")
-    private boolean active;
+    private Boolean active;
 
-    @Null(message = "must be null!")
     private LocalDateTime uploaded;
 
     @Null(message = "must be null!")

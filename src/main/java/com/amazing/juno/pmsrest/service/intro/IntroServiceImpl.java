@@ -2,6 +2,8 @@ package com.amazing.juno.pmsrest.service.intro;
 
 import com.amazing.juno.pmsrest.dao.IntroRepository;
 import com.amazing.juno.pmsrest.dto.IntroDTO;
+import com.amazing.juno.pmsrest.entity.Introduction;
+import com.amazing.juno.pmsrest.entity.ResponseSuccess;
 import com.amazing.juno.pmsrest.mapper.IntroMapper;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +25,19 @@ public class IntroServiceImpl implements IntroService {
     @Override
     @Transactional
     public IntroDTO saveIntroduction(IntroDTO introDTO) {
+        if(introDTO.getActive()) {
+            // Find all activated introductions
+            List<Introduction> activatedIntroductions = introRepository.findAllByActiveIs(true);
+
+            // Deactivate all found activated introductions
+            List<Introduction> deactivatedIntroductions = activatedIntroductions.stream().peek(
+                    introduction -> introduction.setActive(false)
+            ).toList();
+
+            // Save all
+            introRepository.saveAll(deactivatedIntroductions);
+        }
+
         return introMapper.introductionToIntroDTO(introRepository.save(introMapper.introDTOToIntroduction(introDTO)));
     }
 
@@ -45,6 +60,8 @@ public class IntroServiceImpl implements IntroService {
         );
     }
 
+
+
     @Override
     @Transactional
     public Optional<IntroDTO> getRecentIntroduction() {
@@ -59,6 +76,38 @@ public class IntroServiceImpl implements IntroService {
         }
 
         return optionalIntroDTO;
+    }
+
+    @Override
+    public Optional<IntroDTO> getActiveIntroduction() {
+        Optional<IntroDTO> optionalIntroDTO = Optional.empty();
+
+        List<Introduction> activeIntros = introRepository.findAllByActiveIs(true);
+
+        if(!activeIntros.isEmpty()) {
+            optionalIntroDTO = Optional.of(
+                    introMapper.introductionToIntroDTO(
+                            activeIntros.get(0)
+                    )
+            );
+        }
+
+        return optionalIntroDTO;
+    }
+
+    @Override
+    @Transactional
+    public Optional<ResponseSuccess> deleteIntroductionById(UUID id) {
+        if(introRepository.findById(id).isPresent()) {
+            introRepository.deleteById(id);
+
+            ResponseSuccess responseSuccess = new ResponseSuccess();
+            responseSuccess.setMessage(String.format("ID(%s) has been successfully deleted",id));
+
+            return Optional.of(responseSuccess);
+        }
+
+        return Optional.empty();
     }
 
 

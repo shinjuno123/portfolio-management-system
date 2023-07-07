@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,8 +31,6 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception{
-        CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler = new CsrfTokenRequestAttributeHandler();
-        csrfTokenRequestAttributeHandler.setCsrfRequestAttributeName("_csrf");
 
         return http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().cors().configurationSource(request -> {
@@ -44,14 +43,11 @@ public class SecurityConfig {
                     config.setMaxAge(3600L * 24);
                     return config;
                 }).and().csrf(
-                        httpSecurityCsrfConfigurer ->
-                            httpSecurityCsrfConfigurer.csrfTokenRequestHandler(csrfTokenRequestAttributeHandler).ignoringRequestMatchers("/api/public/**")
-                                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        AbstractHttpConfigurer::disable
 
                 )
                 .addFilterBefore(new JWTTokenValidatorFilter(jwtConstraints), BasicAuthenticationFilter.class)
                 .addFilterAfter(new JWTTokenGeneratorFilter(jwtConstraints), BasicAuthenticationFilter.class)
-                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests()
                 .requestMatchers("/user").authenticated()
                 .requestMatchers("/api/public/**").permitAll()
