@@ -49,6 +49,7 @@ public class SkillSetItem {
     private LocalDateTime uploaded;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "skillSetItem", cascade = CascadeType.ALL)
+    @OrderBy("uploaded ASC")
     private Set<RelevantProject> relevantProjectSet= new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

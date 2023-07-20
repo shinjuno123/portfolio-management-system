@@ -4,13 +4,17 @@ package com.amazing.juno.pmsrest.service.contact;
 import com.amazing.juno.pmsrest.dao.ContactRepository;
 import com.amazing.juno.pmsrest.dto.ContactDTO;
 import com.amazing.juno.pmsrest.entity.Contact;
+import com.amazing.juno.pmsrest.entity.ResponseSuccess;
 import com.amazing.juno.pmsrest.service.gmail.GmailService;
 import com.amazing.juno.pmsrest.mapper.ContactMapper;
 import com.amazing.juno.pmsrest.properties.ClientMailProp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -75,6 +79,23 @@ public class ContactServiceImpl implements ContactService {
         ));
 
         return atomicReference.get();
+    }
+
+    @Override
+    @Transactional
+    public Optional<ResponseSuccess> deleteContactById(UUID contactId) {
+        if(contactRepository.existsById(contactId)) {
+            contactRepository.deleteById(contactId);
+
+            ResponseSuccess responseSuccess = new ResponseSuccess();
+            responseSuccess.setMessage(String.format("ID %s was deleted successfully!", contactId));
+            responseSuccess.setStatus(HttpStatus.ACCEPTED.value());
+            responseSuccess.setTimeStamp(LocalDateTime.now());
+
+            return Optional.of(responseSuccess);
+        }
+
+        return Optional.empty();
     }
 
 

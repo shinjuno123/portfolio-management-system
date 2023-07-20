@@ -16,7 +16,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class NotificationDTO {
 
-    @Null(message = "\"id\" must be null.")
     private UUID id;
 
     @NotBlank(message = "\"subject\" must not be empty.")
@@ -25,17 +24,15 @@ public class NotificationDTO {
     @NotBlank(message = "\"body\" must not be empty.")
     private String body;
 
-    @Null(message = "\"imageUrl\" must be null.")
     private String imageUrl;
-
 
     private String videoUrl;
 
     @NotNull(message = "\"active\" must not be null.")
-    private boolean active;
+    private Boolean active;
 
     @NotNull(message = "\"displayed\" must not be null.")
-    private boolean displayed;
+    private Boolean displayed;
 
     @NotNull(message = "\"version\" must not be null.")
     private Integer version;

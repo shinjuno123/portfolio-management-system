@@ -40,6 +40,7 @@ public class FirstCategory {
     private LocalDateTime uploaded;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "firstCategory", cascade = CascadeType.ALL)
+    @OrderBy("uploaded ASC")
     private Set<SecondCategory> secondCategorySet = new HashSet<>();
 
 

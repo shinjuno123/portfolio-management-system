@@ -43,6 +43,7 @@ public class SecondCategory {
     private LocalDateTime uploaded;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "secondCategory", cascade = CascadeType.ALL)
+    @OrderBy("uploaded ASC")
     private Set<SkillSetItem> skillSetItemSet = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

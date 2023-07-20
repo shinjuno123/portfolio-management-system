@@ -38,7 +38,10 @@ public class ExperienceServiceImpl implements ExperienceService {
     @Override
     @Transactional
     public ExperienceDTO saveOrUpdateExperience(ExperienceDTO experienceDTO, String filePath) {
-        experienceDTO.setImgPath(filePath);
+
+        if(!filePath.isBlank()) {
+            experienceDTO.setImgPath(filePath);
+        }
 
         // Save experience
         if(experienceDTO.getId() == null){
@@ -125,5 +128,26 @@ public class ExperienceServiceImpl implements ExperienceService {
         );
 
         return responseSuccessOptional.get();
+    }
+
+    @Override
+    @Transactional
+    public Optional<ExperienceDTO> getExperienceById(UUID experienceID) {
+        AtomicReference<Optional<ExperienceDTO>> atomicReference = new AtomicReference<>();
+
+        experienceRepository.findById(experienceID).ifPresentOrElse(
+                (experience) -> atomicReference.set(
+                        Optional.of(
+                                experienceMapper.experienceToExperienceDTO(
+                                        experience
+                                )
+                        )
+                ),
+                () -> atomicReference.set(
+                        Optional.empty()
+                )
+        );
+
+        return atomicReference.get();
     }
 }

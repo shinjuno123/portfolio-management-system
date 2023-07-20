@@ -49,6 +49,11 @@ public class RelevantSiteRestController {
         return new ResponseEntity<>(relevantSiteService.updateById(id, relevantSiteDTO).orElseThrow(()->new NotFoundException(id.toString() + "doesn't exist.")), HttpStatus.OK);
     }
 
+    @GetMapping(ADMIN_RELEVANT_SITES_ID_PATH)
+    public ResponseEntity<RelevantSiteDTO> getRelevantSiteById(@PathVariable("id") UUID id) {
+        return new ResponseEntity<>(relevantSiteService.getRelevantSiteById(id).orElseThrow(()-> new NotFoundException(id.toString() + "doesn't exist!")), HttpStatus.ACCEPTED);
+    }
+
     @DeleteMapping(ADMIN_RELEVANT_SITES_ID_PATH)
     public ResponseEntity<ResponseSuccess> DeleteRelevantSite(@PathVariable("id") UUID id) {
         UUID deletedId = relevantSiteService.deleteById(id).orElseThrow(

@@ -13,4 +13,6 @@ public interface CertificationService {
     CertificationDTO saveOrUpdateCertification(CertificationDTO certificationDTO, String certificationPath);
 
     Optional<ResponseSuccess> deleteCertificationById(UUID certificationId);
+
+    Optional<CertificationDTO> getCertificationById(UUID id);
 }

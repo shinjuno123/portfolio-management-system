@@ -17,7 +17,6 @@ public class ProjectDTO {
 
     private UUID id;
 
-    @Null(message = "must be null!")
     private String imagePath;
 
     @NotNull(message = "must not be null!")
@@ -32,6 +31,5 @@ public class ProjectDTO {
     @Null(message = "must be null!")
     private LocalDateTime updated;
 
-    @Null(message = "must be null!")
     private LocalDateTime uploaded;
 }

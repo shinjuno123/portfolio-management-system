@@ -14,4 +14,6 @@ public interface ProjectService {
     Page<ProjectDTO> listProjects(Integer pageSize, Integer pageNumber);
 
     Optional<ResponseSuccess> deleteProject(UUID projectId);
+
+    Optional<ProjectDTO> getProjectById(UUID projectId);
 }

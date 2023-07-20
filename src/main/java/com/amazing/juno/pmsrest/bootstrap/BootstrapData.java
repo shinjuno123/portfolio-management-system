@@ -89,6 +89,7 @@ public class BootstrapData implements CommandLineRunner {
                                     "As a developer, I take great pride in writing clean, efficient, and maintainable code. I understand that software development is a team effort, and I value collaboration and communication with my colleagues to deliver high-quality solutions that meet the needs of our clients.\n" +
                                     "\n" +
                                     "Overall, I am a dedicated and enthusiastic developer who is always eager to take on new challenges and grow both professionally and personally.")
+                            .active(true)
                             .build()
             );
         }
@@ -112,6 +113,7 @@ public class BootstrapData implements CommandLineRunner {
                             .regionCountry("Daejeon, South Korea")
                             .transcriptUrl(FileRestController.PUBLIC_FILE_PATH + "/file-categories/transcript/file-names/transcript.pdf")
                             .faceImagePath(FileRestController.PUBLIC_FILE_PATH + "/file-categories/about/file-names/test.jpg")
+                            .active(true)
                             .build()
 
             );

@@ -18,4 +18,6 @@ public interface RelevantSiteService {
     Optional<RelevantSiteDTO> updateById(UUID id, RelevantSiteDTO relevantSiteDTO);
 
     Optional<UUID> deleteById(UUID id);
+
+    Optional<RelevantSiteDTO> getRelevantSiteById(UUID id);
 }

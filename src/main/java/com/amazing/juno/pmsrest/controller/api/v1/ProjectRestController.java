@@ -37,10 +37,20 @@ public class ProjectRestController {
     }
 
     @PostMapping(ADMIN_PROJECT_PATH)
-    public ResponseEntity<ProjectDTO> saveOrUpdateProject(@Validated @RequestPart("project") ProjectDTO projectDTO, @RequestPart("projectImage") MultipartFile projectImage){
-        String filePath = fileStorageService.saveFile(projectImage,"project");
+    public ResponseEntity<ProjectDTO> saveOrUpdateProject(@Validated @RequestPart("project") ProjectDTO projectDTO, @RequestPart(value = "projectImage",required = false) MultipartFile projectImage){
+
+        String filePath = "";
+
+        if(projectImage != null) {
+            filePath = fileStorageService.saveFile(projectImage,"project");
+        }
 
         return new ResponseEntity<>(projectService.saveOrUpdateProject(projectDTO, filePath), HttpStatus.CREATED);
+    }
+
+    @GetMapping(ADMIN_PROJECT_ID_PATH)
+    public ResponseEntity<ProjectDTO> getProjectById(@PathVariable("projectId") UUID projectId) {
+        return new ResponseEntity<>(projectService.getProjectById(projectId).orElseThrow(()->new NotFoundException("Entered id does not exist!")), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping(ADMIN_PROJECT_ID_PATH)

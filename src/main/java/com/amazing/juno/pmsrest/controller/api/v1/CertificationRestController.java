@@ -37,11 +37,22 @@ public class CertificationRestController {
         return new ResponseEntity<>(certificationService.listCertifications(), HttpStatus.ACCEPTED);
     }
 
+
     @PostMapping(ADMIN_CERTIFICATION_PATH)
-    public ResponseEntity<CertificationDTO> saveOrUpdateCertification(@Validated @RequestPart("certification") CertificationDTO certificationDTO, @RequestPart("certificationFile")MultipartFile certificationFile){
-        String certificationFilePath = fileStorageService.saveFile(certificationFile, "certification");
+    public ResponseEntity<CertificationDTO> saveOrUpdateCertification(@Validated @RequestPart("certification") CertificationDTO certificationDTO, @RequestPart(value = "certificationFile", required = false)MultipartFile certificationFile){
+
+        String certificationFilePath = "";
+
+        if(certificationFile != null) {
+            certificationFilePath = fileStorageService.saveFile(certificationFile, "certification");
+        }
 
         return new ResponseEntity<>(certificationService.saveOrUpdateCertification(certificationDTO, certificationFilePath), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping(ADMIN_CERTIFICATION_ID_PATH)
+    public ResponseEntity<CertificationDTO> getCertificationById(@PathVariable("certificationId") UUID certificationId) {
+        return new ResponseEntity<>(certificationService.getCertificationById(certificationId).orElseThrow(()-> new NotFoundException("Entered id does not exist")),HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping(ADMIN_CERTIFICATION_ID_PATH)

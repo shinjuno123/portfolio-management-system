@@ -1,9 +1,11 @@
 package com.amazing.juno.pmsrest.controller.api.v1;
 
 import com.amazing.juno.pmsrest.dto.ContactDTO;
+import com.amazing.juno.pmsrest.entity.ResponseSuccess;
 import com.amazing.juno.pmsrest.exc.NotFoundException;
 import com.amazing.juno.pmsrest.service.contact.ContactService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -41,6 +43,11 @@ public class ContactRestController {
     @GetMapping(ADMIN_CONTACT_ID_PATH)
     public ResponseEntity<ContactDTO> getContactById(@PathVariable("contactId") UUID contactId){
         return new ResponseEntity<>(contactService.getContactById(contactId).orElseThrow(NotFoundException::new), HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping(ADMIN_CONTACT_ID_PATH)
+    public ResponseEntity<ResponseSuccess> deleteContactById(@PathVariable("contactId") UUID contactId) {
+        return new ResponseEntity<>(contactService.deleteContactById(contactId).orElseThrow(NotFoundException::new), HttpStatus.ACCEPTED);
     }
 
 

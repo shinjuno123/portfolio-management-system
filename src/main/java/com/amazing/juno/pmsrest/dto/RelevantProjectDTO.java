@@ -21,10 +21,9 @@ public class RelevantProjectDTO {
     @NotBlank(message = "must not be blank!")
     private String url;
 
-    @Null(message = "must be null!")
+
     private LocalDateTime updated;
 
-    @Null(message = "must be null!")
     private LocalDateTime uploaded;
 
 }

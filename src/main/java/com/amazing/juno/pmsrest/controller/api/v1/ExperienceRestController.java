@@ -38,11 +38,23 @@ public class ExperienceRestController {
         return experienceService.listExperience();
     }
 
+
     @PostMapping(ADMIN_EXPERIENCES_PATH)
-    public ResponseEntity<ExperienceDTO> saveOrUpdateExperience(@Validated @RequestPart("experience") ExperienceDTO experienceDTO, @RequestPart("experienceImage") MultipartFile experienceImage){
-        String experienceImagePath = fileStorageService.saveFile(experienceImage, "experience");
+    public ResponseEntity<ExperienceDTO> saveOrUpdateExperience(@Validated @RequestPart("experience") ExperienceDTO experienceDTO,
+                                                                @RequestPart(value = "experienceImage", required = false) MultipartFile experienceImage){
+
+        String experienceImagePath = "";
+
+        if(experienceImage != null) {
+            experienceImagePath = fileStorageService.saveFile(experienceImage, "experience");
+        }
 
         return new ResponseEntity<>(experienceService.saveOrUpdateExperience(experienceDTO, experienceImagePath), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping(ADMIN_EXPERIENCE_ID_PATH)
+    public ResponseEntity<ExperienceDTO> getExperienceById(@PathVariable("id") UUID experienceID) {
+        return new ResponseEntity<>(experienceService.getExperienceById(experienceID).orElseThrow(()-> new NotFoundException("Entered id does not exist")), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping(ADMIN_EXPERIENCE_ID_PATH)

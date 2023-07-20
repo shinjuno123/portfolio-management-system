@@ -47,13 +47,11 @@ public class SkillSetRestController {
     public final static String PUBLIC_SKILL_SET_PATH =
             PUBLIC_ROOT_URL;
 
-    public final static String PUBLIC_SKILL_SET_SECOND_CATEGORY_ID_PATH =
-            PUBLIC_ROOT_URL
-                    + SECOND_CATEGORY_ID;
+
 
     public final static String ADMIN_SKILL_SET_FIRST_CATEGORY_PATH =
             ADMIN_ROOT_URL
-                    + "/first-category";
+                    + "/first-categories";
 
 
     public final static String ADMIN_SKILL_SET_FIRST_CATEGORY_ID =
@@ -63,7 +61,7 @@ public class SkillSetRestController {
     public final static String ADMIN_SKILL_SET_FIRST_CATEGORY_ID_SECOND_CATEGORY_PATH =
             ADMIN_ROOT_URL
                     + FIRST_CATEGORY_ID
-                    + "/second-category";
+                    + "/second-categories";
 
     public final static String ADMIN_SKILL_SET_FIRST_CATEGORY_ID_CATEGORY_ID =
             ADMIN_ROOT_URL
@@ -74,7 +72,7 @@ public class SkillSetRestController {
             ADMIN_ROOT_URL
                     + FIRST_CATEGORY_ID
                     + SECOND_CATEGORY_ID
-                    + "/skill-set-item";
+                    + "/skill-set-items";
 
     public final static String ADMIN_SKILL_SET_FIRST_CATEGORY_ID_SECOND_CATEGORY_ID_SKILL_ITEM_ID =
             ADMIN_ROOT_URL
@@ -87,7 +85,7 @@ public class SkillSetRestController {
                     + FIRST_CATEGORY_ID
                     + SECOND_CATEGORY_ID
                     + SKILL_SET_ITEM_ID
-                    + "/relevant-project";
+                    + "/relevant-projects";
 
     public final static String ADMIN_SKILL_SET_FIRST_CATEGORY_ID_SECOND_CATEGORY_ID_SKILL_ITEM_ID_RELEVANT_PROJECT_ID =
             ADMIN_ROOT_URL
@@ -103,13 +101,9 @@ public class SkillSetRestController {
     }
 
 
-    @GetMapping(PUBLIC_SKILL_SET_SECOND_CATEGORY_ID_PATH)
-    public ResponseEntity<List<SkillSetItemDTO>> listSkillSetItemsBySecondCategoryId(@PathVariable("secondCategoryId") UUID secondCategoryId) {
-        return new ResponseEntity<>(skillSetService.listSkillSetItemsByCategoryId(secondCategoryId), HttpStatus.ACCEPTED);
-    }
 
     @PostMapping(ADMIN_SKILL_SET_FIRST_CATEGORY_PATH)
-    public ResponseEntity<FirstCategoryDTO> saveOrUpdatePlatform(@Validated @RequestBody FirstCategoryDTO firstCategoryDTO) {
+    public ResponseEntity<FirstCategoryDTO> saveOrUpdateFirstCategory(@Validated @RequestBody FirstCategoryDTO firstCategoryDTO) {
         return new ResponseEntity<>(skillSetService.saveOrUpdatePlatform(firstCategoryDTO).orElseThrow(()->new NotFoundException("Entered Id in entity is invalid!")), HttpStatus.ACCEPTED);
     }
 
@@ -123,9 +117,13 @@ public class SkillSetRestController {
     public ResponseEntity<SkillSetItemDTO> saveOrUpdateSkillItemSet(@PathVariable("firstCategoryId") UUID firstCategoryId,
                                                                     @PathVariable("secondCategoryId") UUID secondCategoryId,
                                                                     @Validated @RequestPart("skillSetItem") SkillSetItemDTO skillSetItemDTO,
-                                                                    @RequestPart("skillSetImage") MultipartFile multipartFile) {
+                                                                    @RequestPart(value = "skillSetImage", required = false) MultipartFile multipartFile) {
 
-        String skillSetImagePath = fileStorageService.saveFile(multipartFile, "skill-set");
+        String skillSetImagePath = "";
+
+        if(multipartFile != null) {
+            skillSetImagePath = fileStorageService.saveFile(multipartFile, "skill-set");
+        }
 
         return new ResponseEntity<>(skillSetService.saveOrUpdateSkillSetItem(firstCategoryId, secondCategoryId, skillSetItemDTO, skillSetImagePath).orElseThrow(NotSavedException::new), HttpStatus.ACCEPTED);
     }
@@ -145,7 +143,7 @@ public class SkillSetRestController {
 
 
 
-        return new ResponseEntity<>(skillSetService.deletePlatform(firstCategoryId).orElseThrow(() -> new NotFoundException("Entered Id is not valid")), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(skillSetService.deleteFirstCategory(firstCategoryId).orElseThrow(() -> new NotFoundException("Entered Id is not valid")), HttpStatus.ACCEPTED);
     }
 
 
@@ -154,7 +152,7 @@ public class SkillSetRestController {
                                                                 @PathVariable("secondCategoryId") UUID secondCategoryId){
 
 
-        return new ResponseEntity<>(skillSetService.deleteCategory(firstCategoryId, secondCategoryId).orElseThrow(() -> new NotFoundException("Entered Ids are not valid")), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(skillSetService.deleteSecondCategory(firstCategoryId, secondCategoryId).orElseThrow(() -> new NotFoundException("Entered Ids are not valid")), HttpStatus.ACCEPTED);
     }
 
 

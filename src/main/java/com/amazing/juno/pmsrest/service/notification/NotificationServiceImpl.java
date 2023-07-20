@@ -8,7 +8,9 @@ import com.amazing.juno.pmsrest.entity.Notification;
 import com.amazing.juno.pmsrest.mapper.NotificationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
@@ -40,9 +42,11 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    @Transactional
     public NotificationDTO saveNotification(NotificationDTO notificationDTO, String imagePath) {
-        notificationDTO.setImageUrl(imagePath);
-
+        if(!imagePath.isBlank()) {
+            notificationDTO.setImageUrl(imagePath);
+        }
 
         Notification savedNotification = notificationRepository.save(
                 notificationMapper.notificationDTOToNotification(notificationDTO)
@@ -52,11 +56,15 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    @Transactional
     public Optional<NotificationDTO> updateNotification(UUID id, NotificationDTO notificationDTO, String imagePath) {
         AtomicReference<Optional<NotificationDTO>> atomicReference = new AtomicReference<>();
 
         notificationDTO.setId(id);
-        notificationDTO.setImageUrl(imagePath);
+
+        if(!imagePath.isBlank()) {
+            notificationDTO.setImageUrl(imagePath);
+        }
 
         Optional<Notification> notificationOptional = notificationRepository.update(
                 notificationMapper.notificationDTOToNotification(notificationDTO),
@@ -79,8 +87,25 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    @Transactional
     public Optional<UUID> deleteNotificationById(UUID id) {
         return notificationRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public Optional<NotificationDTO> getNotificationById(UUID id) {
+        NotificationFindUnderConditionResponseDTO response = findAllUnderCondition(NotificationFindUnderConditionDTO.builder().id(id).build());
+
+        Optional<NotificationDTO> optionalNotificationDTO;
+
+        if(response.getDataDTOs().size() > 0) {
+            optionalNotificationDTO = Optional.of(response.getDataDTOs().get(0));
+        } else {
+            optionalNotificationDTO = Optional.empty();
+        }
+
+        return optionalNotificationDTO;
     }
 
 }

@@ -37,7 +37,10 @@ public class CertificationServiceImpl implements CertificationService {
     @Override
     @Transactional
     public CertificationDTO saveOrUpdateCertification(CertificationDTO certificationDTO, String certificationPath) {
-        certificationDTO.setDownloadUrl(certificationPath);
+        if(!certificationPath.isBlank()) {
+            certificationDTO.setDownloadUrl(certificationPath);
+        }
+
         Certification savedCertification = certificationRepository.save(certificationMapper.certificationDTOToCertification(certificationDTO));
 
         return certificationMapper.certificationToCertificationDTO(savedCertification);
@@ -70,5 +73,25 @@ public class CertificationServiceImpl implements CertificationService {
         );
 
         return responseSuccessOptional.get();
+    }
+
+    @Override
+    @Transactional
+    public Optional<CertificationDTO> getCertificationById(UUID id) {
+        AtomicReference<Optional<CertificationDTO>> atomicReference = new AtomicReference<>();
+
+        certificationRepository.findById(id).ifPresentOrElse(
+                certification -> atomicReference.set(
+                        Optional.of(
+                                certificationMapper
+                                        .certificationToCertificationDTO(certification)
+                        )
+                ),
+                () -> atomicReference.set(
+                        Optional.empty()
+                )
+        );
+
+        return atomicReference.get();
     }
 }

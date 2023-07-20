@@ -8,6 +8,7 @@ import com.amazing.juno.pmsrest.entity.RelevantSite;
 import com.amazing.juno.pmsrest.mapper.RelevantSiteMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -22,6 +23,7 @@ public class RelevantSiteServiceImpl implements RelevantSiteService{
     private final RelevantSiteMapper relevantSiteMapper;
 
     @Override
+    @Transactional
     public RelevantSiteFindAllUnderConditionResponseDTO findAllUnderCondition(RelevantSiteFindAllUnderConditionDTO relevantSiteFindAllUnderConditionDTO) {
         return relevantSiteRepository.findAllByUnderCondition(
                 relevantSiteFindAllUnderConditionDTO.getId(),
@@ -36,6 +38,7 @@ public class RelevantSiteServiceImpl implements RelevantSiteService{
     }
 
     @Override
+    @Transactional
     public RelevantSiteDTO save(RelevantSiteDTO relevantSiteDTO) {
 
         RelevantSite savedRelevantSite = relevantSiteRepository.save(
@@ -46,6 +49,7 @@ public class RelevantSiteServiceImpl implements RelevantSiteService{
     }
 
     @Override
+    @Transactional
     public Optional<RelevantSiteDTO> updateById(UUID id, RelevantSiteDTO relevantSiteDTO) {
         AtomicReference<Optional<RelevantSiteDTO>> atomicReference = new AtomicReference<>();
 
@@ -73,7 +77,25 @@ public class RelevantSiteServiceImpl implements RelevantSiteService{
     }
 
     @Override
+    @Transactional
     public Optional<UUID> deleteById(UUID id) {
         return relevantSiteRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public Optional<RelevantSiteDTO> getRelevantSiteById(UUID id) {
+        RelevantSiteFindAllUnderConditionResponseDTO response =
+                findAllUnderCondition(RelevantSiteFindAllUnderConditionDTO.builder().id(id).build());
+
+        Optional<RelevantSiteDTO> optionalRelevantSiteDTO;
+
+        if(response.getDataDTOs().size() > 0) {
+            optionalRelevantSiteDTO = Optional.of(response.getDataDTOs().get(0));
+        } else {
+            optionalRelevantSiteDTO = Optional.empty();
+        }
+
+        return optionalRelevantSiteDTO;
     }
 }

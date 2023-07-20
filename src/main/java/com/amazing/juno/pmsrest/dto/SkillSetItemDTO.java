@@ -19,16 +19,13 @@ public class SkillSetItemDTO {
     @NotBlank(message = "must not be blank!")
     private String title;
 
-    @Null(message = "must be null!")
     private String imagePath;
 
     @NotBlank(message = "must not be blank!")
     private String description;
 
-    @Null(message = "must be null!")
     private LocalDateTime updated;
 
-    @Null(message = "must be null!")
     private LocalDateTime uploaded;
 
     @Null(message = "must be null!")

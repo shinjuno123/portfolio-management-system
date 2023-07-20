@@ -14,11 +14,14 @@ import com.amazing.juno.pmsrest.mapper.PlatformMapper;
 import com.amazing.juno.pmsrest.mapper.RelevantProjectMapper;
 import com.amazing.juno.pmsrest.mapper.SkillSetItemMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -50,17 +53,15 @@ public class SkillSetServiceImpl implements SkillSetService {
     @Override
     @Transactional
     public List<FirstCategoryDTO> listAllSkillSet() {
-        return firstCategoryRepository.findAll().stream().map(
+        return firstCategoryRepository.findAll(sortByUploadedDateAsc()).stream().map(
                 platformMapper::platformToPlatformDTO
         ).toList();
     }
 
-    @Override
-    @Transactional
-    public List<SkillSetItemDTO> listSkillSetItemsByCategoryId(UUID categoryId) {
-        return skillSetItemRepository.findAllBySecondCategoryId(categoryId).stream()
-                .map(skillSetItemMapper::skillSetItemToSkillSetItemDTO).toList();
+    private Sort sortByUploadedDateAsc() {
+        return Sort.by(Sort.Direction.ASC, "uploaded");
     }
+
 
 
     private Object getSavedEntity(UUID id, JpaRepository<?, UUID> jpaRepository) {
@@ -107,14 +108,14 @@ public class SkillSetServiceImpl implements SkillSetService {
         return savedFirstCategory;
     }
 
-    private Object getAppropriateEntityByIds(UUID platformId, UUID categoryId, UUID skillSetItemId, UUID relevantProjectId) {
+    private Object[] getAppropriateEntityByIds(UUID platformId, UUID categoryId, UUID skillSetItemId, UUID relevantProjectId) {
 
         FirstCategory savedFirstCategory = (FirstCategory) getSavedEntity(platformId, firstCategoryRepository);
 
         // If categoryId is not entered, but We also found Platform object corresponding to platformId entered,
         // return the saved platform
         if (categoryId == null) {
-            return savedFirstCategory;
+            return new Object[]{savedFirstCategory};
         }
 
         SecondCategory savedSecondCategory = (SecondCategory) getSavedEntity(categoryId, secondCategoryRepository);
@@ -122,26 +123,28 @@ public class SkillSetServiceImpl implements SkillSetService {
         // If skillSetItemId is not entered, but We also found Category object corresponding to categoryId entered,
         // return the saved category
         if (skillSetItemId == null) {
-            return savedSecondCategory;
+            return new Object[]{savedFirstCategory,savedSecondCategory};
         }
 
         SkillSetItem savedSkillSetItem = (SkillSetItem) getSavedEntity(skillSetItemId, skillSetItemRepository);
 
         if (relevantProjectId == null) {
-            return savedSkillSetItem;
+            return  new Object[]{savedFirstCategory,savedSecondCategory,savedSkillSetItem};
         }
 
         // If skillSetItemId is not entered, but We also found Category object corresponding to categoryId entered,
         // return the saved category
-        return getSavedEntity(relevantProjectId, relevantProjectRepository);
+        RelevantProject relevantProject = (RelevantProject) getSavedEntity(relevantProjectId, relevantProjectRepository);
+
+        return  new Object[]{savedFirstCategory,savedSecondCategory,savedSkillSetItem,relevantProject};
     }
 
 
     @Override
     @Transactional
     public Optional<SecondCategoryDTO> saveOrUpdateCategory(UUID platformId, SecondCategoryDTO secondCategoryDTO) {
-        FirstCategory savedFirstCategory = getAppropriateEntityByIds(platformId, null, null, null) instanceof FirstCategory
-                ? (FirstCategory) getAppropriateEntityByIds(platformId, null, null, null) : null;
+        FirstCategory savedFirstCategory = getAppropriateEntityByIds(platformId, null, null, null)[0] instanceof FirstCategory
+                ? (FirstCategory) getAppropriateEntityByIds(platformId, null, null, null)[0] : null;
 
         if (savedFirstCategory == null) {
             return Optional.empty();
@@ -206,15 +209,17 @@ public class SkillSetServiceImpl implements SkillSetService {
     @Override
     @Transactional
     public Optional<SkillSetItemDTO> saveOrUpdateSkillSetItem(UUID platformId, UUID categoryId, SkillSetItemDTO skillSetItemDTO, String skillSetImagePath) {
-        SecondCategory savedSecondCategory = getAppropriateEntityByIds(platformId, categoryId, null, null) instanceof SecondCategory
-                ? (SecondCategory) getAppropriateEntityByIds(platformId, categoryId, null, null) : null;
+        SecondCategory savedSecondCategory = getAppropriateEntityByIds(platformId, categoryId, null, null)[1] instanceof SecondCategory
+                ? (SecondCategory) getAppropriateEntityByIds(platformId, categoryId, null, null)[1] : null;
 
         if (savedSecondCategory == null) {
             return Optional.empty();
         }
 
         // Set skillSetImagePath to skillSetItemDTO
-        skillSetItemDTO.setImagePath(skillSetImagePath);
+        if(!skillSetImagePath.isBlank()) {
+            skillSetItemDTO.setImagePath(skillSetImagePath);
+        }
 
         if (skillSetItemDTO.getId() == null) {
             return saveSkillSetItem(savedSecondCategory, skillSetItemDTO);
@@ -287,8 +292,8 @@ public class SkillSetServiceImpl implements SkillSetService {
     @Override
     @Transactional
     public Optional<RelevantProjectDTO> saveOrUpdateRelevantProject(UUID platformId, UUID categoryId, UUID skillSetItemId, RelevantProjectDTO relevantProjectDTO) {
-        SkillSetItem savedSkillSetItem = getAppropriateEntityByIds(platformId, categoryId, skillSetItemId, null) instanceof SkillSetItem
-                ? (SkillSetItem) getAppropriateEntityByIds(platformId, categoryId, skillSetItemId, null) : null;
+        SkillSetItem savedSkillSetItem = getAppropriateEntityByIds(platformId, categoryId, skillSetItemId, null)[2] instanceof SkillSetItem
+                ? (SkillSetItem) getAppropriateEntityByIds(platformId, categoryId, skillSetItemId, null)[2] : null;
 
         if (savedSkillSetItem == null) {
             return Optional.empty();
@@ -351,11 +356,31 @@ public class SkillSetServiceImpl implements SkillSetService {
         return Optional.of(savedRelevantProjectDTO);
     }
 
+    private <Parent,Child> void unbindEntity(Parent parent,Child child, String methodName) {
+        Method unbindMethod;
+
+        try {
+            unbindMethod = parent.getClass().getMethod(methodName, child.getClass());
+            unbindMethod.invoke(parent, child);
+
+
+        } catch (InvocationTargetException
+                 | IllegalAccessException
+                 | NoSuchMethodException
+                 | SecurityException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+
     @Override
     @Transactional
-    public Optional<ResponseSuccess> deletePlatform(UUID platformId) {
-        FirstCategory savedFirstCategory = getAppropriateEntityByIds(platformId, null, null, null) instanceof FirstCategory
-                ? (FirstCategory) getAppropriateEntityByIds(platformId, null, null, null) : null;
+    public Optional<ResponseSuccess> deleteFirstCategory(UUID platformId) {
+        Object[] objects = getAppropriateEntityByIds(platformId, null, null, null);
+
+        FirstCategory savedFirstCategory = objects.length == 1 && objects[0] instanceof FirstCategory
+                ? (FirstCategory) objects[0] : null;
+
 
         if (savedFirstCategory == null) {
             return Optional.empty();
@@ -368,15 +393,23 @@ public class SkillSetServiceImpl implements SkillSetService {
 
     @Override
     @Transactional
-    public Optional<ResponseSuccess> deleteCategory(UUID platformId, UUID categoryId) {
-        SecondCategory savedSecondCategory = getAppropriateEntityByIds(platformId, categoryId, null, null) instanceof SecondCategory
-                ? (SecondCategory) getAppropriateEntityByIds(platformId, categoryId, null, null) : null;
+    public Optional<ResponseSuccess> deleteSecondCategory(UUID firstCategoryId, UUID secondCategoryId) {
+        Object[] objects = getAppropriateEntityByIds(firstCategoryId, secondCategoryId, null, null);
+
+        SecondCategory savedSecondCategory = objects.length == 2 && objects[1] instanceof SecondCategory
+                ? (SecondCategory) objects[1] : null;
+
+        FirstCategory savedFirstCategory = (FirstCategory) objects[0];
 
         if (savedSecondCategory == null) {
             return Optional.empty();
         }
 
+        this.unbindEntity(savedFirstCategory, savedSecondCategory, "removeCategory");
+
         secondCategoryRepository.delete(savedSecondCategory);
+
+        firstCategoryRepository.save(savedFirstCategory);
 
         return Optional.of(new ResponseSuccess(LocalDateTime.now(), HttpStatus.ACCEPTED.value(), "successfully deleted"));
     }
@@ -384,26 +417,45 @@ public class SkillSetServiceImpl implements SkillSetService {
     @Override
     @Transactional
     public Optional<ResponseSuccess> deleteSkillSetItem(UUID platformId, UUID categoryId, UUID skillSetItemId) {
-        SkillSetItem savedSkillSetItem = getAppropriateEntityByIds(platformId, categoryId, skillSetItemId, null) instanceof SkillSetItem
-                ? (SkillSetItem) getAppropriateEntityByIds(platformId, categoryId, skillSetItemId, null) : null;
+        Object[] objects = getAppropriateEntityByIds(platformId, categoryId, skillSetItemId, null);
+
+
+        SkillSetItem savedSkillSetItem = objects.length == 3 && objects[2] instanceof SkillSetItem
+                ? (SkillSetItem) objects[2] : null;
+
+        SecondCategory savedSecondCategory = (SecondCategory) objects[1];
 
         if (savedSkillSetItem == null) {
             return Optional.empty();
         }
 
+        this.unbindEntity(savedSecondCategory, savedSkillSetItem, "removeSkillSetItem");
+
         skillSetItemRepository.delete(savedSkillSetItem);
+
+        secondCategoryRepository.save(savedSecondCategory);
 
         return Optional.of(new ResponseSuccess(LocalDateTime.now(), HttpStatus.ACCEPTED.value(), "successfully deleted"));
     }
 
     @Override
     public Optional<ResponseSuccess> deleteRelevantProject(UUID platformId, UUID categoryId, UUID skillSetItemId, UUID relevantProjectId) {
-        RelevantProject savedRelevantProject = getAppropriateEntityByIds(platformId, categoryId, skillSetItemId, relevantProjectId) instanceof RelevantProject
-                ? (RelevantProject) getAppropriateEntityByIds(platformId, categoryId, skillSetItemId, relevantProjectId) : null;
+        Object[] objects = getAppropriateEntityByIds(platformId, categoryId, skillSetItemId, relevantProjectId);
+
+        RelevantProject savedRelevantProject = objects.length == 4 && objects[3] instanceof RelevantProject
+                ? (RelevantProject) objects[3] : null;
+
+        SkillSetItem savedSkillSetItem = (SkillSetItem) objects[2];
 
         if (savedRelevantProject == null) {
             return Optional.empty();
         }
+
+        this.unbindEntity(savedSkillSetItem, savedRelevantProject, "removeRelevantProject");
+
+        relevantProjectRepository.delete(savedRelevantProject);
+
+        skillSetItemRepository.save(savedSkillSetItem);
 
         return Optional.of(new ResponseSuccess(LocalDateTime.now(), HttpStatus.ACCEPTED.value(), "successfully deleted"));
     }

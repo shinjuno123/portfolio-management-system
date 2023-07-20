@@ -16,4 +16,5 @@ public interface NotificationService {
 
     Optional<UUID> deleteNotificationById(UUID id);
 
+    Optional<NotificationDTO> getNotificationById(UUID id);
 }

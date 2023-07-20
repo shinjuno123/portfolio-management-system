@@ -19,14 +19,11 @@ public class CertificationDTO {
     @NotBlank(message = "must not be blank!")
     private String name;
 
-
-    @Null(message = "must be null!")
     private String downloadUrl;
 
     @Null(message = "must be null!")
     private LocalDateTime updated;
 
-    @Null(message = "must be null!")
     private LocalDateTime uploaded;
 
 }

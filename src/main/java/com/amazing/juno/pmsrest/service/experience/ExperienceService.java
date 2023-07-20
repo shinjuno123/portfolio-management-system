@@ -13,4 +13,6 @@ public interface ExperienceService {
     ExperienceDTO saveOrUpdateExperience(ExperienceDTO experienceDTO, String filePath);
 
     Optional<ResponseSuccess> deleteExperience(UUID experienceID);
+
+    Optional<ExperienceDTO> getExperienceById(UUID experienceID);
 }

@@ -16,7 +16,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RelevantSiteDTO {
 
-    @Null(message = "\"id\" must be null.")
     private UUID id;
 
     @NotBlank(message = "\"name\" must not be empty.")

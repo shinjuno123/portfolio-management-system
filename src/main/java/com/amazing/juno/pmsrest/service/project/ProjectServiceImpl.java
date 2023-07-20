@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +34,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     @Transactional
     public ProjectDTO saveOrUpdateProject(ProjectDTO projectDTO, String imagePath) {
-        projectDTO.setImagePath(imagePath);
+
+        if(!imagePath.isBlank()) {
+            projectDTO.setImagePath(imagePath);
+        }
 
         if (projectDTO.getId() == null) {
             return projectMapper.projectToProjectDTO(
@@ -99,8 +103,8 @@ public class ProjectServiceImpl implements ProjectService {
         if(pageSize == null) {
             queryPageSize = DEFAULT_PAGE_SIZE;
         } else {
-            if(pageSize > 4){
-                queryPageSize = 4;
+            if(pageSize > 10){
+                queryPageSize = 10;
             } else {
                 queryPageSize = pageSize;
             }
@@ -122,5 +126,24 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    @Transactional
+    public Optional<ProjectDTO> getProjectById(UUID projectId) {
+        AtomicReference<Optional<ProjectDTO>> atomicReference = new AtomicReference<>();
+
+        projectRepository.findById(projectId).ifPresentOrElse(
+                (project) -> atomicReference.set(
+                        Optional.of(
+                                projectMapper.projectToProjectDTO(project)
+                        )
+                ),
+                () -> atomicReference.set(
+                        Optional.empty()
+                )
+        );
+
+        return atomicReference.get();
     }
 }

@@ -40,17 +40,31 @@ public class NotificationRestController {
 
     @PostMapping(ADMIN_NOTIFICATION_PATH)
     public ResponseEntity<NotificationDTO> saveNotification(@Validated @RequestPart("notification") NotificationDTO notificationDTO,
-                                                            @RequestPart("image") MultipartFile imageFile) {
-        String imagePath = fileStorageService.saveFile(imageFile,"notification");
+                                                            @RequestPart(value = "image") MultipartFile imageFile) {
+        String imagePath = "";
+
+        if(imageFile != null) {
+            imagePath = fileStorageService.saveFile(imageFile,"notification");
+        }
 
         return new ResponseEntity<>(notificationService.saveNotification(notificationDTO, imagePath), HttpStatus.CREATED);
+    }
+
+    @GetMapping(ADMIN_NOTIFICATION_ID_PATH)
+    public ResponseEntity<NotificationDTO> getNotificationById(@PathVariable("id") UUID id) {
+        return new ResponseEntity<>(notificationService.getNotificationById(id).orElseThrow(()-> new NotFoundException(id.toString() + "doesn't exist.")), HttpStatus.ACCEPTED);
     }
 
     @PutMapping(ADMIN_NOTIFICATION_ID_PATH)
     public ResponseEntity<NotificationDTO> updateNotification(@PathVariable("id") UUID id,
                                                               @Validated @RequestPart("notification") NotificationDTO notificationDTO,
-                                                              @RequestPart(value = "image") MultipartFile imageFile) {
-        String imagePath = fileStorageService.saveFile(imageFile,"notification");
+                                                              @RequestPart(value = "image", required = false) MultipartFile imageFile) {
+
+        String imagePath = "";
+
+        if(imageFile != null) {
+            imagePath = fileStorageService.saveFile(imageFile,"notification");
+        }
 
         return new ResponseEntity<>(notificationService.updateNotification(id, notificationDTO,imagePath).orElseThrow(()->new NotFoundException(id.toString() + "doesn't exist.")), HttpStatus.OK);
     }

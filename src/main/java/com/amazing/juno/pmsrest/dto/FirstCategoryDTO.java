@@ -21,10 +21,8 @@ public class FirstCategoryDTO {
     @NotBlank(message = "must not be blank!")
     private String name;
 
-    @Null(message = "must be null!")
     private LocalDateTime updated;
 
-    @Null(message = "must be null!")
     private LocalDateTime uploaded;
 
     @Null(message = "must be null!")
