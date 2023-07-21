@@ -6,6 +6,7 @@ import com.amazing.juno.pmsrest.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.Authentication;
 
@@ -20,11 +21,19 @@ public class LoginRestController {
 
     public final static String PUBLIC_USER = "/user";
 
+    public final static String PUBLIC_INFORMATION = "/api/v1/public/information";
+
     @GetMapping(PUBLIC_USER)
     public User getUserDetailsAfterLogin(Authentication authentication){
-        System.out.println(authentication.getName());
         User foundUser = userRepository.findUserByEmail(authentication.getName());
 
         return Optional.ofNullable(foundUser).orElseThrow(()-> new BadCredentialsException("User doesn't exist!"));
+    }
+
+    @GetMapping(PUBLIC_INFORMATION)
+    @ResponseBody
+    public User getUserInformation() {
+
+        return userRepository.findUserByRole("ROLE_ADMIN");
     }
 }

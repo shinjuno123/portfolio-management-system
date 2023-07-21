@@ -1,5 +1,6 @@
 package com.amazing.juno.pmsrest.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,6 +40,7 @@ public class User {
 
     private String mobileNumber;
 
+    @JsonIgnore
     private String role;
 
     @Column(nullable = false, name = "created_at")
