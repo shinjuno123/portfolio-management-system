@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -29,6 +30,8 @@ public class NotificationRestController {
 
     public static final String PUBLIC_NOTIFICATION_PATH= PUBLIC_PATH + "/notifications";
 
+    public static final String PUBLIC_NOTIFICATION_ACTIVE_DISPLAYED_PATH= PUBLIC_PATH + "/notifications/active/displayed";
+
     public static final String ADMIN_NOTIFICATION_PATH= ADMIN_PATH + "/notifications";
 
     public static final String ADMIN_NOTIFICATION_ID_PATH= ADMIN_PATH + "/notifications/{id}";
@@ -36,6 +39,11 @@ public class NotificationRestController {
     @GetMapping(PUBLIC_NOTIFICATION_PATH)
     public ResponseEntity<NotificationFindUnderConditionResponseDTO> listNotification(NotificationFindUnderConditionDTO notificationFindUnderConditionDTO){
         return new ResponseEntity<>(notificationService.findAllUnderCondition(notificationFindUnderConditionDTO), HttpStatus.OK);
+    }
+
+    @GetMapping(PUBLIC_NOTIFICATION_ACTIVE_DISPLAYED_PATH)
+    public ResponseEntity<List<NotificationDTO>> listActiveAndDisplayedNotifications() {
+        return new ResponseEntity<>(notificationService.listActiveAndDisplayedNotifications(), HttpStatus.OK);
     }
 
     @PostMapping(ADMIN_NOTIFICATION_PATH)

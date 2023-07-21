@@ -4,6 +4,7 @@ import com.amazing.juno.pmsrest.dto.notification.NotificationFindUnderConditionR
 import com.amazing.juno.pmsrest.entity.Notification;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,6 +19,7 @@ public interface NotificationRepository {
                                                                     LocalDateTime to, Integer pageNumber,
                                                                     Integer pageSize);
 
+    List<Notification> listActiveAndDisplayedNotifications();
 
     Notification save(Notification notification);
 

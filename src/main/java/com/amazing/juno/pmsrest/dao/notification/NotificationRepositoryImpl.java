@@ -11,6 +11,8 @@ import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -76,6 +78,14 @@ public class NotificationRepositoryImpl extends BasicJpaMethods<Notification> im
 
         return (NotificationFindUnderConditionResponseDTO) paginationResponseGenerator.generateFindUnderConditionResponseDTO(pageNumber, pageSize, completeWhereClause,
                DATABASE_NAME, DATABASE_ALIAS, responseDTO );
+    }
+
+    @Override
+    @Transactional
+    public List<Notification> listActiveAndDisplayedNotifications() {
+        TypedQuery<Notification> resultQuery = entityManager.createQuery("SELECT noti FROM notification noti WHERE displayed=true AND active=true ORDER BY updated", Notification.class);
+
+        return resultQuery.getResultList();
     }
 
 

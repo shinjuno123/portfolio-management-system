@@ -16,8 +16,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NotificationFindUnderConditionDTO {
-
-
     private UUID id;
     private String subject;
     private String body;

@@ -108,4 +108,12 @@ public class NotificationServiceImpl implements NotificationService {
         return optionalNotificationDTO;
     }
 
+    @Override
+    public List<NotificationDTO> listActiveAndDisplayedNotifications() {
+        return notificationRepository.listActiveAndDisplayedNotifications().stream()
+                .map(
+                        notificationMapper::notificationToNotificationDTO
+                ).toList();
+    }
+
 }

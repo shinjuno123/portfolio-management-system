@@ -33,7 +33,6 @@ public class LoginRestController {
     @GetMapping(PUBLIC_INFORMATION)
     @ResponseBody
     public User getUserInformation() {
-
         return userRepository.findUserByRole("ROLE_ADMIN");
     }
 }
