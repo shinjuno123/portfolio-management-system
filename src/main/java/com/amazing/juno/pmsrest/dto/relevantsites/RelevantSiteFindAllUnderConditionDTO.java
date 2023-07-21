@@ -1,13 +1,14 @@
 package com.amazing.juno.pmsrest.dto.relevantsites;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class RelevantSiteFindAllUnderConditionDTO {
     UUID id;

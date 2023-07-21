@@ -62,6 +62,7 @@ class IntroRestControllerTest {
                 .sayHi("sayHi1")
                 .name("name1")
                 .opening("opening1")
+                .active(false)
                 .uploaded(LocalDateTime.now())
                 .build();
 
@@ -70,6 +71,7 @@ class IntroRestControllerTest {
                 .sayHi("sayHi2")
                 .name("name2")
                 .opening("opening2")
+                .active(false)
                 .uploaded(LocalDateTime.now())
                 .build();
 
@@ -78,6 +80,7 @@ class IntroRestControllerTest {
                 .id(UUID.randomUUID())
                 .sayHi("sayHi3")
                 .name("name3")
+                .active(false)
                 .opening("opening3")
                 .uploaded(LocalDateTime.now())
                 .build();
@@ -86,6 +89,7 @@ class IntroRestControllerTest {
                 .id(UUID.randomUUID())
                 .sayHi("sayHi4")
                 .name("name4")
+                .active(false)
                 .opening("opening4")
                 .uploaded(LocalDateTime.now())
                 .build();

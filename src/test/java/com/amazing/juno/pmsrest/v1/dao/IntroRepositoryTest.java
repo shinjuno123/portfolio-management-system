@@ -32,6 +32,7 @@ class IntroRepositoryTest {
             introduction.setName("name");
             introduction.setOpening("opening");
             introduction.setSayHi("sayhi");
+            introduction.setActive(false);
             introduction.setUploaded(LocalDateTime.now());
 
             savedIds.add(introRepository.save(introduction).getId());

@@ -40,6 +40,7 @@ class AboutRepositoryTest {
             about.setTranscriptUrl("wajhdkjawd" + i);
             about.setDiplomaUrl("https://www.naver.com");
             about.setPeriod("period" + i);
+            about.setActive(false);
             about.setRegionCountry("regionCountry" + i);
             about.setUploaded(LocalDateTime.now());
 

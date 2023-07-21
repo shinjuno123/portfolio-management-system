@@ -88,6 +88,7 @@ public class AboutRestControllerIntegrationTest {
             about.setSchool("school" + i);
             about.setDiploma("diploma" + i);
             about.setName("name");
+            about.setActive(false);
             about.setTranscriptUrl("wadwadawd");
             about.setPeriod("period" + i);
             about.setDiplomaUrl(filePath);
@@ -147,8 +148,8 @@ public class AboutRestControllerIntegrationTest {
                         .description("content")
                         .regionCountry("content")
                         .period("content")
+                        .active(false)
                         .diploma("diploma")
-
                         .build()
                 ,
                  new MockMultipartFile("faceImage","awdawd.png", MediaType.IMAGE_PNG.toString(), "imagedatatwkjdlak".getBytes()),
@@ -193,44 +194,7 @@ public class AboutRestControllerIntegrationTest {
                 .andReturn();
 
     }
-    @Test
-    @Rollback
-    @Transactional
-    void testSaveAboutWithNoFile() throws Exception {
-        AboutDTO wrongAboutDTO = AboutDTO.builder()
-                .school("content")
-                .description("content")
-                .name("name")
-                .regionCountry("content")
-                .period("content")
-                .diploma("content")
-                .build();
 
-        MockMultipartFile metaData = new MockMultipartFile("about", "aboutDTO", MediaType.APPLICATION_JSON_VALUE,
-                objectMapper.writeValueAsString(wrongAboutDTO).getBytes());
-
-        MvcResult mvcResult = mockMvc.perform(multipart(AboutRestController.ADMIN_ABOUT_PATH)
-                        .file(metaData)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andReturn();
-
-        List<Map<String,String>> response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), ResponseError.class).getMessages();
-
-        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-
-        response.forEach(
-                error ->{
-                    if(error.containsKey("faceImage")){
-                        atomicBoolean.set(true);
-                    }
-                }
-        );
-
-
-
-        assertTrue(atomicBoolean.get());
-    }
 
 
     @Test

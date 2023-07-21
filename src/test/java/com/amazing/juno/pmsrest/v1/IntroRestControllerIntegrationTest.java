@@ -74,6 +74,8 @@ public class IntroRestControllerIntegrationTest {
             introduction.setName("name");
             introduction.setOpening("opening");
             introduction.setSayHi("sayhi");
+            introduction.setActive(false);
+            introduction.setUpdated(LocalDateTime.now());
             introduction.setUploaded(LocalDateTime.now());
 
             savedIds.add(introRepository.save(introduction).getId());
@@ -123,6 +125,7 @@ public class IntroRestControllerIntegrationTest {
                         .sayHi("new say hi")
                         .opening("new opening")
                         .name("new name")
+                        .active(false)
                         .build()
         );
 

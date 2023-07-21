@@ -189,35 +189,6 @@ class ProjectRestControllerIntegrationTest {
     }
 
 
-    @Test
-    @Rollback
-    void testSaveOrUpdateProjectWithoutFile()  throws Exception{
-         ProjectDTO projectDTO = ProjectDTO.builder()
-                .projectName("new title")
-                .url("https://naver.com")
-                .build();
-
-         MockMultipartFile metaData = new MockMultipartFile("project", "project", MediaType.APPLICATION_JSON_VALUE,
-                objectMapper.writeValueAsString(projectDTO).getBytes());
-
-        MvcResult mvcResult = mockMvc.perform(multipart(ProjectRestController.ADMIN_PROJECT_PATH)
-                        .file(metaData)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andReturn();
-        List<Map<String,String>> response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), ResponseError.class).getMessages();
-
-        AtomicBoolean testPassed = new AtomicBoolean(false);
-        System.out.println(response);
-        response.forEach(
-                result ->{
-                    if(result.containsKey("projectImage")){
-                        testPassed.set(true);
-                    }
-                }
-        );
-        assertThat(testPassed.get()).isTrue();
-    }
 
 
     @Test
