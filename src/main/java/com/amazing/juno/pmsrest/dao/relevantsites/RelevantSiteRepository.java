@@ -3,6 +3,7 @@ package com.amazing.juno.pmsrest.dao.relevantsites;
 import com.amazing.juno.pmsrest.dto.relevantsites.RelevantSiteFindAllUnderConditionResponseDTO;
 import com.amazing.juno.pmsrest.entity.RelevantSite;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,6 +20,8 @@ public interface RelevantSiteRepository {
 
 
     Optional<UUID> deleteById(UUID id);
+
+    List<RelevantSite> listAllRelevantSites();
 
     long count();
 

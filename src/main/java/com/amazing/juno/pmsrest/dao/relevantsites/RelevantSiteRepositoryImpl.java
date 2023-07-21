@@ -78,6 +78,13 @@ public class RelevantSiteRepositoryImpl extends BasicJpaMethods<RelevantSite> im
                 relevantSiteFindAllUnderConditionResponseDTO);
     }
 
+    @Override
+    public List<RelevantSite> listAllRelevantSites() {
+        TypedQuery<RelevantSite> relevantSiteTypedQuery = entityManager.createQuery("SELECT rel FROM relevant_site rel ORDER BY rel.name", RelevantSite.class);
+
+        return relevantSiteTypedQuery.getResultList();
+    }
+
     private RelevantSiteFindAllUnderConditionResponseDTO convertListOfRelevantSiteToRelevantSiteFindAllUnderConditionResponseDTO(List<RelevantSite> relevantSites){
 
             RelevantSiteFindAllUnderConditionResponseDTO relevantSiteFindAllUnderConditionResponseDTO = new RelevantSiteFindAllUnderConditionResponseDTO();

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -27,6 +28,8 @@ public class RelevantSiteRestController {
 
     public static final String PUBLIC_RELEVANT_SITES_PATH = PUBLIC_PATH + "/relevant-sites";
 
+    public static final String PUBLIC_RELEVANT_SITES_ALL_PATH = PUBLIC_PATH + "/relevant-sites/all";
+
     public static final String ADMIN_RELEVANT_SITES_PATH = ADMIN_PATH + "/relevant-sites";
 
     public static final String ADMIN_RELEVANT_SITES_ID_PATH = ADMIN_PATH + "/relevant-sites/{id}";
@@ -34,6 +37,11 @@ public class RelevantSiteRestController {
     @GetMapping(PUBLIC_RELEVANT_SITES_PATH)
     public ResponseEntity<RelevantSiteFindAllUnderConditionResponseDTO> listRelevantSites(RelevantSiteFindAllUnderConditionDTO relevantSiteFindAllUnderConditionDTO){
         return new ResponseEntity<>(relevantSiteService.findAllUnderCondition(relevantSiteFindAllUnderConditionDTO), HttpStatus.OK);
+    }
+
+    @GetMapping(PUBLIC_RELEVANT_SITES_ALL_PATH)
+    public ResponseEntity<List<RelevantSiteDTO>> listAllRelevantSites() {
+        return new ResponseEntity<>(relevantSiteService.listAllRelevantSites(), HttpStatus.OK);
     }
 
     @PostMapping(ADMIN_RELEVANT_SITES_PATH)

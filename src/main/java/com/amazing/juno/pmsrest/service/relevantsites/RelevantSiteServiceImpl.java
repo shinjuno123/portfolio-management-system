@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
@@ -97,5 +98,13 @@ public class RelevantSiteServiceImpl implements RelevantSiteService{
         }
 
         return optionalRelevantSiteDTO;
+    }
+
+    @Override
+    public List<RelevantSiteDTO> listAllRelevantSites() {
+        return relevantSiteRepository.listAllRelevantSites().stream()
+                .map(
+                        relevantSiteMapper::relevantSiteToRelevantSiteDTO
+                ).toList();
     }
 }

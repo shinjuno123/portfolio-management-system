@@ -7,6 +7,7 @@ import com.amazing.juno.pmsrest.dto.relevantsites.RelevantSiteDTO;
 import com.amazing.juno.pmsrest.dto.relevantsites.RelevantSiteFindAllUnderConditionDTO;
 import com.amazing.juno.pmsrest.dto.relevantsites.RelevantSiteFindAllUnderConditionResponseDTO;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,4 +21,6 @@ public interface RelevantSiteService {
     Optional<UUID> deleteById(UUID id);
 
     Optional<RelevantSiteDTO> getRelevantSiteById(UUID id);
+
+    List<RelevantSiteDTO> listAllRelevantSites();
 }
